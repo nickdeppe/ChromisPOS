@@ -1835,31 +1835,31 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
                 if (printOnly != null && printOnly.toLowerCase().equals("yes")) {
                     continue;
                 }
-            }
 
-            if (primary) {
-                if ((m_oTicket.getLine(i).getProperty("display") == null) || (m_oTicket.getLine(i).getProperty("display") == "")) {
-                    display = 1;
-                } else {
-                    display = Integer.parseInt(m_oTicket.getLine(i).getProperty("display"));
-                }
-            }
-            try {
-                // If this is a component item, use the display number for the parent item 
-                if (m_oTicket.getLine(i).isProductCom()) {
-                    if (lastDisplay != null) {
-                        display = lastDisplay;
+                if (primary) {
+                    if ((m_oTicket.getLine(i).getProperty("display") == null) || (m_oTicket.getLine(i).getProperty("display") == "")) {
+                        display = 1;
+                    } else {
+                        display = Integer.parseInt(m_oTicket.getLine(i).getProperty("display"));
                     }
-                    dlSystem.addOrder(UUID.randomUUID().toString(), orderUUID, (int) m_oTicket.getLine(i).getMultiply(), "+ " + m_oTicket.getLine(i).getProductName(),
-                            m_oTicket.getLine(i).getProductAttSetInstDesc(), m_oTicket.getLine(i).getProperty("notes"), id, display, 1, i);
-                } else {
-                    dlSystem.addOrder(UUID.randomUUID().toString(), orderUUID, (int) m_oTicket.getLine(i).getMultiply(), m_oTicket.getLine(i).getProductName(),
-                            m_oTicket.getLine(i).getProductAttSetInstDesc(), m_oTicket.getLine(i).getProperty("notes"), id, display, 0, i);
                 }
-                lastDisplay = display;
-            } catch (BasicException ex) {
-                Logger.getLogger(JPanelTicket.class
-                        .getName()).log(Level.SEVERE, null, ex);
+                try {
+                    // If this is a component item, use the display number for the parent item 
+                    if (m_oTicket.getLine(i).isProductCom()) {
+                        if (lastDisplay != null) {
+                            display = lastDisplay;
+                        }
+                        dlSystem.addOrder(UUID.randomUUID().toString(), orderUUID, (int) m_oTicket.getLine(i).getMultiply(), "+ " + m_oTicket.getLine(i).getProductName(),
+                                m_oTicket.getLine(i).getProductAttSetInstDesc(), m_oTicket.getLine(i).getProperty("notes"), id, display, 1, i);
+                    } else {
+                        dlSystem.addOrder(UUID.randomUUID().toString(), orderUUID, (int) m_oTicket.getLine(i).getMultiply(), m_oTicket.getLine(i).getProductName(),
+                                m_oTicket.getLine(i).getProductAttSetInstDesc(), m_oTicket.getLine(i).getProperty("notes"), id, display, 0, i);
+                    }
+                    lastDisplay = display;
+                } catch (BasicException ex) {
+                    Logger.getLogger(JPanelTicket.class
+                            .getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
     }
@@ -2016,6 +2016,84 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
             }
         }
 
+
+        public void kitchenOrderScreen() {
+            kitchenOrderScreen(kitchenOrderId(), 1, true);
+        }
+
+        public void kitchenOrderScreen(String id) {
+            kitchenOrderScreen(id, 1, true);
+        }
+
+        public void kitchenOrderScreen(Integer display, String ticketid) {
+            kitchenOrderScreen(kitchenOrderId(), display, false);
+        }
+
+        public void kitchenOrderScreen(Integer display) {
+            kitchenOrderScreen(kitchenOrderId(), display, false);
+        }
+
+        public String kitchenOrderId() {
+            String id = "";
+            if ((m_oTicket.getCustomer() != null)) {
+                return m_oTicket.getCustomer().getName();
+            } else if (m_oTicketExt != null) {
+                return m_oTicketExt.toString();
+            } else {
+                if (m_oTicket.getPickupId() == 0) {
+                    try {
+                        m_oTicket.setPickupId(dlSales.getNextPickupIndex());
+                    } catch (BasicException e) {
+                        m_oTicket.setPickupId(0);
+                    }
+                }
+                return getPickupString(m_oTicket);
+            }
+        }
+
+        public void kitchenOrderScreen(String id, Integer display, boolean primary) {
+            Integer lastDisplay = null;   // Keeps track of the display the last product was sent to, to ensure pairing of products and components 
+
+            // Create a UUID for this order for the kitchenorder table 
+            String orderUUID = UUID.randomUUID().toString();
+            for (int i = 0; i < m_oTicket.getLinesCount(); i++) {
+                if ("No".equals(m_oTicket.getLine(i).getProperty("sendstatus"))) {
+
+                    // N. Deppe 3/20/2016 - If print-only property is set, do not send to kitchen screen  
+                    String printOnly = m_oTicket.getLine(i).getProperty("printonly");
+                    if (printOnly != null && printOnly.toLowerCase().equals("yes")) {
+                        continue;
+                    }
+
+                    if (primary) {
+                        if ((m_oTicket.getLine(i).getProperty("display") == null) || (m_oTicket.getLine(i).getProperty("display") == "")) {
+                            display = 1;
+                        } else {
+                            display = Integer.parseInt(m_oTicket.getLine(i).getProperty("display"));
+                        }
+                    }
+                    try {
+                        // If this is a component item, use the display number for the parent item 
+                        if (m_oTicket.getLine(i).isProductCom()) {
+                            if (lastDisplay != null) {
+                                display = lastDisplay;
+                            }
+                            dlSystem.addOrder(UUID.randomUUID().toString(), orderUUID, (int) m_oTicket.getLine(i).getMultiply(), "+ " + m_oTicket.getLine(i).getProductName(),
+                                    m_oTicket.getLine(i).getProductAttSetInstDesc(), m_oTicket.getLine(i).getProperty("notes"), id, display, 1, i);
+                        } else {
+                            dlSystem.addOrder(UUID.randomUUID().toString(), orderUUID, (int) m_oTicket.getLine(i).getMultiply(), m_oTicket.getLine(i).getProductName(),
+                                    m_oTicket.getLine(i).getProductAttSetInstDesc(), m_oTicket.getLine(i).getProperty("notes"), id, display, 0, i);
+                        }
+                        lastDisplay = display;
+                    } catch (BasicException ex) {
+                        Logger.getLogger(JPanelTicket.class
+                                .getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }
+        }
+        
+        
         public int getSelectedIndex() {
             return selectedindex;
         }
