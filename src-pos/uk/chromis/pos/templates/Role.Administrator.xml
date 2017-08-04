@@ -132,4 +132,5 @@
 	<class name="/uk/chromis/reports/top10sales.bs"/>
 	<class name="/uk/chromis/reports/barcodesheet.bs"/>
         <class name="uk.chromis.pos.sales.JPanelUnlockTables"/>
+        <class name="uk.chromis.pos.inventory.ShowsPanel" />
  </permissions>        

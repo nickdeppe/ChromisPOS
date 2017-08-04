@@ -138,6 +138,52 @@
         </modifySql>
     </changeSet>
 
+
+    <changeSet author="Chromis POS" id="Create Boxoffice Shows Table (New Database)">
+        <createTable tableName="BOXOFFICESHOWS">
+            <column name="ID" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="NAME" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="IMAGE" type="${blob.type}"/>
+            <column name="SHOWORDER" type="integer"/>
+            <column name="SHOWLENGTH" type="integer">
+                <constraints nullable="false" />
+            </column>
+            <column name="SCHEDULEMODE" type="char(1)" defaultValue="S">
+                <constraints nullable="false" />
+            </column>
+            <column name="ACTIVE" type="${boolean.type}" defaultValueBoolean="true">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+        <modifySql dbms="mysql">
+            <append value=" ENGINE = InnoDB DEFAULT CHARSET=utf8  "/>
+        </modifySql>
+    </changeSet>
+
+    <changeSet author="Chromis POS" id="Create Boxoffice Show Times Table (New Database)">
+        <createTable tableName="BOXOFFICESHOWTIMES">
+            <column name="ID" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="SHOWID" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="SHOWTIME" type="time">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <modifySql dbms="mysql">
+            <append value=" ENGINE = InnoDB DEFAULT CHARSET=utf8  "/>
+        </modifySql>
+    </changeSet>
+     
+    
+
+
     <changeSet author="Chromis POS" id="Create BREAKS Table (New Database)">
         <createTable tableName="BREAKS">
             <column name="ID" type="varchar(255)">
@@ -349,7 +395,7 @@
             <column name="STARTDATE" type="timestamp">
                 <constraints nullable="false"/>
             </column>
-            <column name="ENDDATE" type="timestamp">
+            <column name="ENDDATE" type="timestamp" defaultValueDate="CURRENT_TIMESTAMP">
                 <constraints nullable="false"/>
             </column>
             <column name="NOTES" type="varchar(255)"/>
@@ -613,12 +659,50 @@
             <column name="PROMOTIONID" type="varchar(50)" />                                 
             <column name="ALLPRODUCTS" type="${boolean.type}" defaultValueBoolean="false"/>  
             <column name="MANAGESTOCK" type="${boolean.type}" defaultValueBoolean="true" />                                                                                                                                                     
+            <column name="ISBOXOFFICE" type="${boolean.type}" defaultValueBoolean="false">
+            </column>
         </createTable>
 
         <modifySql dbms="mysql">
             <append value=" ENGINE = InnoDB DEFAULT CHARSET=utf8  "/>
         </modifySql>
     </changeSet>
+        
+        
+
+    <changeSet author="Chromis POS" id="Create Products-Boxoffice Shows Table (New Database)">
+        <createTable tableName="PRODUCTS_BOXOFFICESHOWS">
+            <column name="ID" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PRODUCTID" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="SHOWID" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="STARTDATE" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ENDDATE" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="REPORTSTARTDATE" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="REPORTENDDATE" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DISTRIBUTIONRATE" type="double precision" defaultValueNumeric="0.0">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <modifySql dbms="mysql">
+            <append value=" ENGINE = InnoDB DEFAULT CHARSET=utf8  "/>
+        </modifySql>
+    </changeSet>
+    
+        
         
     <changeSet author="Chromis POS" id="Create Products_com Table (New Database)">
         <createTable tableName="PRODUCTS_COM">
@@ -699,7 +783,7 @@
             <column name="MONEY" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="DATENEW" type="timestamp">
+            <column name="DATENEW" type="timestamp" defaultValueDate="CURRENT_TIMESTAMP">
                 <constraints nullable="false"/>
             </column>
             <column name="PERSON" type="varchar(255)"/>
@@ -731,7 +815,7 @@
             <column name="ID" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="CREATED" type="timestamp">
+            <column name="CREATED" type="timestamp" defaultValueDate="CURRENT_TIMESTAMP">
                 <constraints nullable="false"/>
             </column>
             <column name="DATENEW" type="timestamp" defaultValueDate="2013-01-01 00:00:00">
@@ -1079,6 +1163,12 @@
             </column>
             <column name="PRODUCT" type="varchar(255)"/>
             <column name="ATTRIBUTESETINSTANCE_ID" type="varchar(255)"/>
+            <column name="BOXOFFICESHOWID" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="BOXOFFICETIMEID" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
             <column name="UNITS" type="double precision">
                 <constraints nullable="false"/>
             </column>
@@ -1729,9 +1819,9 @@
             <column name="PRICEBUY" valueNumeric="0.0"/>
             <column name="PRICESELL" valueNumeric="0.0"/>
             <column name="ISCATALOG" valueBoolean="true"/>
+            <column name="ISBOXOFFICE" valueBoolean="false"/>
         </insert>  
-    </changeSet>       
-
+    </changeSet>      
     <changeSet author="Chromis POS" id="Insert service charge into PRODUCTS Table (New Database)"> 
         <insert tableName="PRODUCTS">
             <column name="ID" value="sc999-001"/>
@@ -1744,6 +1834,7 @@
             <column name="PRICEBUY" valueNumeric="0.0"/>
             <column name="PRICESELL" valueNumeric="0.0"/>
             <column name="ISCATALOG" valueBoolean="true"/>
+            <column name="ISBOXOFFICE" valueBoolean="false"/>
         </insert>  
     </changeSet> 
     
@@ -1891,5 +1982,6 @@
     <!-- Flag used to indicate that database was created with new primary keys so latest version of upgrade routines to be used -->
     <changeSet author="Chromis POS" id="New Primary Key structures included">    
     </changeSet>          
+    
 </databaseChangeLog>
 

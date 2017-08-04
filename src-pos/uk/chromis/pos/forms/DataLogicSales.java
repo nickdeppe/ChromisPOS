@@ -56,6 +56,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
     private SentenceFind m_productname;
     protected Datas[] stockdatas;
     protected Row productsRow;
+    protected Row showsRow;
     private String pName;
     private Double getTotal;
     private Double getTendered;
@@ -106,7 +107,19 @@ public class DataLogicSales extends BeanFactoryDataSingle {
     public static int INDEX_PACKPRODUCT = FIELD_COUNT++;
     public static int INDEX_PROMOTIONID = FIELD_COUNT++;
     public static int INDEX_MANAGESTOCK = FIELD_COUNT++;
+    public static int INDEX_ISBOXOFFICE = FIELD_COUNT++;
 
+    
+    public static int SHOWS_FIELD_COUNT = 0;
+    public static int INDEX_SHOW_ID = SHOWS_FIELD_COUNT++;
+    public static int INDEX_SHOW_NAME = SHOWS_FIELD_COUNT++;
+    public static int INDEX_SHOW_IMAGE = SHOWS_FIELD_COUNT++;
+    public static int INDEX_SHOW_SHOWORDER = SHOWS_FIELD_COUNT++;
+    public static int INDEX_SHOW_SHOWLENGTH = SHOWS_FIELD_COUNT++;
+    public static int INDEX_SHOW_SCHEDULEMODE = SHOWS_FIELD_COUNT++;
+    public static int INDEX_SHOW_ACTIVE = SHOWS_FIELD_COUNT++;
+    
+    
     /**
      * Creates a new instance of SentenceContainerGeneric
      */
@@ -197,12 +210,26 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 new Field("PACKQUANTITY", Datas.DOUBLE, Formats.DOUBLE),
                 new Field("PACKPRODUCT", Datas.STRING, Formats.STRING),
                 new Field("PROMOTIONID", Datas.STRING, Formats.STRING),
-                new Field("MANAGESTOCK", Datas.BOOLEAN, Formats.BOOLEAN)
+                new Field("MANAGESTOCK", Datas.BOOLEAN, Formats.BOOLEAN),
+                new Field("ISBOXOFFICE", Datas.BOOLEAN, Formats.BOOLEAN)
         );
 
         // If this fails there is a coding error - have you added a column
         // to the PRODUCTS table and not added an INDEX_xxx for it?
         assert (FIELD_COUNT == productsRow.getFields().length);
+        
+        showsRow = new Row(
+            new Field("ID", Datas.STRING, Formats.STRING),
+            new Field("NAME", Datas.STRING, Formats.STRING, true, true, true),
+            new Field("IMAGE", Datas.IMAGE, Formats.NULL),
+            new Field("SHOWORDER", Datas.INT, Formats.INT),
+            new Field("SHOWLENGTH", Datas.INT, Formats.INT),
+            new Field("SCHEDULEMODE", Datas.STRING, Formats.STRING),
+            new Field("ACTIVE", Datas.BOOLEAN, Formats.BOOLEAN, true, true, true)
+        );
+        
+        assert (SHOWS_FIELD_COUNT == showsRow.getFields().length);
+        
     }
 
     private String getSelectFieldList() {
@@ -238,7 +265,8 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 + "P.CANDISCOUNT, "
                 + "P.ISPACK, P.PACKQUANTITY, P.PACKPRODUCT, "
                 + "P.PROMOTIONID, "
-                + "P.MANAGESTOCK ";
+                + "P.MANAGESTOCK, "
+                + "P.ISBOXOFFICE ";
         return sel;
     }
 
@@ -1362,8 +1390,8 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                         + "ATTRIBUTESET_ID, IMAGE, STOCKCOST, STOCKVOLUME, ISCATALOG, CATORDER, "
                         + "ATTRIBUTES, ISKITCHEN, ISSERVICE, DISPLAY, ISVPRICE, "
                         + "ISVERPATRIB, TEXTTIP, WARRANTY, STOCKUNITS, ALIAS, ALWAYSAVAILABLE, DISCOUNTED, CANDISCOUNT, "
-                        + "ISPACK, PACKQUANTITY, PACKPRODUCT, PROMOTIONID, MANAGESTOCK  ) "
-                        + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                        + "ISPACK, PACKQUANTITY, PACKPRODUCT, PROMOTIONID, MANAGESTOCK, ISBOXOFFICE  ) "
+                        + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                         new SerializerWriteBasicExt(productsRow.getDatas(),
                                 new int[]{INDEX_ID,
                                     INDEX_REFERENCE, INDEX_CODE, INDEX_CODETYPE,
@@ -1377,7 +1405,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                                     INDEX_WARRANTY, INDEX_STOCKUNITS, INDEX_ALIAS,
                                     INDEX_ALWAYSAVAILABLE, INDEX_DISCOUNTED, INDEX_CANDISCOUNT,
                                     INDEX_ISPACK, INDEX_PACKQUANTITY, INDEX_PACKPRODUCT,
-                                    INDEX_PROMOTIONID, INDEX_MANAGESTOCK})).exec(params);
+                                    INDEX_PROMOTIONID, INDEX_MANAGESTOCK, INDEX_ISBOXOFFICE})).exec(params);
 
                 new PreparedSentence(s, "INSERT INTO STOCKCURRENT (LOCATION, PRODUCT, UNITS) VALUES ('0', ?, 0.0)",
                         new SerializerWriteBasicExt(productsRow.getDatas(), new int[]{INDEX_ID})).exec(params);
@@ -1423,7 +1451,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                         + "DISCOUNTED = ?, CANDISCOUNT = ?, "
                         + "ISPACK = ?, PACKQUANTITY = ?, PACKPRODUCT = ?, "
                         + "PROMOTIONID = ?, ISCATALOG = ?, CATORDER = ?, "
-                        + "MANAGESTOCK = ? "
+                        + "MANAGESTOCK = ?, ISBOXOFFICE = ? "
                         + "WHERE ID = ?", new SerializerWriteBasicExt(productsRow.getDatas(),
                                 new int[]{
                                     INDEX_REFERENCE, INDEX_CODE, INDEX_CODETYPE,
@@ -1437,7 +1465,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                                     INDEX_ALWAYSAVAILABLE, INDEX_DISCOUNTED, INDEX_CANDISCOUNT,
                                     INDEX_ISPACK, INDEX_PACKQUANTITY, INDEX_PACKPRODUCT,
                                     INDEX_PROMOTIONID, INDEX_ISCATALOG, INDEX_CATORDER,
-                                    INDEX_MANAGESTOCK,
+                                    INDEX_MANAGESTOCK, INDEX_ISBOXOFFICE,
                                     INDEX_ID})).exec(params);
 
                 return i;
@@ -1532,6 +1560,147 @@ public class DataLogicSales extends BeanFactoryDataSingle {
             }
         };
     }
+    
+    
+    
+
+    /**
+     *
+     * @return
+     */
+    public final SentenceList getShowQBF() {
+        return new StaticSentence(s, 
+            new QBFBuilder(
+                "SELECT "
+                + "S.ID, "
+                + "S.NAME, "
+                + "S.IMAGE, "
+                + "S.SHOWORDER, "
+                + "S.SHOWLENGTH, "
+                + "S.SCHEDULEMODE, "
+                + "S.ACTIVE "
+                + "FROM BOXOFFICESHOWS S "
+                + "WHERE ?(QBF_FILTER) "
+                + "ORDER BY S.NAME",
+                new String[] {
+                    "S.NAME", 
+                    "S.ACTIVE"
+                }, 
+                false
+            ), 
+            new SerializerWriteBasic(
+                new Datas[]{
+                    Datas.OBJECT, Datas.STRING,
+                    Datas.OBJECT, Datas.BOOLEAN
+                }
+            ), 
+            showsRow.getSerializerRead()
+        );
+    }
+    
+    /**
+     *
+     * @return
+     */
+    public final SentenceList getShowsList() {
+        return new StaticSentence(s, 
+                "SELECT "
+                + "S.ID, "
+                + "S.NAME, "
+                + "S.IMAGE, "
+                + "S.SHOWORDER, "
+                + "S.SHOWLENGTH, "
+                + "S.SCHEDULEMODE, "
+                + "S.ACTIVE "
+                + "FROM BOXOFFICESHOWS S "
+                + "WHERE ACTIVE = TRUE "
+                + "ORDER BY S.NAME",
+                null,
+                showsRow.getSerializerRead()
+        );
+    }
+    
+
+    /**
+     *
+     * @return
+     */
+    public final SentenceExec getShowInsert() {
+        return new SentenceExecTransaction(s) {
+            @Override
+            public int execInTransaction(Object params) throws BasicException {
+                Object[] values = (Object[]) params;
+                return new PreparedSentence(
+                            s, 
+                            "INSERT INTO BOXOFFICESHOWS (ID, NAME, IMAGE, SHOWORDER, SHOWLENGTH, SCHEDULEMODE, ACTIVE) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                            new SerializerWriteBasicExt(
+                                showsRow.getDatas(),
+                                new int[] {
+                                    INDEX_SHOW_ID, 
+                                    INDEX_SHOW_NAME, 
+                                    INDEX_SHOW_IMAGE, 
+                                    INDEX_SHOW_SHOWORDER, 
+                                    INDEX_SHOW_SHOWLENGTH, 
+                                    INDEX_SHOW_SCHEDULEMODE,
+                                    INDEX_SHOW_ACTIVE
+                                }
+                            )
+                ).exec(params);
+            }
+        };
+    }
+
+    /**
+     *
+     * @return
+     */
+    public final SentenceExec getShowUpdate() {
+        return new SentenceExecTransaction(s) {
+            @Override
+            public int execInTransaction(Object params) throws BasicException {
+                Object[] values = (Object[]) params;
+                return new PreparedSentence(s, 
+                        "UPDATE BOXOFFICESHOWS "
+                        + "SET "
+                        + "NAME = ?, "
+                        + "IMAGE = ?, "
+                        + "SHOWORDER = ?, "
+                        + "SHOWLENGTH = ?, "
+                        + "SCHEDULEMODE = ?, "
+                        + "ACTIVE = ? "
+                        + "WHERE ID = ?", 
+                        new SerializerWriteBasicExt(
+                                showsRow.getDatas(),
+                                new int[]{
+                                    INDEX_SHOW_NAME, 
+                                    INDEX_SHOW_IMAGE, 
+                                    INDEX_SHOW_SHOWORDER, 
+                                    INDEX_SHOW_SHOWLENGTH, 
+                                    INDEX_SHOW_SCHEDULEMODE,
+                                    INDEX_SHOW_ACTIVE,
+                                    INDEX_SHOW_ID
+                                }
+                        )
+                ).exec(params);
+            }
+        };
+    }
+
+    /**
+     *
+     * @return
+     */
+    public final SentenceExec getShowDelete() {
+        return new SentenceExecTransaction(s) {
+            @Override
+            public int execInTransaction(Object params) throws BasicException {
+                return new PreparedSentence(s, "DELETE FROM BOXOFFICESHOWS WHERE ID = ?", new SerializerWriteBasicExt(showsRow.getDatas(), new int[]{INDEX_SHOW_ID})).exec(params);
+            }
+        };
+    }
+    
+    
+    
 
     /**
      * @param params[0] Product ID
@@ -1743,6 +1912,23 @@ public class DataLogicSales extends BeanFactoryDataSingle {
         );
     }
 
+    
+    
+    public final TableDefinition getTableShows() {
+        return new TableDefinition(
+                s,
+                "BOXOFFICESHOWS",
+                new String[]{"ID", "NAME", "IMAGE", "SHOWORDER", "SHOWLENGTH", "SCHEDULEMODE", "ACTIVE"},
+                new String[]{"ID", AppLocal.getIntString("label.showname"), AppLocal.getIntString("label.showimage"), AppLocal.getIntString("label.showorder"), AppLocal.getIntString("label.showlength"), AppLocal.getIntString("label.showschedulemode"), AppLocal.getIntString("label.showactive")},
+                new Datas[]{Datas.STRING, Datas.STRING, Datas.IMAGE, Datas.INT, Datas.INT, Datas.STRING, Datas.BOOLEAN },
+                new Formats[]{Formats.STRING, Formats.STRING, Formats.NULL, Formats.INT, Formats.INT, Formats.STRING, Formats.BOOLEAN },
+                new int[]{0},
+                "NAME"
+        );
+    }
+    
+    
+    
     public final void updateRefundQty(Double qty, String ticket, Integer line) throws BasicException {
         m_updateRefund.exec(qty, ticket, line);
     }
