@@ -42,7 +42,7 @@ import uk.chromis.pos.forms.DataLogicSales;
 public class ProductShowsEditor extends javax.swing.JPanel implements EditorRecord {
 
     private Object id;
-    private Object attid;
+
 
     private Object insertid;
     
@@ -51,6 +51,7 @@ public class ProductShowsEditor extends javax.swing.JPanel implements EditorReco
     private ComboBoxValModel showModel;
 
     /** Creates new form AttributesValuesEditor
+	 * @param dlSales
      * @param dirty */
     public ProductShowsEditor(DataLogicSales dlSales, DirtyManager dirty) throws BasicException {
         
@@ -92,10 +93,20 @@ public class ProductShowsEditor extends javax.swing.JPanel implements EditorReco
     public void writeValueEOF() {
 
         id = null;
-        attid = null;
+		  showModel.setSelectedKey(null);
         m_jStartDate.setText(null);
+		  m_jEndDate.setText(null);
+		  m_jReportStartDate.setText(null);
+		  m_jReportEndDate.setText(null);
+		  m_jDistributionRate.setText(null);
 
-        m_jStartDate.setEnabled(false);
+		  m_jShow.setEnabled(false);
+		  m_jStartDate.setEnabled(false);
+		  m_jEndDate.setEnabled(false);
+		  m_jReportStartDate.setEnabled(false);
+		  m_jReportEndDate.setEnabled(false);
+		  m_jDistributionRate.setEnabled(false);
+
     }
 
     /**
@@ -105,10 +116,20 @@ public class ProductShowsEditor extends javax.swing.JPanel implements EditorReco
     public void writeValueInsert() {
 
         id = UUID.randomUUID().toString();
-        attid = insertid;
+		  showModel.setSelectedKey(null);
         m_jStartDate.setText(null);
+		  m_jEndDate.setText(null);
+		  m_jReportStartDate.setText(null);
+		  m_jReportEndDate.setText(null);
+		  m_jDistributionRate.setText(null);
 
-        m_jStartDate.setEnabled(true);
+		  m_jShow.setEnabled(true);
+		  m_jStartDate.setEnabled(true);
+		  m_jEndDate.setEnabled(true);
+		  m_jReportStartDate.setEnabled(true);
+		  m_jReportEndDate.setEnabled(true);
+		  m_jDistributionRate.setEnabled(true);
+
     }
 
     /**
@@ -121,10 +142,19 @@ public class ProductShowsEditor extends javax.swing.JPanel implements EditorReco
         Object[] obj = (Object[]) value;
 
         id = obj[0];
-        attid = obj[1];
+		  showModel.setSelectedKey(obj[1]);
         m_jStartDate.setText(Formats.STRING.formatValue(obj[2]));
+        m_jEndDate.setText(Formats.STRING.formatValue(obj[3]));
+        m_jReportStartDate.setText(Formats.STRING.formatValue(obj[4]));
+        m_jReportEndDate.setText(Formats.STRING.formatValue(obj[5]));
+		  m_jDistributionRate.setText(Formats.INT.formatValue(obj[6]));
 
-        m_jStartDate.setEnabled(true);
+		  m_jShow.setEnabled(true);
+		  m_jStartDate.setEnabled(true);
+		  m_jEndDate.setEnabled(true);
+		  m_jReportStartDate.setEnabled(true);
+		  m_jReportEndDate.setEnabled(true);
+		  m_jDistributionRate.setEnabled(true);
     }
 
     /**
@@ -137,10 +167,19 @@ public class ProductShowsEditor extends javax.swing.JPanel implements EditorReco
         Object[] obj = (Object[]) value;
 
         id = obj[0];
-        attid = obj[1];
+		  showModel.setSelectedKey(obj[1]);
         m_jStartDate.setText(Formats.STRING.formatValue(obj[2]));
+        m_jEndDate.setText(Formats.STRING.formatValue(obj[3]));
+        m_jReportStartDate.setText(Formats.STRING.formatValue(obj[4]));
+        m_jReportEndDate.setText(Formats.STRING.formatValue(obj[5]));
+		  m_jDistributionRate.setText(Formats.INT.formatValue(obj[6]));
 
-        m_jStartDate.setEnabled(false);
+		  m_jShow.setEnabled(false);
+		  m_jStartDate.setEnabled(false);
+		  m_jEndDate.setEnabled(false);
+		  m_jReportStartDate.setEnabled(false);
+		  m_jReportEndDate.setEnabled(false);
+		  m_jDistributionRate.setEnabled(false);
     }
 
     /**
@@ -161,8 +200,12 @@ public class ProductShowsEditor extends javax.swing.JPanel implements EditorReco
     public Object createValue() throws BasicException {
         return new Object[] {
             id,
-            attid,
-            Formats.STRING.formatValue(m_jStartDate.getText())
+            Formats.STRING.formatValue(showModel.getSelectedKey()),
+            Formats.DATE.formatValue(m_jStartDate.getText()),
+            Formats.DATE.formatValue(m_jEndDate.getText()),
+            Formats.DATE.formatValue(m_jReportStartDate.getText()),
+            Formats.DATE.formatValue(m_jReportEndDate.getText()),
+				Formats.DOUBLE.formatValue(m_jDistributionRate.getText())
         };
     }
 

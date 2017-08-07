@@ -1603,7 +1603,8 @@ public class DataLogicSales extends BeanFactoryDataSingle {
      * @return
      */
     public final SentenceList getShowsList() {
-        return new StaticSentence(s, 
+        return new StaticSentence(
+					 s,
                 "SELECT "
                 + "S.ID, "
                 + "S.NAME, "
@@ -1616,7 +1617,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 + "WHERE ACTIVE = TRUE "
                 + "ORDER BY S.NAME",
                 null,
-                showsRow.getSerializerRead()
+                ShowInfo.getSerializerRead()
         );
     }
     

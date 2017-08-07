@@ -22,6 +22,8 @@ package uk.chromis.pos.inventory;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import uk.chromis.basic.BasicException;
 import uk.chromis.data.loader.Datas;
 import uk.chromis.data.model.Column;
@@ -85,7 +87,11 @@ public class ProductShowsPanel extends JPanelTable2 {
                 "SELECT ID, PRODUCTID, SHOWID, STARTDATE, ENDDATE, REPORTSTARTDATE, REPORTENDDATE, DISTRIBUTIONRATE FROM PRODUCTS_BOXOFFICESHOWS WHERE PRODUCTID = ? ", filter);
         spr = row.getSaveProvider(app.getSession(), table);
 
-        editor = new ProductShowsEditor(m_dlSales, dirty);
+		 try {
+			 editor = new ProductShowsEditor(m_dlSales, dirty);
+		 } catch (BasicException ex) {
+			 Logger.getLogger(ProductShowsPanel.class.getName()).log(Level.SEVERE, null, ex);
+		 }
     }
 
     /**
