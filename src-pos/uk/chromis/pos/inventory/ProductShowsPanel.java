@@ -64,10 +64,10 @@ public class ProductShowsPanel extends JPanelTable2 {
             new Field("ID", Datas.STRING, Formats.STRING),
             new Field("PRODUCTID", Datas.STRING, Formats.STRING),
             new Field("SHOWID", Datas.STRING, Formats.STRING),
-            new Field("STARTDATE", Datas.TIMESTAMP, Formats.DATE),
-            new Field("ENDDATE", Datas.TIMESTAMP, Formats.DATE),
-            new Field("REPORTSTARTDATE", Datas.TIMESTAMP, Formats.DATE),
-            new Field("REPORTENDDATE", Datas.TIMESTAMP, Formats.DATE),
+            new Field("STARTDATE", Datas.TIMESTAMP, Formats.TIMESTAMP),
+            new Field("ENDDATE", Datas.TIMESTAMP, Formats.TIMESTAMP),
+            new Field("REPORTSTARTDATE", Datas.TIMESTAMP, Formats.TIMESTAMP),
+            new Field("REPORTENDDATE", Datas.TIMESTAMP, Formats.TIMESTAMP),
             new Field("DISTRIBUTIONRATE", Datas.DOUBLE, Formats.DOUBLE)
         );
 

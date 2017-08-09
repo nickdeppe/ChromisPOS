@@ -200,12 +200,13 @@ public class ProductShowsEditor extends javax.swing.JPanel implements EditorReco
     public Object createValue() throws BasicException {
         return new Object[] {
             id,
+			   Formats.STRING.formatValue(insertid),
             Formats.STRING.formatValue(showModel.getSelectedKey()),
-            Formats.DATE.formatValue(m_jStartDate.getText()),
-            Formats.DATE.formatValue(m_jEndDate.getText()),
-            Formats.DATE.formatValue(m_jReportStartDate.getText()),
-            Formats.DATE.formatValue(m_jReportEndDate.getText()),
-				Formats.DOUBLE.formatValue(m_jDistributionRate.getText())
+            Formats.TIMESTAMP.parseValue(m_jStartDate.getText()),
+            Formats.TIMESTAMP.parseValue(m_jEndDate.getText()),
+            Formats.TIMESTAMP.parseValue(m_jReportStartDate.getText()),
+            Formats.TIMESTAMP.parseValue(m_jReportEndDate.getText()),
+				Formats.DOUBLE.parseValue(m_jDistributionRate.getText())
         };
     }
 
