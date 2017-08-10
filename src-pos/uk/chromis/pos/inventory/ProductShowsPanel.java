@@ -32,6 +32,8 @@ import uk.chromis.data.model.PrimaryKey;
 import uk.chromis.data.model.Row;
 import uk.chromis.data.model.Table;
 import uk.chromis.data.user.EditorRecord;
+import uk.chromis.data.user.ListProviderCreator;
+import uk.chromis.data.user.SaveProvider;
 import uk.chromis.format.Formats;
 import uk.chromis.pos.forms.AppLocal;
 import uk.chromis.pos.forms.DataLogicSales;
@@ -83,9 +85,17 @@ public class ProductShowsPanel extends JPanelTable2 {
                 new Column("DISTRIBUTIONRATE")
         );
 
-        lpr = row.getListProvider(app.getSession(),
-                "SELECT ID, PRODUCTID, SHOWID, STARTDATE, ENDDATE, REPORTSTARTDATE, REPORTENDDATE, DISTRIBUTIONRATE FROM PRODUCTS_BOXOFFICESHOWS WHERE PRODUCTID = ? ", filter);
-        spr = row.getSaveProvider(app.getSession(), table);
+
+        lpr = new ListProviderCreator(m_dlSales.getProductShowsQBF(), filter);
+
+//        lpr = row.getListProvider(app.getSession(),
+//                "SELECT ID, PRODUCTID, SHOWID, STARTDATE, ENDDATE, REPORTSTARTDATE, REPORTENDDATE, DISTRIBUTIONRATE FROM PRODUCTS_BOXOFFICESHOWS WHERE PRODUCTID = ? ", filter);
+//        spr = row.getSaveProvider(app.getSession(), table);
+        spr = new SaveProvider(
+                m_dlSales.getProductShowUpdate(),
+                m_dlSales.getProductShowInsert(),
+                m_dlSales.getProductShowDelete());
+
 
 		 try {
 			 editor = new ProductShowsEditor(m_dlSales, dirty);
