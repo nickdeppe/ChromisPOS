@@ -51,8 +51,6 @@ public final class ShowsEditor extends JPanel implements EditorRecord {
         m_jShowLength.addChangeListener(dirty);
         m_jActive.addActionListener(dirty);
         m_jTabImage.addPropertyChangeListener("image", dirty);
-        m_jScheduleModeSimple.addActionListener(dirty);
-        m_jScheduleModeExtended.addActionListener(dirty);
 		
         writeValueEOF();
     }
@@ -93,16 +91,12 @@ public final class ShowsEditor extends JPanel implements EditorRecord {
         m_jShowLength.setValue(0);
         m_jActive.setSelected(false);
         m_jTabImage.setImage(null);
-        m_jScheduleModeSimple.setSelected(false);
-        m_jScheduleModeExtended.setSelected(false);
 
         m_jName.setEnabled(false);
         m_jShowOrder.setEnabled(false);
         m_jShowLength.setEnabled(false);
         m_jActive.setEnabled(false);
         m_jTabImage.setEnabled(false);
-        m_jScheduleModeSimple.setEnabled(false);
-        m_jScheduleModeExtended.setEnabled(false);
     }
 
     /**
@@ -118,8 +112,6 @@ public final class ShowsEditor extends JPanel implements EditorRecord {
         m_jShowLength.setValue(0);
         m_jActive.setSelected(true);
         m_jTabImage.setImage(null);
-        m_jScheduleModeSimple.setSelected(true);
-        m_jScheduleModeExtended.setSelected(false);
 
         // Los habilitados
         m_jName.setEnabled(true);
@@ -127,8 +119,6 @@ public final class ShowsEditor extends JPanel implements EditorRecord {
         m_jShowLength.setEnabled(true);
         m_jActive.setEnabled(true);
         m_jTabImage.setEnabled(true);
-        m_jScheduleModeSimple.setEnabled(true);
-        m_jScheduleModeExtended.setEnabled(true);
 
     }
 
@@ -149,16 +139,12 @@ public final class ShowsEditor extends JPanel implements EditorRecord {
         m_jShowLength.setValue(0);
         m_jActive.setSelected(false);
         m_jTabImage.setImage(null);
-        m_jScheduleModeSimple.setSelected(false);
-        m_jScheduleModeExtended.setSelected(false);
 
         m_jName.setEnabled(false);
         m_jShowOrder.setEnabled(false);
         m_jShowLength.setEnabled(false);
         m_jActive.setEnabled(false);
         m_jTabImage.setEnabled(false);
-        m_jScheduleModeSimple.setEnabled(false);
-        m_jScheduleModeExtended.setEnabled(false);
         
     }
 
@@ -176,22 +162,13 @@ public final class ShowsEditor extends JPanel implements EditorRecord {
         m_jTabImage.setImage((BufferedImage) myshow[2]);
         m_jShowOrder.setValue(myshow[3]);
         m_jShowLength.setValue(myshow[4]);
-        if (myshow[5].toString().equals(AppLocal.getIntString("value.schedulemodesimple"))) {
-            m_jScheduleModeSimple.setSelected(true);
-            m_jScheduleModeExtended.setSelected(false);
-        } else if (myshow[5].toString().equals(AppLocal.getIntString("value.schedulemodeextended"))) {
-            m_jScheduleModeSimple.setSelected(false);
-            m_jScheduleModeExtended.setSelected(true);
-        }
-        m_jActive.setSelected((Boolean) myshow[6]);
+        m_jActive.setSelected((Boolean) myshow[5]);
         
         m_jName.setEnabled(true);
         m_jShowOrder.setEnabled(true);
         m_jShowLength.setEnabled(true);
         m_jActive.setEnabled(true);
         m_jTabImage.setEnabled(true);
-        m_jScheduleModeSimple.setEnabled(true);
-        m_jScheduleModeExtended.setEnabled(true);
         
     }
 
@@ -209,12 +186,7 @@ public final class ShowsEditor extends JPanel implements EditorRecord {
         myshow[2] = m_jTabImage.getImage();
         myshow[3] = m_jShowOrder.getValue();
         myshow[4] = m_jShowLength.getValue();
-        if ( m_jScheduleModeExtended.isSelected() ) {
-            myshow[5] = AppLocal.getIntString("value.schedulemodeextended");
-        } else {
-            myshow[5] = AppLocal.getIntString("value.schedulemodesimple");
-        }
-        myshow[6] = m_jActive.isSelected();
+        myshow[5] = m_jActive.isSelected();
         
         return myshow;
 
@@ -251,10 +223,6 @@ public final class ShowsEditor extends JPanel implements EditorRecord {
         m_jShowOrder = new javax.swing.JSpinner();
         jLabel4 = new javax.swing.JLabel();
         m_jTabImage = new uk.chromis.data.gui.JImageEditor();
-        m_jTabTimes = new javax.swing.JPanel();
-        m_jScheduleModeSimple = new javax.swing.JRadioButton();
-        jLabel1 = new javax.swing.JLabel();
-        m_jScheduleModeExtended = new javax.swing.JRadioButton();
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -311,33 +279,6 @@ public final class ShowsEditor extends JPanel implements EditorRecord {
         jTabbedPane1.addTab(AppLocal.getIntString("label.showgeneral"), m_jTabGeneral); // NOI18N
         jTabbedPane1.addTab(AppLocal.getIntString("label.showimage"), m_jTabImage); // NOI18N
 
-        m_jTabTimes.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        m_jTabTimes.setLayout(null);
-
-        m_jScheduleMode.add(m_jScheduleModeSimple);
-        m_jScheduleModeSimple.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        m_jScheduleModeSimple.setText("Simple");
-        m_jScheduleModeSimple.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                m_jScheduleModeSimpleActionPerformed(evt);
-            }
-        });
-        m_jTabTimes.add(m_jScheduleModeSimple);
-        m_jScheduleModeSimple.setBounds(130, 10, 73, 30);
-
-        jLabel1.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        jLabel1.setText("Schedule mode:");
-        m_jTabTimes.add(jLabel1);
-        jLabel1.setBounds(10, 10, 101, 30);
-
-        m_jScheduleMode.add(m_jScheduleModeExtended);
-        m_jScheduleModeExtended.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        m_jScheduleModeExtended.setText("Extended");
-        m_jTabTimes.add(m_jScheduleModeExtended);
-        m_jScheduleModeExtended.setBounds(220, 10, 91, 30);
-
-        jTabbedPane1.addTab(AppLocal.getIntString("label.showtimes"), m_jTabTimes); // NOI18N
-
         add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 600, 420));
     }// </editor-fold>//GEN-END:initComponents
 
@@ -347,13 +288,8 @@ public final class ShowsEditor extends JPanel implements EditorRecord {
     private void m_jNameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_m_jNameFocusLost
     }//GEN-LAST:event_m_jNameFocusLost
 
-    private void m_jScheduleModeSimpleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_jScheduleModeSimpleActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_m_jScheduleModeSimpleActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel34;
@@ -362,13 +298,10 @@ public final class ShowsEditor extends JPanel implements EditorRecord {
     private eu.hansolo.custom.SteelCheckBox m_jActive;
     private javax.swing.JTextField m_jName;
     private javax.swing.ButtonGroup m_jScheduleMode;
-    private javax.swing.JRadioButton m_jScheduleModeExtended;
-    private javax.swing.JRadioButton m_jScheduleModeSimple;
     private javax.swing.JSpinner m_jShowLength;
     private javax.swing.JSpinner m_jShowOrder;
     private javax.swing.JPanel m_jTabGeneral;
     private uk.chromis.data.gui.JImageEditor m_jTabImage;
-    private javax.swing.JPanel m_jTabTimes;
     private javax.swing.JLabel m_jTitle;
     // End of variables declaration//GEN-END:variables
 

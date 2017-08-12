@@ -139,51 +139,6 @@
     </changeSet>
 
 
-    <changeSet author="Chromis POS" id="Create Boxoffice Shows Table (New Database)">
-        <createTable tableName="BOXOFFICESHOWS">
-            <column name="ID" type="varchar(255)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="NAME" type="varchar(255)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="IMAGE" type="${blob.type}"/>
-            <column name="SHOWORDER" type="integer"/>
-            <column name="SHOWLENGTH" type="integer">
-                <constraints nullable="false" />
-            </column>
-            <column name="SCHEDULEMODE" type="char(1)" defaultValue="S">
-                <constraints nullable="false" />
-            </column>
-            <column name="ACTIVE" type="${boolean.type}" defaultValueBoolean="true">
-                <constraints nullable="false" />
-            </column>
-        </createTable>
-        <modifySql dbms="mysql">
-            <append value=" ENGINE = InnoDB DEFAULT CHARSET=utf8  "/>
-        </modifySql>
-    </changeSet>
-
-    <changeSet author="Chromis POS" id="Create Boxoffice Show Times Table (New Database)">
-        <createTable tableName="BOXOFFICESHOWTIMES">
-            <column name="ID" type="varchar(255)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="SHOWID" type="varchar(255)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="SHOWTIME" type="time">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-        <modifySql dbms="mysql">
-            <append value=" ENGINE = InnoDB DEFAULT CHARSET=utf8  "/>
-        </modifySql>
-    </changeSet>
-     
-    
-
-
     <changeSet author="Chromis POS" id="Create BREAKS Table (New Database)">
         <createTable tableName="BREAKS">
             <column name="ID" type="varchar(255)">
@@ -669,40 +624,6 @@
     </changeSet>
         
         
-
-    <changeSet author="Chromis POS" id="Create Products-Boxoffice Shows Table (New Database)">
-        <createTable tableName="PRODUCTS_BOXOFFICESHOWS">
-            <column name="ID" type="varchar(255)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="PRODUCTID" type="varchar(255)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="SHOWID" type="varchar(255)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="STARTDATE" type="date">
-                <constraints nullable="false"/>
-            </column>
-            <column name="ENDDATE" type="date">
-                <constraints nullable="false"/>
-            </column>
-            <column name="REPORTSTARTDATE" type="date">
-                <constraints nullable="false"/>
-            </column>
-            <column name="REPORTENDDATE" type="date">
-                <constraints nullable="false"/>
-            </column>
-            <column name="DISTRIBUTIONRATE" type="double precision" defaultValueNumeric="0.0">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-        <modifySql dbms="mysql">
-            <append value=" ENGINE = InnoDB DEFAULT CHARSET=utf8  "/>
-        </modifySql>
-    </changeSet>
-    
-        
         
     <changeSet author="Chromis POS" id="Create Products_com Table (New Database)">
         <createTable tableName="PRODUCTS_COM">
@@ -934,6 +855,85 @@
             <append value=" ENGINE = InnoDB DEFAULT CHARSET=utf8  "/>
         </modifySql>
     </changeSet>
+    
+    
+
+    <changeSet author="Chromis POS" id="Create Boxoffice Shows Table (New Database)">
+        <createTable tableName="SHOWS">
+            <column name="ID" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="NAME" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="IMAGE" type="${blob.type}"/>
+            <column name="SHOWORDER" type="integer"/>
+            <column name="SHOWLENGTH" type="integer">
+                <constraints nullable="false" />
+            </column>
+            <column name="ACTIVE" type="${boolean.type}" defaultValueBoolean="true">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+        <modifySql dbms="mysql">
+            <append value=" ENGINE = InnoDB DEFAULT CHARSET=utf8  "/>
+        </modifySql>
+    </changeSet>
+
+    
+    <changeSet author="Chromis POS" id="Create box office show schedule table(New Database)">
+        <createTable tableName="SHOWSCHEDULE">
+            <column name="ID" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="SHOWID" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="THEATREID" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="STARTDATE" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ENDDATE" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="REPORTSTARTDATE" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="REPORTENDDATE" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DISTRIBUTIONRATE" type="double precision">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <modifySql dbms="mysql">
+            <append value=" ENGINE = InnoDB DEFAULT CHARSET=utf8  "/>
+        </modifySql>
+    </changeSet>    
+    
+    
+    <changeSet author="Chromis POS" id="Create box office show schedule times table(New Database)">
+        <createTable tableName="SHOWSCHEDULETIMES">
+            <column name="ID" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="SCHEDULEID" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="SHOWDATE" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="SHOWTIME" type="date">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <modifySql dbms="mysql">
+            <append value=" ENGINE = InnoDB DEFAULT CHARSET=utf8  "/>
+        </modifySql>
+    </changeSet>    
+    
 
     <changeSet author="Chromis POS" id="Create SITEGUID table. (New Database)"  >    
         <createTable tableName="SITEGUID">
@@ -1125,6 +1125,36 @@
         </modifySql>
     </changeSet>
     
+    
+    
+    <changeSet author="Chromis POS" id="Create box office theatres table(New Database)">
+        <createTable tableName="THEATRES">
+            <column name="ID" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="NAME" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CAPACITYMODE" type="char(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CAPACITY" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="HARDLIMIT" type="bit(1)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ACTIVE" type="bit(1)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <modifySql dbms="mysql">
+            <append value=" ENGINE = InnoDB DEFAULT CHARSET=utf8  "/>
+        </modifySql>
+    </changeSet>    
+    
+    
+    
     <changeSet author="Chromis POS" id="Create THIRDPARTIES Table (New Database)">
         <createTable tableName="THIRDPARTIES">
             <column name="ID" type="varchar(255)">
@@ -1163,10 +1193,10 @@
             </column>
             <column name="PRODUCT" type="varchar(255)"/>
             <column name="ATTRIBUTESETINSTANCE_ID" type="varchar(255)"/>
-            <column name="BOXOFFICESHOWID" type="varchar(255)">
+            <column name="SHOWSCHEDULEID" type="varchar(255)">
                 <constraints nullable="true"/>
             </column>
-            <column name="BOXOFFICETIMEID" type="varchar(255)">
+            <column name="SHOWSCHEDULETIMEID" type="varchar(255)">
                 <constraints nullable="true"/>
             </column>
             <column name="UNITS" type="double precision">

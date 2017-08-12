@@ -117,7 +117,6 @@ public class DataLogicSales extends BeanFactoryDataSingle {
     public static int INDEX_SHOW_IMAGE = SHOWS_FIELD_COUNT++;
     public static int INDEX_SHOW_SHOWORDER = SHOWS_FIELD_COUNT++;
     public static int INDEX_SHOW_SHOWLENGTH = SHOWS_FIELD_COUNT++;
-    public static int INDEX_SHOW_SCHEDULEMODE = SHOWS_FIELD_COUNT++;
     public static int INDEX_SHOW_ACTIVE = SHOWS_FIELD_COUNT++;
 
 	 public static int PRODUCT_SHOWS_FIELD_COUNT = 0;
@@ -235,7 +234,6 @@ public class DataLogicSales extends BeanFactoryDataSingle {
             new Field("IMAGE", Datas.IMAGE, Formats.NULL),
             new Field("SHOWORDER", Datas.INT, Formats.INT),
             new Field("SHOWLENGTH", Datas.INT, Formats.INT),
-            new Field("SCHEDULEMODE", Datas.STRING, Formats.STRING),
             new Field("ACTIVE", Datas.BOOLEAN, Formats.BOOLEAN, true, true, true)
         );
         
@@ -1600,9 +1598,8 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 + "S.IMAGE, "
                 + "S.SHOWORDER, "
                 + "S.SHOWLENGTH, "
-                + "S.SCHEDULEMODE, "
                 + "S.ACTIVE "
-                + "FROM BOXOFFICESHOWS S "
+                + "FROM SHOWS S "
                 + "WHERE ?(QBF_FILTER) "
                 + "ORDER BY S.NAME",
                 new String[] {
@@ -1634,9 +1631,8 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 + "S.IMAGE, "
                 + "S.SHOWORDER, "
                 + "S.SHOWLENGTH, "
-                + "S.SCHEDULEMODE, "
                 + "S.ACTIVE "
-                + "FROM BOXOFFICESHOWS S "
+                + "FROM SHOWS S "
                 + "WHERE ACTIVE = TRUE "
                 + "ORDER BY S.NAME",
                 null,
@@ -1656,7 +1652,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 Object[] values = (Object[]) params;
                 return new PreparedSentence(
                             s, 
-                            "INSERT INTO BOXOFFICESHOWS (ID, NAME, IMAGE, SHOWORDER, SHOWLENGTH, SCHEDULEMODE, ACTIVE) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                            "INSERT INTO SHOWS (ID, NAME, IMAGE, SHOWORDER, SHOWLENGTH, ACTIVE) VALUES (?, ?, ?, ?, ?, ?)",
                             new SerializerWriteBasicExt(
                                 showsRow.getDatas(),
                                 new int[] {
@@ -1665,7 +1661,6 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                                     INDEX_SHOW_IMAGE, 
                                     INDEX_SHOW_SHOWORDER, 
                                     INDEX_SHOW_SHOWLENGTH, 
-                                    INDEX_SHOW_SCHEDULEMODE,
                                     INDEX_SHOW_ACTIVE
                                 }
                             )
@@ -1684,13 +1679,12 @@ public class DataLogicSales extends BeanFactoryDataSingle {
             public int execInTransaction(Object params) throws BasicException {
                 Object[] values = (Object[]) params;
                 return new PreparedSentence(s, 
-                        "UPDATE BOXOFFICESHOWS "
+                        "UPDATE SHOWS "
                         + "SET "
                         + "NAME = ?, "
                         + "IMAGE = ?, "
                         + "SHOWORDER = ?, "
                         + "SHOWLENGTH = ?, "
-                        + "SCHEDULEMODE = ?, "
                         + "ACTIVE = ? "
                         + "WHERE ID = ?", 
                         new SerializerWriteBasicExt(
@@ -1700,7 +1694,6 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                                     INDEX_SHOW_IMAGE, 
                                     INDEX_SHOW_SHOWORDER, 
                                     INDEX_SHOW_SHOWLENGTH, 
-                                    INDEX_SHOW_SCHEDULEMODE,
                                     INDEX_SHOW_ACTIVE,
                                     INDEX_SHOW_ID
                                 }
@@ -1718,7 +1711,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
         return new SentenceExecTransaction(s) {
             @Override
             public int execInTransaction(Object params) throws BasicException {
-                return new PreparedSentence(s, "DELETE FROM BOXOFFICESHOWS WHERE ID = ?", new SerializerWriteBasicExt(showsRow.getDatas(), new int[]{INDEX_SHOW_ID})).exec(params);
+                return new PreparedSentence(s, "DELETE FROM SHOWS WHERE ID = ?", new SerializerWriteBasicExt(showsRow.getDatas(), new int[]{INDEX_SHOW_ID})).exec(params);
             }
         };
     }
@@ -1743,7 +1736,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 + "S.REPORTSTARTDATE, "
                 + "S.REPORTENDDATE, "
                 + "S.DISTRIBUTIONRATE "
-                + "FROM PRODUCTS_BOXOFFICESHOWS S "
+                + "FROM PRODUCTS_SHOWS S "
                 + "WHERE ?(QBF_FILTER) "
                 + "ORDER BY S.STARTDATE",
                 new String[] {
@@ -1776,7 +1769,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 Object[] values = (Object[]) params;
                 return new PreparedSentence(
                             s,
-                            "INSERT INTO PRODUCT_BOXOFFICESHOWS (ID, PRODUCTID, SHOWID, STARTDATE, ENDDATE, REPORTSTARTDATE, REPORTENDDATE, DISTRIBUTIONRATE) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+                            "INSERT INTO PRODUCT_SHOWS (ID, PRODUCTID, SHOWID, STARTDATE, ENDDATE, REPORTSTARTDATE, REPORTENDDATE, DISTRIBUTIONRATE) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
                             new SerializerWriteBasicExt(
                                 productShowRow.getDatas(),
                                 new int[] {
@@ -1805,7 +1798,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
             public int execInTransaction(Object params) throws BasicException {
                 Object[] values = (Object[]) params;
                 return new PreparedSentence(s,
-                        "UPDATE PRODUCT_BOXOFFICESHOWS "
+                        "UPDATE PRODUCT_SHOWS "
                         + "SET "
                         + "PRODUCTID = ?, "
                         + "SHOWID = ?, "
@@ -1841,7 +1834,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
         return new SentenceExecTransaction(s) {
             @Override
             public int execInTransaction(Object params) throws BasicException {
-                return new PreparedSentence(s, "DELETE FROM PRODUCT_BOXOFFICESHOWS WHERE ID = ?", new SerializerWriteBasicExt(productShowRow.getDatas(), new int[]{INDEX_PRODUCT_SHOW_ID})).exec(params);
+                return new PreparedSentence(s, "DELETE FROM PRODUCT_SHOWS WHERE ID = ?", new SerializerWriteBasicExt(productShowRow.getDatas(), new int[]{INDEX_PRODUCT_SHOW_ID})).exec(params);
             }
         };
     }
@@ -2063,11 +2056,11 @@ public class DataLogicSales extends BeanFactoryDataSingle {
     public final TableDefinition getTableShows() {
         return new TableDefinition(
                 s,
-                "BOXOFFICESHOWS",
-                new String[]{"ID", "NAME", "IMAGE", "SHOWORDER", "SHOWLENGTH", "SCHEDULEMODE", "ACTIVE"},
-                new String[]{"ID", AppLocal.getIntString("label.showname"), AppLocal.getIntString("label.showimage"), AppLocal.getIntString("label.showorder"), AppLocal.getIntString("label.showlength"), AppLocal.getIntString("label.showschedulemode"), AppLocal.getIntString("label.showactive")},
-                new Datas[]{Datas.STRING, Datas.STRING, Datas.IMAGE, Datas.INT, Datas.INT, Datas.STRING, Datas.BOOLEAN },
-                new Formats[]{Formats.STRING, Formats.STRING, Formats.NULL, Formats.INT, Formats.INT, Formats.STRING, Formats.BOOLEAN },
+                "SHOWS",
+                new String[]{"ID", "NAME", "IMAGE", "SHOWORDER", "SHOWLENGTH", "ACTIVE"},
+                new String[]{"ID", AppLocal.getIntString("label.showname"), AppLocal.getIntString("label.showimage"), AppLocal.getIntString("label.showorder"), AppLocal.getIntString("label.showlength"), AppLocal.getIntString("label.showactive")},
+                new Datas[]{Datas.STRING, Datas.STRING, Datas.IMAGE, Datas.INT, Datas.INT, Datas.BOOLEAN },
+                new Formats[]{Formats.STRING, Formats.STRING, Formats.NULL, Formats.INT, Formats.INT, Formats.BOOLEAN },
                 new int[]{0},
                 "NAME"
         );

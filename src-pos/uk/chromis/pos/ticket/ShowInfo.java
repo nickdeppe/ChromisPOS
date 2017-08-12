@@ -36,9 +36,8 @@ public class ShowInfo implements IKeyed {
     private String m_sName;
     private BufferedImage m_Image;
     private Integer m_iShowOrder;
-	 private Integer m_iShowLength;
-	 private String m_sScheduleMode;
-	 private Boolean m_bActive;
+    private Integer m_iShowLength;
+    private Boolean m_bActive;
 
     /**
      * Creates new CategoryInfo
@@ -49,13 +48,12 @@ public class ShowInfo implements IKeyed {
      * @param texttip
      * @param catshowname
      */
-    public ShowInfo(String id, String name, BufferedImage image, Integer showOrder, Integer showLength, String scheduleMode, Boolean active ) {
+    public ShowInfo(String id, String name, BufferedImage image, Integer showOrder, Integer showLength, Boolean active ) {
 			m_sID = id;
 			m_sName = name;
 			m_Image = image;
 			m_iShowOrder = showOrder;
 			m_iShowLength = showLength;
-			m_sScheduleMode = scheduleMode;
 			m_bActive = active;
     }
 
@@ -109,13 +107,6 @@ public class ShowInfo implements IKeyed {
 		 return m_iShowLength;
 	 }
 
-	 public void setScheduleMode(String scheduleMode) {
-		 m_sScheduleMode = scheduleMode;
-	 }
-
-	 public String getScheduleMode() {
-		 return m_sScheduleMode;
-	 }
 
 	 public void setActive(Boolean active) {
 		 m_bActive = active;
@@ -130,7 +121,7 @@ public class ShowInfo implements IKeyed {
         return new SerializerRead() {
             @Override
             public Object readValues(DataRead dr) throws BasicException {
-                return new ShowInfo(dr.getString(1), dr.getString(2),  ImageUtils.readImage(dr.getBytes(3)), dr.getInt(4), dr.getInt(5), dr.getString(6), dr.getBoolean(7));
+                return new ShowInfo(dr.getString(1), dr.getString(2),  ImageUtils.readImage(dr.getBytes(3)), dr.getInt(4), dr.getInt(5), dr.getBoolean(6));
             }
         };
     }
