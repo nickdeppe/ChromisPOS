@@ -34,12 +34,12 @@ import uk.chromis.pos.panels.JPanelTable2;
  *
  * @author adrian
  */
-public class TheatrePanel extends JPanelTable2 {
+public class TheatresPanel extends JPanelTable2 {
     
     private EditorRecord editor;
 
     /** Creates a new instance of JPanelCategories */
-    public TheatrePanel() {        
+    public TheatresPanel() {        
     }
 
     /**
@@ -70,7 +70,7 @@ public class TheatrePanel extends JPanelTable2 {
         lpr = row.getListProvider(app.getSession(), table);
         spr = row.getSaveProvider(app.getSession(), table);        
         
-        editor = new TheatreEditor(dirty);    
+        editor = new TheatresEditor(dirty);    
     }
 
     /**
