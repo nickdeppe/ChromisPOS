@@ -43,12 +43,12 @@ import uk.chromis.pos.panels.JPanelTable2;
  *
  * @author adrianromero
  */
-public class ProductShowsPanel extends JPanelTable2 {
+public class ShowSchedulePanel extends JPanelTable2 {
 
     private DataLogicSales m_dlSales;
     
-    private ProductShowsEditor editor;
-    private ProductShowsFilter filter;
+    private ShowScheduleEditor editor;
+    private ShowScheduleFilter filter;
 
     /**
      *
@@ -58,14 +58,14 @@ public class ProductShowsPanel extends JPanelTable2 {
 
         m_dlSales = (DataLogicSales) app.getBean("uk.chromis.pos.forms.DataLogicSales");
         
-        filter = new ProductShowsFilter();
+        filter = new ShowScheduleFilter();
         filter.init(app);
         filter.addActionListener(new ReloadActionListener());
         
         row = new Row(
             new Field("ID", Datas.STRING, Formats.STRING),
-            new Field("PRODUCTID", Datas.STRING, Formats.STRING),
             new Field("SHOWID", Datas.STRING, Formats.STRING),
+            new Field("THEATREID", Datas.STRING, Formats.STRING),
             new Field("STARTDATE", Datas.TIMESTAMP, Formats.TIMESTAMP),
             new Field("ENDDATE", Datas.TIMESTAMP, Formats.TIMESTAMP),
             new Field("REPORTSTARTDATE", Datas.TIMESTAMP, Formats.TIMESTAMP),
@@ -74,10 +74,10 @@ public class ProductShowsPanel extends JPanelTable2 {
         );
 
         Table table = new Table(
-                "PRODUCTS_BOXOFFICESHOWS",
+                "SHOWSCHEDULE",
                 new PrimaryKey("ID"),
-                new Column("PRODUCTID"),
                 new Column("SHOWID"),
+                new Column("THEATREID"),
                 new Column("STARTDATE"),
                 new Column("ENDDATE"),
                 new Column("REPORTSTARTDATE"),
@@ -86,22 +86,23 @@ public class ProductShowsPanel extends JPanelTable2 {
         );
 
 
-        lpr = new ListProviderCreator(m_dlSales.getProductShowsQBF(), filter);
+        lpr = new ListProviderCreator(m_dlSales.getShowScheduleQBF(), filter);
 
 //        lpr = row.getListProvider(app.getSession(),
 //                "SELECT ID, PRODUCTID, SHOWID, STARTDATE, ENDDATE, REPORTSTARTDATE, REPORTENDDATE, DISTRIBUTIONRATE FROM PRODUCTS_BOXOFFICESHOWS WHERE PRODUCTID = ? ", filter);
 //        spr = row.getSaveProvider(app.getSession(), table);
         spr = new SaveProvider(
-                m_dlSales.getProductShowUpdate(),
-                m_dlSales.getProductShowInsert(),
-                m_dlSales.getProductShowDelete());
+            m_dlSales.getShowScheduleUpdate(),
+            m_dlSales.getShowScheduleInsert(),
+            m_dlSales.getShowScheduleDelete()
+        );
 
 
-		 try {
-			 editor = new ProductShowsEditor(m_dlSales, dirty);
-		 } catch (BasicException ex) {
-			 Logger.getLogger(ProductShowsPanel.class.getName()).log(Level.SEVERE, null, ex);
-		 }
+        try {
+            editor = new ShowScheduleEditor(m_dlSales, dirty);
+        } catch (BasicException ex) {
+            Logger.getLogger(ShowSchedulePanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -136,9 +137,9 @@ public class ProductShowsPanel extends JPanelTable2 {
     }
 
     private void reload() throws BasicException {
-        String prodid = (String) filter.createValue();
-        editor.setInsertId(prodid); // must be set before load
-        bd.setEditable(prodid != null);
+        String schedid = (String) filter.createValue();
+        editor.setInsertId(schedid); // must be set before load
+        bd.setEditable(schedid != null);
         bd.actionLoad();
     }
 
@@ -148,7 +149,7 @@ public class ProductShowsPanel extends JPanelTable2 {
      */
     @Override
     public String getTitle() {
-        return AppLocal.getIntString("Menu.ProductShows");
+        return AppLocal.getIntString("Menu.ShowSchedule");
     }
 
     private class ReloadActionListener implements ActionListener {

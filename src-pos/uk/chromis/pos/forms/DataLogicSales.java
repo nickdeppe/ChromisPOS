@@ -57,7 +57,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
     protected Datas[] stockdatas;
     protected Row productsRow;
     protected Row showsRow;
-	 protected Row productShowRow;
+    protected Row showScheduleRow;
     private String pName;
     private Double getTotal;
     private Double getTendered;
@@ -119,15 +119,15 @@ public class DataLogicSales extends BeanFactoryDataSingle {
     public static int INDEX_SHOW_SHOWLENGTH = SHOWS_FIELD_COUNT++;
     public static int INDEX_SHOW_ACTIVE = SHOWS_FIELD_COUNT++;
 
-	 public static int PRODUCT_SHOWS_FIELD_COUNT = 0;
-	 public static int INDEX_PRODUCT_SHOW_ID = PRODUCT_SHOWS_FIELD_COUNT++;
-    public static int INDEX_PRODUCT_SHOW_PRODUCTID = PRODUCT_SHOWS_FIELD_COUNT++;
-    public static int INDEX_PRODUCT_SHOW_SHOWID = PRODUCT_SHOWS_FIELD_COUNT++;
-    public static int INDEX_PRODUCT_SHOW_STARTDATE = PRODUCT_SHOWS_FIELD_COUNT++;
-    public static int INDEX_PRODUCT_SHOW_ENDDATE = PRODUCT_SHOWS_FIELD_COUNT++;
-    public static int INDEX_PRODUCT_SHOW_REPORTSTARTDATE = PRODUCT_SHOWS_FIELD_COUNT++;
-    public static int INDEX_PRODUCT_SHOW_REPORTENDDATE = PRODUCT_SHOWS_FIELD_COUNT++;
-    public static int INDEX_PRODUCT_SHOW_DISTRIBUTIONRATE = PRODUCT_SHOWS_FIELD_COUNT++;
+    public static int SHOWSCHEDULE_FIELD_COUNT = 0;
+    public static int INDEX_SHOWSCHEDULE_ID = SHOWSCHEDULE_FIELD_COUNT++;
+    public static int INDEX_SHOWSCHEDULE_SHOWID = SHOWSCHEDULE_FIELD_COUNT++;
+    public static int INDEX_SHOWSCHEDULE_THEATREID = SHOWSCHEDULE_FIELD_COUNT++;
+    public static int INDEX_SHOWSCHEDULE_STARTDATE = SHOWSCHEDULE_FIELD_COUNT++;
+    public static int INDEX_SHOWSCHEDULE_ENDDATE = SHOWSCHEDULE_FIELD_COUNT++;
+    public static int INDEX_SHOWSCHEDULE_REPORTSTARTDATE = SHOWSCHEDULE_FIELD_COUNT++;
+    public static int INDEX_SHOWSCHEDULE_REPORTENDDATE = SHOWSCHEDULE_FIELD_COUNT++;
+    public static int INDEX_SHOWSCHEDULE_DISTRIBUTIONRATE = SHOWSCHEDULE_FIELD_COUNT++;
 
     
     /**
@@ -240,16 +240,18 @@ public class DataLogicSales extends BeanFactoryDataSingle {
         assert (SHOWS_FIELD_COUNT == showsRow.getFields().length);
 
 
-		  productShowRow = new Row(
-					 new Field("ID", Datas.STRING, Formats.STRING),
-					 new Field("PRODUCTID", Datas.STRING, Formats.STRING, true, true, true),
-					 new Field("SHOWID", Datas.STRING, Formats.STRING),
-					 new Field("STARTDATE", Datas.TIMESTAMP, Formats.DATE),
-					 new Field("ENDDATE", Datas.TIMESTAMP, Formats.DATE),
-					 new Field("REPORTSTARTDATE", Datas.TIMESTAMP, Formats.DATE),
-					 new Field("REPORTSTARTDATE", Datas.TIMESTAMP, Formats.DATE),
-					 new Field("DISTRIBUTIONRATE", Datas.DOUBLE, Formats.DOUBLE)
-		  );
+        showScheduleRow = new Row(
+            new Field("ID", Datas.STRING, Formats.STRING),
+            new Field("SHOWID", Datas.STRING, Formats.STRING, true, true, true),
+            new Field("THEATREID", Datas.STRING, Formats.STRING, true, true, true),
+            new Field("STARTDATE", Datas.TIMESTAMP, Formats.DATE),
+            new Field("ENDDATE", Datas.TIMESTAMP, Formats.DATE),
+            new Field("REPORTSTARTDATE", Datas.TIMESTAMP, Formats.DATE),
+            new Field("REPORTSTARTDATE", Datas.TIMESTAMP, Formats.DATE),
+            new Field("DISTRIBUTIONRATE", Datas.DOUBLE, Formats.DOUBLE)
+        );
+        
+        assert (SHOWSCHEDULE_FIELD_COUNT == showScheduleRow.getFields().length );
         
     }
 
@@ -1174,7 +1176,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                     if (l.getProductID() != null && l.isProductService() != true
                             && l.getManageStock() == true) {
 
-                        //     List<ProductsRecipeInfo> kit = getProductsKit(l.getProductID());
+                        //     List<ProductsRecipeInfo> kit = getProductsKit(l.getTheatreID());
                         //     if (kit.size() == 0) {
                         // update the stock
                         getStockDiaryInsert().exec(new Object[]{
@@ -1624,7 +1626,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
      */
     public final SentenceList getShowsList() {
         return new StaticSentence(
-					 s,
+                s,
                 "SELECT "
                 + "S.ID, "
                 + "S.NAME, "
@@ -1724,32 +1726,34 @@ public class DataLogicSales extends BeanFactoryDataSingle {
      *
      * @return
      */
-    public final SentenceList getProductShowsQBF() {
+    public final SentenceList getShowScheduleQBF() {
         return new StaticSentence(s,
             new QBFBuilder(
                 "SELECT "
                 + "S.ID, "
-                + "S.PRODUCTID, "
                 + "S.SHOWID, "
+                + "S.THEATREID, "
                 + "S.STARTDATE, "
                 + "S.ENDDATE, "
                 + "S.REPORTSTARTDATE, "
                 + "S.REPORTENDDATE, "
                 + "S.DISTRIBUTIONRATE "
-                + "FROM PRODUCTS_SHOWS S "
+                + "FROM SHOWSCHEDULE S "
                 + "WHERE ?(QBF_FILTER) "
                 + "ORDER BY S.STARTDATE",
                 new String[] {
-                    "S.PRODUCTID"
+                    "S.SHOWID",
+                    "S.THEATREID"
                 },
                 false
             ),
             new SerializerWriteBasic(
                 new Datas[]{
+                    Datas.OBJECT, Datas.STRING,
                     Datas.OBJECT, Datas.STRING
                 }
             ),
-            ProductShowInfo.getSerializerRead()
+            ShowScheduleInfo.getSerializerRead()
         );
     }
 
@@ -1762,27 +1766,27 @@ public class DataLogicSales extends BeanFactoryDataSingle {
      *
      * @return
      */
-    public final SentenceExec getProductShowInsert() {
+    public final SentenceExec getShowScheduleInsert() {
         return new SentenceExecTransaction(s) {
             @Override
             public int execInTransaction(Object params) throws BasicException {
                 Object[] values = (Object[]) params;
                 return new PreparedSentence(
-                            s,
-                            "INSERT INTO PRODUCT_SHOWS (ID, PRODUCTID, SHOWID, STARTDATE, ENDDATE, REPORTSTARTDATE, REPORTENDDATE, DISTRIBUTIONRATE) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-                            new SerializerWriteBasicExt(
-                                productShowRow.getDatas(),
-                                new int[] {
-											  INDEX_PRODUCT_SHOW_ID,
-											  INDEX_PRODUCT_SHOW_PRODUCTID,
-											  INDEX_PRODUCT_SHOW_SHOWID,
-											  INDEX_PRODUCT_SHOW_STARTDATE,
-											  INDEX_PRODUCT_SHOW_ENDDATE,
-											  INDEX_PRODUCT_SHOW_REPORTSTARTDATE,
-											  INDEX_PRODUCT_SHOW_REPORTENDDATE,
-											  INDEX_PRODUCT_SHOW_DISTRIBUTIONRATE
-										  }
-                            )
+                    s,
+                    "INSERT INTO SHOWSCHEDULE (ID, SHOWID, THEATREID, STARTDATE, ENDDATE, REPORTSTARTDATE, REPORTENDDATE, DISTRIBUTIONRATE) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+                    new SerializerWriteBasicExt(
+                        showScheduleRow.getDatas(),
+                        new int[] {
+                            INDEX_SHOWSCHEDULE_ID,
+                            INDEX_SHOWSCHEDULE_SHOWID,
+                            INDEX_SHOWSCHEDULE_THEATREID,
+                            INDEX_SHOWSCHEDULE_STARTDATE,
+                            INDEX_SHOWSCHEDULE_ENDDATE,
+                            INDEX_SHOWSCHEDULE_REPORTSTARTDATE,
+                            INDEX_SHOWSCHEDULE_REPORTENDDATE,
+                            INDEX_SHOWSCHEDULE_DISTRIBUTIONRATE
+                        }
+                    )
                 ).exec(params);
             }
         };
@@ -1792,33 +1796,33 @@ public class DataLogicSales extends BeanFactoryDataSingle {
      *
      * @return
      */
-    public final SentenceExec getProductShowUpdate() {
+    public final SentenceExec getShowScheduleUpdate() {
         return new SentenceExecTransaction(s) {
             @Override
             public int execInTransaction(Object params) throws BasicException {
                 Object[] values = (Object[]) params;
                 return new PreparedSentence(s,
-                        "UPDATE PRODUCT_SHOWS "
+                        "UPDATE SHOWSCHEDULE "
                         + "SET "
-                        + "PRODUCTID = ?, "
                         + "SHOWID = ?, "
+                        + "THEATREID = ?, "
                         + "STARTDATE = ?, "
                         + "ENDDATE = ?, "
                         + "REPORTSTARTDATE = ?, "
                         + "REPORTENDDATE = ?, "
-					         + "DISTRIBUTIONRATE = ? "
+                        + "DISTRIBUTIONRATE = ? "
                         + "WHERE ID = ?",
                         new SerializerWriteBasicExt(
-                                productShowRow.getDatas(),
+                                showScheduleRow.getDatas(),
                                 new int[]{
-											  INDEX_PRODUCT_SHOW_PRODUCTID,
-											  INDEX_PRODUCT_SHOW_SHOWID,
-											  INDEX_PRODUCT_SHOW_STARTDATE,
-											  INDEX_PRODUCT_SHOW_ENDDATE,
-											  INDEX_PRODUCT_SHOW_REPORTSTARTDATE,
-											  INDEX_PRODUCT_SHOW_REPORTENDDATE,
-											  INDEX_PRODUCT_SHOW_DISTRIBUTIONRATE,
-											  INDEX_PRODUCT_SHOW_ID
+                                    INDEX_SHOWSCHEDULE_SHOWID,
+                                    INDEX_SHOWSCHEDULE_THEATREID,
+                                    INDEX_SHOWSCHEDULE_STARTDATE,
+                                    INDEX_SHOWSCHEDULE_ENDDATE,
+                                    INDEX_SHOWSCHEDULE_REPORTSTARTDATE,
+                                    INDEX_SHOWSCHEDULE_REPORTENDDATE,
+                                    INDEX_SHOWSCHEDULE_DISTRIBUTIONRATE,
+                                    INDEX_SHOWSCHEDULE_ID
                                 }
                         )
                 ).exec(params);
@@ -1830,11 +1834,19 @@ public class DataLogicSales extends BeanFactoryDataSingle {
      *
      * @return
      */
-    public final SentenceExec getProductShowDelete() {
+    public final SentenceExec getShowScheduleDelete() {
         return new SentenceExecTransaction(s) {
             @Override
             public int execInTransaction(Object params) throws BasicException {
-                return new PreparedSentence(s, "DELETE FROM PRODUCT_SHOWS WHERE ID = ?", new SerializerWriteBasicExt(productShowRow.getDatas(), new int[]{INDEX_PRODUCT_SHOW_ID})).exec(params);
+                return new PreparedSentence(s, 
+                        "DELETE FROM SHOWSCHEDULE WHERE ID = ?", 
+                        new SerializerWriteBasicExt(
+                                showScheduleRow.getDatas(), 
+                                new int[]{
+                                    INDEX_SHOWSCHEDULE_ID
+                                }
+                        )
+                ).exec(params);
             }
         };
     }
