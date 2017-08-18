@@ -47,7 +47,7 @@ public class ShowsPanel extends JPanelTable {
     private String m_initialFilter = "";
 
     /**
-     * Creates a new instance of ProductsPanel2
+     * Creates a new instance of ShowsPanel
      */
     public ShowsPanel() {
     }
@@ -124,31 +124,6 @@ public class ShowsPanel extends JPanelTable {
         return new ListCellRendererBasic(tShow.getRenderStringBasic(new int[]{1}));
     }
     
-    
-//
-//    /**
-//     *
-//     * @return btnScanPal
-//     */
-//    @Override
-//    public Component getToolbarExtras() {
-//
-//        JButton btnScanPal = new JButton();
-//        btnScanPal.setText("ScanPal");
-//        btnScanPal.setVisible(app.getDeviceScanner() != null);
-//        btnScanPal.addActionListener(new java.awt.event.ActionListener() {
-//            @Override
-//            public void actionPerformed(java.awt.event.ActionEvent evt) {
-//                btnScanPalActionPerformed(evt);
-//            }
-//        });
-//
-//        return btnScanPal;
-//    }
-//
-//    private void btnScanPalActionPerformed(java.awt.event.ActionEvent evt) {
-//        JDlgUploadProducts.showMessage(this, app.getDeviceScanner(), bd);
-//    }
 
     /**
      *

@@ -1635,7 +1635,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 + "S.SHOWLENGTH, "
                 + "S.ACTIVE "
                 + "FROM SHOWS S "
-                + "WHERE ACTIVE = TRUE "
+                + "WHERE S.ACTIVE = TRUE "
                 + "ORDER BY S.NAME",
                 null,
                 ShowInfo.getSerializerRead()
@@ -1719,6 +1719,28 @@ public class DataLogicSales extends BeanFactoryDataSingle {
     }
     
 
+
+    /**
+     *
+     * @return
+     */
+    public final SentenceList getTheatresList() {
+        return new StaticSentence(
+                s,
+                "SELECT "
+                + "T.ID, "
+                + "T.NAME, "
+                + "T.CAPACITYMODE, "
+                + "T.CAPACITY, "
+                + "T.HARDLIMIT, "
+                + "T.ACTIVE "
+                + "FROM THEATRES T "
+                + "WHERE T.ACTIVE = TRUE "
+                + "ORDER BY T.NAME",
+                null,
+                TheatreInfo.getSerializerRead()
+        );
+    }
 
 
 
@@ -2064,7 +2086,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
     }
 
     
-    
+
     public final TableDefinition getTableShows() {
         return new TableDefinition(
                 s,
@@ -2078,6 +2100,19 @@ public class DataLogicSales extends BeanFactoryDataSingle {
         );
     }
     
+
+    public final TableDefinition getTableShowSchedule() {
+        return new TableDefinition(
+                s,
+                "SHOWSCHEDULE",
+                new String[]{"ID", "SHOWID", "THEATREID", "STARTDATE", "ENDDATE", "REPORTSTARTDATE", "REPORTENDDATE", "DISTRIBUTIONRATE"},
+                new String[]{"ID", AppLocal.getIntString("label.showid"), AppLocal.getIntString("label.theatreid"), AppLocal.getIntString("label.startdate"), AppLocal.getIntString("label.enddate"), AppLocal.getIntString("label.reportstartdate"), AppLocal.getIntString("label.reportenddate"), AppLocal.getIntString("label.distributionrate")},
+                new Datas[]{Datas.STRING, Datas.STRING, Datas.STRING, Datas.TIMESTAMP, Datas.TIMESTAMP, Datas.TIMESTAMP, Datas.TIMESTAMP, Datas.DOUBLE },
+                new Formats[]{Formats.STRING, Formats.STRING, Formats.STRING, Formats.DATE, Formats.DATE, Formats.DATE, Formats.DATE, Formats.DOUBLE },
+                new int[]{0},
+                "STARTDATE, ENDDATE"
+        );
+    }
     
     
     public final void updateRefundQty(Double qty, String ticket, Integer line) throws BasicException {

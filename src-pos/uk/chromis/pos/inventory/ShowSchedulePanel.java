@@ -26,29 +26,47 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import uk.chromis.basic.BasicException;
 import uk.chromis.data.loader.Datas;
+import uk.chromis.data.loader.TableDefinition;
 import uk.chromis.data.model.Column;
 import uk.chromis.data.model.Field;
 import uk.chromis.data.model.PrimaryKey;
 import uk.chromis.data.model.Row;
 import uk.chromis.data.model.Table;
 import uk.chromis.data.user.EditorRecord;
+import uk.chromis.data.user.ListProvider;
 import uk.chromis.data.user.ListProviderCreator;
 import uk.chromis.data.user.SaveProvider;
 import uk.chromis.format.Formats;
+import uk.chromis.pos.forms.AppConfig;
 import uk.chromis.pos.forms.AppLocal;
 import uk.chromis.pos.forms.DataLogicSales;
-import uk.chromis.pos.panels.JPanelTable2;
+import uk.chromis.pos.panels.JPanelTable;
 
 /**
  *
  * @author adrianromero
  */
-public class ShowSchedulePanel extends JPanelTable2 {
+public class ShowSchedulePanel extends JPanelTable {
 
     private DataLogicSales m_dlSales;
     
     private ShowScheduleEditor editor;
     private ShowScheduleFilter filter;
+
+    private TableDefinition tShowSchedule;
+
+    private String m_initialFilter = "";
+
+
+    public ShowSchedulePanel() {
+    }
+
+    public ShowSchedulePanel(String szFilter) {
+        // Set initial filter
+        m_initialFilter = szFilter;
+    }
+
+
 
     /**
      *
@@ -57,53 +75,46 @@ public class ShowSchedulePanel extends JPanelTable2 {
     protected void init() {
 
         m_dlSales = (DataLogicSales) app.getBean("uk.chromis.pos.forms.DataLogicSales");
+        tShowSchedule = m_dlSales.getTableShowSchedule();
         
         filter = new ShowScheduleFilter();
         filter.init(app);
-        filter.addActionListener(new ReloadActionListener());
-        
-        row = new Row(
-            new Field("ID", Datas.STRING, Formats.STRING),
-            new Field("SHOWID", Datas.STRING, Formats.STRING),
-            new Field("THEATREID", Datas.STRING, Formats.STRING),
-            new Field("STARTDATE", Datas.TIMESTAMP, Formats.TIMESTAMP),
-            new Field("ENDDATE", Datas.TIMESTAMP, Formats.TIMESTAMP),
-            new Field("REPORTSTARTDATE", Datas.TIMESTAMP, Formats.TIMESTAMP),
-            new Field("REPORTENDDATE", Datas.TIMESTAMP, Formats.TIMESTAMP),
-            new Field("DISTRIBUTIONRATE", Datas.DOUBLE, Formats.DOUBLE)
-        );
-
-        Table table = new Table(
-                "SHOWSCHEDULE",
-                new PrimaryKey("ID"),
-                new Column("SHOWID"),
-                new Column("THEATREID"),
-                new Column("STARTDATE"),
-                new Column("ENDDATE"),
-                new Column("REPORTSTARTDATE"),
-                new Column("REPORTENDDATE"),
-                new Column("DISTRIBUTIONRATE")
-        );
-
-
-        lpr = new ListProviderCreator(m_dlSales.getShowScheduleQBF(), filter);
-
-//        lpr = row.getListProvider(app.getSession(),
-//                "SELECT ID, PRODUCTID, SHOWID, STARTDATE, ENDDATE, REPORTSTARTDATE, REPORTENDDATE, DISTRIBUTIONRATE FROM PRODUCTS_BOXOFFICESHOWS WHERE PRODUCTID = ? ", filter);
-//        spr = row.getSaveProvider(app.getSession(), table);
-        spr = new SaveProvider(
-            m_dlSales.getShowScheduleUpdate(),
-            m_dlSales.getShowScheduleInsert(),
-            m_dlSales.getShowScheduleDelete()
-        );
-
+       
 
         try {
             editor = new ShowScheduleEditor(m_dlSales, dirty);
         } catch (BasicException ex) {
             Logger.getLogger(ShowSchedulePanel.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+
+        if (AppConfig.getInstance().getBoolean("display.longnames")) {
+            setListWidth(300);
+        }
+
+
     }
+
+
+    /**
+     *
+     * @return
+     */
+    @Override
+    public ListProvider getListProvider() {
+        return new ListProviderCreator(m_dlSales.getShowScheduleQBF(), filter);
+    }
+
+    /**
+     *
+     * @return
+     */
+    @Override
+    public SaveProvider getSaveProvider() {
+        return new SaveProvider(m_dlSales.getShowScheduleUpdate(), m_dlSales.getShowScheduleInsert(), m_dlSales.getShowScheduleDelete());
+    }
+
+
 
     /**
      *
@@ -111,11 +122,13 @@ public class ShowSchedulePanel extends JPanelTable2 {
      */
     @Override
     public void activate() throws BasicException {
+        editor.activate();
         filter.activate();
 
-        //super.activate();
-        startNavigation();
-        reload();
+        setLoadOnActivation(true);
+        
+        super.activate();
+
     }
 
     /**
@@ -136,12 +149,12 @@ public class ShowSchedulePanel extends JPanelTable2 {
         return editor;
     }
 
-    private void reload() throws BasicException {
-        String schedid = (String) filter.createValue();
-        editor.setInsertId(schedid); // must be set before load
-        bd.setEditable(schedid != null);
-        bd.actionLoad();
-    }
+//    private void reload() throws BasicException {
+//        String schedid = (String) filter.createValue();
+//        editor.setInsertId(schedid); // must be set before load
+//        bd.setEditable(schedid != null);
+//        bd.actionLoad();
+//    }
 
     /**
      *
@@ -150,15 +163,5 @@ public class ShowSchedulePanel extends JPanelTable2 {
     @Override
     public String getTitle() {
         return AppLocal.getIntString("Menu.ShowSchedule");
-    }
-
-    private class ReloadActionListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            try {
-                reload();
-            } catch (BasicException w) {
-            }
-        }
     }
 }

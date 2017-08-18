@@ -84,6 +84,12 @@ public class ShowScheduleEditor extends javax.swing.JPanel implements EditorReco
     public void refresh() {
     }
 
+
+    public void activate() throws BasicException {
+
+    }
+
+
     /**
      *
      */
