@@ -1765,14 +1765,16 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 + "ORDER BY S.STARTDATE",
                 new String[] {
                     "S.SHOWID",
-                    "S.THEATREID"
+                    "S.THEATREID",
+                    "S.ENDDATE"
                 },
                 false
             ),
             new SerializerWriteBasic(
                 new Datas[]{
                     Datas.OBJECT, Datas.STRING,
-                    Datas.OBJECT, Datas.STRING
+                    Datas.OBJECT, Datas.STRING,
+                    Datas.OBJECT, Datas.TIMESTAMP
                 }
             ),
             showScheduleRow.getSerializerRead()

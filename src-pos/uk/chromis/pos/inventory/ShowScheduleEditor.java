@@ -45,6 +45,9 @@ public class ShowScheduleEditor extends javax.swing.JPanel implements EditorReco
 
     private ComboBoxValModel showModel;
     private ComboBoxValModel theatreModel;
+    
+    private Object showKey;
+    private Object theatreKey;
 
     /** Creates new form AttributesValuesEditor
     * @param dlSales
@@ -126,16 +129,19 @@ public class ShowScheduleEditor extends javax.swing.JPanel implements EditorReco
     public void writeValueInsert() {
 
         schedid = UUID.randomUUID().toString();
-        showModel.setSelectedKey(null);
-        theatreModel.setSelectedKey(null);
+        showModel.setSelectedKey(showKey);
+        theatreModel.setSelectedKey(theatreKey);
         m_jStartDate.setText(null);
         m_jEndDate.setText(null);
         m_jReportStartDate.setText(null);
         m_jReportEndDate.setText(null);
         m_jDistributionRate.setText(null);
 
+        
         m_jShow.setEnabled(true);
+        m_jShow.setEditable(false);
         m_jTheatre.setEnabled(true);
+        m_jTheatre.setEditable(false);
         m_jStartDate.setEnabled(true);
         m_jEndDate.setEnabled(true);
         m_jReportStartDate.setEnabled(true);
@@ -163,7 +169,9 @@ public class ShowScheduleEditor extends javax.swing.JPanel implements EditorReco
         m_jDistributionRate.setText(Formats.DOUBLE.formatValue(obj[7]));
 
         m_jShow.setEnabled(true);
+        m_jShow.setEditable(false);
         m_jTheatre.setEnabled(true);
+        m_jTheatre.setEditable(false);
         m_jStartDate.setEnabled(true);
         m_jEndDate.setEnabled(true);
         m_jReportStartDate.setEnabled(true);
@@ -198,6 +206,15 @@ public class ShowScheduleEditor extends javax.swing.JPanel implements EditorReco
         m_jDistributionRate.setEnabled(false);
     }
 
+    public void setShowKey( Object key ) {
+        showKey = key;
+    }
+    
+    public void setTheatreKey( Object key ) {
+        theatreKey = key;
+    }
+    
+    
     /**
      *
      * @return
