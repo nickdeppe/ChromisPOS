@@ -24,19 +24,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ListCellRenderer;
 import uk.chromis.basic.BasicException;
-import uk.chromis.data.loader.Datas;
+import uk.chromis.data.gui.ListCellRendererBasic;
 import uk.chromis.data.loader.TableDefinition;
-import uk.chromis.data.model.Column;
-import uk.chromis.data.model.Field;
-import uk.chromis.data.model.PrimaryKey;
-import uk.chromis.data.model.Row;
-import uk.chromis.data.model.Table;
 import uk.chromis.data.user.EditorRecord;
 import uk.chromis.data.user.ListProvider;
 import uk.chromis.data.user.ListProviderCreator;
 import uk.chromis.data.user.SaveProvider;
-import uk.chromis.format.Formats;
 import uk.chromis.pos.forms.AppConfig;
 import uk.chromis.pos.forms.AppLocal;
 import uk.chromis.pos.forms.DataLogicSales;
@@ -122,6 +117,9 @@ public class ShowSchedulePanel extends JPanelTable {
      */
     @Override
     public void activate() throws BasicException {
+        
+        filter.addActionListener(new ReloadActionListener());
+        
         editor.activate();
         filter.activate();
 
@@ -140,6 +138,18 @@ public class ShowSchedulePanel extends JPanelTable {
         return filter.getComponent();
     }
 
+    
+    
+    /**
+     *
+     * @return
+     */
+    @Override
+    public ListCellRenderer getListCellRenderer() {
+        return new ListCellRendererBasic(tShowSchedule.getRenderStringBasic(new int[]{3,4}));
+    }
+    
+    
     /**
      *
      * @return
@@ -149,13 +159,6 @@ public class ShowSchedulePanel extends JPanelTable {
         return editor;
     }
 
-//    private void reload() throws BasicException {
-//        String schedid = (String) filter.createValue();
-//        editor.setInsertId(schedid); // must be set before load
-//        bd.setEditable(schedid != null);
-//        bd.actionLoad();
-//    }
-
     /**
      *
      * @return
@@ -164,4 +167,17 @@ public class ShowSchedulePanel extends JPanelTable {
     public String getTitle() {
         return AppLocal.getIntString("Menu.ShowSchedule");
     }
+    
+    
+    private class ReloadActionListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            try {
+                bd.actionLoad();
+            } catch (BasicException w) {
+            }
+        }
+    }
+    
+    
 }

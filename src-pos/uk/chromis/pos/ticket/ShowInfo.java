@@ -45,16 +45,17 @@ public class ShowInfo implements IKeyed {
      * @param id
      * @param name
      * @param image
-     * @param texttip
-     * @param catshowname
+     * @param showOrder
+     * @param showLength
+     * @param active
      */
     public ShowInfo(String id, String name, BufferedImage image, Integer showOrder, Integer showLength, Boolean active ) {
-			m_sID = id;
-			m_sName = name;
-			m_Image = image;
-			m_iShowOrder = showOrder;
-			m_iShowLength = showLength;
-			m_bActive = active;
+        m_sID = id;
+        m_sName = name;
+        m_Image = image;
+        m_iShowOrder = showOrder;
+        m_iShowLength = showLength;
+        m_bActive = active;
     }
 
     @Override

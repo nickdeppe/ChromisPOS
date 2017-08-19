@@ -21,6 +21,7 @@ package uk.chromis.pos.ticket;
 import java.util.Date;
 import uk.chromis.basic.BasicException;
 import uk.chromis.data.loader.DataRead;
+import uk.chromis.data.loader.IKeyed;
 import uk.chromis.data.loader.SerializerRead;
 import uk.chromis.format.Formats;
 
@@ -29,7 +30,7 @@ import uk.chromis.format.Formats;
  * @author adrianromero Created on 21 de marzo de 2007, 21:28
  *
  */
-public class ShowScheduleInfo {
+public class ShowScheduleInfo implements IKeyed {
 
     protected String m_ID;
     protected String m_sShowID;
@@ -68,6 +69,11 @@ public class ShowScheduleInfo {
         buildDateString();
     }
 
+
+    @Override
+    public Object getKey() {
+        return m_ID;
+    }
 
     public final String getID() {
         return m_ID;

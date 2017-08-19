@@ -1775,7 +1775,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                     Datas.OBJECT, Datas.STRING
                 }
             ),
-            ShowScheduleInfo.getSerializerRead()
+            showScheduleRow.getSerializerRead()
         );
     }
 

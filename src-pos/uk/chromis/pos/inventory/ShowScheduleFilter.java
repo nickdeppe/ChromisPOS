@@ -28,12 +28,10 @@ import uk.chromis.data.loader.QBFCompareEnum;
 import uk.chromis.data.loader.SentenceList;
 import uk.chromis.data.loader.SerializerWrite;
 import uk.chromis.data.loader.SerializerWriteString;
-import uk.chromis.format.Formats;
 import uk.chromis.pos.forms.AppLocal;
 import uk.chromis.pos.forms.AppView;
 import uk.chromis.pos.forms.DataLogicSales;
 import uk.chromis.pos.reports.ReportEditorCreator;
-import uk.chromis.pos.ticket.ShowInfo;
 
 /**
  *
@@ -108,6 +106,7 @@ public class ShowScheduleFilter extends javax.swing.JPanel implements ReportEdit
      */
     public void addActionListener(ActionListener l) {
         m_jShow.addActionListener(l);
+        m_jTheatre.addActionListener(l);
     }
 
     /**
@@ -116,6 +115,7 @@ public class ShowScheduleFilter extends javax.swing.JPanel implements ReportEdit
      */
     public void removeActionListener(ActionListener l) {
         m_jShow.removeActionListener(l);
+        m_jTheatre.removeActionListener(l);
     }
 
     /**
@@ -125,10 +125,21 @@ public class ShowScheduleFilter extends javax.swing.JPanel implements ReportEdit
      */
     @Override
     public Object createValue() throws BasicException {
+        
+        QBFCompareEnum showMode;
+        QBFCompareEnum theatreMode;
+        
+        Object showKey = showModel.getSelectedKey();
+        Object theatreKey = theatreModel.getSelectedKey();
+        
+        showMode = ( showKey == null ) ? QBFCompareEnum.COMP_NONE : QBFCompareEnum.COMP_EQUALS;
+        theatreMode = ( theatreKey == null ) ? QBFCompareEnum.COMP_NONE : QBFCompareEnum.COMP_EQUALS;
+        
         return new Object[]{
-            QBFCompareEnum.COMP_EQUALS, showModel.getSelectedKey(),
-            QBFCompareEnum.COMP_EQUALS, theatreModel.getSelectedKey()
+            showMode, showKey,
+            theatreMode, theatreKey
         };
+        
     }
 
     /** This method is called from within the constructor to

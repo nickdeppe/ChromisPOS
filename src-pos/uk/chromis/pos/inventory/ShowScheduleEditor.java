@@ -37,19 +37,19 @@ import uk.chromis.pos.forms.DataLogicSales;
  * @author adrian
  */
 public class ShowScheduleEditor extends javax.swing.JPanel implements EditorRecord {
-
-    private Object id;
-
-
-    private Object insertid;
+    
+    private Object schedid;
     
     private final SentenceList showSentence;
+    private final SentenceList theatreSentence;
 
     private ComboBoxValModel showModel;
+    private ComboBoxValModel theatreModel;
 
     /** Creates new form AttributesValuesEditor
     * @param dlSales
-     * @param dirty */
+     * @param dirty
+     * @throws uk.chromis.basic.BasicException */
     public ShowScheduleEditor(DataLogicSales dlSales, DirtyManager dirty) throws BasicException {
         
         initComponents();
@@ -66,6 +66,10 @@ public class ShowScheduleEditor extends javax.swing.JPanel implements EditorReco
         showModel = new ComboBoxValModel(showSentence.list());
         m_jShow.setModel(showModel);
         
+        theatreSentence = dlSales.getTheatresList();
+        theatreModel = new ComboBoxValModel(theatreSentence.list());
+        m_jTheatre.setModel(theatreModel);
+        
     }
 
     /**
@@ -74,7 +78,7 @@ public class ShowScheduleEditor extends javax.swing.JPanel implements EditorReco
      */
     public void setInsertId(String insertid) {
 
-        this.insertid = insertid;
+        this.schedid = insertid;
     }
 
     /**
@@ -96,8 +100,9 @@ public class ShowScheduleEditor extends javax.swing.JPanel implements EditorReco
     @Override
     public void writeValueEOF() {
 
-        id = null;
+        schedid = null;
         showModel.setSelectedKey(null);
+        theatreModel.setSelectedKey(null);
         m_jStartDate.setText(null);
         m_jEndDate.setText(null);
         m_jReportStartDate.setText(null);
@@ -105,13 +110,12 @@ public class ShowScheduleEditor extends javax.swing.JPanel implements EditorReco
         m_jDistributionRate.setText(null);
 
         m_jShow.setEnabled(false);
+        m_jTheatre.setEnabled(false);
         m_jStartDate.setEnabled(false);
         m_jEndDate.setEnabled(false);
         m_jReportStartDate.setEnabled(false);
         m_jReportEndDate.setEnabled(false);
         m_jDistributionRate.setEnabled(false);
-
-
 
     }
 
@@ -121,8 +125,9 @@ public class ShowScheduleEditor extends javax.swing.JPanel implements EditorReco
     @Override
     public void writeValueInsert() {
 
-        id = UUID.randomUUID().toString();
+        schedid = UUID.randomUUID().toString();
         showModel.setSelectedKey(null);
+        theatreModel.setSelectedKey(null);
         m_jStartDate.setText(null);
         m_jEndDate.setText(null);
         m_jReportStartDate.setText(null);
@@ -130,6 +135,7 @@ public class ShowScheduleEditor extends javax.swing.JPanel implements EditorReco
         m_jDistributionRate.setText(null);
 
         m_jShow.setEnabled(true);
+        m_jTheatre.setEnabled(true);
         m_jStartDate.setEnabled(true);
         m_jEndDate.setEnabled(true);
         m_jReportStartDate.setEnabled(true);
@@ -147,21 +153,23 @@ public class ShowScheduleEditor extends javax.swing.JPanel implements EditorReco
 
         Object[] obj = (Object[]) value;
 
-        id = obj[0];
-        insertid = obj[1];
-        showModel.setSelectedKey(obj[2]);
+        schedid = obj[0];
+        showModel.setSelectedKey(obj[1]);
+        theatreModel.setSelectedKey(obj[2]);
         m_jStartDate.setText(Formats.DATE.formatValue(obj[3]));
         m_jEndDate.setText(Formats.DATE.formatValue(obj[4]));
         m_jReportStartDate.setText(Formats.DATE.formatValue(obj[5]));
         m_jReportEndDate.setText(Formats.DATE.formatValue(obj[6]));
-        m_jDistributionRate.setText(Formats.INT.formatValue(obj[7]));
+        m_jDistributionRate.setText(Formats.DOUBLE.formatValue(obj[7]));
 
         m_jShow.setEnabled(true);
+        m_jTheatre.setEnabled(true);
         m_jStartDate.setEnabled(true);
         m_jEndDate.setEnabled(true);
         m_jReportStartDate.setEnabled(true);
         m_jReportEndDate.setEnabled(true);
         m_jDistributionRate.setEnabled(true);
+        
     }
 
     /**
@@ -173,13 +181,14 @@ public class ShowScheduleEditor extends javax.swing.JPanel implements EditorReco
 
         Object[] obj = (Object[]) value;
 
-        id = obj[0];
+        schedid = obj[0];
         showModel.setSelectedKey(obj[1]);
-        m_jStartDate.setText(Formats.STRING.formatValue(obj[2]));
-        m_jEndDate.setText(Formats.STRING.formatValue(obj[3]));
-        m_jReportStartDate.setText(Formats.STRING.formatValue(obj[4]));
-        m_jReportEndDate.setText(Formats.STRING.formatValue(obj[5]));
-        m_jDistributionRate.setText(Formats.INT.formatValue(obj[6]));
+        theatreModel.setSelectedKey(obj[2]);
+        m_jStartDate.setText(Formats.STRING.formatValue(obj[3]));
+        m_jEndDate.setText(Formats.STRING.formatValue(obj[4]));
+        m_jReportStartDate.setText(Formats.STRING.formatValue(obj[5]));
+        m_jReportEndDate.setText(Formats.STRING.formatValue(obj[6]));
+        m_jDistributionRate.setText(Formats.DOUBLE.formatValue(obj[7]));
 
         m_jShow.setEnabled(false);
         m_jStartDate.setEnabled(false);
@@ -206,9 +215,9 @@ public class ShowScheduleEditor extends javax.swing.JPanel implements EditorReco
     @Override
     public Object createValue() throws BasicException {
         return new Object[] {
-            id,
-            Formats.STRING.formatValue(insertid),
+            schedid,
             Formats.STRING.formatValue(showModel.getSelectedKey()),
+            Formats.STRING.formatValue(theatreModel.getSelectedKey()),
             Formats.TIMESTAMP.parseValue(m_jStartDate.getText()),
             Formats.TIMESTAMP.parseValue(m_jEndDate.getText()),
             Formats.TIMESTAMP.parseValue(m_jReportStartDate.getText()),
