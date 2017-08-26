@@ -127,7 +127,6 @@ public class DataLogicSales extends BeanFactoryDataSingle {
     public static int INDEX_SHOWSCHEDULE_ENDDATE = SHOWSCHEDULE_FIELD_COUNT++;
     public static int INDEX_SHOWSCHEDULE_REPORTSTARTDATE = SHOWSCHEDULE_FIELD_COUNT++;
     public static int INDEX_SHOWSCHEDULE_REPORTENDDATE = SHOWSCHEDULE_FIELD_COUNT++;
-    public static int INDEX_SHOWSCHEDULE_DISTRIBUTIONRATE = SHOWSCHEDULE_FIELD_COUNT++;
 
     
     /**
@@ -247,8 +246,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
             new Field("STARTDATE", Datas.TIMESTAMP, Formats.DATE),
             new Field("ENDDATE", Datas.TIMESTAMP, Formats.DATE),
             new Field("REPORTSTARTDATE", Datas.TIMESTAMP, Formats.DATE),
-            new Field("REPORTSTARTDATE", Datas.TIMESTAMP, Formats.DATE),
-            new Field("DISTRIBUTIONRATE", Datas.DOUBLE, Formats.DOUBLE)
+            new Field("REPORTSTARTDATE", Datas.TIMESTAMP, Formats.DATE)
         );
         
         assert (SHOWSCHEDULE_FIELD_COUNT == showScheduleRow.getFields().length );
@@ -1758,8 +1756,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 + "S.STARTDATE, "
                 + "S.ENDDATE, "
                 + "S.REPORTSTARTDATE, "
-                + "S.REPORTENDDATE, "
-                + "S.DISTRIBUTIONRATE "
+                + "S.REPORTENDDATE "
                 + "FROM SHOWSCHEDULE S "
                 + "WHERE ?(QBF_FILTER) "
                 + "ORDER BY S.STARTDATE",
@@ -1797,7 +1794,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 Object[] values = (Object[]) params;
                 return new PreparedSentence(
                     s,
-                    "INSERT INTO SHOWSCHEDULE (ID, SHOWID, THEATREID, STARTDATE, ENDDATE, REPORTSTARTDATE, REPORTENDDATE, DISTRIBUTIONRATE) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+                    "INSERT INTO SHOWSCHEDULE (ID, SHOWID, THEATREID, STARTDATE, ENDDATE, REPORTSTARTDATE, REPORTENDDATE) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
                     new SerializerWriteBasicExt(
                         showScheduleRow.getDatas(),
                         new int[] {
@@ -1807,8 +1804,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                             INDEX_SHOWSCHEDULE_STARTDATE,
                             INDEX_SHOWSCHEDULE_ENDDATE,
                             INDEX_SHOWSCHEDULE_REPORTSTARTDATE,
-                            INDEX_SHOWSCHEDULE_REPORTENDDATE,
-                            INDEX_SHOWSCHEDULE_DISTRIBUTIONRATE
+                            INDEX_SHOWSCHEDULE_REPORTENDDATE
                         }
                     )
                 ).exec(params);
@@ -1833,8 +1829,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                         + "STARTDATE = ?, "
                         + "ENDDATE = ?, "
                         + "REPORTSTARTDATE = ?, "
-                        + "REPORTENDDATE = ?, "
-                        + "DISTRIBUTIONRATE = ? "
+                        + "REPORTENDDATE = ? "
                         + "WHERE ID = ?",
                         new SerializerWriteBasicExt(
                                 showScheduleRow.getDatas(),
@@ -1845,7 +1840,6 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                                     INDEX_SHOWSCHEDULE_ENDDATE,
                                     INDEX_SHOWSCHEDULE_REPORTSTARTDATE,
                                     INDEX_SHOWSCHEDULE_REPORTENDDATE,
-                                    INDEX_SHOWSCHEDULE_DISTRIBUTIONRATE,
                                     INDEX_SHOWSCHEDULE_ID
                                 }
                         )
@@ -2107,10 +2101,10 @@ public class DataLogicSales extends BeanFactoryDataSingle {
         return new TableDefinition(
                 s,
                 "SHOWSCHEDULE",
-                new String[]{"ID", "SHOWID", "THEATREID", "STARTDATE", "ENDDATE", "REPORTSTARTDATE", "REPORTENDDATE", "DISTRIBUTIONRATE"},
-                new String[]{"ID", AppLocal.getIntString("label.showid"), AppLocal.getIntString("label.theatreid"), AppLocal.getIntString("label.startdate"), AppLocal.getIntString("label.enddate"), AppLocal.getIntString("label.reportstartdate"), AppLocal.getIntString("label.reportenddate"), AppLocal.getIntString("label.distributionrate")},
-                new Datas[]{Datas.STRING, Datas.STRING, Datas.STRING, Datas.TIMESTAMP, Datas.TIMESTAMP, Datas.TIMESTAMP, Datas.TIMESTAMP, Datas.DOUBLE },
-                new Formats[]{Formats.STRING, Formats.STRING, Formats.STRING, Formats.DATE, Formats.DATE, Formats.DATE, Formats.DATE, Formats.DOUBLE },
+                new String[]{"ID", "SHOWID", "THEATREID", "STARTDATE", "ENDDATE", "REPORTSTARTDATE", "REPORTENDDATE"},
+                new String[]{"ID", AppLocal.getIntString("label.showid"), AppLocal.getIntString("label.theatreid"), AppLocal.getIntString("label.startdate"), AppLocal.getIntString("label.enddate"), AppLocal.getIntString("label.reportstartdate"), AppLocal.getIntString("label.reportenddate") },
+                new Datas[]{Datas.STRING, Datas.STRING, Datas.STRING, Datas.TIMESTAMP, Datas.TIMESTAMP, Datas.TIMESTAMP, Datas.TIMESTAMP },
+                new Formats[]{Formats.STRING, Formats.STRING, Formats.STRING, Formats.DATE, Formats.DATE, Formats.DATE, Formats.DATE },
                 new int[]{0},
                 "STARTDATE, ENDDATE"
         );

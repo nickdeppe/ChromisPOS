@@ -90,11 +90,13 @@
     <class name="uk.chromis.pos.inventory.ProductsPanel"/>
     <class name="uk.chromis.pos.inventory.ProductsWarehousePanel"/>
     <class name="uk.chromis.pos.inventory.ShowsPanel" />
+    <class name="uk.chromis.pos.inventory.ShowSchedulePanel" />
     <class name="uk.chromis.pos.inventory.StockDiaryPanel"/>
     <class name="uk.chromis.pos.inventory.StockManagement"/>
     <class name="uk.chromis.pos.inventory.TaxCategoriesPanel"/>
     <class name="uk.chromis.pos.inventory.TaxCustCategoriesPanel"/>
     <class name="uk.chromis.pos.inventory.TaxPanel"/>
+    <class name="uk.chromis.pos.inventory.TheatresPanel" />
 
     <class name="/uk/chromis/reports/barcodesheet.bs"/>
     <class name="/uk/chromis/reports/inventory.bs"/>

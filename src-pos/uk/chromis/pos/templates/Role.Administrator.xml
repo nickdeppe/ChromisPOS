@@ -133,4 +133,6 @@
 	<class name="/uk/chromis/reports/barcodesheet.bs"/>
         <class name="uk.chromis.pos.sales.JPanelUnlockTables"/>
         <class name="uk.chromis.pos.inventory.ShowsPanel" />
+        <class name="uk.chromis.pos.inventory.TheatresPanel" />
+        <class name="uk.chromis.pos.inventory.ShowSchedulePanel" />
  </permissions>        

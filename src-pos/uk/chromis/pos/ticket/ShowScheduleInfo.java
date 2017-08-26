@@ -39,7 +39,6 @@ public class ShowScheduleInfo implements IKeyed {
     protected Date m_dEndDate;
     protected Date m_dReportStartDate;
     protected Date m_dReportEndDate;
-    protected Double m_dDistributionRate;
     protected String m_sDateText;
 
     /**
@@ -54,7 +53,6 @@ public class ShowScheduleInfo implements IKeyed {
         m_dEndDate = null;
         m_dReportStartDate = null;
         m_dReportEndDate = null;
-        m_dDistributionRate = null;
     }
 
     public ShowScheduleInfo( String id, String theatreID, String showID, Date startDate, Date endDate, Date reportStartDate, Date reportEndDate, Double distRate ) {
@@ -65,7 +63,6 @@ public class ShowScheduleInfo implements IKeyed {
         m_dEndDate = endDate;
         m_dReportStartDate = reportStartDate;
         m_dReportEndDate = reportEndDate;
-        m_dDistributionRate = distRate;
         buildDateString();
     }
 
@@ -136,14 +133,6 @@ public class ShowScheduleInfo implements IKeyed {
 
     public final void setReportEndDate( Date endDate ) {
         m_dReportEndDate = endDate;
-    }
-
-    public final Double getDistributionRate() {
-        return m_dDistributionRate;
-    }
-
-    public final void setDistributionRate( Double distRate ) {
-        m_dDistributionRate = distRate;
     }
 
     private void buildDateString() {

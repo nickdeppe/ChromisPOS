@@ -43,8 +43,8 @@ public class ShowScheduleEditor extends javax.swing.JPanel implements EditorReco
     private final SentenceList showSentence;
     private final SentenceList theatreSentence;
 
-    private ComboBoxValModel showModel;
-    private ComboBoxValModel theatreModel;
+    private final ComboBoxValModel showModel;
+    private final ComboBoxValModel theatreModel;
     
     private Object showKey;
     private Object theatreKey;
@@ -63,7 +63,6 @@ public class ShowScheduleEditor extends javax.swing.JPanel implements EditorReco
         m_jEndDate.getDocument().addDocumentListener(dirty);
         m_jReportStartDate.getDocument().addDocumentListener(dirty);
         m_jReportEndDate.getDocument().addDocumentListener(dirty);
-        m_jDistributionRate.getDocument().addDocumentListener(dirty);
         
         showSentence = dlSales.getShowsList();
         showModel = new ComboBoxValModel(showSentence.list());
@@ -110,7 +109,6 @@ public class ShowScheduleEditor extends javax.swing.JPanel implements EditorReco
         m_jEndDate.setText(null);
         m_jReportStartDate.setText(null);
         m_jReportEndDate.setText(null);
-        m_jDistributionRate.setText(null);
 
         m_jShow.setEnabled(false);
         m_jTheatre.setEnabled(false);
@@ -118,7 +116,6 @@ public class ShowScheduleEditor extends javax.swing.JPanel implements EditorReco
         m_jEndDate.setEnabled(false);
         m_jReportStartDate.setEnabled(false);
         m_jReportEndDate.setEnabled(false);
-        m_jDistributionRate.setEnabled(false);
 
     }
 
@@ -135,7 +132,6 @@ public class ShowScheduleEditor extends javax.swing.JPanel implements EditorReco
         m_jEndDate.setText(null);
         m_jReportStartDate.setText(null);
         m_jReportEndDate.setText(null);
-        m_jDistributionRate.setText(null);
 
         
         m_jShow.setEnabled(true);
@@ -146,7 +142,6 @@ public class ShowScheduleEditor extends javax.swing.JPanel implements EditorReco
         m_jEndDate.setEnabled(true);
         m_jReportStartDate.setEnabled(true);
         m_jReportEndDate.setEnabled(true);
-        m_jDistributionRate.setEnabled(true);
 
     }
 
@@ -166,7 +161,6 @@ public class ShowScheduleEditor extends javax.swing.JPanel implements EditorReco
         m_jEndDate.setText(Formats.DATE.formatValue(obj[4]));
         m_jReportStartDate.setText(Formats.DATE.formatValue(obj[5]));
         m_jReportEndDate.setText(Formats.DATE.formatValue(obj[6]));
-        m_jDistributionRate.setText(Formats.DOUBLE.formatValue(obj[7]));
 
         m_jShow.setEnabled(true);
         m_jShow.setEditable(false);
@@ -176,7 +170,6 @@ public class ShowScheduleEditor extends javax.swing.JPanel implements EditorReco
         m_jEndDate.setEnabled(true);
         m_jReportStartDate.setEnabled(true);
         m_jReportEndDate.setEnabled(true);
-        m_jDistributionRate.setEnabled(true);
         
     }
 
@@ -196,14 +189,12 @@ public class ShowScheduleEditor extends javax.swing.JPanel implements EditorReco
         m_jEndDate.setText(Formats.STRING.formatValue(obj[4]));
         m_jReportStartDate.setText(Formats.STRING.formatValue(obj[5]));
         m_jReportEndDate.setText(Formats.STRING.formatValue(obj[6]));
-        m_jDistributionRate.setText(Formats.DOUBLE.formatValue(obj[7]));
 
         m_jShow.setEnabled(false);
         m_jStartDate.setEnabled(false);
         m_jEndDate.setEnabled(false);
         m_jReportStartDate.setEnabled(false);
         m_jReportEndDate.setEnabled(false);
-        m_jDistributionRate.setEnabled(false);
     }
 
     public void setShowKey( Object key ) {
@@ -238,8 +229,7 @@ public class ShowScheduleEditor extends javax.swing.JPanel implements EditorReco
             Formats.TIMESTAMP.parseValue(m_jStartDate.getText()),
             Formats.TIMESTAMP.parseValue(m_jEndDate.getText()),
             Formats.TIMESTAMP.parseValue(m_jReportStartDate.getText()),
-            Formats.TIMESTAMP.parseValue(m_jReportEndDate.getText()),
-            Formats.DOUBLE.parseValue(m_jDistributionRate.getText())
+            Formats.TIMESTAMP.parseValue(m_jReportEndDate.getText())
         };
     }
 
@@ -259,11 +249,9 @@ public class ShowScheduleEditor extends javax.swing.JPanel implements EditorReco
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
         m_jReportStartDate = new javax.swing.JTextField();
         m_jReportEndDate = new javax.swing.JTextField();
         m_jEndDate = new javax.swing.JTextField();
-        m_jDistributionRate = new javax.swing.JTextField();
         m_jbtnStartDate = new javax.swing.JButton();
         m_jbtnEndDate = new javax.swing.JButton();
         m_jbtnReportStartDate = new javax.swing.JButton();
@@ -290,17 +278,11 @@ public class ShowScheduleEditor extends javax.swing.JPanel implements EditorReco
         jLabel6.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel6.setText(AppLocal.getIntString("label.productshowreportstartdate")); // NOI18N
 
-        jLabel7.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jLabel7.setText(AppLocal.getIntString("label.productshowdistributionrate")); // NOI18N
-
         m_jReportStartDate.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
         m_jReportEndDate.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
         m_jEndDate.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-
-        m_jDistributionRate.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        m_jDistributionRate.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
 
         m_jbtnStartDate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uk/chromis/images/date.png"))); // NOI18N
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("pos_messages"); // NOI18N
@@ -373,11 +355,7 @@ public class ShowScheduleEditor extends javax.swing.JPanel implements EditorReco
                                 .addComponent(m_jReportEndDate, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(m_jbtn_ReportEndDate, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(m_jDistributionRate, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -424,11 +402,7 @@ public class ShowScheduleEditor extends javax.swing.JPanel implements EditorReco
                         .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(m_jReportEndDate, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(m_jbtn_ReportEndDate, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(m_jDistributionRate, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(133, Short.MAX_VALUE))
+                .addContainerGap(166, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -500,9 +474,7 @@ public class ShowScheduleEditor extends javax.swing.JPanel implements EditorReco
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JTextField m_jDistributionRate;
     private javax.swing.JTextField m_jEndDate;
     private javax.swing.JTextField m_jReportEndDate;
     private javax.swing.JTextField m_jReportStartDate;
