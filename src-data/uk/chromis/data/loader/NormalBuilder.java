@@ -101,6 +101,13 @@ public class NormalBuilder implements ISQLBuilderStatic {
             ensurePlace(paramIndex - 1);
             m_aParams.set(paramIndex - 1, DataWriteUtils.getSQLValue(dValue));
         }
+
+        @Override
+        public void setDate(int paramIndex, java.util.Date dValue) throws BasicException {
+            ensurePlace(paramIndex - 1);
+            java.sql.Date newDate = new java.sql.Date(dValue.getTime());
+            m_aParams.set(paramIndex - 1, DataWriteUtils.getSQLValue(newDate));
+        }
 //        public void setBinaryStream(int paramIndex, java.io.InputStream in, int length) throws DataException{
 //            throw new DataException("Param type not allowed");      
 //        }

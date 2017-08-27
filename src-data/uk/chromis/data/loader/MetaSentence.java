@@ -103,6 +103,10 @@ public class MetaSentence extends JDBCSentence {
         public void setTimestamp(int paramIndex, java.util.Date dValue) throws BasicException {
             throw new BasicException(LocalRes.getIntString("exception.noparamtype"));
         }
+
+        public void setDate(int paramIndex, java.util.Date dValue) throws BasicException {
+            throw new BasicException(LocalRes.getIntString("exception.noparamtype"));
+        }
 //        public void setBinaryStream(int paramIndex, java.io.InputStream in, int length) throws DataException {
 //             throw new DataException("Param type not allowed");
 //       }

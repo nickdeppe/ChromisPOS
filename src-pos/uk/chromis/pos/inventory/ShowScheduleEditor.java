@@ -226,10 +226,10 @@ public class ShowScheduleEditor extends javax.swing.JPanel implements EditorReco
             schedid,
             Formats.STRING.formatValue(showModel.getSelectedKey()),
             Formats.STRING.formatValue(theatreModel.getSelectedKey()),
-            Formats.TIMESTAMP.parseValue(m_jStartDate.getText()),
-            Formats.TIMESTAMP.parseValue(m_jEndDate.getText()),
-            Formats.TIMESTAMP.parseValue(m_jReportStartDate.getText()),
-            Formats.TIMESTAMP.parseValue(m_jReportEndDate.getText())
+            Formats.DATE.parseValue(m_jStartDate.getText()),
+            Formats.DATE.parseValue(m_jEndDate.getText()),
+            Formats.DATE.parseValue(m_jReportStartDate.getText()),
+            Formats.DATE.parseValue(m_jReportEndDate.getText())
         };
     }
 

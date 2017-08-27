@@ -108,6 +108,11 @@ public class SerializerWriteComposed implements SerializerWrite {
             max = Math.max(max, offset + paramIndex);
         }
 
+        public void setDate(int paramIndex, Date dValue) throws BasicException {
+            dp.setDate(offset + paramIndex, dValue);
+            max = Math.max(max, offset + paramIndex);
+        }
+
         public void setBytes(int paramIndex, byte[] value) throws BasicException {
             dp.setBytes(offset + paramIndex, value);
             max = Math.max(max, offset + paramIndex);

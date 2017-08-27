@@ -243,10 +243,10 @@ public class DataLogicSales extends BeanFactoryDataSingle {
             new Field("ID", Datas.STRING, Formats.STRING),
             new Field("SHOWID", Datas.STRING, Formats.STRING, true, true, true),
             new Field("THEATREID", Datas.STRING, Formats.STRING, true, true, true),
-            new Field("STARTDATE", Datas.TIMESTAMP, Formats.DATE),
-            new Field("ENDDATE", Datas.TIMESTAMP, Formats.DATE),
-            new Field("REPORTSTARTDATE", Datas.TIMESTAMP, Formats.DATE),
-            new Field("REPORTSTARTDATE", Datas.TIMESTAMP, Formats.DATE)
+            new Field("STARTDATE", Datas.DATE, Formats.DATE),
+            new Field("ENDDATE", Datas.DATE, Formats.DATE),
+            new Field("REPORTSTARTDATE", Datas.DATE, Formats.DATE),
+            new Field("REPORTSTARTDATE", Datas.DATE, Formats.DATE)
         );
         
         assert (SHOWSCHEDULE_FIELD_COUNT == showScheduleRow.getFields().length );
@@ -1771,7 +1771,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 new Datas[]{
                     Datas.OBJECT, Datas.STRING,
                     Datas.OBJECT, Datas.STRING,
-                    Datas.OBJECT, Datas.TIMESTAMP
+                    Datas.OBJECT, Datas.DATE
                 }
             ),
             showScheduleRow.getSerializerRead()
@@ -1794,7 +1794,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 Object[] values = (Object[]) params;
                 return new PreparedSentence(
                     s,
-                    "INSERT INTO SHOWSCHEDULE (ID, SHOWID, THEATREID, STARTDATE, ENDDATE, REPORTSTARTDATE, REPORTENDDATE) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+                    "INSERT INTO SHOWSCHEDULE (ID, SHOWID, THEATREID, STARTDATE, ENDDATE, REPORTSTARTDATE, REPORTENDDATE) VALUES (?, ?, ?, ?, ?, ?, ?)",
                     new SerializerWriteBasicExt(
                         showScheduleRow.getDatas(),
                         new int[] {

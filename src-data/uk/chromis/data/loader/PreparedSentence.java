@@ -144,6 +144,15 @@ public class PreparedSentence extends JDBCSentence {
                 throw new BasicException(eSQL);
             }
         }
+
+        @Override
+        public void setDate(int paramIndex, java.util.Date dValue) throws BasicException {
+            try {
+                m_ps.setObject(paramIndex, dValue == null ? null : new java.sql.Date(dValue.getTime()), Types.DATE);
+            } catch (SQLException eSQL) {
+                throw new BasicException(eSQL);
+            }
+        }
 //        public void setBinaryStream(int paramIndex, java.io.InputStream in, int length) throws DataException {
 //            try {
 //                m_ps.setBinaryStream(paramIndex, in, length);

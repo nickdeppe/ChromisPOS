@@ -147,6 +147,21 @@ public abstract class JDBCSentence extends BaseSentence {
          * @return
          * @throws BasicException
          */
+        public java.util.Date getDate(int columnIndex) throws BasicException {
+            try {
+                java.sql.Date dt = m_rs.getDate(columnIndex);
+                return dt == null ? null : new java.util.Date(dt.getTime());
+            } catch (SQLException eSQL) {
+                throw new BasicException(eSQL);
+            }
+        }
+
+        /**
+         *
+         * @param columnIndex
+         * @return
+         * @throws BasicException
+         */
         public byte[] getBytes(int columnIndex) throws BasicException {
             try {
                 return m_rs.getBytes(columnIndex);

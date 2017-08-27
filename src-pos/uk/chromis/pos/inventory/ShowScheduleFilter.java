@@ -136,10 +136,8 @@ public class ShowScheduleFilter extends javax.swing.JPanel implements ReportEdit
         QBFCompareEnum theatreMode;
         QBFCompareEnum dateMode;
         
-        Date myDate = new Date();
-        myDate.setHours(0);
-        myDate.setMinutes(0);
-        myDate.setSeconds(0);
+        java.util.Date today = new java.util.Date();
+        java.sql.Date myDate = new java.sql.Date(today.getTime());
         
         Object showKey = showModel.getSelectedKey();
         Object theatreKey = theatreModel.getSelectedKey();

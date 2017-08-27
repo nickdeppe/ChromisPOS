@@ -41,7 +41,9 @@ public abstract class Datas {
     public final static Datas SERIALIZABLE = new DatasSERIALIZABLE();
     public final static Datas NULL = new DatasNULL();
     public final static Datas BIGDECIMAL = new DatasBIGDECIMAL();
+    public final static Datas DATE = new DatasDATE();
     private static DateFormat tsf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+    private static DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 
     private Datas() {
     }
@@ -246,6 +248,29 @@ public abstract class Datas {
 
         protected String toStringAbstract(Object value) {
             return tsf.format(value);
+        }
+
+        protected int compareAbstract(Object o1, Object o2) {
+            return ((java.util.Date) o1).compareTo((java.util.Date) o2);
+        }
+    }
+
+    private static final class DatasDATE extends Datas {
+
+        public Object getValue(DataRead dr, int i) throws BasicException {
+            return dr.getDate(i);
+        }
+
+        public void setValue(DataWrite dw, int i, Object value) throws BasicException {
+            dw.setDate(i, (java.util.Date) value);
+        }
+
+        public Class getClassValue() {
+            return java.util.Date.class;
+        }
+
+        protected String toStringAbstract(Object value) {
+            return df.format(value);
         }
 
         protected int compareAbstract(Object o1, Object o2) {

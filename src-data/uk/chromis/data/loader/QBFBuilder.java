@@ -178,6 +178,16 @@ public class QBFBuilder implements ISQLBuilderStatic {
                 m_aParams[(paramIndex - 1) / 2] = DataWriteUtils.getSQLValue(dValue);
             }
         }
+
+        @Override
+        public void setDate(int paramIndex, java.util.Date dValue) throws BasicException {
+            if ((paramIndex - 1) % 2 == 0) {
+                throw new BasicException(LocalRes.getIntString("exception.nocompare"));
+            } else {
+                java.sql.Date newDate = new java.sql.Date(dValue.getTime());
+                m_aParams[(paramIndex - 1) / 2] = DataWriteUtils.getSQLValue(newDate);
+            }
+        }
 //        public void setBinaryStream(int paramIndex, java.io.InputStream in, int length) throws DataException{
 //            if ((paramIndex - 1) % 2 == 0) {
 //                throw new DataException("Expected comparator for QBF");

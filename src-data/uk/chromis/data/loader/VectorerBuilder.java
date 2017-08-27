@@ -94,6 +94,11 @@ public abstract class VectorerBuilder implements Vectorer {
             ensurePlace(paramIndex - 1);
             m_aParams.set(paramIndex - 1, dValue.toString());
         }
+
+        public void setDate(int paramIndex, java.util.Date dValue) throws BasicException {
+            ensurePlace(paramIndex - 1);
+            m_aParams.set(paramIndex - 1, dValue.toString());
+        }
 //        public void setBinaryStream(int paramIndex, java.io.InputStream in, int length) throws DataException {
 //            ensurePlace(paramIndex -1);
 //            // m_aParams.set(paramIndex - 1, value.toString()); // quiza un uuencode o algo asi
