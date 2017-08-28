@@ -926,6 +926,9 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
+        <modifySql dbms="mysql">
+            <append value=" ENGINE = InnoDB DEFAULT CHARSET=utf8  "/>
+        </modifySql>
     </changeSet>
     
             
