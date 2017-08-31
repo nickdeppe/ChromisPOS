@@ -43,8 +43,8 @@ public class ShowScheduleEditor extends javax.swing.JPanel implements EditorReco
     private final SentenceList showSentence;
     private final SentenceList theatreSentence;
 
-    private final ComboBoxValModel showModel;
-    private final ComboBoxValModel theatreModel;
+    private ComboBoxValModel showModel;
+    private ComboBoxValModel theatreModel;
     
     private Object showKey;
     private Object theatreKey;
@@ -65,13 +65,8 @@ public class ShowScheduleEditor extends javax.swing.JPanel implements EditorReco
         m_jReportEndDate.getDocument().addDocumentListener(dirty);
         
         showSentence = dlSales.getShowsList();
-        showModel = new ComboBoxValModel(showSentence.list());
-        m_jShow.setModel(showModel);
-        
         theatreSentence = dlSales.getTheatresList();
-        theatreModel = new ComboBoxValModel(theatreSentence.list());
-        m_jTheatre.setModel(theatreModel);
-        
+
     }
 
     /**
@@ -92,6 +87,12 @@ public class ShowScheduleEditor extends javax.swing.JPanel implements EditorReco
 
 
     public void activate() throws BasicException {
+
+        showModel = new ComboBoxValModel(showSentence.list());
+        m_jShow.setModel(showModel);
+
+        theatreModel = new ComboBoxValModel(theatreSentence.list());
+        m_jTheatre.setModel(theatreModel);
 
     }
 

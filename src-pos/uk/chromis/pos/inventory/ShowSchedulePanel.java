@@ -84,7 +84,7 @@ public class ShowSchedulePanel extends JPanelTable {
 
 
         if (AppConfig.getInstance().getBoolean("display.longnames")) {
-            setListWidth(300);
+            setListWidth(350);
         }
 
 
