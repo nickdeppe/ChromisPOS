@@ -910,27 +910,6 @@
         </modifySql>
     </changeSet>    
     
-
-    <changeSet author="Chromis POS" id="Create box office show schedule distribution table(New Database)">
-        <createTable tableName="SHOWSCHEDULEDISTRIBUTION">
-            <column name="ID" type="varchar(255)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="SCHEDULEID" type="varchar(255)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="NAME" type="varchar(255)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="RATE" type="double precision" defaultValueNumeric="1.000">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-        <modifySql dbms="mysql">
-            <append value=" ENGINE = InnoDB DEFAULT CHARSET=utf8  "/>
-        </modifySql>
-    </changeSet>
-    
             
     <changeSet author="Chromis POS" id="Create box office show schedule times table(New Database)">
         <createTable tableName="SHOWSCHEDULETIMES">

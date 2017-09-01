@@ -261,8 +261,6 @@ public class ShowScheduleEditor extends javax.swing.JPanel implements EditorReco
         m_jbtn_ReportEndDate = new javax.swing.JButton();
         m_jTheatre = new javax.swing.JComboBox<>();
         jLabel13 = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
-        showScheduleDistributionEditor1 = new uk.chromis.pos.inventory.ShowScheduleDistributionEditor();
         jPanel3 = new javax.swing.JPanel();
 
         jLabel7.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
@@ -413,25 +411,6 @@ public class ShowScheduleEditor extends javax.swing.JPanel implements EditorReco
 
         jTabbedPane1.addTab("General", jPanel1);
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(showScheduleDistributionEditor1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(showScheduleDistributionEditor1, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
-        jTabbedPane1.addTab("Distribution", jPanel2);
-
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -531,7 +510,6 @@ public class ShowScheduleEditor extends javax.swing.JPanel implements EditorReco
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextField m_jEndDate;
@@ -544,7 +522,6 @@ public class ShowScheduleEditor extends javax.swing.JPanel implements EditorReco
     private javax.swing.JButton m_jbtnReportStartDate;
     private javax.swing.JButton m_jbtnStartDate;
     private javax.swing.JButton m_jbtn_ReportEndDate;
-    private uk.chromis.pos.inventory.ShowScheduleDistributionEditor showScheduleDistributionEditor1;
     // End of variables declaration//GEN-END:variables
 
 
