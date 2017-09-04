@@ -20,6 +20,7 @@
 package uk.chromis.pos.inventory;
 
 import java.awt.Component;
+import java.util.ArrayList;
 import java.util.UUID;
 import java.util.Date;
 import uk.chromis.basic.BasicException;
@@ -262,6 +263,7 @@ public class ShowScheduleEditor extends javax.swing.JPanel implements EditorReco
         m_jTheatre = new javax.swing.JComboBox<>();
         jLabel13 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
 
         jLabel7.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel7.setText(AppLocal.getIntString("label.show")); // NOI18N
@@ -411,15 +413,28 @@ public class ShowScheduleEditor extends javax.swing.JPanel implements EditorReco
 
         jTabbedPane1.addTab("General", jPanel1);
 
+        jButton1.setText("jButton1");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 571, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jButton1)
+                .addContainerGap(475, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 232, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jButton1)
+                .addContainerGap(195, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Times", jPanel3);
@@ -501,8 +516,39 @@ public class ShowScheduleEditor extends javax.swing.JPanel implements EditorReco
         }
     }//GEN-LAST:event_m_jbtn_ReportEndDateActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        
+        ArrayList<Date> dates;
+        Date time;
+        Date startDate;
+        Date endDate;
+        
+        ShowScheduleAddTime timeDiag;
+        
+        
+        timeDiag = ShowScheduleAddTime.getShowScheduleAddTime(this);
+        
+        try {
+            startDate = (Date) Formats.DATE.parseValue(m_jStartDate.getText());
+            endDate = (Date) Formats.DATE.parseValue(m_jEndDate.getText());
+        } catch (BasicException e) {
+            startDate = new Date();
+            endDate = new Date();
+        }
+            
+        timeDiag.getTimesForShowSchedule( startDate, endDate );
+//        timeDiag.setVisible(true);
+        if (timeDiag.isOK()) {
+//            dates = timeDiag.getDates();
+//            time = timeDiag.getTime();
+        }
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
