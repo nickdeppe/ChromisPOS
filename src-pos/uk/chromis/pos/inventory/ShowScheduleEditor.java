@@ -537,11 +537,11 @@ public class ShowScheduleEditor extends javax.swing.JPanel implements EditorReco
             endDate = new Date();
         }
             
-        timeDiag.getTimesForShowSchedule( startDate, endDate );
+        timeDiag.showDialog( startDate, endDate );
 //        timeDiag.setVisible(true);
         if (timeDiag.isOK()) {
-//            dates = timeDiag.getDates();
-//            time = timeDiag.getTime();
+            dates = timeDiag.getDates();
+            time = timeDiag.getTime();
         }
         
     }//GEN-LAST:event_jButton1ActionPerformed

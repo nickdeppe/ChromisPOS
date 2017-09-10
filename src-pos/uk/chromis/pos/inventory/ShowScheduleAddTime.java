@@ -10,19 +10,24 @@ import java.awt.Component;
 import java.awt.Dialog;
 import java.awt.Frame;
 import java.awt.Window;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JCheckBox;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JSpinner;
 import javax.swing.ListCellRenderer;
 import javax.swing.SwingUtilities;
 import uk.chromis.basic.BasicException;
-import uk.chromis.beans.JCalendarDialog;
 import uk.chromis.format.Formats;
+import uk.chromis.pos.forms.AppConfig;
 import uk.chromis.pos.forms.AppLocal;
 
 /**
@@ -31,9 +36,8 @@ import uk.chromis.pos.forms.AppLocal;
  */
 public class ShowScheduleAddTime extends javax.swing.JDialog {
 
-    private DefaultListModel<String> listModel;
+    private DefaultListModel<JCheckBox> listModel;
     private Boolean ok = false;
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM dd yyyy");
 
     /**
      * Creates new form ShowScheduleAddTime2
@@ -55,23 +59,140 @@ public class ShowScheduleAddTime extends javax.swing.JDialog {
         initComponents();
         listModel = new DefaultListModel<>();
         m_jDateList.setModel(listModel);
+        m_jDateList.setCellRenderer(new CheckboxListRenderer());
+        m_jDateList.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                JList list = (JList) e.getSource();
+                int index = list.locationToIndex(e.getPoint());
+                if ( index != -1 ) {
+                    JCheckBox item = (JCheckBox) list.getModel().getElementAt(index);
+                    item.setSelected(!item.isSelected());
+                    repaint();
+                }
+            }
+        });
+        m_jDateList.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                JList list = (JList) e.getSource();
+                int index = list.getSelectedIndex();
+                if (index != -1 && e.getKeyCode() == KeyEvent.VK_SPACE) {
+                    boolean newVal = !((JCheckBox) (list.getModel().getElementAt(index))).isSelected();
+                    for (int i : list.getSelectedIndices()) {
+                        JCheckBox checkbox = (JCheckBox) list.getModel().getElementAt(i);
+                        checkbox.setSelected(newVal);
+                        repaint();
+                    }
+                }
+            }
+        });
+
+        JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(m_jTimeSpinner, AppConfig.getInstance().getProperty("format.time"));
+        m_jTimeSpinner.setEditor(timeEditor);
+        m_jTimeSpinner.setValue(new Date()); // will only show the current time
+
+    }
+
+
+
+    public ArrayList<Date> getDates() {
+
+        Date date;
+        JCheckBox item;
+        ArrayList<Date> dates = new ArrayList<>();
+
+        for (int i = 0; i < listModel.getSize(); i++ ) {
+            item = listModel.getElementAt(i);
+            try {
+                date = (Date) Formats.DATE.parseValue(item.getText());
+            } catch(BasicException e) {
+                continue;
+            }
+            dates.add(date);
+        }
+
+        return dates;
+
+    }
+
+
+    public Date getTime() {
+        Date time;
+        try {
+            time = (Date) Formats.TIME.parseValue(m_jTimeSpinner.getValue().toString() );
+        } catch (BasicException e) {
+            time = null;
+        }
+        return time;
     }
     
     
     
-    public void getTimesForShowSchedule(Date startDate, Date endDate) {
+    public void showDialog(Date startDate, Date endDate) {
         
-        LocalDate start = startDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        LocalDate end = endDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        
-        for ( LocalDate date = start; date.isBefore(end); date = date.plusDays(1) ) {
-            listModel.addElement(date.format(formatter));
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(startDate);
+
+        for (cal.setTime(startDate); !cal.getTime().after(endDate); cal.add(Calendar.DATE, 1)) {
+            JCheckBox newCheck = new JCheckBox(Formats.DATE.formatValue(cal.getTime()));
+            newCheck.setSelected(true);
+            listModel.addElement(newCheck);
         }
-        
+
         this.setVisible(true);
         
     }
-    
+
+
+    private boolean validateDialog() {
+
+        JCheckBox item;
+        Date date, time;
+        ArrayList<String> errors = new ArrayList<>();
+        StringBuilder errorMessage = new StringBuilder();
+        int totalSelected = 0;
+
+
+        // Make sure at least one date is selected
+        for (int i = 0; i < listModel.getSize(); i++ ) {
+            item = listModel.getElementAt(i);
+            try {
+                date = (Date) Formats.DATE.parseValue(item.getText());
+            } catch(BasicException e) {
+                errors.add("Could not parse '" + item.getText() + "' as Date");
+            }
+            if ( item.isSelected() ) {
+                ++totalSelected;
+            }
+        }
+
+        if ( totalSelected < 1 ) {
+            errors.add("Please select at least one date");
+        }
+
+        try {
+            time = (Date) Formats.TIME.parseValue(m_jTimeSpinner.getValue().toString() );
+        } catch (BasicException e) {
+            errors.add("Could not parse '" + m_jTimeSpinner.getValue().toString() + "' as Time");
+        }
+
+        if ( errors.isEmpty() ) {
+            return true;
+        } else {
+            errorMessage.append("Please correct the following: \n");
+            for ( int i = 0; i < errors.size(); i++ ) {
+                errorMessage.append("- ");
+                errorMessage.append(errors.get(i));
+                errorMessage.append("\n");
+            }
+            JOptionPane.showMessageDialog(this, errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+    }
+
+
     
     public static ShowScheduleAddTime getShowScheduleAddTime(Component parent) {
         
@@ -93,30 +214,24 @@ public class ShowScheduleAddTime extends javax.swing.JDialog {
         return myTime;
         
     }
-    
-    
-    
-    public class CheckboxListCellRenderer extends JCheckBox implements ListCellRenderer {
 
-        @Override
-        public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
 
-            setComponentOrientation(list.getComponentOrientation());
-            setFont(list.getFont());
-            setBackground(list.getBackground());
-            setForeground(list.getForeground());
-            setSelected(isSelected);
-            setEnabled(list.isEnabled());
 
-            setText(value == null ? "" : value.toString());  
+    protected class CheckboxListRenderer extends JCheckBox implements ListCellRenderer<JCheckBox> {
 
-            return this;
-        }
+       @Override
+       public Component getListCellRendererComponent(JList<? extends JCheckBox> list, JCheckBox value, int index, boolean isSelected, boolean cellHasFocus) {
+          setEnabled(list.isEnabled());
+          setSelected(value.isSelected());
+          setFont(list.getFont());
+          setBackground(list.getBackground());
+          setForeground(list.getForeground());
+          setText(value.getText());
+          return this;
+       }
 
     }
-    
-        
-    
+
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -129,15 +244,15 @@ public class ShowScheduleAddTime extends javax.swing.JDialog {
 
         m_jButtonCancel = new javax.swing.JButton();
         m_jButtonOK = new javax.swing.JButton();
-        m_jbtnTime = new javax.swing.JButton();
-        m_jTime = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         m_jDateList = new javax.swing.JList<>();
-        m_jCheckAll = new javax.swing.JCheckBox();
-        jLabel2 = new javax.swing.JLabel();
+        m_jTimeSpinner = new javax.swing.JSpinner( new javax.swing.SpinnerDateModel() );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setName("ShowScheduleAddTime"); // NOI18N
+        setSize(new java.awt.Dimension(384, 285));
 
         m_jButtonCancel.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         m_jButtonCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uk/chromis/images/cancel.png"))); // NOI18N
@@ -165,32 +280,16 @@ public class ShowScheduleAddTime extends javax.swing.JDialog {
             }
         });
 
-        m_jbtnTime.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uk/chromis/images/date.png"))); // NOI18N
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("pos_messages"); // NOI18N
-        m_jbtnTime.setToolTipText(bundle.getString("tiptext.opencalendar")); // NOI18N
-        m_jbtnTime.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                m_jbtnTimeActionPerformed(evt);
-            }
-        });
-
         jLabel1.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         jLabel1.setText(AppLocal.getIntString("Label.Time")); // NOI18N
 
-        m_jDateList.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        m_jDateList.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        m_jDateList.setCellRenderer(new CheckboxListCellRenderer());
-        jScrollPane1.setViewportView(m_jDateList);
-
-        m_jCheckAll.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        m_jCheckAll.setText(AppLocal.getIntString("Label.SelectAll")); // NOI18N
-
         jLabel2.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         jLabel2.setText(AppLocal.getIntString("Label.AddTimeText")); // NOI18N
+
+        m_jDateList.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jScrollPane1.setViewportView(m_jDateList);
+
+        m_jTimeSpinner.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -199,22 +298,17 @@ public class ShowScheduleAddTime extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 370, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
+                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 379, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(m_jButtonOK)
                         .addGap(5, 5, 5)
                         .addComponent(m_jButtonCancel))
-                    .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(m_jTime, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(m_jbtnTime, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(m_jCheckAll))
+                        .addComponent(jLabel1)
+                        .addGap(8, 8, 8)
+                        .addComponent(m_jTimeSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -223,26 +317,21 @@ public class ShowScheduleAddTime extends javax.swing.JDialog {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(m_jCheckAll)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(12, 12, 12)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1)
-                            .addComponent(m_jTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(m_jbtnTime))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(m_jTimeSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(m_jButtonOK)
                     .addComponent(m_jButtonCancel))
                 .addContainerGap())
         );
 
-        pack();
+        setSize(new java.awt.Dimension(407, 339));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void m_jButtonCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_jButtonCancelActionPerformed
@@ -254,23 +343,11 @@ public class ShowScheduleAddTime extends javax.swing.JDialog {
 
     private void m_jButtonOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_jButtonOKActionPerformed
 
-        ok = true;
-
-        dispose();
+        if ( validateDialog() ) {
+            ok = true;
+            dispose();
+        }
     }//GEN-LAST:event_m_jButtonOKActionPerformed
-
-    private void m_jbtnTimeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_jbtnTimeActionPerformed
-        Date date;
-        try {
-            date = (Date) Formats.DATE.parseValue(m_jTime.getText());
-        } catch (BasicException e) {
-            date = null;
-        }
-        date = JCalendarDialog.showCalendarTime(this, date);
-        if (date != null) {
-            m_jTime.setText(Formats.DATE.formatValue(date));
-        }
-    }//GEN-LAST:event_m_jbtnTimeActionPerformed
 
     /**
      * @param args the command line arguments
@@ -321,9 +398,9 @@ public class ShowScheduleAddTime extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton m_jButtonCancel;
     private javax.swing.JButton m_jButtonOK;
-    private javax.swing.JCheckBox m_jCheckAll;
-    private javax.swing.JList<String> m_jDateList;
-    private javax.swing.JTextField m_jTime;
-    private javax.swing.JButton m_jbtnTime;
+    private javax.swing.JList<JCheckBox> m_jDateList;
+    private javax.swing.JSpinner m_jTimeSpinner;
     // End of variables declaration//GEN-END:variables
 }
+
+
