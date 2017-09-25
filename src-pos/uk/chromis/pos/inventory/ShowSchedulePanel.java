@@ -39,7 +39,7 @@ import uk.chromis.pos.panels.JPanelTable;
 
 /**
  *
- * @author adrianromero
+ * @author 
  */
 public class ShowSchedulePanel extends JPanelTable {
 

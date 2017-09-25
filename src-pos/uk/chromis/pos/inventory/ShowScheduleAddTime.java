@@ -8,12 +8,14 @@ package uk.chromis.pos.inventory;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dialog;
+import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.Window;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -24,6 +26,7 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
 import javax.swing.ListCellRenderer;
+import javax.swing.SpinnerDateModel;
 import javax.swing.SwingUtilities;
 import uk.chromis.basic.BasicException;
 import uk.chromis.format.Formats;
@@ -88,9 +91,11 @@ public class ShowScheduleAddTime extends javax.swing.JDialog {
             }
         });
 
-        JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(m_jTimeSpinner, AppConfig.getInstance().getProperty("format.time"));
+        
+        String appFormatTime = AppConfig.getInstance().getProperty("format.time");
+        String timeFormat = ( appFormatTime == null || appFormatTime.equals("") ) ? "hh:mm a" : appFormatTime ;
+        JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(m_jTimeSpinner, timeFormat );
         m_jTimeSpinner.setEditor(timeEditor);
-        m_jTimeSpinner.setValue(new Date()); // will only show the current time
 
     }
 
@@ -119,11 +124,7 @@ public class ShowScheduleAddTime extends javax.swing.JDialog {
 
     public Date getTime() {
         Date time;
-        try {
-            time = (Date) Formats.TIME.parseValue(m_jTimeSpinner.getValue().toString() );
-        } catch (BasicException e) {
-            time = null;
-        }
+        time = (Date) m_jTimeSpinner.getModel().getValue();
         return time;
     }
     
@@ -140,6 +141,8 @@ public class ShowScheduleAddTime extends javax.swing.JDialog {
             listModel.addElement(newCheck);
         }
 
+        m_jTimeSpinner.setValue(new Date());
+        
         this.setVisible(true);
         
     }
@@ -172,8 +175,8 @@ public class ShowScheduleAddTime extends javax.swing.JDialog {
         }
 
         try {
-            time = (Date) Formats.TIME.parseValue(m_jTimeSpinner.getValue().toString() );
-        } catch (BasicException e) {
+            time = (Date) m_jTimeSpinner.getModel().getValue();
+        } catch (Exception e) {
             errors.add("Could not parse '" + m_jTimeSpinner.getValue().toString() + "' as Time");
         }
 
@@ -290,6 +293,7 @@ public class ShowScheduleAddTime extends javax.swing.JDialog {
         jScrollPane1.setViewportView(m_jDateList);
 
         m_jTimeSpinner.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        m_jTimeSpinner.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(), null, null, java.util.Calendar.HOUR_OF_DAY));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

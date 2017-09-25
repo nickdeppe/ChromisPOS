@@ -538,7 +538,6 @@ public class ShowScheduleEditor extends javax.swing.JPanel implements EditorReco
         }
             
         timeDiag.showDialog( startDate, endDate );
-//        timeDiag.setVisible(true);
         if (timeDiag.isOK()) {
             dates = timeDiag.getDates();
             time = timeDiag.getTime();
