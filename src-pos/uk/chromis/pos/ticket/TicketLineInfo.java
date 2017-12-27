@@ -95,6 +95,7 @@ public class TicketLineInfo implements SerializableWrite, SerializableRead, Seri
             attributes.setProperty("product.service", product.isService() ? "true" : "false");
             attributes.setProperty("product.vprice", product.isVprice() ? "true" : "false");
             attributes.setProperty("product.verpatrib", product.isVerpatrib() ? "true" : "false");
+            attributes.setProperty("product.boxoffice", product.getIsBoxOffice() ? "true" : "false");
 
             if (product.getTextTip() != null) {
                 attributes.setProperty("product.texttip", product.getTextTip());
@@ -451,6 +452,10 @@ public class TicketLineInfo implements SerializableWrite, SerializableRead, Seri
 
     public boolean isProductKitchen() {
         return "true".equals(attributes.getProperty("product.kitchen"));
+    }
+    
+    public boolean isProductBoxOffice() {
+        return "true".equals(attributes.getProperty("product.boxoffice"));
     }
 
     public boolean isProductService() {

@@ -1138,10 +1138,10 @@
             <column name="CAPACITY" type="int">
                 <constraints nullable="false"/>
             </column>
-            <column name="HARDLIMIT" type="bit(1)">
+            <column name="HARDLIMIT" type="${boolean.type}" defaultValueBoolean="false">
                 <constraints nullable="false"/>
             </column>
-            <column name="ACTIVE" type="bit(1)">
+            <column name="ACTIVE" type="${boolean.type}" defaultValueBoolean="true">
                 <constraints nullable="false"/>
             </column>
         </createTable>
