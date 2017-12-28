@@ -45,7 +45,31 @@
             <column name="NAME" value="MID Break"/>
             <column name="VISIBLE" valueBoolean="true"/>
         </insert>
-    </changeSet>  
+    </changeSet>
+    
+    <changeSet author="Chromis POS" id="Insert into RATINGS Table (New Database)">
+        <insert tableName="RATINGS">
+            <column name="RATINGID" value="NR"/>
+        </insert>
+        <insert tableName="RATINGS">
+            <column name="RATINGID" value="G"/>
+        </insert>
+        <insert tableName="RATINGS">
+            <column name="RATINGID" value="PG"/>
+        </insert>
+        <insert tableName="RATINGS">
+            <column name="RATINGID" value="PG-13"/>
+        </insert>
+        <insert tableName="RATINGS">
+            <column name="RATINGID" value="R"/>
+        </insert>
+        <insert tableName="RATINGS">
+            <column name="RATINGID" value="NC-17"/>
+        </insert>
+        <insert tableName="RATINGS">
+            <column name="RATINGID" value="X"/>
+        </insert>
+    </changeSet>
                         
 </databaseChangeLog>
 
