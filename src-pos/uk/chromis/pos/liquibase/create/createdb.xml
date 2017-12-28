@@ -912,7 +912,7 @@
             <column name="SEQUENCE" type="integer">
                 <constraints nullable="false"/>
             </column>
-            <column name="SHOWTIME" type="time">
+            <column name="STARTTIME" type="time">
                 <constraints nullable="false"/>
             </column>
         </createTable>

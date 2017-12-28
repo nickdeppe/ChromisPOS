@@ -284,7 +284,7 @@ public final class FeaturesEditor extends JPanel implements EditorRecord {
         m_jTabGeneral.add(jLabel5);
         jLabel5.setBounds(10, 130, 37, 15);
 
-        m_jRating.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        m_jRating.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         m_jTabGeneral.add(m_jRating);
         m_jRating.setBounds(180, 90, 350, 25);
 

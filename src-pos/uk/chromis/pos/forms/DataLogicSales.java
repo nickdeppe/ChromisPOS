@@ -59,6 +59,8 @@ public class DataLogicSales extends BeanFactoryDataSingle {
     protected Row featuresRow;
     protected Row showsRow;
     protected Row ratingsRow;
+    protected Row showFeaturesQBFRow;
+    protected Row showFeaturesRow;
     private String pName;
     private Double getTotal;
     private Double getTendered;
@@ -132,6 +134,15 @@ public class DataLogicSales extends BeanFactoryDataSingle {
     public static int INDEX_RATING_ID = RATINGS_FIELD_COUNT++;
     public static int INDEX_RATING_NAME = RATINGS_FIELD_COUNT++;
     public static int INDEX_RATING_ACTIVE = RATINGS_FIELD_COUNT++;
+    
+    
+    public static int SHOW_FEATURES_FIELD_COUNT = 0;
+    public static int INDEX_SHOW_FEATURES_ID = SHOW_FEATURES_FIELD_COUNT++;
+    public static int INDEX_SHOW_FEATURES_SHOWID = SHOW_FEATURES_FIELD_COUNT++;
+    public static int INDEX_SHOW_FEATURES_FEATUREID = SHOW_FEATURES_FIELD_COUNT++;
+    public static int INDEX_SHOW_FEATURES_NAME = SHOW_FEATURES_FIELD_COUNT++;
+    public static int INDEX_SHOW_FEATURES_SEQUENCE = SHOW_FEATURES_FIELD_COUNT++;
+    public static int INDEX_SHOW_FEATURES_STARTTIME = SHOW_FEATURES_FIELD_COUNT++;
 
     
     /**
@@ -267,6 +278,26 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 new Field("ACTIVE", Datas.BOOLEAN, Formats.BOOLEAN)
         );
         assert (RATINGS_FIELD_COUNT == ratingsRow.getFields().length );
+        
+        
+        showFeaturesQBFRow = new Row(
+                new Field("ID", Datas.STRING, Formats.STRING),
+                new Field("SHOWID", Datas.STRING, Formats.STRING),
+                new Field("FEATUREID", Datas.STRING, Formats.STRING),
+                new Field("NAME", Datas.STRING, Formats.STRING),
+                new Field("SEQUENCE", Datas.INT, Formats.INT),
+                new Field("STARTTIME", Datas.DATE, Formats.TIME)
+        );
+        
+        showFeaturesRow = new Row(
+                new Field("ID", Datas.STRING, Formats.STRING),
+                new Field("SHOWID", Datas.STRING, Formats.STRING),
+                new Field("FEATUREID", Datas.STRING, Formats.STRING),
+                new Field("SEQUENCE", Datas.INT, Formats.INT),
+                new Field("STARTTIME", Datas.DATE, Formats.TIME)
+        );
+        
+        assert (SHOW_FEATURES_FIELD_COUNT == showFeaturesRow.getFields().length );
         
     }
 
@@ -1734,7 +1765,148 @@ public class DataLogicSales extends BeanFactoryDataSingle {
     }
     
 
+    public final SentenceList getShowsTheatresList() {
+        return new StaticSentence(
+                s,
+                "SELECT "
+                + " S.ID,"
+                + " T.NAME, "
+                + " S.STARTDATE, "
+                + " S.ENDDATE "
+                + "FROM "
+                + " SHOWS S "
+                + " INNER JOIN THEATRES T ON S.THEATREID = T.ID "
+                + "WHERE "
+                + " S.STARTDATE >= CURRENT_DATE "
+                + "ORDER BY"
+                + " T.NAME, "
+                + " S.STARTDATE, "
+                + " S.ENDDATE", 
+                null,
+                ShowTheatreInfo.getSerializerRead()
+        );
+    }
+    
+    
+    
 
+    /**
+     *
+     * @return
+     */
+    public final SentenceList getShowFeaturesQBF() {
+        return new StaticSentence(s,
+            new QBFBuilder(
+                "SELECT "
+                + "SF.ID, "
+                + "SF.SHOWID, "
+                + "SF.FEATUREID, "
+                + "F.NAME, "
+                + "SF.SEQUENCE, "
+                + "SF.STARTTIME "
+                + "FROM SHOWFEATURES SF INNER JOIN FEATURES F ON SF.FEATUREID = F.ID "
+                + "WHERE ?(QBF_FILTER) "
+                + "ORDER BY SF.SEQUENCE, F.NAME ",
+                new String[] {
+                    "SF.SHOWID"
+                },
+                false
+            ),
+            new SerializerWriteBasic(
+                new Datas[]{
+                    Datas.OBJECT, Datas.STRING
+                }
+            ),
+            showFeaturesQBFRow.getSerializerRead()
+        );
+    }
+    
+    
+
+    /**
+     *
+     * @return
+     */
+    public final SentenceExec getShowFeaturesInsert() {
+        return new SentenceExecTransaction(s) {
+            @Override
+            public int execInTransaction(Object params) throws BasicException {
+                Object[] values = (Object[]) params;
+                return new PreparedSentence(
+                    s,
+                    "INSERT INTO SHOWFEATURES (ID, SHOWID, FEATUREID, SEQUENCE, STARTTIME) VALUES (?, ?, ?, ?, ?)",
+                    new SerializerWriteBasicExt(
+                        showFeaturesRow.getDatas(),
+                        new int[] {
+                            INDEX_SHOW_FEATURES_ID,
+                            INDEX_SHOW_FEATURES_SHOWID,
+                            INDEX_SHOW_FEATURES_FEATUREID,
+                            INDEX_SHOW_FEATURES_SEQUENCE,
+                            INDEX_SHOW_FEATURES_STARTTIME
+                        }
+                    )
+                ).exec(params);
+            }
+        };
+    }
+
+    /**
+     *
+     * @return
+     */
+    public final SentenceExec getShowFeaturesUpdate() {
+        return new SentenceExecTransaction(s) {
+            @Override
+            public int execInTransaction(Object params) throws BasicException {
+                Object[] values = (Object[]) params;
+                return new PreparedSentence(s,
+                        "UPDATE SHOWFEATURES "
+                        + "SET "
+                        + "SHOWID = ?, "
+                        + "FEATUREID = ?, "
+                        + "SEQUENCE = ?, "
+                        + "STARTTIME = ? "
+                        + "WHERE ID = ?",
+                        new SerializerWriteBasicExt(
+                                showFeaturesRow.getDatas(),
+                                new int[]{
+                                    INDEX_SHOW_FEATURES_SHOWID,
+                                    INDEX_SHOW_FEATURES_FEATUREID,
+                                    INDEX_SHOW_FEATURES_SEQUENCE,
+                                    INDEX_SHOW_FEATURES_STARTTIME,
+                                    INDEX_SHOW_FEATURES_ID
+                                }
+                        )
+                ).exec(params);
+            }
+        };
+    }
+
+    /**
+     *
+     * @return
+     */
+    public final SentenceExec getShowFeaturesDelete() {
+        return new SentenceExecTransaction(s) {
+            @Override
+            public int execInTransaction(Object params) throws BasicException {
+                return new PreparedSentence(s, 
+                        "DELETE FROM SHOWFEATURES WHERE ID = ?", 
+                        new SerializerWriteBasicExt(
+                                showFeaturesRow.getDatas(), 
+                                new int[]{
+                                    INDEX_SHOW_FEATURES_ID
+                                }
+                        )
+                ).exec(params);
+            }
+        };
+    }
+
+    
+    
+    
+    
     /**
      *
      * @return

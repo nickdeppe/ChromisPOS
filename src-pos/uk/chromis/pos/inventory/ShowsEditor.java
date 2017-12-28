@@ -20,6 +20,7 @@
 package uk.chromis.pos.inventory;
 
 import java.awt.Component;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.UUID;
 import java.util.Date;
@@ -47,6 +48,17 @@ public class ShowsEditor extends javax.swing.JPanel implements EditorRecord {
     
     private Object theatreKey;
 
+    private enum RecordStatus {
+        EOF,
+        UPDATE,
+        INSERT,
+        DELETE
+    }
+
+
+    private RecordStatus recStatus;
+    
+    
     /** Creates new form AttributesValuesEditor
     * @param dlSales
      * @param dirty
@@ -64,7 +76,8 @@ public class ShowsEditor extends javax.swing.JPanel implements EditorRecord {
         theatreSentence = dlSales.getTheatresList();
 
     }
-
+    
+    
     /**
      *
      * @param insertid
@@ -97,7 +110,7 @@ public class ShowsEditor extends javax.swing.JPanel implements EditorRecord {
     public void writeValueEOF() {
 
         showid = null;
-        theatreModel.setSelectedKey(null);
+        theatreModel.setSelectedKey(theatreKey);
         m_jStartDate.setText(null);
         m_jEndDate.setText(null);
         m_jReportStartDate.setText(null);
@@ -109,6 +122,8 @@ public class ShowsEditor extends javax.swing.JPanel implements EditorRecord {
         m_jReportStartDate.setEnabled(false);
         m_jReportEndDate.setEnabled(false);
 
+        this.recStatus = RecordStatus.EOF;
+        
     }
 
     /**
@@ -125,12 +140,12 @@ public class ShowsEditor extends javax.swing.JPanel implements EditorRecord {
         m_jReportEndDate.setText(null);
 
         m_jTheatre.setEnabled(true);
-        m_jTheatre.setEditable(false);
         m_jStartDate.setEnabled(true);
         m_jEndDate.setEnabled(true);
         m_jReportStartDate.setEnabled(true);
         m_jReportEndDate.setEnabled(true);
 
+        this.recStatus = RecordStatus.INSERT;
     }
 
     /**
@@ -150,12 +165,13 @@ public class ShowsEditor extends javax.swing.JPanel implements EditorRecord {
         m_jReportEndDate.setText(Formats.DATE.formatValue(obj[5]));
 
         m_jTheatre.setEnabled(true);
-        m_jTheatre.setEditable(false);
         m_jStartDate.setEnabled(true);
         m_jEndDate.setEnabled(true);
         m_jReportStartDate.setEnabled(true);
         m_jReportEndDate.setEnabled(true);
         
+        this.recStatus = RecordStatus.UPDATE;
+
     }
 
     /**
@@ -178,11 +194,47 @@ public class ShowsEditor extends javax.swing.JPanel implements EditorRecord {
         m_jEndDate.setEnabled(false);
         m_jReportStartDate.setEnabled(false);
         m_jReportEndDate.setEnabled(false);
+        
+        this.recStatus = RecordStatus.DELETE;
+
     }
 
 
     public void setTheatreKey( Object key ) {
+        
         theatreKey = key;
+        
+        if (theatreModel.getSelectedKey() == null ) {
+            
+            // If the form isn't dirty before the update, make sure it's still not dirty afterwards.
+            ActionListener[] al = m_jTheatre.getActionListeners();
+            boolean isDirty = false;
+            DirtyManager dl = null;
+            for(int i =0; i<al.length; i++) {
+                if (al[i] instanceof DirtyManager) {
+                    dl = (DirtyManager)al[i];
+                    if (dl.isDirty()) {
+                        isDirty = true;
+                        break;
+                    }
+                }
+            }
+            
+            theatreModel.setSelectedKey(theatreKey);
+            
+            // Set original dirty value
+            if (!isDirty) {
+                al = m_jTheatre.getActionListeners();
+                for(int i =0; i<al.length; i++) {
+                    if (al[i] instanceof DirtyManager) {
+                        dl = (DirtyManager)al[i];
+                        dl.setDirty(false);
+                    }
+                }
+            }
+            
+        }
+        
     }
     
     

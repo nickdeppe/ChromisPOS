@@ -41,22 +41,22 @@ import uk.chromis.pos.panels.JPanelTable;
  *
  * @author 
  */
-public class ShowsPanel extends JPanelTable {
+public class ShowFeaturePanel extends JPanelTable {
 
     private DataLogicSales m_dlSales;
     
-    private ShowsEditor editor;
-    private ShowsFilter filter;
+    private ShowFeatureEditor editor;
+    private ShowFeatureFilter filter;
 
     private TableDefinition tShows;
 
     private String m_initialFilter = "";
 
 
-    public ShowsPanel() {
+    public ShowFeaturePanel() {
     }
 
-    public ShowsPanel(String szFilter) {
+    public ShowFeaturePanel(String szFilter) {
         // Set initial filter
         m_initialFilter = szFilter;
     }
@@ -72,14 +72,14 @@ public class ShowsPanel extends JPanelTable {
         m_dlSales = (DataLogicSales) app.getBean("uk.chromis.pos.forms.DataLogicSales");
         tShows = m_dlSales.getTableShows();
         
-        filter = new ShowsFilter();
+        filter = new ShowFeatureFilter();
         filter.init(app);
        
 
         try {
-            editor = new ShowsEditor(m_dlSales, dirty);
+            editor = new ShowFeatureEditor(m_dlSales, dirty);
         } catch (BasicException ex) {
-            Logger.getLogger(ShowsPanel.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ShowFeaturePanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
 
@@ -97,7 +97,7 @@ public class ShowsPanel extends JPanelTable {
      */
     @Override
     public ListProvider getListProvider() {
-        return new ListProviderCreator(m_dlSales.getShowQBF(), filter);
+        return new ListProviderCreator(m_dlSales.getShowFeaturesQBF(), filter);
     }
 
     /**
@@ -106,7 +106,7 @@ public class ShowsPanel extends JPanelTable {
      */
     @Override
     public SaveProvider getSaveProvider() {
-        return new SaveProvider(m_dlSales.getShowUpdate(), m_dlSales.getShowInsert(), m_dlSales.getShowDelete());
+        return new SaveProvider(m_dlSales.getShowFeaturesUpdate(), m_dlSales.getShowFeaturesInsert(), m_dlSales.getShowFeaturesDelete());
     }
 
 
@@ -176,8 +176,6 @@ public class ShowsPanel extends JPanelTable {
                 bd.actionLoad();
             } catch (BasicException w) {
             }
-            // Pass the selected theatre id to the editor
-            editor.setTheatreKey(filter.getSelectedThreatre());
         }
     }
     

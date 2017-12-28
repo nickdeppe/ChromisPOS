@@ -37,13 +37,13 @@ import uk.chromis.pos.reports.ReportEditorCreator;
  *
  * @author adrianromero
  */
-public class ShowsFilter extends javax.swing.JPanel implements ReportEditorCreator {
+public class ShowFeatureFilter extends javax.swing.JPanel implements ReportEditorCreator {
 
-    private SentenceList theatreSentence;
-    private ComboBoxValModel theatreModel;
+    private SentenceList showSentence;
+    private ComboBoxValModel showModel;
 
     /** Creates new form AttributeUseFilter */
-    public ShowsFilter() {
+    public ShowFeatureFilter() {
         initComponents();
     }
 
@@ -56,16 +56,10 @@ public class ShowsFilter extends javax.swing.JPanel implements ReportEditorCreat
 
         DataLogicSales dlSales = (DataLogicSales) app.getBean("uk.chromis.pos.forms.DataLogicSales");
 
-        theatreSentence = dlSales.getTheatresList();
+        showSentence = dlSales.getShowsTheatresList();
 
     }
 
-    
-    public Object getSelectedThreatre() {
-        return theatreModel.getSelectedKey();
-    }
-    
-    
     /**
      *
      * @throws BasicException
@@ -73,12 +67,10 @@ public class ShowsFilter extends javax.swing.JPanel implements ReportEditorCreat
     @Override
     public void activate() throws BasicException {
 
-        List b = theatreSentence.list();
-        theatreModel = new ComboBoxValModel(b);
-        theatreModel.setSelectedFirst();
-        m_jTheatre.setModel(theatreModel);
-        
-        m_jShowDates.setSelected(true);
+        List b = showSentence.list();
+        showModel = new ComboBoxValModel(b);
+        showModel.setSelectedFirst();
+        m_jShow.setModel(showModel);
         
     }
 
@@ -105,8 +97,7 @@ public class ShowsFilter extends javax.swing.JPanel implements ReportEditorCreat
      * @param l
      */
     public void addActionListener(ActionListener l) {
-        m_jTheatre.addActionListener(l);
-        m_jShowDates.addActionListener(l);
+        m_jShow.addActionListener(l);
     }
 
     /**
@@ -114,8 +105,7 @@ public class ShowsFilter extends javax.swing.JPanel implements ReportEditorCreat
      * @param l
      */
     public void removeActionListener(ActionListener l) {
-        m_jTheatre.removeActionListener(l);
-        m_jShowDates.removeActionListener(l);
+        m_jShow.removeActionListener(l);
     }
 
     /**
@@ -126,21 +116,14 @@ public class ShowsFilter extends javax.swing.JPanel implements ReportEditorCreat
     @Override
     public Object createValue() throws BasicException {
         
-        QBFCompareEnum theatreMode;
-        QBFCompareEnum dateMode;
+        QBFCompareEnum showMode;
         
-        java.util.Date today = new java.util.Date();
-        java.sql.Date myDate = new java.sql.Date(today.getTime());
+        Object showKey = showModel.getSelectedKey();
         
-        Object theatreKey = theatreModel.getSelectedKey();
-        Object dateKey = myDate;
-        
-        theatreMode = ( theatreKey == null ) ? QBFCompareEnum.COMP_NONE : QBFCompareEnum.COMP_EQUALS;
-        dateMode = ( m_jShowDates.isSelected() ) ? QBFCompareEnum.COMP_GREATEROREQUALS : QBFCompareEnum.COMP_NONE;
+        showMode = ( showKey == null ) ? QBFCompareEnum.COMP_NONE : QBFCompareEnum.COMP_EQUALS;
         
         return new Object[]{
-            theatreMode, theatreKey,
-            dateMode, dateKey
+            showMode, showKey
         };
         
     }
@@ -155,15 +138,12 @@ public class ShowsFilter extends javax.swing.JPanel implements ReportEditorCreat
     private void initComponents() {
 
         jLabel8 = new javax.swing.JLabel();
-        m_jTheatre = new javax.swing.JComboBox();
-        m_jShowDates = new eu.hansolo.custom.SteelCheckBox();
+        m_jShow = new javax.swing.JComboBox();
 
         jLabel8.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jLabel8.setText(AppLocal.getIntString("label.theatre")); // NOI18N
+        jLabel8.setText(AppLocal.getIntString("label.show")); // NOI18N
 
-        m_jTheatre.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
-
-        m_jShowDates.setText("Only show current or future dates");
+        m_jShow.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -171,14 +151,10 @@ public class ShowsFilter extends javax.swing.JPanel implements ReportEditorCreat
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(m_jShowDates, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, 0)
-                        .addComponent(jLabel8)
-                        .addGap(18, 18, 18)
-                        .addComponent(m_jTheatre, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jLabel8)
+                .addGap(18, 18, 18)
+                .addComponent(m_jShow, 0, 482, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -186,10 +162,8 @@ public class ShowsFilter extends javax.swing.JPanel implements ReportEditorCreat
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
-                    .addComponent(m_jTheatre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(m_jShowDates, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                    .addComponent(m_jShow, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jLabel8.getAccessibleContext().setAccessibleName(AppLocal.getIntString("label.theatre")); // NOI18N
@@ -198,8 +172,7 @@ public class ShowsFilter extends javax.swing.JPanel implements ReportEditorCreat
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel8;
-    private eu.hansolo.custom.SteelCheckBox m_jShowDates;
-    private javax.swing.JComboBox m_jTheatre;
+    private javax.swing.JComboBox m_jShow;
     // End of variables declaration//GEN-END:variables
 
 }

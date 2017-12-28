@@ -136,4 +136,5 @@
         <class name="uk.chromis.pos.inventory.TheatresPanel" />
         <class name="uk.chromis.pos.inventory.ShowsPanel" />
         <class name="uk.chromis.pos.inventory.RatingsPanel" />
+        <class name="uk.chromis.pos.inventory.ShowFeaturePanel" />
  </permissions>        
