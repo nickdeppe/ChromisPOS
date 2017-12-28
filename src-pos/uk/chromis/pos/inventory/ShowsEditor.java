@@ -16,59 +16,62 @@
 //
 //    You should have received a copy of the GNU General Public License
 //    along with Chromis POS.  If not, see <http://www.gnu.org/licenses/>.
-//
+
 package uk.chromis.pos.inventory;
 
 import java.awt.Component;
-import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.UUID;
-import javax.swing.JPanel;
+import java.util.Date;
 import uk.chromis.basic.BasicException;
+import uk.chromis.beans.JCalendarDialog;
+import uk.chromis.data.gui.ComboBoxValModel;
+import uk.chromis.data.loader.SentenceList;
 import uk.chromis.data.user.DirtyManager;
 import uk.chromis.data.user.EditorRecord;
 import uk.chromis.format.Formats;
 import uk.chromis.pos.forms.AppLocal;
+import uk.chromis.pos.forms.DataLogicSales;
 
 /**
  *
- * @author adrianromero
+ * @author adrian
  */
-public final class ShowsEditor extends JPanel implements EditorRecord {
+public class ShowsEditor extends javax.swing.JPanel implements EditorRecord {
+    
+    private Object showid;
+    
+    private final SentenceList theatreSentence;
 
-    private Object m_id;
+    private ComboBoxValModel theatreModel;
+    
+    private Object theatreKey;
 
-    /**
-     * Creates new form JEditProduct
-     *
+    /** Creates new form AttributesValuesEditor
+    * @param dlSales
      * @param dirty
-     */
-    public ShowsEditor(DirtyManager dirty) {
+     * @throws uk.chromis.basic.BasicException */
+    public ShowsEditor(DataLogicSales dlSales, DirtyManager dirty) throws BasicException {
         
         initComponents();
 
-        m_jName.getDocument().addDocumentListener(dirty);
-        m_jShowOrder.addChangeListener(dirty);
-        m_jShowLength.addChangeListener(dirty);
-        m_jActive.addActionListener(dirty);
-        m_jTabImage.addPropertyChangeListener("image", dirty);
-		
-        writeValueEOF();
+        m_jTheatre.addActionListener(dirty);
+        m_jStartDate.getDocument().addDocumentListener(dirty);
+        m_jEndDate.getDocument().addDocumentListener(dirty);
+        m_jReportStartDate.getDocument().addDocumentListener(dirty);
+        m_jReportEndDate.getDocument().addDocumentListener(dirty);
+        
+        theatreSentence = dlSales.getTheatresList();
+
     }
 
     /**
      *
-     * @throws BasicException
+     * @param insertid
      */
-    public void activate() throws BasicException {
+    public void setInsertId(String insertid) {
 
-    }
-
-    public String getID() {
-        return (String) m_id;
-    }
-
-    // Save the currently edited show.  
-    public void saveProduct() {
+        this.showid = insertid;
     }
 
     /**
@@ -78,25 +81,34 @@ public final class ShowsEditor extends JPanel implements EditorRecord {
     public void refresh() {
     }
 
+
+    public void activate() throws BasicException {
+
+        theatreModel = new ComboBoxValModel(theatreSentence.list());
+        m_jTheatre.setModel(theatreModel);
+
+    }
+
+
     /**
      *
      */
     @Override
     public void writeValueEOF() {
 
-        m_jTitle.setText(AppLocal.getIntString("label.recordeof"));
-        m_id = null;
-        m_jName.setText(null);
-        m_jShowOrder.setValue(0);
-        m_jShowLength.setValue(0);
-        m_jActive.setSelected(false);
-        m_jTabImage.setImage(null);
+        showid = null;
+        theatreModel.setSelectedKey(null);
+        m_jStartDate.setText(null);
+        m_jEndDate.setText(null);
+        m_jReportStartDate.setText(null);
+        m_jReportEndDate.setText(null);
 
-        m_jName.setEnabled(false);
-        m_jShowOrder.setEnabled(false);
-        m_jShowLength.setEnabled(false);
-        m_jActive.setEnabled(false);
-        m_jTabImage.setEnabled(false);
+        m_jTheatre.setEnabled(false);
+        m_jStartDate.setEnabled(false);
+        m_jEndDate.setEnabled(false);
+        m_jReportStartDate.setEnabled(false);
+        m_jReportEndDate.setEnabled(false);
+
     }
 
     /**
@@ -104,48 +116,21 @@ public final class ShowsEditor extends JPanel implements EditorRecord {
      */
     @Override
     public void writeValueInsert() {
-        
-        m_jTitle.setText(AppLocal.getIntString("label.recordnew"));
-        m_id = UUID.randomUUID().toString();
-        m_jName.setText(null);
-        m_jShowOrder.setValue(0);
-        m_jShowLength.setValue(0);
-        m_jActive.setSelected(true);
-        m_jTabImage.setImage(null);
 
-        // Los habilitados
-        m_jName.setEnabled(true);
-        m_jShowOrder.setEnabled(true);
-        m_jShowLength.setEnabled(true);
-        m_jActive.setEnabled(true);
-        m_jTabImage.setEnabled(true);
+        showid = UUID.randomUUID().toString();
+        theatreModel.setSelectedKey(theatreKey);
+        m_jStartDate.setText(null);
+        m_jEndDate.setText(null);
+        m_jReportStartDate.setText(null);
+        m_jReportEndDate.setText(null);
 
-    }
+        m_jTheatre.setEnabled(true);
+        m_jTheatre.setEditable(false);
+        m_jStartDate.setEnabled(true);
+        m_jEndDate.setEnabled(true);
+        m_jReportStartDate.setEnabled(true);
+        m_jReportEndDate.setEnabled(true);
 
-
-    /**
-     *
-     * @param value
-     */
-    @Override
-    public void writeValueDelete(Object value) {
-
-        m_jTitle.setText(AppLocal.getIntString("label.recorddeleted"));
-        
-        m_jTitle.setText(AppLocal.getIntString("label.recordnew"));
-        m_id = UUID.randomUUID().toString();
-        m_jName.setText(null);
-        m_jShowOrder.setValue(0);
-        m_jShowLength.setValue(0);
-        m_jActive.setSelected(false);
-        m_jTabImage.setImage(null);
-
-        m_jName.setEnabled(false);
-        m_jShowOrder.setEnabled(false);
-        m_jShowLength.setEnabled(false);
-        m_jActive.setEnabled(false);
-        m_jTabImage.setEnabled(false);
-        
     }
 
     /**
@@ -155,154 +140,314 @@ public final class ShowsEditor extends JPanel implements EditorRecord {
     @Override
     public void writeValueEdit(Object value) {
 
-        Object[] myshow = (Object[]) value;
-        
-        m_id = myshow[0];
-        m_jName.setText(Formats.STRING.formatValue(myshow[1]));
-        m_jTabImage.setImage((BufferedImage) myshow[2]);
-        m_jShowOrder.setValue(myshow[3]);
-        m_jShowLength.setValue(myshow[4]);
-        m_jActive.setSelected((Boolean) myshow[5]);
-        
-        m_jName.setEnabled(true);
-        m_jShowOrder.setEnabled(true);
-        m_jShowLength.setEnabled(true);
-        m_jActive.setEnabled(true);
-        m_jTabImage.setEnabled(true);
+        Object[] obj = (Object[]) value;
+
+        showid = obj[0];
+        theatreModel.setSelectedKey(obj[1]);
+        m_jStartDate.setText(Formats.DATE.formatValue(obj[2]));
+        m_jEndDate.setText(Formats.DATE.formatValue(obj[3]));
+        m_jReportStartDate.setText(Formats.DATE.formatValue(obj[4]));
+        m_jReportEndDate.setText(Formats.DATE.formatValue(obj[5]));
+
+        m_jTheatre.setEnabled(true);
+        m_jTheatre.setEditable(false);
+        m_jStartDate.setEnabled(true);
+        m_jEndDate.setEnabled(true);
+        m_jReportStartDate.setEnabled(true);
+        m_jReportEndDate.setEnabled(true);
         
     }
 
     /**
      *
-     * @return myprod
-     * @throws BasicException
+     * @param value
      */
     @Override
-    public Object createValue() throws BasicException {
-        
-        Object[] myshow = new Object[7];
-        myshow[0] = m_id;
-        myshow[1] = m_jName.getText();
-        myshow[2] = m_jTabImage.getImage();
-        myshow[3] = m_jShowOrder.getValue();
-        myshow[4] = m_jShowLength.getValue();
-        myshow[5] = m_jActive.isSelected();
-        
-        return myshow;
+    public void writeValueDelete(Object value) {
 
+        Object[] obj = (Object[]) value;
+
+        showid = obj[0];
+        theatreModel.setSelectedKey(obj[1]);
+        m_jStartDate.setText(Formats.DATE.formatValue(obj[2]));
+        m_jEndDate.setText(Formats.DATE.formatValue(obj[3]));
+        m_jReportStartDate.setText(Formats.DATE.formatValue(obj[4]));
+        m_jReportEndDate.setText(Formats.DATE.formatValue(obj[5]));
+
+        m_jStartDate.setEnabled(false);
+        m_jEndDate.setEnabled(false);
+        m_jReportStartDate.setEnabled(false);
+        m_jReportEndDate.setEnabled(false);
     }
 
+
+    public void setTheatreKey( Object key ) {
+        theatreKey = key;
+    }
+    
+    
     /**
      *
-     * @return this
+     * @return
      */
     @Override
     public Component getComponent() {
         return this;
     }
 
-
     /**
-     * This method is called from within the constructor to initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is always
-     * regenerated by the Form Editor.
+     *
+     * @return
+     * @throws BasicException
      */
+    @Override
+    public Object createValue() throws BasicException {
+        return new Object[] {
+            showid,
+            Formats.STRING.formatValue(theatreModel.getSelectedKey()),
+            Formats.DATE.parseValue(m_jStartDate.getText()),
+            Formats.DATE.parseValue(m_jEndDate.getText()),
+            Formats.DATE.parseValue(m_jReportStartDate.getText()),
+            Formats.DATE.parseValue(m_jReportEndDate.getText())
+        };
+    }
+
+    /** This method is called from within the constructor to
+     * initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is
+     * always regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        m_jScheduleMode = new javax.swing.ButtonGroup();
-        m_jTitle = new javax.swing.JLabel();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
-        m_jTabGeneral = new javax.swing.JPanel();
-        jLabel34 = new javax.swing.JLabel();
-        m_jName = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        m_jActive = new eu.hansolo.custom.SteelCheckBox();
-        m_jShowLength = new javax.swing.JSpinner();
-        m_jShowOrder = new javax.swing.JSpinner();
-        jLabel4 = new javax.swing.JLabel();
-        m_jTabImage = new uk.chromis.data.gui.JImageEditor();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        m_jReportEndDate = new javax.swing.JTextField();
+        m_jReportStartDate = new javax.swing.JTextField();
+        m_jEndDate = new javax.swing.JTextField();
+        m_jStartDate = new javax.swing.JTextField();
+        m_jTheatre = new javax.swing.JComboBox<>();
+        m_jbtnStartDate = new javax.swing.JButton();
+        m_jbtnEndDate = new javax.swing.JButton();
+        m_jbtnReportStartDate = new javax.swing.JButton();
+        m_jbtn_ReportEndDate = new javax.swing.JButton();
 
-        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jLabel13.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel13.setText(AppLocal.getIntString("label.theatre")); // NOI18N
 
-        m_jTitle.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        m_jTitle.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        add(m_jTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 0, 330, 30));
+        jLabel9.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel9.setText(AppLocal.getIntString("label.productshowstartdate")); // NOI18N
 
-        jTabbedPane1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel10.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel10.setText(AppLocal.getIntString("label.productshowenddate")); // NOI18N
 
-        m_jTabGeneral.setLayout(null);
+        jLabel12.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel12.setText(AppLocal.getIntString("label.productshowreportstartdate")); // NOI18N
 
-        jLabel34.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jLabel34.setText(AppLocal.getIntString("label.showlength")); // NOI18N
-        m_jTabGeneral.add(jLabel34);
-        jLabel34.setBounds(10, 70, 122, 15);
+        jLabel11.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel11.setText(AppLocal.getIntString("label.productshowreportenddate")); // NOI18N
 
-        m_jName.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        m_jName.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                m_jNameFocusLost(evt);
-            }
-        });
-        m_jTabGeneral.add(m_jName);
-        m_jName.setBounds(180, 10, 270, 25);
+        m_jReportEndDate.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
-        jLabel3.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jLabel3.setText(AppLocal.getIntString("label.showactive")); // NOI18N
-        m_jTabGeneral.add(jLabel3);
-        jLabel3.setBounds(10, 100, 37, 15);
+        m_jReportStartDate.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
-        jLabel2.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jLabel2.setText(AppLocal.getIntString("label.showorder")); // NOI18N
-        m_jTabGeneral.add(jLabel2);
-        jLabel2.setBounds(10, 40, 63, 15);
+        m_jEndDate.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
-        m_jActive.setText(" ");
-        m_jActive.addActionListener(new java.awt.event.ActionListener() {
+        m_jStartDate.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+
+        m_jTheatre.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+
+        m_jbtnStartDate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uk/chromis/images/date.png"))); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("pos_messages"); // NOI18N
+        m_jbtnStartDate.setToolTipText(bundle.getString("tiptext.opencalendar")); // NOI18N
+        m_jbtnStartDate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                m_jActiveActionPerformed(evt);
+                m_jbtnStartDateActionPerformed(evt);
             }
         });
-        m_jTabGeneral.add(m_jActive);
-        m_jActive.setBounds(180, 100, 30, 30);
-        m_jTabGeneral.add(m_jShowLength);
-        m_jShowLength.setBounds(180, 70, 80, 26);
-        m_jTabGeneral.add(m_jShowOrder);
-        m_jShowOrder.setBounds(180, 40, 80, 26);
 
-        jLabel4.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jLabel4.setText(AppLocal.getIntString("label.showname")); // NOI18N
-        m_jTabGeneral.add(jLabel4);
-        jLabel4.setBounds(10, 10, 36, 15);
+        m_jbtnEndDate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uk/chromis/images/date.png"))); // NOI18N
+        m_jbtnEndDate.setToolTipText(bundle.getString("tiptext.opencalendar")); // NOI18N
+        m_jbtnEndDate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                m_jbtnEndDateActionPerformed(evt);
+            }
+        });
 
-        jTabbedPane1.addTab(AppLocal.getIntString("label.showgeneral"), m_jTabGeneral); // NOI18N
-        jTabbedPane1.addTab(AppLocal.getIntString("label.showimage"), m_jTabImage); // NOI18N
+        m_jbtnReportStartDate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uk/chromis/images/date.png"))); // NOI18N
+        m_jbtnReportStartDate.setToolTipText(bundle.getString("tiptext.opencalendar")); // NOI18N
+        m_jbtnReportStartDate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                m_jbtnReportStartDateActionPerformed(evt);
+            }
+        });
 
-        add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 600, 420));
+        m_jbtn_ReportEndDate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uk/chromis/images/date.png"))); // NOI18N
+        m_jbtn_ReportEndDate.setToolTipText(bundle.getString("tiptext.opencalendar")); // NOI18N
+        m_jbtn_ReportEndDate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                m_jbtn_ReportEndDateActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(m_jTheatre, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(m_jEndDate, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(m_jbtnEndDate, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(m_jStartDate, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(m_jReportStartDate)
+                                                .addGap(7, 7, 7)))
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(m_jbtnStartDate, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(m_jbtnReportStartDate, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                            .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(m_jReportEndDate, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(m_jbtn_ReportEndDate, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 82, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(m_jTheatre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(m_jStartDate, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(m_jbtnStartDate, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(m_jEndDate, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(m_jbtnEndDate, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(m_jReportStartDate, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(m_jbtnReportStartDate, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(m_jReportEndDate, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(m_jbtn_ReportEndDate, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 100, Short.MAX_VALUE))
+        );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void m_jActiveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_jActiveActionPerformed
-    }//GEN-LAST:event_m_jActiveActionPerformed
+    private void m_jbtn_ReportEndDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_jbtn_ReportEndDateActionPerformed
+        // TODO add your handling code here:
+        Date date;
+        try {
+            date = (Date) Formats.DATE.parseValue(m_jReportEndDate.getText());
+        } catch (BasicException e) {
+            date = null;
+        }
+        date = JCalendarDialog.showCalendar(this, date);
+        if (date != null) {
+            m_jReportEndDate.setText(Formats.DATE.formatValue(date));
+        }
+    }//GEN-LAST:event_m_jbtn_ReportEndDateActionPerformed
 
-    private void m_jNameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_m_jNameFocusLost
-    }//GEN-LAST:event_m_jNameFocusLost
+    private void m_jbtnReportStartDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_jbtnReportStartDateActionPerformed
+        Date date;
+        try {
+            date = (Date) Formats.DATE.parseValue(m_jReportStartDate.getText());
+        } catch (BasicException e) {
+            date = null;
+        }
+        date = JCalendarDialog.showCalendar(this, date);
+        if (date != null) {
+            m_jReportStartDate.setText(Formats.DATE.formatValue(date));
+        }
+    }//GEN-LAST:event_m_jbtnReportStartDateActionPerformed
+
+    private void m_jbtnEndDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_jbtnEndDateActionPerformed
+        Date date;
+        try {
+            date = (Date) Formats.DATE.parseValue(m_jEndDate.getText());
+        } catch (BasicException e) {
+            date = null;
+        }
+        date = JCalendarDialog.showCalendar(this, date);
+        if (date != null) {
+            m_jEndDate.setText(Formats.DATE.formatValue(date));
+            if (m_jReportEndDate.getText().equals("")) {
+                m_jReportEndDate.setText(Formats.DATE.formatValue(date));
+            }
+        }
+    }//GEN-LAST:event_m_jbtnEndDateActionPerformed
+
+    private void m_jbtnStartDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_jbtnStartDateActionPerformed
+        Date date;
+        try {
+            date = (Date) Formats.DATE.parseValue(m_jStartDate.getText());
+        } catch (BasicException e) {
+            date = null;
+        }
+        date = JCalendarDialog.showCalendar(this, date);
+        if (date != null) {
+            m_jStartDate.setText(Formats.DATE.formatValue(date));
+            if (m_jReportStartDate.getText().equals("")) {
+                m_jReportStartDate.setText(Formats.DATE.formatValue(date));
+            }
+        }
+    }//GEN-LAST:event_m_jbtnStartDateActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel34;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JTabbedPane jTabbedPane1;
-    private eu.hansolo.custom.SteelCheckBox m_jActive;
-    private javax.swing.JTextField m_jName;
-    private javax.swing.ButtonGroup m_jScheduleMode;
-    private javax.swing.JSpinner m_jShowLength;
-    private javax.swing.JSpinner m_jShowOrder;
-    private javax.swing.JPanel m_jTabGeneral;
-    private uk.chromis.data.gui.JImageEditor m_jTabImage;
-    private javax.swing.JLabel m_jTitle;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JTextField m_jEndDate;
+    private javax.swing.JTextField m_jReportEndDate;
+    private javax.swing.JTextField m_jReportStartDate;
+    private javax.swing.JTextField m_jStartDate;
+    private javax.swing.JComboBox<String> m_jTheatre;
+    private javax.swing.JButton m_jbtnEndDate;
+    private javax.swing.JButton m_jbtnReportStartDate;
+    private javax.swing.JButton m_jbtnStartDate;
+    private javax.swing.JButton m_jbtn_ReportEndDate;
     // End of variables declaration//GEN-END:variables
+
 
 }

@@ -16,14 +16,9 @@
 //
 //    You should have received a copy of the GNU General Public License
 //    along with Chromis POS.  If not, see <http://www.gnu.org/licenses/>.
-
 package uk.chromis.pos.inventory;
 
 import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ListCellRenderer;
 import uk.chromis.basic.BasicException;
 import uk.chromis.data.gui.ListCellRendererBasic;
@@ -39,106 +34,85 @@ import uk.chromis.pos.panels.JPanelTable;
 
 /**
  *
- * @author 
+ * @author adrianromero Created on 1 de marzo de 2007, 22:15
+ *
  */
-public class ShowSchedulePanel extends JPanelTable {
+public class FeaturesPanel extends JPanelTable {
 
-    private DataLogicSales m_dlSales;
-    
-    private ShowScheduleEditor editor;
-    private ShowScheduleFilter filter;
-
-    private TableDefinition tShowSchedule;
-
+    private DataLogicSales m_dlSales = null;
+    private FeaturesEditor jeditor;
+    private FeaturesFilter jFeaturesFilter;
+    private TableDefinition tFeatures;
     private String m_initialFilter = "";
 
-
-    public ShowSchedulePanel() {
+    /**
+     * Creates a new instance of FeaturesPanel
+     */
+    public FeaturesPanel() {
     }
 
-    public ShowSchedulePanel(String szFilter) {
-        // Set initial filter
+    public FeaturesPanel(String szFilter) {
+        // Set initial filter  
         m_initialFilter = szFilter;
     }
-
-
 
     /**
      *
      */
     @Override
     protected void init() {
-
-        m_dlSales = (DataLogicSales) app.getBean("uk.chromis.pos.forms.DataLogicSales");
-        tShowSchedule = m_dlSales.getTableShowSchedule();
         
-        filter = new ShowScheduleFilter();
-        filter.init(app);
-       
+        m_dlSales = (DataLogicSales) app.getBean("uk.chromis.pos.forms.DataLogicSales");        
+        tFeatures = m_dlSales.getTableFeatures();
 
-        try {
-            editor = new ShowScheduleEditor(m_dlSales, dirty);
-        } catch (BasicException ex) {
-            Logger.getLogger(ShowSchedulePanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        jFeaturesFilter = new FeaturesFilter();
+        jFeaturesFilter.init(app);
 
+        // el panel del editor
+        jeditor = new FeaturesEditor(m_dlSales, dirty);
 
         if (AppConfig.getInstance().getBoolean("display.longnames")) {
-            setListWidth(350);
+            setListWidth(300);
         }
-
-
     }
 
-
+    
     /**
      *
      * @return
      */
     @Override
     public ListProvider getListProvider() {
-        return new ListProviderCreator(m_dlSales.getShowScheduleQBF(), filter);
+        return new ListProviderCreator(m_dlSales.getFeaturesQBF() , jFeaturesFilter);
     }
-
+    
     /**
      *
      * @return
      */
     @Override
     public SaveProvider getSaveProvider() {
-        return new SaveProvider(m_dlSales.getShowScheduleUpdate(), m_dlSales.getShowScheduleInsert(), m_dlSales.getShowScheduleDelete());
+        return new SaveProvider(m_dlSales.getFeatureUpdate(), m_dlSales.getFeatureInsert(), m_dlSales.getFeatureDelete());      
     }
-
-
-
-    /**
-     *
-     * @throws BasicException
-     */
-    @Override
-    public void activate() throws BasicException {
-        
-        filter.addActionListener(new ReloadActionListener());
-        
-        editor.activate();
-        filter.activate();
-
-        setLoadOnActivation(true);
-        
-        super.activate();
-
-    }
-
-    /**
-     *
-     * @return
-     */
-    @Override
-    public Component getFilter(){
-        return filter.getComponent();
-    }
-
     
+    
+    /**
+     *
+     * @return value
+     */
+    @Override
+    public EditorRecord getEditor() {
+        return jeditor;
+    }
+
+    /**
+     *
+     * @return value
+     */
+    @Override
+    public Component getFilter() {
+        return jFeaturesFilter.getComponent();
+    }
     
     /**
      *
@@ -146,38 +120,32 @@ public class ShowSchedulePanel extends JPanelTable {
      */
     @Override
     public ListCellRenderer getListCellRenderer() {
-        return new ListCellRendererBasic(tShowSchedule.getRenderStringBasic(new int[]{3,4}));
+        return new ListCellRendererBasic(tFeatures.getRenderStringBasic(new int[]{1}));
     }
     
-    
+
     /**
      *
-     * @return
+     * @return value
      */
     @Override
-    public EditorRecord getEditor() {
-        return editor;
+    public String getTitle() {
+        return AppLocal.getIntString("Menu.Features");
     }
 
     /**
      *
-     * @return
+     * @throws BasicException
      */
     @Override
-    public String getTitle() {
-        return AppLocal.getIntString("Menu.ShowSchedule");
+    public void activate() throws BasicException {
+
+        jeditor.activate();
+        jFeaturesFilter.activate();
+
+        setLoadOnActivation(true);
+
+        super.activate();
     }
-    
-    
-    private class ReloadActionListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            try {
-                bd.actionLoad();
-            } catch (BasicException w) {
-            }
-        }
-    }
-    
-    
+
 }

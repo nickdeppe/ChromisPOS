@@ -56,8 +56,9 @@ public class DataLogicSales extends BeanFactoryDataSingle {
     private SentenceFind m_productname;
     protected Datas[] stockdatas;
     protected Row productsRow;
+    protected Row featuresRow;
     protected Row showsRow;
-    protected Row showScheduleRow;
+    protected Row ratingsRow;
     private String pName;
     private Double getTotal;
     private Double getTendered;
@@ -111,22 +112,26 @@ public class DataLogicSales extends BeanFactoryDataSingle {
     public static int INDEX_ISBOXOFFICE = FIELD_COUNT++;
 
     
+    public static int FEATURES_FIELD_COUNT = 0;
+    public static int INDEX_FEATURE_ID = FEATURES_FIELD_COUNT++;
+    public static int INDEX_FEATURE_NAME = FEATURES_FIELD_COUNT++;
+    public static int INDEX_FEATURE_IMAGE = FEATURES_FIELD_COUNT++;
+    public static int INDEX_FEATURE_RUNTIME = FEATURES_FIELD_COUNT++;
+    public static int INDEX_FEATURE_RATINGID = FEATURES_FIELD_COUNT++;
+    public static int INDEX_FEATURE_ACTIVE = FEATURES_FIELD_COUNT++;
+
     public static int SHOWS_FIELD_COUNT = 0;
     public static int INDEX_SHOW_ID = SHOWS_FIELD_COUNT++;
-    public static int INDEX_SHOW_NAME = SHOWS_FIELD_COUNT++;
-    public static int INDEX_SHOW_IMAGE = SHOWS_FIELD_COUNT++;
-    public static int INDEX_SHOW_SHOWORDER = SHOWS_FIELD_COUNT++;
-    public static int INDEX_SHOW_SHOWLENGTH = SHOWS_FIELD_COUNT++;
-    public static int INDEX_SHOW_ACTIVE = SHOWS_FIELD_COUNT++;
-
-    public static int SHOWSCHEDULE_FIELD_COUNT = 0;
-    public static int INDEX_SHOWSCHEDULE_ID = SHOWSCHEDULE_FIELD_COUNT++;
-    public static int INDEX_SHOWSCHEDULE_SHOWID = SHOWSCHEDULE_FIELD_COUNT++;
-    public static int INDEX_SHOWSCHEDULE_THEATREID = SHOWSCHEDULE_FIELD_COUNT++;
-    public static int INDEX_SHOWSCHEDULE_STARTDATE = SHOWSCHEDULE_FIELD_COUNT++;
-    public static int INDEX_SHOWSCHEDULE_ENDDATE = SHOWSCHEDULE_FIELD_COUNT++;
-    public static int INDEX_SHOWSCHEDULE_REPORTSTARTDATE = SHOWSCHEDULE_FIELD_COUNT++;
-    public static int INDEX_SHOWSCHEDULE_REPORTENDDATE = SHOWSCHEDULE_FIELD_COUNT++;
+    public static int INDEX_SHOW_THEATREID = SHOWS_FIELD_COUNT++;
+    public static int INDEX_SHOW_STARTDATE = SHOWS_FIELD_COUNT++;
+    public static int INDEX_SHOW_ENDDATE = SHOWS_FIELD_COUNT++;
+    public static int INDEX_SHOW_REPORTSTARTDATE = SHOWS_FIELD_COUNT++;
+    public static int INDEX_SHOW_REPORTENDDATE = SHOWS_FIELD_COUNT++;
+    
+    public static int RATINGS_FIELD_COUNT = 0;
+    public static int INDEX_RATING_ID = RATINGS_FIELD_COUNT++;
+    public static int INDEX_RATING_NAME = RATINGS_FIELD_COUNT++;
+    public static int INDEX_RATING_ACTIVE = RATINGS_FIELD_COUNT++;
 
     
     /**
@@ -227,21 +232,25 @@ public class DataLogicSales extends BeanFactoryDataSingle {
         // to the PRODUCTS table and not added an INDEX_xxx for it?
         assert (FIELD_COUNT == productsRow.getFields().length);
         
-        showsRow = new Row(
+        
+        
+        
+        featuresRow = new Row(
             new Field("ID", Datas.STRING, Formats.STRING),
             new Field("NAME", Datas.STRING, Formats.STRING, true, true, true),
             new Field("IMAGE", Datas.IMAGE, Formats.NULL),
-            new Field("SHOWORDER", Datas.INT, Formats.INT),
-            new Field("SHOWLENGTH", Datas.INT, Formats.INT),
+            new Field("RUNTIME", Datas.INT, Formats.INT),
+            new Field("RATINGID", Datas.STRING, Formats.STRING),
             new Field("ACTIVE", Datas.BOOLEAN, Formats.BOOLEAN, true, true, true)
         );
         
-        assert (SHOWS_FIELD_COUNT == showsRow.getFields().length);
+        assert (FEATURES_FIELD_COUNT == featuresRow.getFields().length);
 
+        
+        
 
-        showScheduleRow = new Row(
+        showsRow = new Row(
             new Field("ID", Datas.STRING, Formats.STRING),
-            new Field("SHOWID", Datas.STRING, Formats.STRING, true, true, true),
             new Field("THEATREID", Datas.STRING, Formats.STRING, true, true, true),
             new Field("STARTDATE", Datas.DATE, Formats.DATE),
             new Field("ENDDATE", Datas.DATE, Formats.DATE),
@@ -249,7 +258,15 @@ public class DataLogicSales extends BeanFactoryDataSingle {
             new Field("REPORTSTARTDATE", Datas.DATE, Formats.DATE)
         );
         
-        assert (SHOWSCHEDULE_FIELD_COUNT == showScheduleRow.getFields().length );
+        assert (SHOWS_FIELD_COUNT == showsRow.getFields().length );
+        
+        
+        ratingsRow = new Row(
+                new Field("ID", Datas.STRING, Formats.STRING),
+                new Field("NAME", Datas.STRING, Formats.STRING),
+                new Field("ACTIVE", Datas.BOOLEAN, Formats.BOOLEAN)
+        );
+        assert (RATINGS_FIELD_COUNT == ratingsRow.getFields().length );
         
     }
 
@@ -1589,22 +1606,22 @@ public class DataLogicSales extends BeanFactoryDataSingle {
      *
      * @return
      */
-    public final SentenceList getShowQBF() {
+    public final SentenceList getFeaturesQBF() {
         return new StaticSentence(s, 
             new QBFBuilder(
                 "SELECT "
-                + "S.ID, "
-                + "S.NAME, "
-                + "S.IMAGE, "
-                + "S.SHOWORDER, "
-                + "S.SHOWLENGTH, "
-                + "S.ACTIVE "
-                + "FROM SHOWS S "
+                + "F.ID, "
+                + "F.NAME, "
+                + "F.IMAGE, "
+                + "F.RUNTIME, "
+                + "F.RATINGID, "
+                + "F.ACTIVE "
+                + "FROM FEATURES F "
                 + "WHERE ?(QBF_FILTER) "
-                + "ORDER BY S.NAME",
+                + "ORDER BY F.NAME",
                 new String[] {
-                    "S.NAME", 
-                    "S.ACTIVE"
+                    "F.NAME", 
+                    "F.ACTIVE"
                 }, 
                 false
             ), 
@@ -1614,7 +1631,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                     Datas.OBJECT, Datas.BOOLEAN
                 }
             ), 
-            showsRow.getSerializerRead()
+            featuresRow.getSerializerRead()
         );
     }
     
@@ -1622,21 +1639,21 @@ public class DataLogicSales extends BeanFactoryDataSingle {
      *
      * @return
      */
-    public final SentenceList getShowsList() {
+    public final SentenceList getFeaturesList() {
         return new StaticSentence(
                 s,
                 "SELECT "
-                + "S.ID, "
-                + "S.NAME, "
-                + "S.IMAGE, "
-                + "S.SHOWORDER, "
-                + "S.SHOWLENGTH, "
-                + "S.ACTIVE "
-                + "FROM SHOWS S "
-                + "WHERE S.ACTIVE = TRUE "
-                + "ORDER BY S.NAME",
+                + "F.ID, "
+                + "F.NAME, "
+                + "F.IMAGE, "
+                + "F.RUNTIME, "
+                + "F.RATINGID, "
+                + "F.ACTIVE "
+                + "FROM FEATURES F "
+                + "WHERE F.ACTIVE = TRUE "
+                + "ORDER BY F.NAME",
                 null,
-                ShowInfo.getSerializerRead()
+                FeatureInfo.getSerializerRead()
         );
     }
     
@@ -1645,23 +1662,23 @@ public class DataLogicSales extends BeanFactoryDataSingle {
      *
      * @return
      */
-    public final SentenceExec getShowInsert() {
+    public final SentenceExec getFeatureInsert() {
         return new SentenceExecTransaction(s) {
             @Override
             public int execInTransaction(Object params) throws BasicException {
                 Object[] values = (Object[]) params;
                 return new PreparedSentence(
                             s, 
-                            "INSERT INTO SHOWS (ID, NAME, IMAGE, SHOWORDER, SHOWLENGTH, ACTIVE) VALUES (?, ?, ?, ?, ?, ?)",
+                            "INSERT INTO FEATURES (ID, NAME, IMAGE, RUNTIME, RATINGID, ACTIVE) VALUES (?, ?, ?, ?, ?, ?)",
                             new SerializerWriteBasicExt(
-                                showsRow.getDatas(),
+                                featuresRow.getDatas(),
                                 new int[] {
-                                    INDEX_SHOW_ID, 
-                                    INDEX_SHOW_NAME, 
-                                    INDEX_SHOW_IMAGE, 
-                                    INDEX_SHOW_SHOWORDER, 
-                                    INDEX_SHOW_SHOWLENGTH, 
-                                    INDEX_SHOW_ACTIVE
+                                    INDEX_FEATURE_ID, 
+                                    INDEX_FEATURE_NAME, 
+                                    INDEX_FEATURE_IMAGE, 
+                                    INDEX_FEATURE_RUNTIME, 
+                                    INDEX_FEATURE_RATINGID, 
+                                    INDEX_FEATURE_ACTIVE
                                 }
                             )
                 ).exec(params);
@@ -1673,29 +1690,29 @@ public class DataLogicSales extends BeanFactoryDataSingle {
      *
      * @return
      */
-    public final SentenceExec getShowUpdate() {
+    public final SentenceExec getFeatureUpdate() {
         return new SentenceExecTransaction(s) {
             @Override
             public int execInTransaction(Object params) throws BasicException {
                 Object[] values = (Object[]) params;
                 return new PreparedSentence(s, 
-                        "UPDATE SHOWS "
+                        "UPDATE FEATURES "
                         + "SET "
                         + "NAME = ?, "
                         + "IMAGE = ?, "
-                        + "SHOWORDER = ?, "
-                        + "SHOWLENGTH = ?, "
+                        + "RUNTIME = ?, "
+                        + "RATINGID = ?, "
                         + "ACTIVE = ? "
                         + "WHERE ID = ?", 
                         new SerializerWriteBasicExt(
-                                showsRow.getDatas(),
+                                featuresRow.getDatas(),
                                 new int[]{
-                                    INDEX_SHOW_NAME, 
-                                    INDEX_SHOW_IMAGE, 
-                                    INDEX_SHOW_SHOWORDER, 
-                                    INDEX_SHOW_SHOWLENGTH, 
-                                    INDEX_SHOW_ACTIVE,
-                                    INDEX_SHOW_ID
+                                    INDEX_FEATURE_NAME, 
+                                    INDEX_FEATURE_IMAGE, 
+                                    INDEX_FEATURE_RUNTIME, 
+                                    INDEX_FEATURE_RATINGID, 
+                                    INDEX_FEATURE_ACTIVE,
+                                    INDEX_FEATURE_ID
                                 }
                         )
                 ).exec(params);
@@ -1707,11 +1724,11 @@ public class DataLogicSales extends BeanFactoryDataSingle {
      *
      * @return
      */
-    public final SentenceExec getShowDelete() {
+    public final SentenceExec getFeatureDelete() {
         return new SentenceExecTransaction(s) {
             @Override
             public int execInTransaction(Object params) throws BasicException {
-                return new PreparedSentence(s, "DELETE FROM SHOWS WHERE ID = ?", new SerializerWriteBasicExt(showsRow.getDatas(), new int[]{INDEX_SHOW_ID})).exec(params);
+                return new PreparedSentence(s, "DELETE FROM FEATURES WHERE ID = ?", new SerializerWriteBasicExt(featuresRow.getDatas(), new int[]{INDEX_FEATURE_ID})).exec(params);
             }
         };
     }
@@ -1746,22 +1763,149 @@ public class DataLogicSales extends BeanFactoryDataSingle {
      *
      * @return
      */
-    public final SentenceList getShowScheduleQBF() {
+    public final SentenceList getRatingsQBF() {
+        return new StaticSentence(s,
+            new QBFBuilder(
+                "SELECT "
+                + "R.ID, "
+                + "R.NAME, "
+                + "R.ACTIVE "
+                + "FROM RATINGS R "
+                + "WHERE ?(QBF_FILTER) "
+                + "ORDER BY R.NAME ",
+                new String[] {
+                    "R.NAME",
+                    "R.ACTIVE"
+                },
+                false
+            ),
+            new SerializerWriteBasic(
+                new Datas[]{
+                    Datas.OBJECT, Datas.STRING,
+                    Datas.OBJECT, Datas.BOOLEAN
+                }
+            ),
+            ratingsRow.getSerializerRead()
+        );
+    }
+    
+    
+    /**
+     *
+     * @return
+     */
+    public final SentenceList getRatingsList() {
+        return new StaticSentence(
+                s,
+                "SELECT "
+                + "R.ID, "
+                + "R.NAME, "
+                + "R.ACTIVE "
+                + "FROM RATINGS R "
+                + "WHERE R.ACTIVE = TRUE "
+                + "ORDER BY R.NAME",
+                null,
+                RatingInfo.getSerializerRead()
+        );
+    }
+
+    
+
+    /**
+     *
+     * @return
+     */
+    public final SentenceExec getRatingInsert() {
+        return new SentenceExecTransaction(s) {
+            @Override
+            public int execInTransaction(Object params) throws BasicException {
+                Object[] values = (Object[]) params;
+                return new PreparedSentence(
+                    s,
+                    "INSERT INTO RATINGS (ID, NAME, ACTIVE) VALUES (?, ?, ?)",
+                    new SerializerWriteBasicExt(
+                        ratingsRow.getDatas(),
+                        new int[] {
+                            INDEX_RATING_ID,
+                            INDEX_RATING_NAME,
+                            INDEX_RATING_ACTIVE
+                        }
+                    )
+                ).exec(params);
+            }
+        };
+    }
+
+    /**
+     *
+     * @return
+     */
+    public final SentenceExec getRatingUpdate() {
+        return new SentenceExecTransaction(s) {
+            @Override
+            public int execInTransaction(Object params) throws BasicException {
+                Object[] values = (Object[]) params;
+                return new PreparedSentence(s,
+                        "UPDATE RATINGS "
+                        + "SET "
+                        + "NAME = ?, "
+                        + "ACTIVE = ? "
+                        + "WHERE ID = ?",
+                        new SerializerWriteBasicExt(
+                                ratingsRow.getDatas(),
+                                new int[]{
+                                    INDEX_RATING_NAME,
+                                    INDEX_RATING_ACTIVE,
+                                    INDEX_RATING_ID
+                                }
+                        )
+                ).exec(params);
+            }
+        };
+    }
+
+    /**
+     *
+     * @return
+     */
+    public final SentenceExec getRatingDelete() {
+        return new SentenceExecTransaction(s) {
+            @Override
+            public int execInTransaction(Object params) throws BasicException {
+                return new PreparedSentence(s, 
+                        "DELETE FROM RATINGS WHERE ID = ?", 
+                        new SerializerWriteBasicExt(
+                                ratingsRow.getDatas(), 
+                                new int[]{
+                                    INDEX_RATING_ID
+                                }
+                        )
+                ).exec(params);
+            }
+        };
+    }
+
+    
+    
+
+    /**
+     *
+     * @return
+     */
+    public final SentenceList getShowQBF() {
         return new StaticSentence(s,
             new QBFBuilder(
                 "SELECT "
                 + "S.ID, "
-                + "S.SHOWID, "
                 + "S.THEATREID, "
                 + "S.STARTDATE, "
                 + "S.ENDDATE, "
                 + "S.REPORTSTARTDATE, "
                 + "S.REPORTENDDATE "
-                + "FROM SHOWSCHEDULE S "
+                + "FROM SHOWS S "
                 + "WHERE ?(QBF_FILTER) "
                 + "ORDER BY S.STARTDATE",
                 new String[] {
-                    "S.SHOWID",
                     "S.THEATREID",
                     "S.ENDDATE"
                 },
@@ -1770,11 +1914,10 @@ public class DataLogicSales extends BeanFactoryDataSingle {
             new SerializerWriteBasic(
                 new Datas[]{
                     Datas.OBJECT, Datas.STRING,
-                    Datas.OBJECT, Datas.STRING,
                     Datas.OBJECT, Datas.DATE
                 }
             ),
-            showScheduleRow.getSerializerRead()
+            showsRow.getSerializerRead()
         );
     }
 
@@ -1787,24 +1930,23 @@ public class DataLogicSales extends BeanFactoryDataSingle {
      *
      * @return
      */
-    public final SentenceExec getShowScheduleInsert() {
+    public final SentenceExec getShowInsert() {
         return new SentenceExecTransaction(s) {
             @Override
             public int execInTransaction(Object params) throws BasicException {
                 Object[] values = (Object[]) params;
                 return new PreparedSentence(
                     s,
-                    "INSERT INTO SHOWSCHEDULE (ID, SHOWID, THEATREID, STARTDATE, ENDDATE, REPORTSTARTDATE, REPORTENDDATE) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                    "INSERT INTO SHOWS (ID, THEATREID, STARTDATE, ENDDATE, REPORTSTARTDATE, REPORTENDDATE) VALUES (?, ?, ?, ?, ?, ?)",
                     new SerializerWriteBasicExt(
-                        showScheduleRow.getDatas(),
+                        showsRow.getDatas(),
                         new int[] {
-                            INDEX_SHOWSCHEDULE_ID,
-                            INDEX_SHOWSCHEDULE_SHOWID,
-                            INDEX_SHOWSCHEDULE_THEATREID,
-                            INDEX_SHOWSCHEDULE_STARTDATE,
-                            INDEX_SHOWSCHEDULE_ENDDATE,
-                            INDEX_SHOWSCHEDULE_REPORTSTARTDATE,
-                            INDEX_SHOWSCHEDULE_REPORTENDDATE
+                            INDEX_SHOW_ID,
+                            INDEX_SHOW_THEATREID,
+                            INDEX_SHOW_STARTDATE,
+                            INDEX_SHOW_ENDDATE,
+                            INDEX_SHOW_REPORTSTARTDATE,
+                            INDEX_SHOW_REPORTENDDATE
                         }
                     )
                 ).exec(params);
@@ -1816,15 +1958,14 @@ public class DataLogicSales extends BeanFactoryDataSingle {
      *
      * @return
      */
-    public final SentenceExec getShowScheduleUpdate() {
+    public final SentenceExec getShowUpdate() {
         return new SentenceExecTransaction(s) {
             @Override
             public int execInTransaction(Object params) throws BasicException {
                 Object[] values = (Object[]) params;
                 return new PreparedSentence(s,
-                        "UPDATE SHOWSCHEDULE "
+                        "UPDATE SHOWS "
                         + "SET "
-                        + "SHOWID = ?, "
                         + "THEATREID = ?, "
                         + "STARTDATE = ?, "
                         + "ENDDATE = ?, "
@@ -1832,15 +1973,14 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                         + "REPORTENDDATE = ? "
                         + "WHERE ID = ?",
                         new SerializerWriteBasicExt(
-                                showScheduleRow.getDatas(),
+                                showsRow.getDatas(),
                                 new int[]{
-                                    INDEX_SHOWSCHEDULE_SHOWID,
-                                    INDEX_SHOWSCHEDULE_THEATREID,
-                                    INDEX_SHOWSCHEDULE_STARTDATE,
-                                    INDEX_SHOWSCHEDULE_ENDDATE,
-                                    INDEX_SHOWSCHEDULE_REPORTSTARTDATE,
-                                    INDEX_SHOWSCHEDULE_REPORTENDDATE,
-                                    INDEX_SHOWSCHEDULE_ID
+                                    INDEX_SHOW_THEATREID,
+                                    INDEX_SHOW_STARTDATE,
+                                    INDEX_SHOW_ENDDATE,
+                                    INDEX_SHOW_REPORTSTARTDATE,
+                                    INDEX_SHOW_REPORTENDDATE,
+                                    INDEX_SHOW_ID
                                 }
                         )
                 ).exec(params);
@@ -1852,16 +1992,16 @@ public class DataLogicSales extends BeanFactoryDataSingle {
      *
      * @return
      */
-    public final SentenceExec getShowScheduleDelete() {
+    public final SentenceExec getShowDelete() {
         return new SentenceExecTransaction(s) {
             @Override
             public int execInTransaction(Object params) throws BasicException {
                 return new PreparedSentence(s, 
-                        "DELETE FROM SHOWSCHEDULE WHERE ID = ?", 
+                        "DELETE FROM SHOWS WHERE ID = ?", 
                         new SerializerWriteBasicExt(
-                                showScheduleRow.getDatas(), 
+                                showsRow.getDatas(), 
                                 new int[]{
-                                    INDEX_SHOWSCHEDULE_ID
+                                    INDEX_SHOW_ID
                                 }
                         )
                 ).exec(params);
@@ -2083,30 +2223,44 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 
     
 
-    public final TableDefinition getTableShows() {
+    public final TableDefinition getTableFeatures() {
         return new TableDefinition(
                 s,
                 "SHOWS",
-                new String[]{"ID", "NAME", "IMAGE", "SHOWORDER", "SHOWLENGTH", "ACTIVE"},
-                new String[]{"ID", AppLocal.getIntString("label.showname"), AppLocal.getIntString("label.showimage"), AppLocal.getIntString("label.showorder"), AppLocal.getIntString("label.showlength"), AppLocal.getIntString("label.showactive")},
-                new Datas[]{Datas.STRING, Datas.STRING, Datas.IMAGE, Datas.INT, Datas.INT, Datas.BOOLEAN },
-                new Formats[]{Formats.STRING, Formats.STRING, Formats.NULL, Formats.INT, Formats.INT, Formats.BOOLEAN },
+                new String[]{"ID", "NAME", "IMAGE", "RUNTIME", "RATINGID", "ACTIVE"},
+                new String[]{"ID", AppLocal.getIntString("label.featurename"), AppLocal.getIntString("label.featureimage"), AppLocal.getIntString("label.featureruntime"), AppLocal.getIntString("label.featureratingid"), AppLocal.getIntString("label.featureactive")},
+                new Datas[]{Datas.STRING, Datas.STRING, Datas.IMAGE, Datas.INT, Datas.STRING, Datas.BOOLEAN },
+                new Formats[]{Formats.STRING, Formats.STRING, Formats.NULL, Formats.INT, Formats.STRING, Formats.BOOLEAN },
                 new int[]{0},
                 "NAME"
         );
     }
     
 
-    public final TableDefinition getTableShowSchedule() {
+    public final TableDefinition getTableShows() {
         return new TableDefinition(
                 s,
-                "SHOWSCHEDULE",
-                new String[]{"ID", "SHOWID", "THEATREID", "STARTDATE", "ENDDATE", "REPORTSTARTDATE", "REPORTENDDATE"},
-                new String[]{"ID", AppLocal.getIntString("label.showid"), AppLocal.getIntString("label.theatreid"), AppLocal.getIntString("label.startdate"), AppLocal.getIntString("label.enddate"), AppLocal.getIntString("label.reportstartdate"), AppLocal.getIntString("label.reportenddate") },
-                new Datas[]{Datas.STRING, Datas.STRING, Datas.STRING, Datas.TIMESTAMP, Datas.TIMESTAMP, Datas.TIMESTAMP, Datas.TIMESTAMP },
-                new Formats[]{Formats.STRING, Formats.STRING, Formats.STRING, Formats.DATE, Formats.DATE, Formats.DATE, Formats.DATE },
+                "SHOWS",
+                new String[]{"ID", "THEATREID", "STARTDATE", "ENDDATE", "REPORTSTARTDATE", "REPORTENDDATE"},
+                new String[]{"ID", AppLocal.getIntString("label.theatreid"), AppLocal.getIntString("label.startdate"), AppLocal.getIntString("label.enddate"), AppLocal.getIntString("label.reportstartdate"), AppLocal.getIntString("label.reportenddate") },
+                new Datas[]{Datas.STRING, Datas.STRING, Datas.DATE, Datas.DATE, Datas.DATE, Datas.DATE },
+                new Formats[]{Formats.STRING, Formats.STRING, Formats.DATE, Formats.DATE, Formats.DATE, Formats.DATE },
                 new int[]{0},
-                "STARTDATE, ENDDATE"
+                "THEATREID, STARTDATE, ENDDATE"
+        );
+    }
+    
+    
+    public final TableDefinition getTableRatings() {
+        return new TableDefinition(
+                s,
+                "RATINGS",
+                new String[]{"ID", "NAME", "ACTIVE"},
+                new String[]{"ID", AppLocal.getIntString("label.ratingname"), AppLocal.getIntString("label.ratingactive")},
+                new Datas[]{Datas.STRING, Datas.STRING, Datas.BOOLEAN},
+                new Formats[]{Formats.STRING, Formats.STRING, Formats.BOOLEAN},
+                new int[]{0},
+                "NAME"
         );
     }
     

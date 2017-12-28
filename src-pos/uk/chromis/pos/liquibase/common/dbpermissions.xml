@@ -1021,12 +1021,12 @@
         </insert> 		  
     </changeSet> 
     
-    <changeSet author="Chromis POS" id="Add show maintenance option">
+    <changeSet author="Chromis POS" id="Add feature maintenance option">
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">SELECT COUNT(1) FROM DBPERMISSIONS WHERE DESCRIPTION = '##label.description134'</sqlCheck>
         </preConditions>
         <insert tableName="DBPERMISSIONS">
-            <column name="CLASSNAME" value="uk.chromis.pos.inventory.ShowsPanel"/>  
+            <column name="CLASSNAME" value="uk.chromis.pos.inventory.FeaturesPanel"/>
             <column name="SECTION" value="##label.sectionstock"/>
             <column name="DISPLAYNAME" value="##label.displayname134"/>  
             <column name="DESCRIPTION" value="##label.description134"/>  
@@ -1045,15 +1045,27 @@
         </insert>
     </changeSet>
     
-    <changeSet author="Chromis POS" id="Add show schedule maintenance option">
+    <changeSet author="Chromis POS" id="Add show maintenance option">
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">SELECT COUNT(1) FROM DBPERMISSIONS WHERE DESCRIPTION = '##label.description136'</sqlCheck>
         </preConditions>
         <insert tableName="DBPERMISSIONS">
-            <column name="CLASSNAME" value="uk.chromis.pos.inventory.ShowSchedulePanel"/>  
+            <column name="CLASSNAME" value="uk.chromis.pos.inventory.ShowsPanel"/>  
             <column name="SECTION" value="##label.sectionstock"/>
             <column name="DISPLAYNAME" value="##label.displayname136"/>  
             <column name="DESCRIPTION" value="##label.description136"/>  
+        </insert>
+    </changeSet>
+    
+    <changeSet author="Chromis POS" id="Add ratings maintenance option">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(*) FROM DBPERMISSIONS WHERE DESCRIPTION = '##label.description137'</sqlCheck>
+        </preConditions>
+        <insert tableName="DBPERMISSIONS">
+            <column name="CLASSNAME" value="uk.chromis.pos.inventory.RatingsPanel"/>
+            <column name="SECTION" value="##label.sectionstock"/>
+            <column name="DISPLAYNAME" value="##label.displayname137"/>  
+            <column name="DESCRIPTION" value="##label.description137"/>  
         </insert>
     </changeSet>
     

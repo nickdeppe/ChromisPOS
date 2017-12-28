@@ -323,8 +323,7 @@
             <column name="RUNTIME" type="integer">
                 <constraints nullable="false" />
             </column>
-            <column name="RATINGID" type="varchar(50)"/>
-            <column name="RATINGDESCRIPTION" type="varchar(255)"/>
+            <column name="RATINGID" type="varchar(255)"/>
             <column name="ACTIVE" type="${boolean.type}" defaultValueBoolean="true">
                 <constraints nullable="false" />
             </column>
@@ -724,9 +723,13 @@
                
     <changeSet author="Chromis POS" id="create Ratings Table (New Database)">
         <createTable tableName="RATINGS">
-            <column name="RATINGID" type="varchar(50)">
+            <column name="ID" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
+            <column name="NAME" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ACTIVE" type="${boolean.type}" defaultValueBoolean="true"/>
         </createTable>
         <modifySql dbms="mysql">
             <append value=" ENGINE = InnoDB DEFAULT CHARSET=utf8  "/>
@@ -2000,6 +2003,47 @@
             <column name="VISIBLE" valueBoolean="true"/>
         </insert>
     </changeSet>  
+                    
+                    
+
+    <changeSet author="Chromis POS" id="Insert into RATINGS Table (New Database)">
+        <insert tableName="RATINGS">
+            <column name="ID" value="0"/>
+            <column name="NAME" value="NR"/>
+            <column name="ACTIVE" valueBoolean="true"/>
+        </insert>
+        <insert tableName="RATINGS">
+            <column name="ID" value="1"/>
+            <column name="NAME" value="G"/>
+            <column name="ACTIVE" valueBoolean="true"/>
+        </insert>
+        <insert tableName="RATINGS">
+            <column name="ID" value="2"/>
+            <column name="NAME" value="PG"/>
+            <column name="ACTIVE" valueBoolean="true"/>
+        </insert>
+        <insert tableName="RATINGS">
+            <column name="ID" value="3"/>
+            <column name="NAME" value="PG-13"/>
+            <column name="ACTIVE" valueBoolean="true"/>
+        </insert>
+        <insert tableName="RATINGS">
+            <column name="ID" value="4"/>
+            <column name="NAME" value="R"/>
+            <column name="ACTIVE" valueBoolean="true"/>
+        </insert>
+        <insert tableName="RATINGS">
+            <column name="ID" value="5"/>
+            <column name="NAME" value="NC-17"/>
+            <column name="ACTIVE" valueBoolean="true"/>
+        </insert>
+        <insert tableName="RATINGS">
+            <column name="ID" value="6"/>
+            <column name="NAME" value="X"/>
+            <column name="ACTIVE" valueBoolean="true"/>
+        </insert>
+    </changeSet>
+                                        
                     
     <changeSet author="Chromis POS" id="Create SITEGUID colunmn in tables part of new database (New Database)"  >    
         <customChange class="uk.chromis.pos.util.SiteGUID" />                                       

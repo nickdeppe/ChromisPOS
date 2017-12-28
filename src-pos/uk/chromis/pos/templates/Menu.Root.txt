@@ -46,9 +46,10 @@ group = menu.addGroup("Menu.Backoffice");
     
     submenu.addTitle("Menu.StockManagement.Edit");
         submenu.addPanel("/uk/chromis/images/products.png", "Menu.Products", "uk.chromis.pos.inventory.ProductsPanel");
-        submenu.addPanel("/uk/chromis/images/products.png", "Menu.Shows", "uk.chromis.pos.inventory.ShowsPanel");
+        submenu.addPanel("/uk/chromis/images/products.png", "Menu.Ratings", "uk.chromis.pos.inventory.RatingsPanel");
         submenu.addPanel("/uk/chromis/images/products.png", "Menu.Theatres", "uk.chromis.pos.inventory.TheatresPanel");
-        submenu.addPanel("/uk/chromis/images/products.png", "Menu.ShowSchedule", "uk.chromis.pos.inventory.ShowSchedulePanel");
+        submenu.addPanel("/uk/chromis/images/products.png", "Menu.Features", "uk.chromis.pos.inventory.FeaturesPanel");
+        submenu.addPanel("/uk/chromis/images/products.png", "Menu.Shows", "uk.chromis.pos.inventory.ShowsPanel");
         submenu.addPanel("/uk/chromis/images/location.png", "Menu.ProductsWarehouse", "uk.chromis.pos.inventory.ProductsWarehousePanel");
         submenu.addPanel("/uk/chromis/images/auxiliary.png", "Menu.Auxiliar", "uk.chromis.pos.inventory.AuxiliarPanel");
         submenu.addPanel("/uk/chromis/images/category.png", "Menu.Categories", "uk.chromis.pos.inventory.CategoriesPanel");

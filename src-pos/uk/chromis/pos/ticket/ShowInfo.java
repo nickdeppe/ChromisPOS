@@ -18,112 +18,138 @@
 //    along with Chromis POS.  If not, see <http://www.gnu.org/licenses/>.
 package uk.chromis.pos.ticket;
 
-import java.awt.image.BufferedImage;
+import java.util.Date;
 import uk.chromis.basic.BasicException;
 import uk.chromis.data.loader.DataRead;
 import uk.chromis.data.loader.IKeyed;
-import uk.chromis.data.loader.ImageUtils;
 import uk.chromis.data.loader.SerializerRead;
+import uk.chromis.format.Formats;
 
 /**
  *
- * @author Adrian
- * @version
+ * @author adrianromero Created on 21 de marzo de 2007, 21:28
+ *
  */
 public class ShowInfo implements IKeyed {
 
-    private String m_sID;
-    private String m_sName;
-    private BufferedImage m_Image;
-    private Integer m_iShowOrder;
-    private Integer m_iShowLength;
-    private Boolean m_bActive;
+    protected String m_ID;
+    protected String m_sTheatreID;
+    protected Date m_dStartDate;
+    protected Date m_dEndDate;
+    protected Date m_dReportStartDate;
+    protected Date m_dReportEndDate;
+    protected String m_sDateText;
 
     /**
-     * Creates new CategoryInfo
-     *
-     * @param id
-     * @param name
-     * @param image
-     * @param showOrder
-     * @param showLength
-     * @param active
+     * Creates a new instance of ProductShowInfoList
      */
-    public ShowInfo(String id, String name, BufferedImage image, Integer showOrder, Integer showLength, Boolean active ) {
-        m_sID = id;
-        m_sName = name;
-        m_Image = image;
-        m_iShowOrder = showOrder;
-        m_iShowLength = showLength;
-        m_bActive = active;
+    public ShowInfo() {
+        m_ID = null;
+        m_sTheatreID = null;
+        m_sDateText = null;
+        m_dStartDate = null;
+        m_dEndDate = null;
+        m_dReportStartDate = null;
+        m_dReportEndDate = null;
     }
+
+    public ShowInfo( String id, String theatreID, Date startDate, Date endDate, Date reportStartDate, Date reportEndDate ) {
+        m_ID = id;
+        m_sTheatreID = theatreID;
+        m_dStartDate = startDate;
+        m_dEndDate = endDate;
+        m_dReportStartDate = reportStartDate;
+        m_dReportEndDate = reportEndDate;
+        buildDateString();
+    }
+
 
     @Override
     public Object getKey() {
-        return m_sID;
+        return m_ID;
     }
 
-    public void setID(String sID) {
-        m_sID = sID;
+    public final String getID() {
+        return m_ID;
     }
 
-    public String getID() {
-        return m_sID;
+    public final void setID(String id) {
+        m_ID = id;
     }
 
-    public String getName() {
-        return m_sName;
+    public final String getTheatreID() {
+        return m_sTheatreID;
     }
 
-    public void setName(String sName) {
-        m_sName = sName;
+    public final void setTheatreID(String id) {
+        m_sTheatreID = id;
+    }
+    
+    public final String getDateText() {
+        return m_sDateText;
     }
 
-    public BufferedImage getImage() {
-        return m_Image;
+    public final Date getStartDate() {
+        return m_dStartDate;
     }
 
-    public void setImage(BufferedImage img) {
-        m_Image = img;
+    public final void setStartDate( Date startDate ) {
+        m_dStartDate = startDate;
+        buildDateString();
     }
+
+    public final Date getEndDate() {
+        return m_dStartDate;
+    }
+
+    public final void setEndDate( Date endDate ) {
+        m_dEndDate = endDate;
+        buildDateString();
+    }
+
+    public final Date getReportStartDate() {
+        return m_dReportStartDate;
+    }
+
+    public final void setReportStartDate( Date startDate ) {
+        m_dReportStartDate = startDate;
+    }
+
+    public final Date getReportEndDate() {
+        return m_dReportStartDate;
+    }
+
+    public final void setReportEndDate( Date endDate ) {
+        m_dReportEndDate = endDate;
+    }
+
+    private void buildDateString() {
+        if ( m_dStartDate == null && m_dEndDate == null ) {
+            m_sDateText = null;
+        } else if (m_dEndDate == null) {
+            m_sDateText = Formats.DATE.formatValue(m_dStartDate) + " - ??????????";
+        } else if (m_dStartDate == null) {
+            m_sDateText = "?????????? - " + Formats.DATE.formatValue(m_dEndDate);
+        } else {
+            m_sDateText = Formats.DATE.formatValue(m_dStartDate) + " - " + Formats.DATE.formatValue(m_dEndDate);
+        }
+    }
+
 
     @Override
-    public String toString() {
-        return m_sName;
+    public final String toString() {
+        return m_sDateText;
     }
-
-	 public void setShowOrder(Integer showOrder) {
-		 m_iShowOrder = showOrder;
-	 }
-
-	 public Integer getShowOrder() {
-		 return m_iShowOrder;
-	 }
-
-	 public void setShowLength(Integer showLength) {
-		 m_iShowLength = showLength;
-	 }
-
-	 public Integer getShowLength() {
-		 return m_iShowLength;
-	 }
-
-
-	 public void setActive(Boolean active) {
-		 m_bActive = active;
-	 }
-
-	 public Boolean getActive() {
-		 return m_bActive;
-	 }
 
 
     public static SerializerRead getSerializerRead() {
         return new SerializerRead() {
             @Override
             public Object readValues(DataRead dr) throws BasicException {
-                return new ShowInfo(dr.getString(1), dr.getString(2),  ImageUtils.readImage(dr.getBytes(3)), dr.getInt(4), dr.getInt(5), dr.getBoolean(6));
+                return new ShowInfo(dr.getString(1), dr.getString(2), dr.getDate(3), dr.getDate(4), dr.getDate(5), dr.getDate(6) );
             }
         };
     }
+
+
 }

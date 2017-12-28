@@ -16,7 +16,7 @@
 //
 //    You should have received a copy of the GNU General Public License
 //    along with Chromis POS.  If not, see <http://www.gnu.org/licenses/>.
-package uk.chromis.pos.ticket;
+package uk.chromis.pos.inventory;
 
 import java.awt.Component;
 import uk.chromis.basic.BasicException;
@@ -34,12 +34,12 @@ import uk.chromis.pos.reports.ReportEditorCreator;
  *
  *
  */
-public class ShowFilter extends javax.swing.JPanel implements ReportEditorCreator {
+public class FeaturesFilter extends javax.swing.JPanel implements ReportEditorCreator {
 
     /**
      * Creates new form JQBFProduct
      */
-    public ShowFilter() {
+    public FeaturesFilter() {
 
         initComponents();
     }

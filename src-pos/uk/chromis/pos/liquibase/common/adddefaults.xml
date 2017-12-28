@@ -49,25 +49,39 @@
     
     <changeSet author="Chromis POS" id="Insert into RATINGS Table (New Database)">
         <insert tableName="RATINGS">
-            <column name="RATINGID" value="NR"/>
+            <column name="ID" value="0"/>
+            <column name="NAME" value="NR"/>
+            <column name="ACTIVE" valueBoolean="true"/>
         </insert>
         <insert tableName="RATINGS">
-            <column name="RATINGID" value="G"/>
+            <column name="ID" value="1"/>
+            <column name="NAME" value="G"/>
+            <column name="ACTIVE" valueBoolean="true"/>
         </insert>
         <insert tableName="RATINGS">
-            <column name="RATINGID" value="PG"/>
+            <column name="ID" value="2"/>
+            <column name="NAME" value="PG"/>
+            <column name="ACTIVE" valueBoolean="true"/>
         </insert>
         <insert tableName="RATINGS">
-            <column name="RATINGID" value="PG-13"/>
+            <column name="ID" value="3"/>
+            <column name="NAME" value="PG-13"/>
+            <column name="ACTIVE" valueBoolean="true"/>
         </insert>
         <insert tableName="RATINGS">
-            <column name="RATINGID" value="R"/>
+            <column name="ID" value="4"/>
+            <column name="NAME" value="R"/>
+            <column name="ACTIVE" valueBoolean="true"/>
         </insert>
         <insert tableName="RATINGS">
-            <column name="RATINGID" value="NC-17"/>
+            <column name="ID" value="5"/>
+            <column name="NAME" value="NC-17"/>
+            <column name="ACTIVE" valueBoolean="true"/>
         </insert>
         <insert tableName="RATINGS">
-            <column name="RATINGID" value="X"/>
+            <column name="ID" value="6"/>
+            <column name="NAME" value="X"/>
+            <column name="ACTIVE" valueBoolean="true"/>
         </insert>
     </changeSet>
                         
