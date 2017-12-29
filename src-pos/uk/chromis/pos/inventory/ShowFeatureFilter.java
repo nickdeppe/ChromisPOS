@@ -121,6 +121,9 @@ public class ShowFeatureFilter extends javax.swing.JPanel implements ReportEdito
     @Override
     public Object createValue() throws BasicException {
         
+        return showModel.getSelectedKey().toString();
+        
+        /*
         QBFCompareEnum showMode;
         
         Object showKey = showModel.getSelectedKey();
@@ -130,6 +133,7 @@ public class ShowFeatureFilter extends javax.swing.JPanel implements ReportEdito
         return new Object[]{
             showMode, showKey
         };
+        */
         
     }
 

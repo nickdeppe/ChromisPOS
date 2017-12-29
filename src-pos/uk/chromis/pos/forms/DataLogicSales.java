@@ -285,7 +285,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 new Field("FEATUREID", Datas.STRING, Formats.STRING),
                 new Field("NAME", Datas.STRING, Formats.STRING),
                 new Field("SEQUENCE", Datas.INT, Formats.INT),
-                new Field("STARTTIME", Datas.DATE, Formats.TIME)
+                new Field("STARTTIME", Datas.STRING, Formats.STRING)
         );
         
         showFeaturesRow = new Row(
@@ -293,7 +293,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 new Field("SHOWID", Datas.STRING, Formats.STRING),
                 new Field("FEATUREID", Datas.STRING, Formats.STRING),
                 new Field("SEQUENCE", Datas.INT, Formats.INT),
-                new Field("STARTTIME", Datas.DATE, Formats.TIME)
+                new Field("STARTTIME", Datas.STRING, Formats.STRING)
         );
         
         assert (SHOW_FEATURES_FIELD_COUNT == showFeaturesRow.getFields().length );

@@ -22,46 +22,26 @@ package uk.chromis.pos.inventory;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.ListCellRenderer;
 import uk.chromis.basic.BasicException;
-import uk.chromis.data.gui.ListCellRendererBasic;
-import uk.chromis.data.loader.TableDefinition;
+import uk.chromis.data.loader.Datas;
+import uk.chromis.data.model.Column;
+import uk.chromis.data.model.Field;
+import uk.chromis.data.model.PrimaryKey;
+import uk.chromis.data.model.Row;
+import uk.chromis.data.model.Table;
 import uk.chromis.data.user.EditorRecord;
-import uk.chromis.data.user.ListProvider;
-import uk.chromis.data.user.ListProviderCreator;
-import uk.chromis.data.user.SaveProvider;
-import uk.chromis.pos.forms.AppConfig;
+import uk.chromis.format.Formats;
 import uk.chromis.pos.forms.AppLocal;
-import uk.chromis.pos.forms.DataLogicSales;
-import uk.chromis.pos.panels.JPanelTable;
+import uk.chromis.pos.panels.JPanelTable2;
 
 /**
  *
- * @author 
+ * @author adrianromero
  */
-public class ShowFeaturePanel extends JPanelTable {
+public class ShowFeaturePanel extends JPanelTable2 {
 
-    private DataLogicSales m_dlSales;
-    
     private ShowFeatureEditor editor;
     private ShowFeatureFilter filter;
-
-    private TableDefinition tShows;
-
-    private String m_initialFilter = "";
-
-
-    public ShowFeaturePanel() {
-    }
-
-    public ShowFeaturePanel(String szFilter) {
-        // Set initial filter
-        m_initialFilter = szFilter;
-    }
-
-
 
     /**
      *
@@ -69,47 +49,50 @@ public class ShowFeaturePanel extends JPanelTable {
     @Override
     protected void init() {
 
-        m_dlSales = (DataLogicSales) app.getBean("uk.chromis.pos.forms.DataLogicSales");
-        tShows = m_dlSales.getTableShows();
-        
         filter = new ShowFeatureFilter();
         filter.init(app);
-       
+        filter.addActionListener(new ReloadActionListener());
 
-        try {
-            editor = new ShowFeatureEditor(m_dlSales, dirty, filter);
-        } catch (BasicException ex) {
-            Logger.getLogger(ShowFeaturePanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        row = new Row(
+                new Field("ID", Datas.STRING, Formats.STRING),
+                new Field("SHOWID", Datas.STRING, Formats.STRING),
+                new Field("FEATUREID", Datas.STRING, Formats.STRING),
+                new Field("SEQUENCE", Datas.INT, Formats.INT, false, false, true),
+                new Field("STARTIME", Datas.STRING, Formats.STRING, true, false, false),
+                new Field(AppLocal.getIntString("label.name"), Datas.STRING, Formats.STRING, true, true, true)
+        );
 
+        Table table = new Table(
+                "SHOWFEATURES",
+                new PrimaryKey("ID"),
+                new Column("SHOWID"),
+                new Column("FEATUREID"),
+                new Column("SEQUENCE"),
+                new Column("STARTTIME")
+        );
 
-        if (AppConfig.getInstance().getBoolean("display.longnames")) {
-            setListWidth(350);
-        }
+        lpr = row.getListProvider(
+                app.getSession(),
+                "SELECT "
+                        + "SF.ID, "
+                        + "SF.SHOWID, "
+                        + "SF.FEATUREID, "
+                        + "SF.SEQUENCE, "
+                        + "SF.STARTTIME, "
+                        + "F.NAME "
+                + "FROM "
+                        + "SHOWFEATURES SF "
+                        + "INNER JOIN FEATURES F ON SF.FEATUREID = F.ID "
+                + "WHERE "
+                        + "SF.SHOWID = ? "
+                + "ORDER BY "
+                        + "SF.SEQUENCE, "
+                        + "F.NAME ",
+                filter);
+        spr = row.getSaveProvider(app.getSession(), table);
 
-
+        editor = new ShowFeatureEditor(app, dirty, filter);
     }
-
-
-    /**
-     *
-     * @return
-     */
-    @Override
-    public ListProvider getListProvider() {
-        return new ListProviderCreator(m_dlSales.getShowFeaturesQBF(), filter);
-    }
-
-    /**
-     *
-     * @return
-     */
-    @Override
-    public SaveProvider getSaveProvider() {
-        return new SaveProvider(m_dlSales.getShowFeaturesUpdate(), m_dlSales.getShowFeaturesInsert(), m_dlSales.getShowFeaturesDelete());
-    }
-
-
 
     /**
      *
@@ -117,16 +100,12 @@ public class ShowFeaturePanel extends JPanelTable {
      */
     @Override
     public void activate() throws BasicException {
-        
-        filter.addActionListener(new ReloadActionListener());
-        
-        editor.activate();
         filter.activate();
+        editor.activate();
 
-        setLoadOnActivation(true);
-        
-        super.activate();
-
+        //super.activate();
+        startNavigation();
+        reload();
     }
 
     /**
@@ -138,18 +117,6 @@ public class ShowFeaturePanel extends JPanelTable {
         return filter.getComponent();
     }
 
-    
-    
-    /**
-     *
-     * @return
-     */
-    @Override
-    public ListCellRenderer getListCellRenderer() {
-        return new ListCellRendererBasic(tShows.getRenderStringBasic(new int[]{2,3}));
-    }
-    
-    
     /**
      *
      * @return
@@ -159,25 +126,31 @@ public class ShowFeaturePanel extends JPanelTable {
         return editor;
     }
 
+    private void reload() throws BasicException {
+
+        String showid = (String) filter.createValue();
+        editor.setInsertId(showid); // must be set before load
+        bd.setEditable(showid != null);
+        bd.actionLoad();
+
+    }
+
     /**
      *
      * @return
      */
     @Override
     public String getTitle() {
-        return AppLocal.getIntString("Menu.Shows");
+        return AppLocal.getIntString("Menu.ShowFeatures");
     }
-    
-    
+
     private class ReloadActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
-                bd.actionLoad();
+                reload();
             } catch (BasicException w) {
             }
         }
     }
-    
-    
 }

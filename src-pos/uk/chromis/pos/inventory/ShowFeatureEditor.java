@@ -25,13 +25,18 @@ import java.util.Date;
 import javax.swing.JSpinner;
 import uk.chromis.basic.BasicException;
 import uk.chromis.data.gui.ComboBoxValModel;
+import uk.chromis.data.loader.DataRead;
+import uk.chromis.data.loader.ImageUtils;
 import uk.chromis.data.loader.SentenceList;
+import uk.chromis.data.loader.SerializerRead;
+import uk.chromis.data.loader.StaticSentence;
 import uk.chromis.data.user.DirtyManager;
 import uk.chromis.data.user.EditorRecord;
 import uk.chromis.format.Formats;
 import uk.chromis.pos.forms.AppConfig;
 import uk.chromis.pos.forms.AppLocal;
-import uk.chromis.pos.forms.DataLogicSales;
+import uk.chromis.pos.forms.AppView;
+import uk.chromis.pos.ticket.FeatureInfo;
 
 /**
  *
@@ -47,11 +52,10 @@ public class ShowFeatureEditor extends javax.swing.JPanel implements EditorRecor
     private ShowFeatureFilter showFeatureFilter;
 
     /** Creates new form AttributesValuesEditor
-    * @param dlSales
+     * @param app
      * @param dirty
-     * @param filter
-     * @throws uk.chromis.basic.BasicException */
-    public ShowFeatureEditor(DataLogicSales dlSales, DirtyManager dirty, ShowFeatureFilter filter) throws BasicException {
+     * @param filter */
+    public ShowFeatureEditor(AppView app, DirtyManager dirty, ShowFeatureFilter filter) {
         
         initComponents();
 
@@ -59,7 +63,21 @@ public class ShowFeatureEditor extends javax.swing.JPanel implements EditorRecor
         m_jSequence.addChangeListener(dirty);
         m_jStartTime.addChangeListener(dirty);
         
-        featureSentence = dlSales.getFeaturesList();
+
+        featureSentence = new StaticSentence(
+                app.getSession(), 
+                "SELECT ID, NAME, IMAGE, RUNTIME, RATINGID, ACTIVE FROM FEATURES WHERE ACTIVE = TRUE ORDER BY NAME", 
+                null, 
+                new SerializerRead() {
+                    @Override
+                    public Object readValues(DataRead dr) throws BasicException {
+                        return new FeatureInfo(dr.getString(1), dr.getString(2), ImageUtils.readImage(dr.getBytes(3)), dr.getInt(4), dr.getString(5), dr.getBoolean(6));
+                    }
+                }
+        );        
+        
+        
+//        featureSentence = dlSales.getFeaturesList();
 
         String appFormatTime = AppConfig.getInstance().getProperty("format.time");
         String timeFormat = ( appFormatTime == null || appFormatTime.equals("") ) ? "hh:mm a" : appFormatTime ;
@@ -103,7 +121,7 @@ public class ShowFeatureEditor extends javax.swing.JPanel implements EditorRecor
         showfeatureid = null;
         showKey = this.showFeatureFilter.getShowKey();
         featureModel.setSelectedKey(null);
-        m_jSequence.setValue(0);
+        m_jSequence.setValue(1);
         m_jStartTime.setValue(new Date());
 
         m_jFeature.setEnabled(false);
@@ -121,11 +139,10 @@ public class ShowFeatureEditor extends javax.swing.JPanel implements EditorRecor
         showfeatureid = UUID.randomUUID().toString();
         showKey = this.showFeatureFilter.getShowKey();
         featureModel.setSelectedKey(featureKey);
-        m_jSequence.setValue(0);
+        m_jSequence.setValue(1);
         m_jStartTime.setValue(new Date());
 
         m_jFeature.setEnabled(true);
-        m_jFeature.setEditable(false);
         m_jSequence.setEnabled(true);
         m_jStartTime.setEnabled(true);
 
@@ -143,11 +160,15 @@ public class ShowFeatureEditor extends javax.swing.JPanel implements EditorRecor
         showfeatureid = obj[0];
         showKey = obj[1];
         featureModel.setSelectedKey(obj[2]);
-        m_jSequence.setValue(Formats.INT.formatValue(obj[3]));
-        m_jStartTime.setValue(Formats.TIME.formatValue(obj[4]));
+        m_jSequence.setValue(obj[3]);
+        try {
+            Date getDate = (Date)Formats.TIMEHOURMINAMPM.parseValue(obj[4].toString());
+            m_jStartTime.setValue(getDate);
+        } catch (BasicException ex) {
+            
+        }
 
         m_jFeature.setEnabled(true);
-        m_jFeature.setEditable(false);
         m_jSequence.setEnabled(true);
         m_jStartTime.setEnabled(true);
         
@@ -165,11 +186,10 @@ public class ShowFeatureEditor extends javax.swing.JPanel implements EditorRecor
         showfeatureid = obj[0];
         showKey = obj[1];
         featureModel.setSelectedKey(obj[2]);
-        m_jSequence.setValue(Formats.INT.formatValue(obj[3]));
-        m_jStartTime.setValue(Formats.TIME.formatValue(obj[4]));
+        m_jSequence.setValue(obj[3]);
+        m_jStartTime.setValue(Formats.TIMEHOURMINAMPM.formatValue(obj[4]));
         
         m_jFeature.setEnabled(false);
-        m_jFeature.setEditable(false);
         m_jSequence.setEnabled(false);
         m_jStartTime.setEnabled(false);
     }
@@ -201,7 +221,8 @@ public class ShowFeatureEditor extends javax.swing.JPanel implements EditorRecor
             showKey,
             Formats.STRING.formatValue(featureModel.getSelectedKey()),
             Formats.INT.parseValue(m_jSequence.getValue().toString()),
-            m_jStartTime.getValue()
+            Formats.TIMEHOURMINAMPM.formatValue(m_jStartTime.getValue()),
+            Formats.STRING.formatValue(featureModel.getSelectedText())
         };
     }
 
@@ -233,6 +254,7 @@ public class ShowFeatureEditor extends javax.swing.JPanel implements EditorRecor
         m_jFeature.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
 
         m_jSequence.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        m_jSequence.setModel(new javax.swing.SpinnerNumberModel(1, 1, 2147483647, 1));
 
         m_jStartTime.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         m_jStartTime.setModel(new javax.swing.SpinnerDateModel());
