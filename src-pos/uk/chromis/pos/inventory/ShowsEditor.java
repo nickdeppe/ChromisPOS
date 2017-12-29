@@ -45,8 +45,6 @@ public class ShowsEditor extends javax.swing.JPanel implements EditorRecord {
     private final SentenceList theatreSentence;
 
     private ComboBoxValModel theatreModel;
-    
-    private Object theatreKey;
 
     private enum RecordStatus {
         EOF,
@@ -55,6 +53,7 @@ public class ShowsEditor extends javax.swing.JPanel implements EditorRecord {
         DELETE
     }
 
+    private ShowsFilter showsFilter;
 
     private RecordStatus recStatus;
     
@@ -63,10 +62,12 @@ public class ShowsEditor extends javax.swing.JPanel implements EditorRecord {
     * @param dlSales
      * @param dirty
      * @throws uk.chromis.basic.BasicException */
-    public ShowsEditor(DataLogicSales dlSales, DirtyManager dirty) throws BasicException {
+    public ShowsEditor(DataLogicSales dlSales, DirtyManager dirty, ShowsFilter filter) throws BasicException {
         
         initComponents();
 
+        this.showsFilter = filter;
+        
         m_jTheatre.addActionListener(dirty);
         m_jStartDate.getDocument().addDocumentListener(dirty);
         m_jEndDate.getDocument().addDocumentListener(dirty);
@@ -110,7 +111,7 @@ public class ShowsEditor extends javax.swing.JPanel implements EditorRecord {
     public void writeValueEOF() {
 
         showid = null;
-        theatreModel.setSelectedKey(theatreKey);
+        theatreModel.setSelectedKey(this.showsFilter.getSelectedThreatre());
         m_jStartDate.setText(null);
         m_jEndDate.setText(null);
         m_jReportStartDate.setText(null);
@@ -133,7 +134,7 @@ public class ShowsEditor extends javax.swing.JPanel implements EditorRecord {
     public void writeValueInsert() {
 
         showid = UUID.randomUUID().toString();
-        theatreModel.setSelectedKey(theatreKey);
+        theatreModel.setSelectedKey(this.showsFilter.getSelectedThreatre());
         m_jStartDate.setText(null);
         m_jEndDate.setText(null);
         m_jReportStartDate.setText(null);
@@ -199,44 +200,6 @@ public class ShowsEditor extends javax.swing.JPanel implements EditorRecord {
 
     }
 
-
-    public void setTheatreKey( Object key ) {
-        
-        theatreKey = key;
-        
-        if (theatreModel.getSelectedKey() == null ) {
-            
-            // If the form isn't dirty before the update, make sure it's still not dirty afterwards.
-            ActionListener[] al = m_jTheatre.getActionListeners();
-            boolean isDirty = false;
-            DirtyManager dl = null;
-            for(int i =0; i<al.length; i++) {
-                if (al[i] instanceof DirtyManager) {
-                    dl = (DirtyManager)al[i];
-                    if (dl.isDirty()) {
-                        isDirty = true;
-                        break;
-                    }
-                }
-            }
-            
-            theatreModel.setSelectedKey(theatreKey);
-            
-            // Set original dirty value
-            if (!isDirty) {
-                al = m_jTheatre.getActionListeners();
-                for(int i =0; i<al.length; i++) {
-                    if (al[i] instanceof DirtyManager) {
-                        dl = (DirtyManager)al[i];
-                        dl.setDirty(false);
-                    }
-                }
-            }
-            
-        }
-        
-    }
-    
     
     /**
      *

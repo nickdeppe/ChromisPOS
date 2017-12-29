@@ -43,12 +43,15 @@ public class ShowFeatureEditor extends javax.swing.JPanel implements EditorRecor
     private final SentenceList featureSentence;
     private ComboBoxValModel featureModel;
     private Object featureKey;
+    private Object showKey;
+    private ShowFeatureFilter showFeatureFilter;
 
     /** Creates new form AttributesValuesEditor
     * @param dlSales
      * @param dirty
+     * @param filter
      * @throws uk.chromis.basic.BasicException */
-    public ShowFeatureEditor(DataLogicSales dlSales, DirtyManager dirty) throws BasicException {
+    public ShowFeatureEditor(DataLogicSales dlSales, DirtyManager dirty, ShowFeatureFilter filter) throws BasicException {
         
         initComponents();
 
@@ -62,6 +65,8 @@ public class ShowFeatureEditor extends javax.swing.JPanel implements EditorRecor
         String timeFormat = ( appFormatTime == null || appFormatTime.equals("") ) ? "hh:mm a" : appFormatTime ;
         JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(m_jStartTime, timeFormat );        
         m_jStartTime.setEditor(timeEditor);
+        
+        this.showFeatureFilter = filter;
         
     }
 
@@ -96,6 +101,7 @@ public class ShowFeatureEditor extends javax.swing.JPanel implements EditorRecor
     public void writeValueEOF() {
 
         showfeatureid = null;
+        showKey = this.showFeatureFilter.getShowKey();
         featureModel.setSelectedKey(null);
         m_jSequence.setValue(0);
         m_jStartTime.setValue(new Date());
@@ -113,6 +119,7 @@ public class ShowFeatureEditor extends javax.swing.JPanel implements EditorRecor
     public void writeValueInsert() {
 
         showfeatureid = UUID.randomUUID().toString();
+        showKey = this.showFeatureFilter.getShowKey();
         featureModel.setSelectedKey(featureKey);
         m_jSequence.setValue(0);
         m_jStartTime.setValue(new Date());
@@ -134,7 +141,7 @@ public class ShowFeatureEditor extends javax.swing.JPanel implements EditorRecor
         Object[] obj = (Object[]) value;
 
         showfeatureid = obj[0];
-        // TODO: Set the show id
+        showKey = obj[1];
         featureModel.setSelectedKey(obj[2]);
         m_jSequence.setValue(Formats.INT.formatValue(obj[3]));
         m_jStartTime.setValue(Formats.TIME.formatValue(obj[4]));
@@ -156,6 +163,7 @@ public class ShowFeatureEditor extends javax.swing.JPanel implements EditorRecor
         Object[] obj = (Object[]) value;
 
         showfeatureid = obj[0];
+        showKey = obj[1];
         featureModel.setSelectedKey(obj[2]);
         m_jSequence.setValue(Formats.INT.formatValue(obj[3]));
         m_jStartTime.setValue(Formats.TIME.formatValue(obj[4]));
@@ -190,7 +198,7 @@ public class ShowFeatureEditor extends javax.swing.JPanel implements EditorRecor
     public Object createValue() throws BasicException {
         return new Object[] {
             showfeatureid,
-            null,
+            showKey,
             Formats.STRING.formatValue(featureModel.getSelectedKey()),
             Formats.INT.parseValue(m_jSequence.getValue().toString()),
             m_jStartTime.getValue()

@@ -77,7 +77,7 @@ public class ShowFeaturePanel extends JPanelTable {
        
 
         try {
-            editor = new ShowFeatureEditor(m_dlSales, dirty);
+            editor = new ShowFeatureEditor(m_dlSales, dirty, filter);
         } catch (BasicException ex) {
             Logger.getLogger(ShowFeaturePanel.class.getName()).log(Level.SEVERE, null, ex);
         }

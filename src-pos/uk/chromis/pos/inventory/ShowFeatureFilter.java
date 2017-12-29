@@ -108,6 +108,11 @@ public class ShowFeatureFilter extends javax.swing.JPanel implements ReportEdito
         m_jShow.removeActionListener(l);
     }
 
+    
+    public Object getShowKey() {
+        return showModel.getSelectedKey();
+    }
+    
     /**
      *
      * @return

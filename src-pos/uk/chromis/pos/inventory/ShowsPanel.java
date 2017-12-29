@@ -77,7 +77,7 @@ public class ShowsPanel extends JPanelTable {
        
 
         try {
-            editor = new ShowsEditor(m_dlSales, dirty);
+            editor = new ShowsEditor(m_dlSales, dirty, filter);
         } catch (BasicException ex) {
             Logger.getLogger(ShowsPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -176,8 +176,6 @@ public class ShowsPanel extends JPanelTable {
                 bd.actionLoad();
             } catch (BasicException w) {
             }
-            // Pass the selected theatre id to the editor
-            editor.setTheatreKey(filter.getSelectedThreatre());
         }
     }
     
