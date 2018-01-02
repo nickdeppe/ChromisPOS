@@ -1763,6 +1763,14 @@
         </insert> 
         
         <insert tableName="RESOURCES">
+            <column name="ID" value="74"/>
+            <column name="NAME" value="Printer.TicketBoxOffice"/>
+            <column name="RESTYPE" valueNumeric="0"/>
+            <column name="CONTENT" valueBlobResource="/uk/chromis/pos/templates/Printer.TicketBoxOffice.xml"/>
+        </insert>
+        
+        
+        <insert tableName="RESOURCES">
             <column name="ID" value="6700"/>
             <column name="NAME" value="help.promotion"/>
             <column name="RESTYPE" valueNumeric="0"/>

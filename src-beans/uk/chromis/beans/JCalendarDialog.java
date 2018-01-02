@@ -41,6 +41,8 @@ public class JCalendarDialog extends javax.swing.JDialog {
     private static LocaleResources m_resources;
     
     private Date m_date;
+    private static Date m_mindate;
+    private static Date m_maxdate;
     private JCalendarPanel myCalendar = null;
     private JTimePanel myTime = null;
     
@@ -78,6 +80,26 @@ public class JCalendarDialog extends javax.swing.JDialog {
             return getWindow(parent.getParent());
         }
     }
+    
+    
+    public static void setMinDate(Date dDate) {
+        JCalendarDialog.m_mindate = dDate;
+    }
+    
+    
+    public static Date getMinDate() {
+        return JCalendarDialog.m_mindate;
+    }
+    
+    public static void setMaxDate(Date dDate) {
+        JCalendarDialog.m_maxdate = dDate;
+    }
+    
+    
+    public static Date getMaxDate() {
+        return JCalendarDialog.m_maxdate;
+    }
+    
 
     /**
      *
@@ -125,7 +147,11 @@ public class JCalendarDialog extends javax.swing.JDialog {
         Date d = date;
         int dialogwidth = 400;
         
-        myMsg.myCalendar = new JCalendarPanel(d);     
+        if(myMsg.m_mindate != null || myMsg.m_maxdate != null) {
+            myMsg.myCalendar = new JCalendarPanel(d, myMsg.m_mindate, myMsg.m_maxdate);
+        } else {
+            myMsg.myCalendar = new JCalendarPanel(d);
+        }
         myMsg.myCalendar.addPropertyChangeListener("Date", new JPanelCalendarChange(myMsg));
         myMsg.jPanelGrid.add(myMsg.myCalendar);
         

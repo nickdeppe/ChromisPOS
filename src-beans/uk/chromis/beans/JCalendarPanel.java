@@ -45,6 +45,8 @@ public class JCalendarPanel extends javax.swing.JPanel {
     private static GregorianCalendar m_CalendarHelper = new GregorianCalendar(); // solo de ayuda
 
     private Date m_date;
+    private Date m_mindate;
+    private Date m_maxdate;
     private JButtonDate[] m_ListDates;
     private JLabel[] m_jDays;
 
@@ -73,7 +75,22 @@ public class JCalendarPanel extends javax.swing.JPanel {
     public JCalendarPanel(Date dDate) {
 
         super();
+        
+        initialRender(dDate);
 
+    }
+
+    
+    public JCalendarPanel(Date dDate, Date minDate, Date maxDate) {
+        super();
+        this.m_mindate = minDate;
+        this.m_maxdate = maxDate;
+        initialRender(dDate);
+    }
+    
+    
+    private void initialRender(Date dDate) {
+        
         if (m_resources == null) {
             m_resources = new LocaleResources();
             m_resources.addBundleName("beans_messages");
@@ -89,8 +106,9 @@ public class JCalendarPanel extends javax.swing.JPanel {
         // pintamos
         renderMonth();
         renderDay();
+        
     }
-
+    
     /**
      *
      * @param dNewDate
@@ -161,7 +179,7 @@ public class JCalendarPanel extends javax.swing.JPanel {
 
                 JButtonDate jAux = getLabelByDate(m_CalendarHelper.getTime());
                 jAux.DateInf = m_CalendarHelper.getTime();
-                jAux.setEnabled(isEnabled());
+                jAux.setEnabled(isEnabled() && isAllowedDate(m_CalendarHelper.getTime()));
                 jAux.setText(String.valueOf(m_CalendarHelper.get(Calendar.DAY_OF_MONTH)));
 
                 m_CalendarHelper.add(Calendar.DATE, 1);
@@ -169,6 +187,58 @@ public class JCalendarPanel extends javax.swing.JPanel {
         }
 
         m_jCurrent = null;
+    }
+    
+    
+    private boolean isAllowedDate(Date dDate) {
+
+        if (this.m_mindate == null && this.m_maxdate == null) {
+            return true;
+        } else {
+            
+            if (this.m_mindate != null ) {
+                
+                Calendar c1 = Calendar.getInstance();
+                Calendar c2 = Calendar.getInstance();
+                c1.setTime(this.m_mindate);
+                c2.setTime(dDate);
+
+                int c1Day = c1.get(Calendar.DAY_OF_YEAR);
+                int c2Day = c2.get(Calendar.DAY_OF_YEAR);
+                int c1Year = c1.get(Calendar.YEAR);
+                int c2Year = c2.get(Calendar.YEAR);
+
+                if ( c1Year > c2Year) {
+                    return false;
+                } else if (c1Year == c2Year && c1Day > c2Day) {
+                    return false;
+                }
+
+            }
+            
+            if (this.m_maxdate != null ) {
+                
+                Calendar c1 = Calendar.getInstance();
+                Calendar c2 = Calendar.getInstance();
+                c1.setTime(this.m_maxdate);
+                c2.setTime(dDate);
+
+                int c1Day = c1.get(Calendar.DAY_OF_YEAR);
+                int c2Day = c2.get(Calendar.DAY_OF_YEAR);
+                int c1Year = c1.get(Calendar.YEAR);
+                int c2Year = c2.get(Calendar.YEAR);
+
+                if ( c1Year < c2Year) {
+                    return false;
+                } else if (c1Year == c2Year && c1Day < c2Day) {
+                    return false;
+                }
+
+            }
+            
+            return true;
+            
+        }
     }
 
     private void renderDay() {

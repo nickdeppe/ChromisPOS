@@ -389,12 +389,19 @@ public class ShowsEditor extends javax.swing.JPanel implements EditorRecord {
 
     private void m_jbtn_ReportEndDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_jbtn_ReportEndDateActionPerformed
         // TODO add your handling code here:
-        Date date;
+        Date date, startDate;
         try {
             date = (Date) Formats.DATE.parseValue(m_jReportEndDate.getText());
         } catch (BasicException e) {
             date = null;
         }
+        try {
+            startDate = (Date) Formats.DATE.parseValue(m_jReportStartDate.getText());
+        } catch (BasicException e) {
+            startDate = null;
+        }
+        JCalendarDialog.setMinDate(startDate);
+        JCalendarDialog.setMaxDate(null);                
         date = JCalendarDialog.showCalendar(this, date);
         if (date != null) {
             m_jReportEndDate.setText(Formats.DATE.formatValue(date));
@@ -402,12 +409,19 @@ public class ShowsEditor extends javax.swing.JPanel implements EditorRecord {
     }//GEN-LAST:event_m_jbtn_ReportEndDateActionPerformed
 
     private void m_jbtnReportStartDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_jbtnReportStartDateActionPerformed
-        Date date;
+        Date date, endDate;
         try {
             date = (Date) Formats.DATE.parseValue(m_jReportStartDate.getText());
         } catch (BasicException e) {
             date = null;
         }
+        try {
+            endDate = (Date) Formats.DATE.parseValue(m_jReportEndDate.getText());
+        } catch (BasicException e) {
+            endDate = null;
+        }
+        JCalendarDialog.setMinDate(null);
+        JCalendarDialog.setMaxDate(endDate);
         date = JCalendarDialog.showCalendar(this, date);
         if (date != null) {
             m_jReportStartDate.setText(Formats.DATE.formatValue(date));
@@ -415,12 +429,19 @@ public class ShowsEditor extends javax.swing.JPanel implements EditorRecord {
     }//GEN-LAST:event_m_jbtnReportStartDateActionPerformed
 
     private void m_jbtnEndDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_jbtnEndDateActionPerformed
-        Date date;
+        Date date, startDate;
         try {
             date = (Date) Formats.DATE.parseValue(m_jEndDate.getText());
         } catch (BasicException e) {
             date = null;
         }
+        try {
+            startDate = (Date) Formats.DATE.parseValue(m_jStartDate.getText());
+        } catch (BasicException e) {
+            startDate = null;
+        }
+        JCalendarDialog.setMinDate(startDate);
+        JCalendarDialog.setMaxDate(null);        
         date = JCalendarDialog.showCalendar(this, date);
         if (date != null) {
             m_jEndDate.setText(Formats.DATE.formatValue(date));
@@ -431,12 +452,19 @@ public class ShowsEditor extends javax.swing.JPanel implements EditorRecord {
     }//GEN-LAST:event_m_jbtnEndDateActionPerformed
 
     private void m_jbtnStartDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_jbtnStartDateActionPerformed
-        Date date;
+        Date date, endDate;
         try {
             date = (Date) Formats.DATE.parseValue(m_jStartDate.getText());
         } catch (BasicException e) {
             date = null;
         }
+        try {
+            endDate = (Date) Formats.DATE.parseValue(m_jEndDate.getText());
+        } catch (BasicException e) {
+            endDate = null;
+        }
+        JCalendarDialog.setMinDate(null);
+        JCalendarDialog.setMaxDate(endDate);
         date = JCalendarDialog.showCalendar(this, date);
         if (date != null) {
             m_jStartDate.setText(Formats.DATE.formatValue(date));
