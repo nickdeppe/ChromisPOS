@@ -240,6 +240,9 @@ public class JCatalog extends JPanel implements ListSelectionListener, CatalogSe
      * @param prod
      */
     protected void fireSelectedProduct(ProductInfoExt prod) {
+        if(prod.getIsBoxOffice()) {
+            JCatalogBoxOfficeDialog.showDialog(jPanel1, m_dlSales);
+        }
         EventListener[] l = listeners.getListeners(ActionListener.class);
         ActionEvent e = null;
         for (EventListener l1 : l) {

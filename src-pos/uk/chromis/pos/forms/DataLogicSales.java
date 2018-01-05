@@ -34,6 +34,8 @@ import uk.chromis.pos.payment.PaymentInfoTicket;
 import uk.chromis.pos.ticket.*;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
@@ -1628,6 +1630,75 @@ public class DataLogicSales extends BeanFactoryDataSingle {
             }
         };
     }
+    
+    
+ 
+    
+    
+    /**
+     *
+     * @return @throws BasicException
+     */
+    public final List<ShowSalesInfo> getShowsForDate(Date forDate) throws BasicException {
+        
+        DateFormat dbDateFormat = new SimpleDateFormat("yyyy-MM-dd");        
+        
+        String dateFormat = dbDateFormat.format(forDate);
+        
+        return new PreparedSentence(
+                s, 
+                "SELECT "
+                        + " S.ID, "
+                        + " S.THEATREID, "
+                        + " S.STARTDATE, "
+                        + " S.ENDDATE, "
+                        + " S.REPORTSTARTDATE, "
+                        + " S.REPORTENDDATE, "
+                        + " T.NAME "
+                        + "FROM "
+                        + " SHOWS S"
+                        + " INNER JOIN THEATRES T ON S.THEATREID = T.ID "                        
+                        + "WHERE "
+                        + " S.STARTDATE <= '" + dateFormat + "' AND S.ENDDATE >= '" + dateFormat + "' "
+                        + "ORDER BY T.NAME, S.STARTDATE", 
+                null, 
+                ShowSalesInfo.getSerializerRead()
+        ).list(dateFormat, dateFormat);
+    }
+    
+    
+    
+    /**
+     *
+     * @return @throws BasicException
+     */
+    public final List<ShowFeaturesInfo> getFeaturesForShow(String showID) throws BasicException {
+        return new PreparedSentence(
+                s, 
+                "SELECT "
+                        + " SF.ID, "
+                        + " SF.SHOWID, "
+                        + " SF.FEATUREID, "
+                        + " SF.SEQUENCE, "
+                        + " SF.STARTTIME, "
+                        + " F.NAME, "
+                        + " F.IMAGE, "
+                        + " F.RUNTIME, "
+                        + " F.RATINGID, "
+                        + " F.ACTIVE, "
+                        + " R.NAME "
+                        + "FROM "
+                        + " SHOWFEATURES SF "
+                        + " INNER JOIN FEATURES F ON SF.FEATUREID = F.ID "
+                        + " INNER JOIN RATINGS R ON F.RATINGID = R.ID "
+                        + "WHERE "
+                        + " SF.SHOWID = ? "
+                        + "ORDER BY SF.SEQUENCE, SF.STARTTIME", 
+                SerializerWriteString.INSTANCE, 
+                ShowFeaturesInfo.getSerializerRead()
+        ).list(showID);
+    }
+    
     
     
     
