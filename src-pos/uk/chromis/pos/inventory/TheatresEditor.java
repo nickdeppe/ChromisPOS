@@ -18,6 +18,8 @@
 //    along with Chromis POS.  If not, see <http://www.gnu.org/licenses/>.
 
 package uk.chromis.pos.inventory;
+
+import javax.swing.*;
 import java.awt.Component;
 import java.util.UUID;
 import uk.chromis.basic.BasicException;
@@ -44,15 +46,23 @@ public final class TheatresEditor extends javax.swing.JPanel implements EditorRe
         
         m_jName.getDocument().addDocumentListener(dirty);
         m_jCapacity.addChangeListener(dirty);
+        try {
+            JFormattedTextField tf = ((JSpinner.DefaultEditor)m_jCapacity.getEditor()).getTextField();
+//            tf.addActionListener(dirty);
+            tf.getDocument().addDocumentListener(dirty);
+        } catch (Exception e) {
+            
+        }
+        
         m_jCapacityMode.addActionListener(dirty);
         m_jHardLimit.addActionListener(dirty);
         m_jActive.addActionListener(dirty);
 
-		  capacityModeModel = new ComboBoxValModel();
-		  capacityModeModel.add(CapacityType.BY_TICKETS);
-		  capacityModeModel.add(CapacityType.BY_TRANSACTIONS);
+        capacityModeModel = new ComboBoxValModel();
+        capacityModeModel.add(CapacityType.BY_TICKETS);
+        capacityModeModel.add(CapacityType.BY_TRANSACTIONS);
 
-		  m_jCapacityMode.setModel(capacityModeModel);
+        m_jCapacityMode.setModel(capacityModeModel);
         
         writeValueEOF();
     }
