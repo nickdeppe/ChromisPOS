@@ -40,6 +40,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 import java.util.UUID;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -1697,6 +1698,29 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 SerializerWriteString.INSTANCE, 
                 ShowFeaturesInfo.getSerializerRead()
         ).list(showID);
+    }
+    
+    
+    public final Integer getNextShowFeatureSequence(String showID) throws BasicException {
+        
+        Integer nextSequence;
+        
+        PreparedSentence p = new PreparedSentence(
+                s, 
+                "SELECT "
+                        + " MAX(SEQUENCE) AS MAXSEQUENCE "
+                        + "FROM "
+                        + " SHOWFEATURES SF "
+                        + "WHERE "
+                        + " SF.SHOWID = ? ",
+                SerializerWriteString.INSTANCE, 
+                SerializerReadInteger.INSTANCE
+        );
+        
+        nextSequence = (Integer) p.find(showID);
+        
+        return ++nextSequence;
+        
     }
     
     

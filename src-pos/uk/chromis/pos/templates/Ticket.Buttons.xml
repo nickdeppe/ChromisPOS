@@ -86,7 +86,20 @@
     <!-- <img-width value="128"/> -->
     <!-- <img-height value="96"/> -->
     <!-- END Product Button Size -->
+    
+    <!-- Set Box Office Shows Button Sizes *********************************** -->
+    <!-- Small show buttons -->
+    <!-- <boxoffice-img-width value="100"/> -->
+    <!-- <boxoffice-img-height value="75"/> -->
 
+    <!-- Medium show buttons -->
+    <boxoffice-img-width value="150"/>
+    <boxoffice-img-height value="100"/>
+
+    <!-- Large show buttons -->
+    <!-- <boxoffice-img-width value="250"/> -->
+    <!-- <boxoffice-img-height value="150"/> -->
+    
 
     <!-- ADDITIONAL FEATURES ************************************************* -->
     <!-- SET Show Change in Cash Sale (Default=ENABLED -->

@@ -22,6 +22,8 @@ package uk.chromis.pos.inventory;
 import java.awt.Component;
 import java.util.UUID;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JSpinner;
 import uk.chromis.basic.BasicException;
 import uk.chromis.data.gui.ComboBoxValModel;
@@ -35,7 +37,7 @@ import uk.chromis.data.user.EditorRecord;
 import uk.chromis.format.Formats;
 import uk.chromis.pos.forms.AppConfig;
 import uk.chromis.pos.forms.AppLocal;
-import uk.chromis.pos.forms.AppView;
+import uk.chromis.pos.forms.DataLogicSales;
 import uk.chromis.pos.ticket.FeatureInfo;
 
 /**
@@ -50,34 +52,37 @@ public class ShowFeatureEditor extends javax.swing.JPanel implements EditorRecor
     private Object featureKey;
     private Object showKey;
     private ShowFeatureFilter showFeatureFilter;
+    private DataLogicSales m_dlSales;
 
     /** Creates new form AttributesValuesEditor
-     * @param app
+     * @param dlSales
      * @param dirty
      * @param filter */
-    public ShowFeatureEditor(AppView app, DirtyManager dirty, ShowFeatureFilter filter) {
+    public ShowFeatureEditor(DataLogicSales dlSales, DirtyManager dirty, ShowFeatureFilter filter) {
         
         initComponents();
+        
+        m_dlSales = dlSales;
 
         m_jFeature.addActionListener(dirty);
         m_jSequence.addChangeListener(dirty);
         m_jStartTime.addChangeListener(dirty);
         
 
-        featureSentence = new StaticSentence(
-                app.getSession(), 
-                "SELECT ID, NAME, IMAGE, RUNTIME, RATINGID, ACTIVE FROM FEATURES WHERE ACTIVE = TRUE ORDER BY NAME", 
-                null, 
-                new SerializerRead() {
-                    @Override
-                    public Object readValues(DataRead dr) throws BasicException {
-                        return new FeatureInfo(dr.getString(1), dr.getString(2), ImageUtils.readImage(dr.getBytes(3)), dr.getInt(4), dr.getString(5), dr.getBoolean(6));
-                    }
-                }
-        );        
+//        featureSentence = new StaticSentence(
+//                app.getSession(), 
+//                "SELECT ID, NAME, IMAGE, RUNTIME, RATINGID, ACTIVE FROM FEATURES WHERE ACTIVE = TRUE ORDER BY NAME", 
+//                null, 
+//                new SerializerRead() {
+//                    @Override
+//                    public Object readValues(DataRead dr) throws BasicException {
+//                        return new FeatureInfo(dr.getString(1), dr.getString(2), ImageUtils.readImage(dr.getBytes(3)), dr.getInt(4), dr.getString(5), dr.getBoolean(6));
+//                    }
+//                }
+//        );        
         
         
-//        featureSentence = dlSales.getFeaturesList();
+        featureSentence = dlSales.getFeaturesList();
 
         String appFormatTime = AppConfig.getInstance().getProperty("format.time");
         String timeFormat = ( appFormatTime == null || appFormatTime.equals("") ) ? "hh:mm a" : appFormatTime ;
@@ -139,7 +144,11 @@ public class ShowFeatureEditor extends javax.swing.JPanel implements EditorRecor
         showfeatureid = UUID.randomUUID().toString();
         showKey = this.showFeatureFilter.getShowKey();
         featureModel.setSelectedKey(featureKey);
-        m_jSequence.setValue(1);
+        try {
+            m_jSequence.setValue(m_dlSales.getNextShowFeatureSequence(showKey.toString()));
+        } catch (BasicException ex) {
+            m_jSequence.setValue(1);
+        }
         m_jStartTime.setValue(new Date());
 
         m_jFeature.setEnabled(true);
@@ -187,7 +196,12 @@ public class ShowFeatureEditor extends javax.swing.JPanel implements EditorRecor
         showKey = obj[1];
         featureModel.setSelectedKey(obj[2]);
         m_jSequence.setValue(obj[3]);
-        m_jStartTime.setValue(Formats.TIMEHOURMINAMPM.formatValue(obj[4]));
+        try {
+            Date getDate = (Date)Formats.TIMEHOURMINAMPM.parseValue(obj[4].toString());
+            m_jStartTime.setValue(getDate);
+        } catch (BasicException ex) {
+            
+        }
         
         m_jFeature.setEnabled(false);
         m_jSequence.setEnabled(false);

@@ -40,7 +40,7 @@ public class jDateSelectorPanel extends javax.swing.JPanel {
         this.setDate(initialDate);
         this.minDate = minDate;
 
-        this.prevTimer = new Timer(100, new ActionListener() {
+        this.prevTimer = new Timer(150, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (m_jButtonDatePrevious.isEnabled()) {
@@ -53,7 +53,7 @@ public class jDateSelectorPanel extends javax.swing.JPanel {
             }
         });
         
-        this.nextTimer = new Timer(100, new ActionListener() {
+        this.nextTimer = new Timer(150, new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
                 if (m_jButtonDateNext.isEnabled()) {
@@ -173,7 +173,7 @@ public class jDateSelectorPanel extends javax.swing.JPanel {
             }
         });
 
-        m_jButtonDate.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        m_jButtonDate.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         m_jButtonDate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 m_jButtonDateActionPerformed(evt);

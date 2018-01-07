@@ -33,6 +33,7 @@ import uk.chromis.data.user.EditorRecord;
 import uk.chromis.format.Formats;
 import uk.chromis.pos.forms.AppLocal;
 import uk.chromis.pos.panels.JPanelTable2;
+import uk.chromis.pos.forms.DataLogicSales;
 
 /**
  *
@@ -49,7 +50,9 @@ public class ShowFeaturePanel extends JPanelTable2 {
     @Override
     protected void init() {
 
-        filter = new ShowFeatureFilter();
+        DataLogicSales dlSales = (DataLogicSales) app.getBean("uk.chromis.pos.forms.DataLogicSales");
+        
+        filter = new ShowFeatureFilter(dlSales);
         filter.init(app);
         filter.addActionListener(new ReloadActionListener());
 
@@ -91,7 +94,7 @@ public class ShowFeaturePanel extends JPanelTable2 {
                 filter);
         spr = row.getSaveProvider(app.getSession(), table);
 
-        editor = new ShowFeatureEditor(app, dirty, filter);
+        editor = new ShowFeatureEditor(dlSales, dirty, filter);
     }
 
     /**

@@ -24,7 +24,6 @@ import java.awt.event.ActionListener;
 import java.util.List;
 import uk.chromis.basic.BasicException;
 import uk.chromis.data.gui.ComboBoxValModel;
-import uk.chromis.data.loader.QBFCompareEnum;
 import uk.chromis.data.loader.SentenceList;
 import uk.chromis.data.loader.SerializerWrite;
 import uk.chromis.data.loader.SerializerWriteString;
@@ -41,10 +40,12 @@ public class ShowFeatureFilter extends javax.swing.JPanel implements ReportEdito
 
     private SentenceList showSentence;
     private ComboBoxValModel showModel;
+    private DataLogicSales m_dlSales;
 
     /** Creates new form AttributeUseFilter */
-    public ShowFeatureFilter() {
+    public ShowFeatureFilter(DataLogicSales dlSales) {
         initComponents();
+        m_dlSales = dlSales;
     }
 
     /**
@@ -54,9 +55,7 @@ public class ShowFeatureFilter extends javax.swing.JPanel implements ReportEdito
     @Override
     public void init(AppView app) {
 
-        DataLogicSales dlSales = (DataLogicSales) app.getBean("uk.chromis.pos.forms.DataLogicSales");
-
-        showSentence = dlSales.getShowsTheatresList();
+        showSentence = m_dlSales.getShowsTheatresList();
 
     }
 

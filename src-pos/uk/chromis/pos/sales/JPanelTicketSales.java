@@ -28,6 +28,7 @@ import javax.swing.event.ListSelectionListener;
 import uk.chromis.basic.BasicException;
 import uk.chromis.pos.catalog.CatalogSelector;
 import uk.chromis.pos.catalog.JCatalog;
+import uk.chromis.pos.catalog.JCatalogBoxOffice;
 import uk.chromis.pos.catalog.JCatalogFull;
 import uk.chromis.pos.forms.AppConfig;
 import uk.chromis.pos.forms.AppLocal;
@@ -74,7 +75,16 @@ public class JPanelTicketSales extends JPanelTicket {
     @Override
     protected Component getSouthComponent() {
         
-        if (AppConfig.getInstance().getBoolean("sales.newscreen")){
+        if (AppConfig.getInstance().getProperty("machine.ticketsbag").equals("boxoffice")) {
+            m_cat = new JCatalogBoxOffice(dlSales,
+                    "true".equals(m_jbtnconfig.getProperty("pricevisible")),
+                    "true".equals(m_jbtnconfig.getProperty("taxesincluded")),
+                    Integer.parseInt(m_jbtnconfig.getProperty("img-width", "64")),
+                    Integer.parseInt(m_jbtnconfig.getProperty("img-height", "54")),
+                    Integer.parseInt(m_jbtnconfig.getProperty("boxoffice-img-width", "200")),
+                    Integer.parseInt(m_jbtnconfig.getProperty("boxoffice-img-height", "75"))                    
+            );
+        } else if (AppConfig.getInstance().getBoolean("sales.newscreen")){
             m_cat = new JCatalogFull(dlSales,
                     "true".equals(m_jbtnconfig.getProperty("pricevisible")),
                     "true".equals(m_jbtnconfig.getProperty("taxesincluded")),

@@ -13,7 +13,6 @@ import java.awt.Window;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import javax.swing.SwingUtilities;
-import uk.chromis.beans.jDateSelectorPanel;
 import uk.chromis.pos.forms.DataLogicSales;
 import uk.chromis.pos.ticket.ShowSalesInfo;
 
@@ -21,7 +20,7 @@ import uk.chromis.pos.ticket.ShowSalesInfo;
  *
  * @author nick
  */
-public class JCatalogBoxOfficeDialog extends javax.swing.JDialog  {
+public class JBoxOfficeDialog extends javax.swing.JDialog  {
   
     private DataLogicSales m_dlSales;
     private ShowSalesInfo m_selectedShow;
@@ -30,28 +29,28 @@ public class JCatalogBoxOfficeDialog extends javax.swing.JDialog  {
     /**
      * Creates new form jCatalogBoxOfficeDialog
      */
-    public JCatalogBoxOfficeDialog(java.awt.Frame parent, boolean modal, DataLogicSales dlSales) {
+    public JBoxOfficeDialog(java.awt.Frame parent, boolean modal, DataLogicSales dlSales) {
         super(parent, modal);
         m_dlSales = dlSales;
         initComponents();
     }
 
-    public JCatalogBoxOfficeDialog(java.awt.Dialog parent, boolean modal, DataLogicSales dlSales) {
+    public JBoxOfficeDialog(java.awt.Dialog parent, boolean modal, DataLogicSales dlSales) {
         super(parent, modal);
         m_dlSales = dlSales;
         initComponents();
     }
     
     
-    public static void showDialog(Component parent, DataLogicSales dlSales) {
+    public static ShowSalesInfo showDialog(Component parent, DataLogicSales dlSales) {
         
         Window window = SwingUtilities.windowForComponent(parent);
         
-        JCatalogBoxOfficeDialog myMsg;
+        JBoxOfficeDialog myMsg;
         if (window instanceof Frame) { 
-            myMsg = new JCatalogBoxOfficeDialog((Frame) window, true, dlSales);
+            myMsg = new JBoxOfficeDialog((Frame) window, true, dlSales);
         } else {
-            myMsg = new JCatalogBoxOfficeDialog((Dialog) window, true, dlSales);
+            myMsg = new JBoxOfficeDialog((Dialog) window, true, dlSales);
         }
         
         
@@ -59,21 +58,20 @@ public class JCatalogBoxOfficeDialog extends javax.swing.JDialog  {
         
         myMsg.setVisible(true);
         
-        // TODO
-  //      return myMsg.m_value;
+        return myMsg.m_selectedShow;
         
     }
     
     
     private static class JPanelShowChange implements PropertyChangeListener {
-        private final JCatalogBoxOfficeDialog me;
-        public JPanelShowChange(JCatalogBoxOfficeDialog p) {
+        private final JBoxOfficeDialog me;
+        public JPanelShowChange(JBoxOfficeDialog p) {
             me = p;
         }
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
             me.m_selectedShow = me.jCatalogBoxOfficePanel1.getSelectedShow();
-            // TODO
+            me.setVisible(false);
         }
     }
     
@@ -88,7 +86,7 @@ public class JCatalogBoxOfficeDialog extends javax.swing.JDialog  {
     private void initComponents() {
 
         jBoxOfficePanel = new javax.swing.JPanel();
-        jCatalogBoxOfficePanel1 = new uk.chromis.pos.catalog.JCatalogBoxOfficePanel(m_dlSales);
+        jCatalogBoxOfficePanel1 = new uk.chromis.pos.catalog.JBoxOfficePanel(m_dlSales);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -130,6 +128,6 @@ public class JCatalogBoxOfficeDialog extends javax.swing.JDialog  {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jBoxOfficePanel;
-    private uk.chromis.pos.catalog.JCatalogBoxOfficePanel jCatalogBoxOfficePanel1;
+    private uk.chromis.pos.catalog.JBoxOfficePanel jCatalogBoxOfficePanel1;
     // End of variables declaration//GEN-END:variables
 }

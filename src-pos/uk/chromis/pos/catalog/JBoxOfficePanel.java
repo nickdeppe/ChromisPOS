@@ -30,25 +30,41 @@ import uk.chromis.pos.util.ThumbNailBuilder;
  *
  * @author nick
  */
-public class JCatalogBoxOfficePanel extends JPanel {
+public class JBoxOfficePanel extends JPanel {
 
     private Date m_selectedDate;
-    private DataLogicSales m_dlSales;
+    private final DataLogicSales m_dlSales;
     private final Set<String> m_showsSet = new HashSet<>();
-    private ThumbNailBuilder m_thumbBuilder;
+    private final ThumbNailBuilder m_thumbBuilder;
     private ShowSalesInfo currentShowSales;
     
     
-    public JCatalogBoxOfficePanel(DataLogicSales dlSales) {
+    public JBoxOfficePanel(DataLogicSales dlSales) {
+        this(dlSales, 300, 200);
+    }
+    
+    
+    public JBoxOfficePanel(DataLogicSales dlSales, int buttonWidth, int buttonHeight) {
         
         initComponents();
         
         m_dlSales = dlSales;
         
-        m_thumbBuilder = new ThumbNailBuilder(300, 200, "uk/chromis/images/package.png");
+        m_thumbBuilder = new ThumbNailBuilder(buttonWidth, buttonHeight, "uk/chromis/images/package.png");
 
         initializeDates();        
         
+    }
+    
+    
+    // This is here so the panel renders correctly in Netbeans.
+    public JBoxOfficePanel() {
+        
+        initComponents();
+        
+        m_dlSales = new DataLogicSales();
+        
+        m_thumbBuilder = new ThumbNailBuilder(200, 75, "uk/chromis/images/package.png");
     }
     
     
@@ -165,28 +181,11 @@ public class JCatalogBoxOfficePanel extends JPanel {
         m_jPanelShows = new javax.swing.JPanel();
         jDateSelectorPanel1 = new uk.chromis.beans.jDateSelectorPanel();
 
-        m_jPanelShows.setLayout(new java.awt.CardLayout());
+        setLayout(new java.awt.BorderLayout());
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(m_jPanelShows, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jDateSelectorPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jDateSelectorPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(m_jPanelShows, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
+        m_jPanelShows.setLayout(new java.awt.CardLayout());
+        add(m_jPanelShows, java.awt.BorderLayout.CENTER);
+        add(jDateSelectorPanel1, java.awt.BorderLayout.PAGE_START);
     }// </editor-fold>//GEN-END:initComponents
 
 
