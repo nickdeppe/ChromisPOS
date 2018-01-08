@@ -1692,7 +1692,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
         
         String dateFormat = dbDateFormat.format(forDate);
         
-        return new PreparedSentence(
+        List<ShowSalesInfo> oShows = new PreparedSentence(
                 s, 
                 "SELECT "
                         + " S.ID, "
@@ -1702,15 +1702,28 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                         + " S.REPORTSTARTDATE, "
                         + " S.REPORTENDDATE, "
                         + " T.NAME "
-                        + "FROM "
-                        + " SHOWS S"
-                        + " INNER JOIN THEATRES T ON S.THEATREID = T.ID "                        
-                        + "WHERE "
-                        + " S.STARTDATE <= '" + dateFormat + "' AND S.ENDDATE >= '" + dateFormat + "' "
-                        + "ORDER BY T.NAME, S.STARTDATE", 
+                + "FROM "
+                    + " SHOWS S"
+                    + " INNER JOIN THEATRES T ON S.THEATREID = T.ID "                        
+                + "WHERE "
+                    + " S.STARTDATE <= '" + dateFormat + "' "
+                    + " AND S.ENDDATE >= '" + dateFormat + "' "
+                    + " AND EXISTS ( SELECT * FROM SHOWFEATURES SF WHERE S.ID = SF.SHOWID )"
+                + "ORDER BY "
+                        + " T.NAME, "
+                        + " S.STARTDATE", 
                 null, 
                 ShowSalesInfo.getSerializerRead()
         ).list(dateFormat, dateFormat);
+        
+        
+        for (int i = 0; i < oShows.size(); i++ ) {
+            ShowSalesInfo show = oShows.get(i);
+            show.setShowFeatures(getFeaturesForShow(show.getID()));
+        }
+        
+        return oShows;
+        
     }
     
     

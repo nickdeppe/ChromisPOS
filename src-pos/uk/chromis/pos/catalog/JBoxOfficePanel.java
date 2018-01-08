@@ -128,13 +128,9 @@ public class JBoxOfficePanel extends JPanel implements ListSelectionListener {
     
     
     private final void showShowsForDate(Date showDate) {
+        
         List<ShowSalesInfo> showList;
-        List<ShowFeaturesInfo> featuresList;
         List<ShowListInfo> showListInfo = new ArrayList<ShowListInfo>();
-        BufferedImage thumbImage;
-        String dateKey = Formats.DATE.formatValue(showDate);
-        String buttonText, textTip;
-        ShowListModel slModel;
         
         try {
             showList = m_dlSales.getShowsForDate(showDate);
@@ -144,37 +140,13 @@ public class JBoxOfficePanel extends JPanel implements ListSelectionListener {
 
         if ( showList != null ) {
             for (ShowSalesInfo show : showList) {
-                thumbImage = null;
-                buttonText = "<html><font size='+1'>" + show.getTheatreName() + "</font>";
-                textTip = show.getTheatreName();
-                // Get features list
-                try {
-                    featuresList = m_dlSales.getFeaturesForShow(show.getID());
-                } catch (BasicException ex) {
-                    featuresList = null;
-                }
-
-                if (featuresList != null) {
-                    // Get the features 
-                    for(int i = 0; i < featuresList.size(); i++) {
-
-                        ShowFeaturesInfo feature = featuresList.get(i);
-                        buttonText += "<br>" + feature.toString();
-                        textTip += ", " + feature.toString();
-
-                        if(thumbImage == null) {
-                            thumbImage = feature.getImage();
-                        }
-
-                    }
-                }
-                buttonText += "</html>";
-
-                showListInfo.add(new ShowListInfo(show.getID(), buttonText, thumbImage));
-
+                showListInfo.add(new ShowListInfo(show.getID(), show.getButtonText(), show.getButtonImage()));
             }
         }
 
+        // TODO: Finish converting everything to ShowSalesInfo - remove ShowListInfo
+        
+        
         m_showListModel = new ShowListModel(showListInfo);
         jShowList.setModel(m_showListModel);
         if (m_showListModel.getSize() > 1) {

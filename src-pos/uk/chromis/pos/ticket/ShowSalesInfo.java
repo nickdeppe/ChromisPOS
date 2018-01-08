@@ -18,7 +18,9 @@
 //    along with Chromis POS.  If not, see <http://www.gnu.org/licenses/>.
 package uk.chromis.pos.ticket;
 
+import java.awt.image.BufferedImage;
 import java.util.Date;
+import java.util.List;
 import uk.chromis.basic.BasicException;
 import uk.chromis.data.loader.DataRead;
 import uk.chromis.data.loader.IKeyed;
@@ -38,6 +40,7 @@ public class ShowSalesInfo implements IKeyed {
     protected Date m_dReportStartDate;
     protected Date m_dReportEndDate;
     protected String m_sTheatreName;
+    protected List<ShowFeaturesInfo> m_oShowFeatures;
 
     /**
      * Creates a new instance of ProductShowInfoList
@@ -124,10 +127,48 @@ public class ShowSalesInfo implements IKeyed {
         m_sTheatreName = theatreName;
     }
     
+    public final List<ShowFeaturesInfo> getShowFeatures() {
+        return m_oShowFeatures;
+    }
+    
+    public final void setShowFeatures(List<ShowFeaturesInfo> showFeatures) {
+        m_oShowFeatures = showFeatures;
+    }
+    
 
     @Override
     public final String toString() {
         return m_sTheatreName;
+    }
+    
+    public final String getButtonText() {
+        String buttonText = "<html><font size='+1'>" + m_sTheatreName + "</font>";
+        for(int i = 0; i < m_oShowFeatures.size(); i++) {
+            ShowFeaturesInfo feature = m_oShowFeatures.get(i);
+            buttonText += "<br>" + feature.toString();
+        }
+        return buttonText;
+    }
+    
+    public final String getButtonToolTip() {
+        String toolTip = m_sTheatreName;
+        for(int i = 0; i < m_oShowFeatures.size(); i++) {
+            ShowFeaturesInfo feature = m_oShowFeatures.get(i);
+            toolTip += ", " + feature.toString();
+        }
+        return toolTip;
+    }
+    
+    
+    public final BufferedImage getButtonImage() {
+        BufferedImage image;
+        for (int i = 0; i < m_oShowFeatures.size(); i++) {
+            image = m_oShowFeatures.get(i).getImage();
+            if ( image != null ) {
+                return image;
+            }
+        }
+        return null;  // If we reached this far, we didn't find a feature with an image
     }
 
 
