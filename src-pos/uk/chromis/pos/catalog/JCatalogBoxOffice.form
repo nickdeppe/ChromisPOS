@@ -18,7 +18,7 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jBoxOfficePanel1" pref="459" max="32767" attributes="0"/>
+              <Component id="jBoxOfficePanel" pref="459" max="32767" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="m_jProducts" pref="590" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
@@ -30,7 +30,7 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jBoxOfficePanel1" pref="342" max="32767" attributes="0"/>
+                  <Component id="jBoxOfficePanel" pref="342" max="32767" attributes="0"/>
                   <Component id="m_jProducts" pref="342" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -43,9 +43,9 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignCardLayout"/>
     </Container>
-    <Component class="uk.chromis.pos.catalog.JBoxOfficePanel" name="jBoxOfficePanel1">
+    <Component class="uk.chromis.pos.catalog.JBoxOfficePanel" name="jBoxOfficePanel">
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new uk.chromis.pos.catalog.JBoxOfficePanel(m_dlSales, m_boxOfficeWidth, m_boxOfficeHeight)"/>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new uk.chromis.pos.catalog.JBoxOfficePanel(m_dlSales, m_boxOfficeSize)"/>
         <AuxValue name="JavaCodeGenerator_SerializeTo" type="java.lang.String" value="JCatalogBoxOffice_jBoxOfficePanel1"/>
       </AuxValues>
     </Component>

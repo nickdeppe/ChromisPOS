@@ -119,8 +119,14 @@ public class ShowFeatureFilter extends javax.swing.JPanel implements ReportEdito
      */
     @Override
     public Object createValue() throws BasicException {
+
+        Object selectedKey = showModel.getSelectedKey();
+        if ( selectedKey != null ) {
+            return selectedKey.toString();
+        } else {
+            return null;
+        }
         
-        return showModel.getSelectedKey().toString();
         
         /*
         QBFCompareEnum showMode;

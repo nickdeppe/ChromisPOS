@@ -34,6 +34,7 @@ import uk.chromis.pos.forms.AppConfig;
 import uk.chromis.pos.forms.AppLocal;
 import uk.chromis.pos.forms.AppView;
 import uk.chromis.pos.ticket.ProductInfoExt;
+import uk.chromis.pos.ticket.ShowListInfo;
 
 /**
  *
@@ -81,8 +82,7 @@ public class JPanelTicketSales extends JPanelTicket {
                     "true".equals(m_jbtnconfig.getProperty("taxesincluded")),
                     Integer.parseInt(m_jbtnconfig.getProperty("img-width", "64")),
                     Integer.parseInt(m_jbtnconfig.getProperty("img-height", "54")),
-                    Integer.parseInt(m_jbtnconfig.getProperty("boxoffice-img-width", "200")),
-                    Integer.parseInt(m_jbtnconfig.getProperty("boxoffice-img-height", "75"))                    
+                    Integer.parseInt(m_jbtnconfig.getProperty("boxoffice-show-img-size", "50"))
             );
         } else if (AppConfig.getInstance().getBoolean("sales.newscreen")){
             m_cat = new JCatalogFull(dlSales,
@@ -142,12 +142,17 @@ public class JPanelTicketSales extends JPanelTicket {
         }
 
     }
-
+    
     private class CatalogListener implements ActionListener {
-
         @Override
         public void actionPerformed(ActionEvent e) {
-            buttonTransition((ProductInfoExt) e.getSource());
+            ProductInfoExt prod = (ProductInfoExt) e.getSource();
+            ShowListInfo show = prod.getShowListInfo();
+            if (show != null) {
+                buttonTransition((ProductInfoExt) e.getSource(), prod.getShowListInfo());            
+            } else {
+                buttonTransition((ProductInfoExt) e.getSource());
+            }
         }
     }
 

@@ -561,6 +561,26 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 + "ORDER BY P.CATORDER, P.NAME ", SerializerWriteString.INSTANCE, ProductInfoExt.getSerializerRead()).list(category);
     }
 
+    
+    /**
+     *
+     * @param category
+     * @return
+     * @throws BasicException
+     */
+    public List<ProductInfoExt> getAllBoxOfficeProducts() throws BasicException {
+        return new PreparedSentence(
+                s, 
+                "SELECT "
+                + getSelectFieldList()
+                + "FROM PRODUCTS P "
+                + "WHERE P.ISCATALOG = " + s.DB.TRUE() + " AND P.ISBOXOFFICE = " + s.DB.TRUE() + " "
+                + "ORDER BY P.CATORDER, P.NAME ", 
+                null, 
+                ProductInfoExt.getSerializerRead()).list();
+    }
+    
+    
     /**
      *
      * @param category
@@ -1137,8 +1157,34 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                     ? null
                     : loadCustomerExt(customerid));
 
-            ticket.setLines(new PreparedSentence(s, "SELECT L.TICKET, L.LINE, L.PRODUCT, L.ATTRIBUTESETINSTANCE_ID, L.UNITS, L.PRICE, T.ID, T.NAME, T.CATEGORY, T.CUSTCATEGORY, T.PARENTID, T.RATE, T.RATECASCADE, T.RATEORDER, L.ATTRIBUTES, L.REFUNDQTY  "
-                    + "FROM TICKETLINES L, TAXES T WHERE L.TAXID = T.ID AND L.TICKET = ? ORDER BY L.LINE", SerializerWriteString.INSTANCE, new SerializerReadClass(TicketLineInfo.class)).list(ticket.getId()));
+            ticket.setLines(new PreparedSentence(
+                    s, 
+                    "SELECT "
+                            + "L.TICKET, "
+                            + "L.LINE, "
+                            + "L.PRODUCT, "
+                            + "L.ATTRIBUTESETINSTANCE_ID, "
+                            + "L.UNITS, "
+                            + "L.PRICE, "
+                            + "T.ID, "
+                            + "T.NAME, "
+                            + "T.CATEGORY, "
+                            + "T.CUSTCATEGORY, "
+                            + "T.PARENTID, "
+                            + "T.RATE, "
+                            + "T.RATECASCADE, "
+                            + "T.RATEORDER, "
+                            + "L.ATTRIBUTES, "
+                            + "L.REFUNDQTY  "
+                    + "FROM "
+                            + "TICKETLINES L "
+                            + "INNER JOIN TAXES T ON L.TAXID = T.ID "
+                    + "WHERE "
+                            + "L.TICKET = ? "
+                    + "ORDER BY "
+                            + "L.LINE", 
+                    SerializerWriteString.INSTANCE, 
+                    new SerializerReadClass(TicketLineInfo.class)).list(ticket.getId()));
             ticket.setPayments(new PreparedSentence(s //                    , "SELECT PAYMENT, TOTAL, TRANSID TENDERED FROM PAYMENTS WHERE RECEIPT = ?" 
                     , "SELECT PAYMENT, TOTAL, TRANSID, TENDERED, CARDNAME FROM PAYMENTS WHERE RECEIPT = ?", SerializerWriteString.INSTANCE, new SerializerReadClass(PaymentInfoTicket.class)).list(ticket.getId()));
         }
@@ -1215,7 +1261,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 }
                 );
 
-                SentenceExec ticketlineinsert = new PreparedSentence(s, "INSERT INTO TICKETLINES (TICKET, LINE, PRODUCT, ATTRIBUTESETINSTANCE_ID, UNITS, PRICE, TAXID, ATTRIBUTES, REFUNDQTY) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", SerializerWriteBuilder.INSTANCE);
+                SentenceExec ticketlineinsert = new PreparedSentence(s, "INSERT INTO TICKETLINES (TICKET, LINE, PRODUCT, ATTRIBUTESETINSTANCE_ID, UNITS, PRICE, TAXID, ATTRIBUTES, REFUNDQTY, SHOWID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", SerializerWriteBuilder.INSTANCE);
 
                 for (TicketLineInfo l : ticket.getLines()) {
 
@@ -1718,8 +1764,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
         );
         
         nextSequence = (Integer) p.find(showID);
-        
-        return ++nextSequence;
+        return (nextSequence == null) ? 1 : ++nextSequence;
         
     }
     

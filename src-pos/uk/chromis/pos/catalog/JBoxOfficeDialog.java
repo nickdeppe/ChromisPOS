@@ -14,6 +14,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import javax.swing.SwingUtilities;
 import uk.chromis.pos.forms.DataLogicSales;
+import uk.chromis.pos.sales.JPanelButtons;
 import uk.chromis.pos.ticket.ShowSalesInfo;
 
 /**
@@ -31,12 +32,16 @@ public class JBoxOfficeDialog extends javax.swing.JDialog  {
      */
     public JBoxOfficeDialog(java.awt.Frame parent, boolean modal, DataLogicSales dlSales) {
         super(parent, modal);
-        m_dlSales = dlSales;
-        initComponents();
+        initialize(dlSales);
     }
 
     public JBoxOfficeDialog(java.awt.Dialog parent, boolean modal, DataLogicSales dlSales) {
         super(parent, modal);
+        initialize(dlSales);
+    }
+    
+    
+    private void initialize(DataLogicSales dlSales) {
         m_dlSales = dlSales;
         initComponents();
     }
@@ -70,7 +75,7 @@ public class JBoxOfficeDialog extends javax.swing.JDialog  {
         }
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
-            me.m_selectedShow = me.jCatalogBoxOfficePanel1.getSelectedShow();
+//            me.m_selectedShow = me.jCatalogBoxOfficePanel1.getSelectedShow();
             me.setVisible(false);
         }
     }

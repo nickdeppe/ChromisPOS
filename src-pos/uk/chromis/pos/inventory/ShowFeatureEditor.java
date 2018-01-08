@@ -22,23 +22,16 @@ package uk.chromis.pos.inventory;
 import java.awt.Component;
 import java.util.UUID;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JSpinner;
 import uk.chromis.basic.BasicException;
 import uk.chromis.data.gui.ComboBoxValModel;
-import uk.chromis.data.loader.DataRead;
-import uk.chromis.data.loader.ImageUtils;
 import uk.chromis.data.loader.SentenceList;
-import uk.chromis.data.loader.SerializerRead;
-import uk.chromis.data.loader.StaticSentence;
 import uk.chromis.data.user.DirtyManager;
 import uk.chromis.data.user.EditorRecord;
 import uk.chromis.format.Formats;
 import uk.chromis.pos.forms.AppConfig;
 import uk.chromis.pos.forms.AppLocal;
 import uk.chromis.pos.forms.DataLogicSales;
-import uk.chromis.pos.ticket.FeatureInfo;
 
 /**
  *
@@ -51,8 +44,8 @@ public class ShowFeatureEditor extends javax.swing.JPanel implements EditorRecor
     private ComboBoxValModel featureModel;
     private Object featureKey;
     private Object showKey;
-    private ShowFeatureFilter showFeatureFilter;
-    private DataLogicSales m_dlSales;
+    private final ShowFeatureFilter showFeatureFilter;
+    private final DataLogicSales m_dlSales;
 
     /** Creates new form AttributesValuesEditor
      * @param dlSales

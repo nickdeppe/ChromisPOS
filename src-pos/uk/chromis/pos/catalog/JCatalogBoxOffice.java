@@ -31,12 +31,15 @@ import java.awt.CardLayout;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.event.EventListenerList;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import uk.chromis.pos.forms.AppConfig;
+import uk.chromis.pos.ticket.ShowListInfo;
 
 /**
  *
@@ -56,18 +59,14 @@ public class JCatalogBoxOffice extends JPanel implements ListSelectionListener, 
     private final Set<String> m_categoriesset = new HashSet<>();
     private ThumbNailBuilder tnbbutton;
     private Object newColour;
+    private ShowListInfo m_oSelectedShow;
     
-    private int m_boxOfficeWidth, m_boxOfficeHeight;
+    private int m_boxOfficeSize;
 
     public JCatalogBoxOffice(DataLogicSales dlSales) {
-        this(dlSales, false, false, 64, 54);
+        this(dlSales, false, false, 64, 54, 50);
     }
 
-    public JCatalogBoxOffice(DataLogicSales dlSales, boolean pricevisible, boolean taxesincluded, int width, int height) {
-        this(dlSales, false, false, 64, 54, 150, 100);
-    }
-    
-    
     
     /**
      *
@@ -76,17 +75,44 @@ public class JCatalogBoxOffice extends JPanel implements ListSelectionListener, 
      * @param taxesincluded
      * @param width
      * @param height
+     * @param boxOfficeImageSize
      */
-    public JCatalogBoxOffice(DataLogicSales dlSales, boolean pricevisible, boolean taxesincluded, int width, int height, int boxOfficeWidth, int boxOfficeHeight) {
+    public JCatalogBoxOffice(DataLogicSales dlSales, boolean pricevisible, boolean taxesincluded, int width, int height, int boxOfficeImageSize) {
         m_dlSales = dlSales;
         this.pricevisible = pricevisible;
         this.taxesincluded = taxesincluded;
         tnbbutton = new ThumbNailBuilder(width, height, "uk/chromis/images/package.png");
-        m_boxOfficeWidth = boxOfficeWidth;
-        m_boxOfficeHeight = boxOfficeHeight;
+        m_boxOfficeSize = boxOfficeImageSize;
         initComponents();
+        this.jBoxOfficePanel.addPropertyChangeListener("Show", new JBoxOfficePanelChange(this.jBoxOfficePanel) );
     }
 
+
+    private class JBoxOfficePanelChange implements PropertyChangeListener {
+        private final JBoxOfficePanel me;
+        public JBoxOfficePanelChange(JBoxOfficePanel p) {
+            me = p;
+        }
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {   
+            setSelectedShow(me);
+        }
+    }
+    
+    
+    private void setSelectedShow(JBoxOfficePanel p) {
+        m_oSelectedShow = p.getSelectedShow();
+        if (m_oSelectedShow == null ) {
+            // Disable all of the box office products
+            setComponentEnabled(false);
+        } else {
+            setComponentEnabled(true);
+        }
+    }
+    
+    
+    
+    
     /**
      *
      * @return
@@ -118,6 +144,8 @@ public class JCatalogBoxOffice extends JPanel implements ListSelectionListener, 
         taxeslogic = new TaxesLogic(m_dlSales.getTaxList().list());
 
         buildProductPanel();
+        
+        setSelectedShow(jBoxOfficePanel);
     }
 
     /**
@@ -163,9 +191,12 @@ public class JCatalogBoxOffice extends JPanel implements ListSelectionListener, 
      *
      * @param prod
      */
-    protected void fireSelectedProduct(ProductInfoExt prod) {
+    protected void fireSelectedProduct(ProductInfoExt prod, ShowListInfo show) {
         EventListener[] l = listeners.getListeners(ActionListener.class);
         ActionEvent e = null;
+        if (show != null) {
+            prod.setShowListInfo(show);
+        }
         for (EventListener l1 : l) {
             if (e == null) {
                 e = new ActionEvent(prod, ActionEvent.ACTION_PERFORMED, prod.getID());
@@ -179,13 +210,8 @@ public class JCatalogBoxOffice extends JPanel implements ListSelectionListener, 
             JCatalogTab jcurrTab = new JCatalogTab();
             m_jProducts.add(jcurrTab, "");
 
-            java.util.List< ProductInfoExt> prods;
-
-            if ((AppConfig.getInstance().getBoolean("sales.newscreenbycatorder"))) {
-                prods = m_dlSales.getAllProductCatalogByCatOrder();
-            } else {
-                prods = m_dlSales.getAllProductCatalog();
-            }
+            java.util.List<ProductInfoExt> prods;
+            prods = m_dlSales.getAllBoxOfficeProducts();
             
             for (ProductInfoExt prod : prods) {
                 newColour = m_dlSales.getCategoryColour(prod.getCategoryID());
@@ -251,6 +277,7 @@ public class JCatalogBoxOffice extends JPanel implements ListSelectionListener, 
     private class SelectedAction implements ActionListener {
 
         private final ProductInfoExt prod;
+        private ShowListInfo show;
 
         public SelectedAction(ProductInfoExt prod) {
             this.prod = prod;
@@ -258,7 +285,8 @@ public class JCatalogBoxOffice extends JPanel implements ListSelectionListener, 
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            fireSelectedProduct(prod);
+            this.show = m_oSelectedShow;
+            fireSelectedProduct(prod, this.show);
         }
     }
 
@@ -271,7 +299,7 @@ public class JCatalogBoxOffice extends JPanel implements ListSelectionListener, 
     private void initComponents() {
 
         m_jProducts = new javax.swing.JPanel();
-        jBoxOfficePanel1 = new uk.chromis.pos.catalog.JBoxOfficePanel(m_dlSales, m_boxOfficeWidth, m_boxOfficeHeight);
+        jBoxOfficePanel = new uk.chromis.pos.catalog.JBoxOfficePanel(m_dlSales, m_boxOfficeSize);
 
         m_jProducts.setLayout(new java.awt.CardLayout());
 
@@ -281,7 +309,7 @@ public class JCatalogBoxOffice extends JPanel implements ListSelectionListener, 
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jBoxOfficePanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 459, Short.MAX_VALUE)
+                .addComponent(jBoxOfficePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 459, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(m_jProducts, javax.swing.GroupLayout.DEFAULT_SIZE, 590, Short.MAX_VALUE)
                 .addContainerGap())
@@ -291,7 +319,7 @@ public class JCatalogBoxOffice extends JPanel implements ListSelectionListener, 
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jBoxOfficePanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 342, Short.MAX_VALUE)
+                    .addComponent(jBoxOfficePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 342, Short.MAX_VALUE)
                     .addComponent(m_jProducts, javax.swing.GroupLayout.DEFAULT_SIZE, 342, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -299,7 +327,7 @@ public class JCatalogBoxOffice extends JPanel implements ListSelectionListener, 
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private uk.chromis.pos.catalog.JBoxOfficePanel jBoxOfficePanel1;
+    private uk.chromis.pos.catalog.JBoxOfficePanel jBoxOfficePanel;
     private javax.swing.JPanel m_jProducts;
     // End of variables declaration//GEN-END:variables
 

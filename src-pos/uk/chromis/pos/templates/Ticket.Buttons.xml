@@ -89,16 +89,13 @@
     
     <!-- Set Box Office Shows Button Sizes *********************************** -->
     <!-- Small show buttons -->
-    <!-- <boxoffice-img-width value="100"/> -->
-    <!-- <boxoffice-img-height value="75"/> -->
+    <!-- <boxoffice-show-img-size value="50"/> -->
 
     <!-- Medium show buttons -->
-    <boxoffice-img-width value="150"/>
-    <boxoffice-img-height value="100"/>
+    <boxoffice-show-img-size value="70"/>
 
     <!-- Large show buttons -->
-    <!-- <boxoffice-img-width value="250"/> -->
-    <!-- <boxoffice-img-height value="150"/> -->
+    <!-- <boxoffice-show-img-size value="82"/> -->
     
 
     <!-- ADDITIONAL FEATURES ************************************************* -->

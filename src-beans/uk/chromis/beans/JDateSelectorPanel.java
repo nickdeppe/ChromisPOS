@@ -16,7 +16,7 @@ import uk.chromis.format.Formats;
  *
  * @author nick
  */
-public class jDateSelectorPanel extends javax.swing.JPanel {
+public class JDateSelectorPanel extends javax.swing.JPanel {
 
     private Date selectedDate;
     private Calendar cal;
@@ -29,12 +29,12 @@ public class jDateSelectorPanel extends javax.swing.JPanel {
     /**
      * Creates new form jDateSelectorPanel
      */
-    public jDateSelectorPanel() {
+    public JDateSelectorPanel() {
         this(new Date(), null);
     }
     
     
-    public jDateSelectorPanel(Date initialDate, Date minDate) {
+    public JDateSelectorPanel(Date initialDate, Date minDate) {
         initComponents();
         cal = Calendar.getInstance();
         this.setDate(initialDate);

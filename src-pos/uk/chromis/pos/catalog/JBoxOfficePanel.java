@@ -6,22 +6,28 @@
 package uk.chromis.pos.catalog;
 
 import java.awt.CardLayout;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.AbstractList;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import javax.swing.*;
 import javax.swing.ImageIcon;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import uk.chromis.basic.BasicException;
-import uk.chromis.beans.jDateSelectorPanel;
+import uk.chromis.beans.JDateSelectorPanel;
 import uk.chromis.format.Formats;
 import uk.chromis.pos.forms.DataLogicSales;
 import uk.chromis.pos.ticket.ShowFeaturesInfo;
+import uk.chromis.pos.ticket.ShowListInfo;
 import uk.chromis.pos.ticket.ShowSalesInfo;
 import uk.chromis.pos.util.ThumbNailBuilder;
 
@@ -30,28 +36,33 @@ import uk.chromis.pos.util.ThumbNailBuilder;
  *
  * @author nick
  */
-public class JBoxOfficePanel extends JPanel {
+public class JBoxOfficePanel extends JPanel implements ListSelectionListener {
 
     private Date m_selectedDate;
     private final DataLogicSales m_dlSales;
     private final Set<String> m_showsSet = new HashSet<>();
     private final ThumbNailBuilder m_thumbBuilder;
-    private ShowSalesInfo currentShowSales;
+    private ShowListInfo m_currentShow;
+    private ShowListModel m_showListModel;
     
     
     public JBoxOfficePanel(DataLogicSales dlSales) {
-        this(dlSales, 300, 200);
+        this(dlSales, 50);
     }
     
     
-    public JBoxOfficePanel(DataLogicSales dlSales, int buttonWidth, int buttonHeight) {
+    public JBoxOfficePanel(DataLogicSales dlSales, int imageSize) {
         
         initComponents();
         
         m_dlSales = dlSales;
         
-        m_thumbBuilder = new ThumbNailBuilder(buttonWidth, buttonHeight, "uk/chromis/images/package.png");
-
+        m_thumbBuilder = new ThumbNailBuilder(imageSize, imageSize, "uk/chromis/images/package.png");
+        
+        jShowList.setCellRenderer(new ShowListCellRenderer());
+        
+        jShowList.addListSelectionListener(this);
+        
         initializeDates();        
         
     }
@@ -64,7 +75,10 @@ public class JBoxOfficePanel extends JPanel {
         
         m_dlSales = new DataLogicSales();
         
-        m_thumbBuilder = new ThumbNailBuilder(200, 75, "uk/chromis/images/package.png");
+        m_thumbBuilder = new ThumbNailBuilder(50, 50, "uk/chromis/images/package.png");
+        
+        jShowList.setCellRenderer(new ShowListCellRenderer());
+        
     }
     
     
@@ -75,11 +89,29 @@ public class JBoxOfficePanel extends JPanel {
         this.jDateSelectorPanel1.setDate(new Date());
         
     }
+
+    @Override
+    public void valueChanged(ListSelectionEvent e) {
+        ShowListInfo showInfo, oldShowInfo;
+        if (!e.getValueIsAdjusting()) {
+            int i = jShowList.getSelectedIndex();
+            oldShowInfo = this.m_currentShow;
+            if (i >= 0) {
+                showInfo = (ShowListInfo) m_showListModel.getElementAt(i);
+                this.m_currentShow = showInfo;
+                this.firePropertyChange("Show", oldShowInfo, this.m_currentShow);        
+            } else {
+                this.m_currentShow = null;
+                this.firePropertyChange("Show", oldShowInfo, null);        
+            }
+        }
+
+    }
     
 
     private class JPanelDateChange implements PropertyChangeListener {
-        private final jDateSelectorPanel me;
-        public JPanelDateChange(jDateSelectorPanel p) {
+        private final JDateSelectorPanel me;
+        public JPanelDateChange(JDateSelectorPanel p) {
             me = p;
         }
         @Override
@@ -90,83 +122,101 @@ public class JBoxOfficePanel extends JPanel {
     }
     
     
-    public ShowSalesInfo getSelectedShow() {
-        return currentShowSales;
+    public ShowListInfo getSelectedShow() {
+        return m_currentShow;
     }
     
-    
-    private class SelectedShow implements ActionListener {
-        private final ShowSalesInfo show;
-        public SelectedShow(ShowSalesInfo show) {
-            this.show = show;
-        }
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            ShowSalesInfo oldShowSales = currentShowSales;
-            currentShowSales = this.show;
-            firePropertyChange("Show", oldShowSales, currentShowSales);
-        }
-    }
     
     private final void showShowsForDate(Date showDate) {
         List<ShowSalesInfo> showList;
         List<ShowFeaturesInfo> featuresList;
+        List<ShowListInfo> showListInfo = new ArrayList<ShowListInfo>();
         BufferedImage thumbImage;
         String dateKey = Formats.DATE.formatValue(showDate);
         String buttonText, textTip;
+        ShowListModel slModel;
         
-        if (!m_showsSet.contains(dateKey)) {
-            // Need to load the shows for the given date
-            JCatalogTab jCurrTab = new JCatalogTab();
-            m_jPanelShows.add(jCurrTab, dateKey);
-            m_showsSet.add(dateKey);
-        
-            try {
-                showList = m_dlSales.getShowsForDate(m_selectedDate);
-            } catch (BasicException ex) {
-                showList = null;
-            }
-            
-            if ( showList != null ) {
-                for (ShowSalesInfo show : showList) {
-                    thumbImage = null;
-                    buttonText = "<html>" + show.getTheatreName();
-                    textTip = show.getTheatreName();
-                    // Get features list
-                    try {
-                        featuresList = m_dlSales.getFeaturesForShow(show.getID());
-                    } catch (BasicException ex) {
-                        featuresList = null;
-                    }
-                    
-                    if (featuresList != null) {
-                        // Get the features 
-                        for(int i = 0; i < featuresList.size(); i++) {
-
-                            ShowFeaturesInfo feature = featuresList.get(i);
-                            buttonText += "<br>" + feature.toString();
-                            textTip += ", " + feature.toString();
-                            
-                            if(thumbImage == null) {
-                                thumbImage = feature.getImage();
-                            }
-                                
-                        }
-                    }
-                    buttonText += "</html>";
-                    
-                    jCurrTab.addButton(new ImageIcon(m_thumbBuilder.getThumbNailText(thumbImage, buttonText), ""), new SelectedShow(show), textTip, "");
-                    
-                }
-            }
-            
+        try {
+            showList = m_dlSales.getShowsForDate(showDate);
+        } catch (BasicException ex) {
+            showList = null;
         }
-        
-        CardLayout c1 = (CardLayout) (m_jPanelShows.getLayout());
-        c1.show(m_jPanelShows, dateKey);
-        
-        
+
+        if ( showList != null ) {
+            for (ShowSalesInfo show : showList) {
+                thumbImage = null;
+                buttonText = "<html><font size='+1'>" + show.getTheatreName() + "</font>";
+                textTip = show.getTheatreName();
+                // Get features list
+                try {
+                    featuresList = m_dlSales.getFeaturesForShow(show.getID());
+                } catch (BasicException ex) {
+                    featuresList = null;
+                }
+
+                if (featuresList != null) {
+                    // Get the features 
+                    for(int i = 0; i < featuresList.size(); i++) {
+
+                        ShowFeaturesInfo feature = featuresList.get(i);
+                        buttonText += "<br>" + feature.toString();
+                        textTip += ", " + feature.toString();
+
+                        if(thumbImage == null) {
+                            thumbImage = feature.getImage();
+                        }
+
+                    }
+                }
+                buttonText += "</html>";
+
+                showListInfo.add(new ShowListInfo(show.getID(), buttonText, thumbImage));
+
+            }
+        }
+
+        m_showListModel = new ShowListModel(showListInfo);
+        jShowList.setModel(m_showListModel);
+        if (m_showListModel.getSize() > 1) {
+            jShowList.setSelectedIndex(0);
+        }
+                
     }
+    
+    
+    private class ShowListCellRenderer extends DefaultListCellRenderer {
+
+        @Override
+        public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+            super.getListCellRendererComponent(list, null, index, isSelected, cellHasFocus);
+            ShowListInfo show = (ShowListInfo) value;
+            setText(show.getText());
+            setIcon(new ImageIcon(m_thumbBuilder.getThumbNail(show.getImage())));
+            return this;
+        }
+    }
+    
+    
+    
+    private class ShowListModel extends AbstractListModel {
+
+        private final List<ShowListInfo> m_showList;
+
+        public ShowListModel(List<ShowListInfo> showList) {
+            m_showList = showList;
+        }
+
+        @Override
+        public int getSize() {
+            return m_showList.size();
+        }
+
+        @Override
+        public Object getElementAt(int i) {
+            return m_showList.get(i);
+        }
+    }
+
     
     
     /**
@@ -178,19 +228,23 @@ public class JBoxOfficePanel extends JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        m_jPanelShows = new javax.swing.JPanel();
-        jDateSelectorPanel1 = new uk.chromis.beans.jDateSelectorPanel();
+        jDateSelectorPanel1 = new uk.chromis.beans.JDateSelectorPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jShowList = new javax.swing.JList<>();
 
         setLayout(new java.awt.BorderLayout());
-
-        m_jPanelShows.setLayout(new java.awt.CardLayout());
-        add(m_jPanelShows, java.awt.BorderLayout.CENTER);
         add(jDateSelectorPanel1, java.awt.BorderLayout.PAGE_START);
+
+        jShowList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jScrollPane1.setViewportView(jShowList);
+
+        add(jScrollPane1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private uk.chromis.beans.jDateSelectorPanel jDateSelectorPanel1;
-    private javax.swing.JPanel m_jPanelShows;
+    private uk.chromis.beans.JDateSelectorPanel jDateSelectorPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JList<String> jShowList;
     // End of variables declaration//GEN-END:variables
 }

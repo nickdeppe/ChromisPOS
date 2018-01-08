@@ -100,6 +100,7 @@ import uk.chromis.pos.promotion.DataLogicPromotions;
 import uk.chromis.pos.promotion.PromotionSupport;
 import uk.chromis.pos.util.AutoLogoff;
 import uk.chromis.pos.ticket.PlayWave;
+import uk.chromis.pos.ticket.ShowListInfo;
 
 public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFactoryApp, TicketsEditor {
 
@@ -604,6 +605,21 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         }
     }
 
+    
+    private void addTicketLine(ProductInfoExt oProduct, ShowListInfo oShow, double dMul, double dPrice) {
+        if (oProduct.isVprice()) {
+            TaxInfo tax = taxeslogic.getTaxInfo(oProduct.getTaxCategoryID(), m_oTicket.getCustomer());
+            if (m_jaddtax.isSelected()) {
+                dPrice /= (1 + tax.getRate());
+            }
+            addTicketLine(new TicketLineInfo(oProduct, dMul, dPrice, tax, (java.util.Properties) (oProduct.getProperties().clone()), oShow));
+        } else {
+            TaxInfo tax = taxeslogic.getTaxInfo(oProduct.getTaxCategoryID(), m_oTicket.getCustomer());
+            addTicketLine(new TicketLineInfo(oProduct, dMul, dPrice, tax, (java.util.Properties) (oProduct.getProperties().clone()), oShow));
+        }
+    }
+    
+    
     private void addTicketLine(ProductInfoExt oProduct, double dMul, double dPrice) {
         if (oProduct.isVprice()) {
             TaxInfo tax = taxeslogic.getTaxInfo(oProduct.getTaxCategoryID(), m_oTicket.getCustomer());
@@ -698,13 +714,15 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
                                 String current_attr = current_ticketline.getProductAttSetInstDesc();
                                 String current_name = current_ticketline.getProductName();
                                 String loop_name = loop_ticketline.getProductName();
+                                String current_show = current_ticketline.getShowID();
+                                String loop_show = loop_ticketline.getShowID();
 
                                 if (Boolean.parseBoolean(AppConfig.getInstance().getProperty("display.consolidatedwithoutprice"))) {
-                                    if ((loop_productid.equals(current_productid)) && (loop_unit != 0.0D) && (loop_attr.equals(current_attr)) && (loop_name.equals(current_name))) {
+                                    if ((loop_productid.equals(current_productid)) && (loop_unit != 0.0D) && (loop_attr.equals(current_attr)) && (loop_name.equals(current_name)) && (loop_show.equals(current_show))) {
                                         current_unit += loop_unit;
                                         loop_ticketline.setMultiply(0.0D);
                                     }
-                                } else if ((loop_productid.equals(current_productid)) && (loop_ticketline.getPrice() == current_ticketline.getPrice()) && (loop_unit != 0.0D) && (loop_attr.equals(current_attr)) && (loop_name.equals(current_name))) {
+                                } else if ((loop_productid.equals(current_productid)) && (loop_ticketline.getPrice() == current_ticketline.getPrice()) && (loop_unit != 0.0D) && (loop_attr.equals(current_attr)) && (loop_name.equals(current_name)) && (loop_show.equals(current_show))) {
                                     current_unit += loop_unit;
                                     loop_ticketline.setMultiply(0.0D);
                                 }
@@ -922,11 +940,16 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
     }
 
     private void incProduct(ProductInfoExt prod) {
+        incProduct(prod, null);
+    }
+
+
+    private void incProduct(ProductInfoExt prod, ShowListInfo show) {
         if (prod.isScale() && m_App.getDeviceScale().existsScale()) {
             try {
                 Double value = m_App.getDeviceScale().readWeight();
                 if (value != null) {
-                    incProduct(value, prod);
+                    incProduct(value, prod, show);
                 }
             } catch (ScaleException e) {
                 if (AppConfig.getInstance().getBoolean("till.customsounds")) {
@@ -938,7 +961,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
                 stateToZero();
             }
         } else if (!prod.isVprice()) {
-            incProduct(1.0, prod);
+            incProduct(1.0, prod, show);
         } else {
             if (AppConfig.getInstance().getBoolean("till.customsounds")) {
                 new PlayWave("error.wav").start(); // playing WAVE file 
@@ -949,30 +972,63 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
                     AppLocal.getIntString("message.novprice"));
         }
     }
-
+    
     private void incProduct(double dPor, ProductInfoExt prod) {
-        if (!prod.isScale() && prod.isVprice()) {
-            addTicketLine(prod, getPorValue(), getInputValue());
+        incProduct(dPor, prod, null);
+    }
+    
+    
+    
+    private void incProduct(double dPor, ProductInfoExt prod, ShowListInfo show) {
+        if (show == null) {
+            if (!prod.isScale() && prod.isVprice()) {
+                addTicketLine(prod, getPorValue(), getInputValue());
+            } else {
+                addTicketLine(prod, dPor, prod.getPriceSell());
+            }
         } else {
-            addTicketLine(prod, dPor, prod.getPriceSell());
+            if (!prod.isScale() && prod.isVprice()) {
+                addTicketLine(prod, show, getPorValue(), getInputValue());
+            } else {
+                addTicketLine(prod, show, dPor, prod.getPriceSell());
+            }
         }
-
     }
 
     protected void buttonTransition(ProductInfoExt prod) {
-        if (m_iNumberStatusInput == NUMBERZERO && m_iNumberStatusPor == NUMBERZERO) {
-            incProduct(prod);
-        } else if (m_iNumberStatusInput == NUMBERVALID && m_iNumberStatusPor == NUMBERZERO) {
-            incProduct(getInputValue(), prod);
-        } else if (prod.isVprice()) {
-            addTicketLine(prod, getPorValue(), getInputValue());
-        } else if (AppConfig.getInstance().getBoolean("till.customsounds")) {
-            new PlayWave("error.wav").start(); // playing WAVE file 
-        } else {
-            Toolkit.getDefaultToolkit().beep();
-        }
+        buttonTransition(prod, null);
     }
 
+    protected void buttonTransition(ProductInfoExt prod, ShowListInfo show) {
+        if (show == null ) {
+            if (m_iNumberStatusInput == NUMBERZERO && m_iNumberStatusPor == NUMBERZERO) {
+                incProduct(prod);
+            } else if (m_iNumberStatusInput == NUMBERVALID && m_iNumberStatusPor == NUMBERZERO) {
+                incProduct(getInputValue(), prod);
+            } else if (prod.isVprice()) {
+                addTicketLine(prod, getPorValue(), getInputValue());
+            } else if (AppConfig.getInstance().getBoolean("till.customsounds")) {
+                new PlayWave("error.wav").start(); // playing WAVE file 
+            } else {
+                Toolkit.getDefaultToolkit().beep();
+            }
+        } else {
+            if (m_iNumberStatusInput == NUMBERZERO && m_iNumberStatusPor == NUMBERZERO) {
+                incProduct(prod, show);
+            } else if (m_iNumberStatusInput == NUMBERVALID && m_iNumberStatusPor == NUMBERZERO) {
+                incProduct(getInputValue(), prod, show);
+            } else if (prod.isVprice()) {
+                addTicketLine(prod, show, getPorValue(), getInputValue());
+            } else if (AppConfig.getInstance().getBoolean("till.customsounds")) {
+                new PlayWave("error.wav").start(); // playing WAVE file 
+            } else {
+                Toolkit.getDefaultToolkit().beep();
+            }
+        }
+    }
+    
+    
+    
     private void stateTransition(char cTrans) {
         // if the user has pressed 'enter' or '?' read the number enter and check in barcodes
         if ((cTrans == '\n') || (cTrans == '?')) {

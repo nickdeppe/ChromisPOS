@@ -73,6 +73,7 @@ public class ProductInfoExt {
     protected String m_packproduct;
     protected Boolean m_manageStock;
     protected Boolean m_isBoxOffice;
+    protected ShowListInfo m_showInfo;
 
     public ProductInfoExt() {        
         m_ID = null;
@@ -111,6 +112,7 @@ public class ProductInfoExt {
         m_packproduct = null;
         m_manageStock = true;
         m_isBoxOffice = false;
+        m_showInfo = null;
     }
 
     /**
@@ -403,6 +405,14 @@ public class ProductInfoExt {
 
     public void setPackProduct(String packproduct) {
         m_packproduct = packproduct;
+    }
+    
+    public void setShowListInfo(ShowListInfo show) {
+        m_showInfo = show;
+    }
+    
+    public ShowListInfo getShowListInfo() {
+        return m_showInfo;
     }
 
     public static SerializerRead getSerializerRead() {
