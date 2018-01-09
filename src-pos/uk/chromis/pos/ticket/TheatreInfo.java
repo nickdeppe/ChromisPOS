@@ -32,6 +32,7 @@ public class TheatreInfo implements IKeyed {
 
     private String m_sID;
     private String m_sName;
+    private String m_sExtraDescription;
     private String m_sCapacityMode;
     private Integer m_iCapacity;
     private Boolean m_bHardLimit;
@@ -47,9 +48,10 @@ public class TheatreInfo implements IKeyed {
     * @param hardLimit
     * @param active
      */
-    public TheatreInfo(String id, String name, String capacityMode, Integer capacity, Boolean hardLimit, Boolean active ) {
+    public TheatreInfo(String id, String name, String extraDescription, String capacityMode, Integer capacity, Boolean hardLimit, Boolean active ) {
         m_sID = id;
         m_sName = name;
+        m_sExtraDescription = extraDescription;
         m_sCapacityMode = capacityMode;
         m_iCapacity = capacity;
         m_bHardLimit = hardLimit;
@@ -77,6 +79,14 @@ public class TheatreInfo implements IKeyed {
         m_sName = sName;
     }
 
+    public String getExtraDescription() {
+        return m_sExtraDescription;
+    }
+    
+    public void setExtraDescription(String extraDescription) {
+        m_sExtraDescription = extraDescription;
+    }
+    
     public String getCapacityMode() {
         return m_sCapacityMode;
     }
@@ -124,7 +134,7 @@ public class TheatreInfo implements IKeyed {
         return new SerializerRead() {
             @Override
             public Object readValues(DataRead dr) throws BasicException {
-                return new TheatreInfo(dr.getString(1), dr.getString(2), dr.getString(3), dr.getInt(4), dr.getBoolean(5), dr.getBoolean(6));
+                return new TheatreInfo(dr.getString(1), dr.getString(2), dr.getString(3), dr.getString(4), dr.getInt(5), dr.getBoolean(6), dr.getBoolean(7));
             }
         };
     }

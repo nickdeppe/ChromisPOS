@@ -40,7 +40,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 import java.util.UUID;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -2069,6 +2068,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 "SELECT "
                 + "T.ID, "
                 + "T.NAME, "
+                + "T.EXTRADESCRIPTION, "
                 + "T.CAPACITYMODE, "
                 + "T.CAPACITY, "
                 + "T.HARDLIMIT, "

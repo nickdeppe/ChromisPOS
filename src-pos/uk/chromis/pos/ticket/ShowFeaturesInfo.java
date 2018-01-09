@@ -123,7 +123,7 @@ public class ShowFeaturesInfo implements IKeyed {
         m_sStartTime = startTime;
     }
     
-    public final String setFeatureName() {
+    public final String getFeatureName() {
         return m_sFeatureName;
     }
     

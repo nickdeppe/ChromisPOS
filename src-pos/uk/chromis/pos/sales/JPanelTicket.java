@@ -100,7 +100,7 @@ import uk.chromis.pos.promotion.DataLogicPromotions;
 import uk.chromis.pos.promotion.PromotionSupport;
 import uk.chromis.pos.util.AutoLogoff;
 import uk.chromis.pos.ticket.PlayWave;
-import uk.chromis.pos.ticket.ShowListInfo;
+import uk.chromis.pos.ticket.ShowSalesInfo;
 
 public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFactoryApp, TicketsEditor {
 
@@ -606,7 +606,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
     }
 
     
-    private void addTicketLine(ProductInfoExt oProduct, ShowListInfo oShow, double dMul, double dPrice) {
+    private void addTicketLine(ProductInfoExt oProduct, ShowSalesInfo oShow, double dMul, double dPrice) {
         if (oProduct.isVprice()) {
             TaxInfo tax = taxeslogic.getTaxInfo(oProduct.getTaxCategoryID(), m_oTicket.getCustomer());
             if (m_jaddtax.isSelected()) {
@@ -944,7 +944,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
     }
 
 
-    private void incProduct(ProductInfoExt prod, ShowListInfo show) {
+    private void incProduct(ProductInfoExt prod, ShowSalesInfo show) {
         if (prod.isScale() && m_App.getDeviceScale().existsScale()) {
             try {
                 Double value = m_App.getDeviceScale().readWeight();
@@ -979,7 +979,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
     
     
     
-    private void incProduct(double dPor, ProductInfoExt prod, ShowListInfo show) {
+    private void incProduct(double dPor, ProductInfoExt prod, ShowSalesInfo show) {
         if (show == null) {
             if (!prod.isScale() && prod.isVprice()) {
                 addTicketLine(prod, getPorValue(), getInputValue());
@@ -999,7 +999,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         buttonTransition(prod, null);
     }
 
-    protected void buttonTransition(ProductInfoExt prod, ShowListInfo show) {
+    protected void buttonTransition(ProductInfoExt prod, ShowSalesInfo show) {
         if (show == null ) {
             if (m_iNumberStatusInput == NUMBERZERO && m_iNumberStatusPor == NUMBERZERO) {
                 incProduct(prod);

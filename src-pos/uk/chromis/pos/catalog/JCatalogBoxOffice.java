@@ -38,8 +38,7 @@ import javax.swing.*;
 import javax.swing.event.EventListenerList;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import uk.chromis.pos.forms.AppConfig;
-import uk.chromis.pos.ticket.ShowListInfo;
+import uk.chromis.pos.ticket.ShowSalesInfo;
 
 /**
  *
@@ -59,7 +58,7 @@ public class JCatalogBoxOffice extends JPanel implements ListSelectionListener, 
     private final Set<String> m_categoriesset = new HashSet<>();
     private ThumbNailBuilder tnbbutton;
     private Object newColour;
-    private ShowListInfo m_oSelectedShow;
+    private ShowSalesInfo m_oSelectedShow;
     
     private int m_boxOfficeSize;
 
@@ -191,11 +190,11 @@ public class JCatalogBoxOffice extends JPanel implements ListSelectionListener, 
      *
      * @param prod
      */
-    protected void fireSelectedProduct(ProductInfoExt prod, ShowListInfo show) {
+    protected void fireSelectedProduct(ProductInfoExt prod, ShowSalesInfo show) {
         EventListener[] l = listeners.getListeners(ActionListener.class);
         ActionEvent e = null;
         if (show != null) {
-            prod.setShowListInfo(show);
+            prod.setShowSalesInfo(show);
         }
         for (EventListener l1 : l) {
             if (e == null) {
@@ -277,7 +276,7 @@ public class JCatalogBoxOffice extends JPanel implements ListSelectionListener, 
     private class SelectedAction implements ActionListener {
 
         private final ProductInfoExt prod;
-        private ShowListInfo show;
+        private ShowSalesInfo show;
 
         public SelectedAction(ProductInfoExt prod) {
             this.prod = prod;

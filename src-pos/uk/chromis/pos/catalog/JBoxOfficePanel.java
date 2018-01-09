@@ -5,14 +5,9 @@
  */
 package uk.chromis.pos.catalog;
 
-import java.awt.CardLayout;
 import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -24,10 +19,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import uk.chromis.basic.BasicException;
 import uk.chromis.beans.JDateSelectorPanel;
-import uk.chromis.format.Formats;
 import uk.chromis.pos.forms.DataLogicSales;
-import uk.chromis.pos.ticket.ShowFeaturesInfo;
-import uk.chromis.pos.ticket.ShowListInfo;
 import uk.chromis.pos.ticket.ShowSalesInfo;
 import uk.chromis.pos.util.ThumbNailBuilder;
 
@@ -42,7 +34,7 @@ public class JBoxOfficePanel extends JPanel implements ListSelectionListener {
     private final DataLogicSales m_dlSales;
     private final Set<String> m_showsSet = new HashSet<>();
     private final ThumbNailBuilder m_thumbBuilder;
-    private ShowListInfo m_currentShow;
+    private ShowSalesInfo m_currentShow;
     private ShowListModel m_showListModel;
     
     
@@ -92,12 +84,12 @@ public class JBoxOfficePanel extends JPanel implements ListSelectionListener {
 
     @Override
     public void valueChanged(ListSelectionEvent e) {
-        ShowListInfo showInfo, oldShowInfo;
+        ShowSalesInfo showInfo, oldShowInfo;
         if (!e.getValueIsAdjusting()) {
             int i = jShowList.getSelectedIndex();
             oldShowInfo = this.m_currentShow;
             if (i >= 0) {
-                showInfo = (ShowListInfo) m_showListModel.getElementAt(i);
+                showInfo = (ShowSalesInfo) m_showListModel.getElementAt(i);
                 this.m_currentShow = showInfo;
                 this.firePropertyChange("Show", oldShowInfo, this.m_currentShow);        
             } else {
@@ -122,7 +114,7 @@ public class JBoxOfficePanel extends JPanel implements ListSelectionListener {
     }
     
     
-    public ShowListInfo getSelectedShow() {
+    public ShowSalesInfo getSelectedShow() {
         return m_currentShow;
     }
     
@@ -130,24 +122,14 @@ public class JBoxOfficePanel extends JPanel implements ListSelectionListener {
     private final void showShowsForDate(Date showDate) {
         
         List<ShowSalesInfo> showList;
-        List<ShowListInfo> showListInfo = new ArrayList<ShowListInfo>();
         
         try {
             showList = m_dlSales.getShowsForDate(showDate);
         } catch (BasicException ex) {
             showList = null;
         }
-
-        if ( showList != null ) {
-            for (ShowSalesInfo show : showList) {
-                showListInfo.add(new ShowListInfo(show.getID(), show.getButtonText(), show.getButtonImage()));
-            }
-        }
-
-        // TODO: Finish converting everything to ShowSalesInfo - remove ShowListInfo
         
-        
-        m_showListModel = new ShowListModel(showListInfo);
+        m_showListModel = new ShowListModel(showList);
         jShowList.setModel(m_showListModel);
         if (m_showListModel.getSize() > 1) {
             jShowList.setSelectedIndex(0);
@@ -161,9 +143,9 @@ public class JBoxOfficePanel extends JPanel implements ListSelectionListener {
         @Override
         public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
             super.getListCellRendererComponent(list, null, index, isSelected, cellHasFocus);
-            ShowListInfo show = (ShowListInfo) value;
-            setText(show.getText());
-            setIcon(new ImageIcon(m_thumbBuilder.getThumbNail(show.getImage())));
+            ShowSalesInfo show = (ShowSalesInfo) value;
+            setText(show.getButtonText());
+            setIcon(new ImageIcon(m_thumbBuilder.getThumbNail(show.getButtonImage())));
             return this;
         }
     }
@@ -172,9 +154,9 @@ public class JBoxOfficePanel extends JPanel implements ListSelectionListener {
     
     private class ShowListModel extends AbstractListModel {
 
-        private final List<ShowListInfo> m_showList;
+        private final List<ShowSalesInfo> m_showList;
 
-        public ShowListModel(List<ShowListInfo> showList) {
+        public ShowListModel(List<ShowSalesInfo> showList) {
             m_showList = showList;
         }
 

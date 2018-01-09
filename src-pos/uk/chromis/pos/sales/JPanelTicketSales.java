@@ -22,7 +22,6 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import uk.chromis.basic.BasicException;
@@ -31,10 +30,9 @@ import uk.chromis.pos.catalog.JCatalog;
 import uk.chromis.pos.catalog.JCatalogBoxOffice;
 import uk.chromis.pos.catalog.JCatalogFull;
 import uk.chromis.pos.forms.AppConfig;
-import uk.chromis.pos.forms.AppLocal;
 import uk.chromis.pos.forms.AppView;
 import uk.chromis.pos.ticket.ProductInfoExt;
-import uk.chromis.pos.ticket.ShowListInfo;
+import uk.chromis.pos.ticket.ShowSalesInfo;
 
 /**
  *
@@ -147,9 +145,9 @@ public class JPanelTicketSales extends JPanelTicket {
         @Override
         public void actionPerformed(ActionEvent e) {
             ProductInfoExt prod = (ProductInfoExt) e.getSource();
-            ShowListInfo show = prod.getShowListInfo();
+            ShowSalesInfo show = prod.getShowSalesInfo();
             if (show != null) {
-                buttonTransition((ProductInfoExt) e.getSource(), prod.getShowListInfo());            
+                buttonTransition((ProductInfoExt) e.getSource(), prod.getShowSalesInfo());            
             } else {
                 buttonTransition((ProductInfoExt) e.getSource());
             }

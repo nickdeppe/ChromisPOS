@@ -170,6 +170,19 @@ public class ShowSalesInfo implements IKeyed {
         }
         return null;  // If we reached this far, we didn't find a feature with an image
     }
+    
+    
+    public final String getShowFeaturesText() {
+        String featuresText = "";
+        ShowFeaturesInfo feature;
+        for (int i = 0; i < m_oShowFeatures.size(); i++) {
+            feature = m_oShowFeatures.get(i);
+            if (!featuresText.equals(""))
+                featuresText += ", ";
+            featuresText += feature.getFeatureName();
+        }
+        return featuresText;
+    }
 
 
     public static SerializerRead getSerializerRead() {

@@ -51,6 +51,7 @@ public class TheatresPanel extends JPanelTable2 {
         row = new Row(
                 new Field("ID", Datas.STRING, Formats.STRING),
                 new Field(AppLocal.getIntString("Label.Name"), Datas.STRING, Formats.STRING, true, true, true),
+                new Field("EXTRADESCRIPTION", Datas.STRING, Formats.STRING),
                 new Field("CAPACITYMODE", Datas.STRING, Formats.STRING),
                 new Field("CAPACITY", Datas.INT, Formats.INT),
                 new Field("HARDLIMIT", Datas.BOOLEAN, Formats.BOOLEAN),
@@ -61,6 +62,7 @@ public class TheatresPanel extends JPanelTable2 {
                 "THEATRES",
                 new PrimaryKey("ID"),
                 new Column("NAME"),
+                new Column("EXTRADESCRIPTION"),
                 new Column("CAPACITYMODE"),
                 new Column("CAPACITY"),
                 new Column("HARDLIMIT"),

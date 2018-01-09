@@ -1149,6 +1149,9 @@
             <column name="NAME" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
+            <column name="EXTRADESCRIPTION" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
             <column name="CAPACITYMODE" type="char(1)">
                 <constraints nullable="false"/>
             </column>
