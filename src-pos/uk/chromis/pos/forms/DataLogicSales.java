@@ -1699,8 +1699,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                         + " S.STARTDATE, "
                         + " S.ENDDATE, "
                         + " S.REPORTSTARTDATE, "
-                        + " S.REPORTENDDATE, "
-                        + " T.NAME "
+                        + " S.REPORTENDDATE "
                 + "FROM "
                     + " SHOWS S"
                     + " INNER JOIN THEATRES T ON S.THEATREID = T.ID "                        
@@ -1718,6 +1717,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
         
         for (int i = 0; i < oShows.size(); i++ ) {
             ShowSalesInfo show = oShows.get(i);
+            show.setTheatre(getTheatre(show.getTheatreID()));
             show.setShowFeatures(getFeaturesForShow(show.getID()));
         }
         
@@ -2079,6 +2079,25 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 null,
                 TheatreInfo.getSerializerRead()
         );
+    }
+    
+    
+    public final TheatreInfo getTheatre(String theatreID) throws BasicException {
+        return (TheatreInfo) new PreparedSentence(
+                s, 
+                "SELECT "
+                + "T.ID, "
+                + "T.NAME, "
+                + "T.EXTRADESCRIPTION, "
+                + "T.CAPACITYMODE, "
+                + "T.CAPACITY, "
+                + "T.HARDLIMIT, "
+                + "T.ACTIVE "
+                + "FROM THEATRES T "
+                + "WHERE T.ID = ? ", 
+                SerializerWriteString.INSTANCE, 
+                TheatreInfo.getSerializerRead()
+        ).find(theatreID);        
     }
 
 

@@ -39,8 +39,8 @@ public class ShowSalesInfo implements IKeyed {
     protected Date m_dEndDate;
     protected Date m_dReportStartDate;
     protected Date m_dReportEndDate;
-    protected String m_sTheatreName;
     protected List<ShowFeaturesInfo> m_oShowFeatures;
+    protected TheatreInfo m_oTheatre;
 
     /**
      * Creates a new instance of ProductShowInfoList
@@ -52,17 +52,15 @@ public class ShowSalesInfo implements IKeyed {
         m_dEndDate = null;
         m_dReportStartDate = null;
         m_dReportEndDate = null;
-        m_sTheatreName = null;
     }
 
-    public ShowSalesInfo( String id, String theatreID, Date startDate, Date endDate, Date reportStartDate, Date reportEndDate, String theatreName ) {
+    public ShowSalesInfo( String id, String theatreID, Date startDate, Date endDate, Date reportStartDate, Date reportEndDate ) {
         m_ID = id;
         m_sTheatreID = theatreID;
         m_dStartDate = startDate;
         m_dEndDate = endDate;
         m_dReportStartDate = reportStartDate;
         m_dReportEndDate = reportEndDate;
-        m_sTheatreName = theatreName;
     }
 
 
@@ -120,11 +118,7 @@ public class ShowSalesInfo implements IKeyed {
     }
 
     public final String getTheatreName() {
-        return m_sTheatreName;
-    }
-    
-    public final void setTheatreName( String theatreName ) {
-        m_sTheatreName = theatreName;
+        return m_oTheatre.getName();
     }
     
     public final List<ShowFeaturesInfo> getShowFeatures() {
@@ -135,14 +129,22 @@ public class ShowSalesInfo implements IKeyed {
         m_oShowFeatures = showFeatures;
     }
     
+    public final void setTheatre(TheatreInfo theatre) {
+        m_oTheatre = theatre;
+    }
+    
+    public final TheatreInfo getTheatre() {
+        return m_oTheatre;
+    }
+    
 
     @Override
     public final String toString() {
-        return m_sTheatreName;
+        return getTheatreName();
     }
     
     public final String getButtonText() {
-        String buttonText = "<html><font size='+1'>" + m_sTheatreName + "</font>";
+        String buttonText = "<html><font size='+1'>" + getTheatreName() + "</font>";
         for(int i = 0; i < m_oShowFeatures.size(); i++) {
             ShowFeaturesInfo feature = m_oShowFeatures.get(i);
             buttonText += "<br>" + feature.toString();
@@ -151,7 +153,7 @@ public class ShowSalesInfo implements IKeyed {
     }
     
     public final String getButtonToolTip() {
-        String toolTip = m_sTheatreName;
+        String toolTip = getTheatreName();
         for(int i = 0; i < m_oShowFeatures.size(); i++) {
             ShowFeaturesInfo feature = m_oShowFeatures.get(i);
             toolTip += ", " + feature.toString();
@@ -189,7 +191,7 @@ public class ShowSalesInfo implements IKeyed {
         return new SerializerRead() {
             @Override
             public Object readValues(DataRead dr) throws BasicException {
-                return new ShowSalesInfo(dr.getString(1), dr.getString(2), dr.getDate(3), dr.getDate(4), dr.getDate(5), dr.getDate(6), dr.getString(7) );
+                return new ShowSalesInfo(dr.getString(1), dr.getString(2), dr.getDate(3), dr.getDate(4), dr.getDate(5), dr.getDate(6) );
             }
         };
     }
