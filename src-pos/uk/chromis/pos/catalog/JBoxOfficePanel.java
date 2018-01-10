@@ -8,11 +8,8 @@ package uk.chromis.pos.catalog;
 import java.awt.Component;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import javax.swing.*;
 import javax.swing.ImageIcon;
 import javax.swing.event.ListSelectionEvent;
@@ -32,7 +29,6 @@ public class JBoxOfficePanel extends JPanel implements ListSelectionListener {
 
     private Date m_selectedDate;
     private final DataLogicSales m_dlSales;
-    private final Set<String> m_showsSet = new HashSet<>();
     private final ThumbNailBuilder m_thumbBuilder;
     private ShowSalesInfo m_currentShow;
     private ShowListModel m_showListModel;
@@ -74,7 +70,7 @@ public class JBoxOfficePanel extends JPanel implements ListSelectionListener {
     }
     
     
-    private final void initializeDates() {
+    private void initializeDates() {
         
         this.jDateSelectorPanel1.addPropertyChangeListener("Date", new JPanelDateChange(this.jDateSelectorPanel1) ); 
         this.jDateSelectorPanel1.setMinDate(new Date());
@@ -97,7 +93,6 @@ public class JBoxOfficePanel extends JPanel implements ListSelectionListener {
                 this.firePropertyChange("Show", oldShowInfo, null);        
             }
         }
-
     }
     
 
@@ -119,7 +114,7 @@ public class JBoxOfficePanel extends JPanel implements ListSelectionListener {
     }
     
     
-    private final void showShowsForDate(Date showDate) {
+    private void showShowsForDate(Date showDate) {
         
         List<ShowSalesInfo> showList;
         
@@ -131,7 +126,7 @@ public class JBoxOfficePanel extends JPanel implements ListSelectionListener {
         
         m_showListModel = new ShowListModel(showList);
         jShowList.setModel(m_showListModel);
-        if (m_showListModel.getSize() > 1) {
+        if (m_showListModel.getSize() > 0) {
             jShowList.setSelectedIndex(0);
         }
                 
