@@ -24,6 +24,7 @@ import uk.chromis.data.loader.ImageUtils;
 import uk.chromis.data.loader.SerializerRead;
 import uk.chromis.format.Formats;
 import java.awt.image.BufferedImage;
+import java.util.Date;
 import java.util.Properties;
 import uk.chromis.pos.forms.DataLogicSales;
 
@@ -73,6 +74,7 @@ public class ProductInfoExt {
     protected Boolean m_manageStock;
     protected Boolean m_isBoxOffice;
     protected ShowSalesInfo m_showInfo;
+    protected Date m_showDate;
 
     public ProductInfoExt() {        
         m_ID = null;
@@ -412,6 +414,14 @@ public class ProductInfoExt {
     
     public ShowSalesInfo getShowSalesInfo() {
         return m_showInfo;
+    }
+    
+    public void setShowDate(Date showDate) {
+        m_showDate = showDate;
+    }
+    
+    public Date getShowDate() {
+        return m_showDate;
     }
 
     public static SerializerRead getSerializerRead() {

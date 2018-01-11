@@ -113,6 +113,10 @@ public class JBoxOfficePanel extends JPanel implements ListSelectionListener {
         return m_currentShow;
     }
     
+    public Date getSelectedDate() {
+        return m_selectedDate;
+    }
+    
     
     private void showShowsForDate(Date showDate) {
         

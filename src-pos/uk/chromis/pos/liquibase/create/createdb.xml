@@ -1213,6 +1213,9 @@
             <column name="SHOWID" type="varchar(255)">
                 <constraints nullable="true"/>
             </column>
+            <column name="SHOWDATE" type="date">
+                <constraints nullable="true"/>
+            </column>
             <column name="UNITS" type="double precision">
                 <constraints nullable="false"/>
             </column>

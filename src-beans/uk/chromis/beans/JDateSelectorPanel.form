@@ -20,9 +20,10 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="m_jButtonDatePrevious" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="m_jButtonDate" pref="693" max="32767" attributes="0"/>
+              <Component id="m_jButtonDate" pref="464" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="m_jButtonDateNext" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -32,10 +33,10 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="m_jButtonDate" alignment="0" max="32767" attributes="0"/>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="m_jButtonDateNext" alignment="1" min="-2" max="-2" attributes="0"/>
-                          <Component id="m_jButtonDatePrevious" alignment="1" min="-2" max="-2" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="m_jButtonDateNext" min="-2" max="-2" attributes="0"/>
+                          <Component id="m_jButtonDatePrevious" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>

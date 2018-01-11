@@ -31,7 +31,7 @@ import uk.chromis.data.loader.SerializerRead;
  * @author adrianromero Created on 21 de marzo de 2007, 21:28
  *
  */
-public class ShowFeaturesInfo implements IKeyed {
+public class ShowFeaturesInfo implements IKeyed, Cloneable {
 
     protected String m_ID;
     protected String m_sShowID;
@@ -176,7 +176,16 @@ public class ShowFeaturesInfo implements IKeyed {
     public final String toString() {
         return m_sStartTime + " - " + m_sFeatureName + " - " + m_sRatingName;
     }
-
+    
+    @Override
+    public Object clone() {
+        try {
+            return super.clone();
+        }
+        catch (CloneNotSupportedException e) {
+            throw new InternalError();
+        }
+    }
 
     public static SerializerRead getSerializerRead() {
         return new SerializerRead() {

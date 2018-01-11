@@ -59,6 +59,7 @@ public class JCatalogBoxOffice extends JPanel implements ListSelectionListener, 
     private ThumbNailBuilder tnbbutton;
     private Object newColour;
     private ShowSalesInfo m_oSelectedShow;
+    private Date m_dSelectedDate;
     
     private int m_boxOfficeSize;
 
@@ -101,12 +102,8 @@ public class JCatalogBoxOffice extends JPanel implements ListSelectionListener, 
     
     private void setSelectedShow(JBoxOfficePanel p) {
         m_oSelectedShow = p.getSelectedShow();
-        if (m_oSelectedShow == null ) {
-            // Disable all of the box office products
-            setComponentEnabled(false);
-        } else {
-            setComponentEnabled(true);
-        }
+        m_dSelectedDate = p.getSelectedDate();
+        setComponentEnabled( m_oSelectedShow != null && m_dSelectedDate != null );
     }
     
     
@@ -190,11 +187,12 @@ public class JCatalogBoxOffice extends JPanel implements ListSelectionListener, 
      *
      * @param prod
      */
-    protected void fireSelectedProduct(ProductInfoExt prod, ShowSalesInfo show) {
+    protected void fireSelectedProduct(ProductInfoExt prod, ShowSalesInfo show, Date showDate) {
         EventListener[] l = listeners.getListeners(ActionListener.class);
         ActionEvent e = null;
-        if (show != null) {
+        if (show != null && showDate != null) {
             prod.setShowSalesInfo(show);
+            prod.setShowDate(showDate);
         }
         for (EventListener l1 : l) {
             if (e == null) {
@@ -277,6 +275,7 @@ public class JCatalogBoxOffice extends JPanel implements ListSelectionListener, 
 
         private final ProductInfoExt prod;
         private ShowSalesInfo show;
+        private Date showDate;
 
         public SelectedAction(ProductInfoExt prod) {
             this.prod = prod;
@@ -285,7 +284,8 @@ public class JCatalogBoxOffice extends JPanel implements ListSelectionListener, 
         @Override
         public void actionPerformed(ActionEvent e) {
             this.show = m_oSelectedShow;
-            fireSelectedProduct(prod, this.show);
+            this.showDate = m_dSelectedDate;
+            fireSelectedProduct(prod, this.show, this.showDate);
         }
     }
 

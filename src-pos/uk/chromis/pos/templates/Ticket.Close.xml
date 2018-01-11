@@ -91,5 +91,8 @@ if ( ! ticket.getTicketType().toString().equals("REFUND") ) {
 	}
 }
 if(isBoxOffice) {
+        // Use the following to print individual tickets
 	sales.printTicket("Printer.TicketBoxOffice");
+        // Use the following to print one consolidated ticket
+//      sales.printTicket("Printer.TicketBoxOfficeFull");
 }

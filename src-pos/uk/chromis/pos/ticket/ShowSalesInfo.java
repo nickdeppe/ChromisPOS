@@ -137,6 +137,17 @@ public class ShowSalesInfo implements IKeyed {
         return m_oTheatre;
     }
     
+    @Override
+    public Object clone() {
+        try {
+            return super.clone();
+        }
+        catch (CloneNotSupportedException e) {
+            throw new InternalError();
+        }
+    }
+
+    
 
     @Override
     public final String toString() {

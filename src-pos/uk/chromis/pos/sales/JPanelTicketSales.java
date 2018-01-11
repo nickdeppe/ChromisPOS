@@ -147,7 +147,7 @@ public class JPanelTicketSales extends JPanelTicket {
             ProductInfoExt prod = (ProductInfoExt) e.getSource();
             ShowSalesInfo show = prod.getShowSalesInfo();
             if (show != null) {
-                buttonTransition((ProductInfoExt) e.getSource(), prod.getShowSalesInfo());            
+                buttonTransition((ProductInfoExt) e.getSource(), prod.getShowSalesInfo(), prod.getShowDate());            
             } else {
                 buttonTransition((ProductInfoExt) e.getSource());
             }

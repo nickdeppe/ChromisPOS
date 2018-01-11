@@ -606,16 +606,16 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
     }
 
     
-    private void addTicketLine(ProductInfoExt oProduct, ShowSalesInfo oShow, double dMul, double dPrice) {
+    private void addTicketLine(ProductInfoExt oProduct, ShowSalesInfo oShow, Date dShowDate, double dMul, double dPrice) {
         if (oProduct.isVprice()) {
             TaxInfo tax = taxeslogic.getTaxInfo(oProduct.getTaxCategoryID(), m_oTicket.getCustomer());
             if (m_jaddtax.isSelected()) {
                 dPrice /= (1 + tax.getRate());
             }
-            addTicketLine(new TicketLineInfo(oProduct, dMul, dPrice, tax, (java.util.Properties) (oProduct.getProperties().clone()), oShow));
+            addTicketLine(new TicketLineInfo(oProduct, dMul, dPrice, tax, (java.util.Properties) (oProduct.getProperties().clone()), oShow, dShowDate));
         } else {
             TaxInfo tax = taxeslogic.getTaxInfo(oProduct.getTaxCategoryID(), m_oTicket.getCustomer());
-            addTicketLine(new TicketLineInfo(oProduct, dMul, dPrice, tax, (java.util.Properties) (oProduct.getProperties().clone()), oShow));
+            addTicketLine(new TicketLineInfo(oProduct, dMul, dPrice, tax, (java.util.Properties) (oProduct.getProperties().clone()), oShow, dShowDate));
         }
     }
     
@@ -940,16 +940,16 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
     }
 
     private void incProduct(ProductInfoExt prod) {
-        incProduct(prod, null);
+        incProduct(prod, null, null);
     }
 
 
-    private void incProduct(ProductInfoExt prod, ShowSalesInfo show) {
+    private void incProduct(ProductInfoExt prod, ShowSalesInfo show, Date showDate) {
         if (prod.isScale() && m_App.getDeviceScale().existsScale()) {
             try {
                 Double value = m_App.getDeviceScale().readWeight();
                 if (value != null) {
-                    incProduct(value, prod, show);
+                    incProduct(value, prod, show, showDate);
                 }
             } catch (ScaleException e) {
                 if (AppConfig.getInstance().getBoolean("till.customsounds")) {
@@ -961,7 +961,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
                 stateToZero();
             }
         } else if (!prod.isVprice()) {
-            incProduct(1.0, prod, show);
+            incProduct(1.0, prod, show, showDate);
         } else {
             if (AppConfig.getInstance().getBoolean("till.customsounds")) {
                 new PlayWave("error.wav").start(); // playing WAVE file 
@@ -974,12 +974,12 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
     }
     
     private void incProduct(double dPor, ProductInfoExt prod) {
-        incProduct(dPor, prod, null);
+        incProduct(dPor, prod, null, null);
     }
     
     
     
-    private void incProduct(double dPor, ProductInfoExt prod, ShowSalesInfo show) {
+    private void incProduct(double dPor, ProductInfoExt prod, ShowSalesInfo show, Date showDate) {
         if (show == null) {
             if (!prod.isScale() && prod.isVprice()) {
                 addTicketLine(prod, getPorValue(), getInputValue());
@@ -988,18 +988,18 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
             }
         } else {
             if (!prod.isScale() && prod.isVprice()) {
-                addTicketLine(prod, show, getPorValue(), getInputValue());
+                addTicketLine(prod, show, showDate, getPorValue(), getInputValue());
             } else {
-                addTicketLine(prod, show, dPor, prod.getPriceSell());
+                addTicketLine(prod, show, showDate, dPor, prod.getPriceSell());
             }
         }
     }
 
     protected void buttonTransition(ProductInfoExt prod) {
-        buttonTransition(prod, null);
+        buttonTransition(prod, null, null);
     }
 
-    protected void buttonTransition(ProductInfoExt prod, ShowSalesInfo show) {
+    protected void buttonTransition(ProductInfoExt prod, ShowSalesInfo show, Date showDate) {
         if (show == null ) {
             if (m_iNumberStatusInput == NUMBERZERO && m_iNumberStatusPor == NUMBERZERO) {
                 incProduct(prod);
@@ -1014,11 +1014,11 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
             }
         } else {
             if (m_iNumberStatusInput == NUMBERZERO && m_iNumberStatusPor == NUMBERZERO) {
-                incProduct(prod, show);
+                incProduct(prod, show, showDate);
             } else if (m_iNumberStatusInput == NUMBERVALID && m_iNumberStatusPor == NUMBERZERO) {
-                incProduct(getInputValue(), prod, show);
+                incProduct(getInputValue(), prod, show, showDate);
             } else if (prod.isVprice()) {
-                addTicketLine(prod, show, getPorValue(), getInputValue());
+                addTicketLine(prod, show, showDate, getPorValue(), getInputValue());
             } else if (AppConfig.getInstance().getBoolean("till.customsounds")) {
                 new PlayWave("error.wav").start(); // playing WAVE file 
             } else {

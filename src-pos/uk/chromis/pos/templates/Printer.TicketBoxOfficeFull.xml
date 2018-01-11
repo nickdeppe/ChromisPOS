@@ -21,16 +21,8 @@
 
 <output>
 
-#foreach ($ticketline in $ticket.getLinesByShow())
-#if( $ticketline.isProductBoxOffice() )
-#set($start = 1)
-#set($end = $ticketline.getMultiply())
-#set($range = [$start..$end])
-#foreach($i in $range)
-#set($show = $ticketline.getShow())
-#set($theatre = $show.getTheatre())
-#set($features = $show.getShowFeatures())
 <ticket>
+
 	<image>Printer.Ticket.Logo</image>
 	<line></line>
 
@@ -40,33 +32,55 @@
 	<line><text align="center" length="42">Printer.TicketBoxOffice</text></line>
 	<line></line>
 	<line></line>
-	<line size="2"><text align="center" length="21" bold="true">ADMIT ONE</text></line>
+
+#set($currentshowid = "")
+
+#foreach ($ticketline in $ticket.getLinesByShow())
+
+	#if( $ticketline.isProductBoxOffice() )
+		#set($start = 1)
+		#set($end = $ticketline.getMultiply())
+		#set($range = [$start..$end])
+		#set($show = $ticketline.getShow())
+		#set($return = ($currentshowid == "" || $currentshow != $show.getID()) )
+
+		#if($currentshowid == "" || $currentshowid != $show.getID())
 	<line></line>
-	<line></line>
-	<line size="3"><text align="left" length="11" bold="true">${ticketline.printName()}</text><text align="right" length="10">${ticketline.printPriceTax()}</text></line>
-#if($ticketline.getTax() > 0)
-	<line><text>Price includes ${ticketline.printTax()} tax</text></line>
-#end
-	<line></line>
+			#set($currentshowid = $show.getID())
+			#set($theatre = $show.getTheatre())
+			#set($features = $show.getShowFeatures())
 	<line size="2"><text align="left" length="21" underline="true" bold="true">${theatre.getName().toUpperCase()}</text></line>
-#if($ticketline.getExtraDescription() != "")
+			#if($ticketline.getExtraDescription() != "")
 	<line></line>
 	<line><text align="left" length="42">${theatre.getExtraDescription()}</text></line>
-#end
+			#end
+	<line></line>
 	<line></line>
 	<line></line>
 	<line size="1"><text align="left" length="42" bold="true">${ticketline.printShowDate()}</text></line>
-#foreach($feature in $features)
+			#foreach($feature in $features)
 	<line><text align="left" length="9">${feature.getStartTime()}</text><text align="left" length="28" bold="true">${feature.getFeatureName()}</text><text align="left" length="5">${feature.getRatingName()}</text></line>
+			#end
+	<line></line>
+	<line></line>
+		#end
+
+
+		#foreach($i in $range)
+	<line><text>------------------------------------------</text></line>
+	<line></line>
+	<line size="1"><text align="left" length="42">ADMIT ONE</text></line>
+	<line size="3"><text align="left" length="11" bold="true">${ticketline.printName()}</text><text align="right" length="10">${ticketline.printPriceTax()}</text></line>
+			#if($ticketline.getTax() > 0)
+	<line><text>Price includes ${ticketline.printTax()} tax</text></line>
+			#end
+		#end
+
+	#end
 #end
 	<line></line>
 	<line><text align="left" length="42">Purchased ${ticket.printDate()}</text></line>
 
 </ticket>
-
-#end
-#end
-#end
-
 
 </output>

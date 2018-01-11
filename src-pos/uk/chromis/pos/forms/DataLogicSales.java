@@ -1174,7 +1174,9 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                             + "T.RATECASCADE, "
                             + "T.RATEORDER, "
                             + "L.ATTRIBUTES, "
-                            + "L.REFUNDQTY  "
+                            + "L.REFUNDQTY, "
+                            + "L.SHOWID, "
+                            + "L.SHOWDATE "
                     + "FROM "
                             + "TICKETLINES L "
                             + "INNER JOIN TAXES T ON L.TAXID = T.ID "
@@ -1260,7 +1262,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 }
                 );
 
-                SentenceExec ticketlineinsert = new PreparedSentence(s, "INSERT INTO TICKETLINES (TICKET, LINE, PRODUCT, ATTRIBUTESETINSTANCE_ID, UNITS, PRICE, TAXID, ATTRIBUTES, REFUNDQTY, SHOWID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", SerializerWriteBuilder.INSTANCE);
+                SentenceExec ticketlineinsert = new PreparedSentence(s, "INSERT INTO TICKETLINES (TICKET, LINE, PRODUCT, ATTRIBUTESETINSTANCE_ID, UNITS, PRICE, TAXID, ATTRIBUTES, REFUNDQTY, SHOWID, SHOWDATE) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", SerializerWriteBuilder.INSTANCE);
 
                 for (TicketLineInfo l : ticket.getLines()) {
 
