@@ -169,7 +169,7 @@ public class TicketLineInfo implements SerializableWrite, SerializableRead, Seri
         m_iLine = -1;
         refundQty = refund;
         m_oShow = show;
-        m_sShowID = show.getID();
+        m_sShowID = (show == null) ? null : show.getID();
         m_dShowDate = showDate;
         
     }

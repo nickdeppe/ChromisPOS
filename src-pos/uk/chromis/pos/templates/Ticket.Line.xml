@@ -32,13 +32,14 @@
 
 <!-- This sales transaction screen is great for Box Office!
 <line>
-    <column name="label.item" width="60" align="left" value="&lt;html&gt;#if ($ticketline.isProductCom()) &lt;i&gt;*&amp;nbsp;&amp;nbsp;${ticketline.printName()}&lt;/i&gt; #else ${ticketline.printName()} #end&lt;br&gt;${ticketline.getProductAttSetInstDesc()}"/>
-    <column name="label.theatre" width="50" align="left" value="&lt;html&gt;#if ($ticketline.isBoxOfficeLine())${ticketline.printShowTheatreName()}#end"/>
+    <column name="label.item" width="50" align="left" value="&lt;html&gt;#if ($ticketline.isProductCom()) &lt;i&gt;*&amp;nbsp;&amp;nbsp;${ticketline.printName()}&lt;/i&gt; #else ${ticketline.printName()} #end&lt;br&gt;${ticketline.getProductAttSetInstDesc()}"/>
+    <column name="label.theatre" width="40" align="left" value="&lt;html&gt;#if ($ticketline.isBoxOfficeLine())${ticketline.printShowTheatreName()}#end"/>
     <column name="label.show" width="100" align="left" value="&lt;html&gt;#if ($ticketline.isBoxOfficeLine())${ticketline.printShowFeaturesText()}#end"/>
-    <column name="label.price" width="40" align="right" value="${ticketline.printPrice()}"/>
-    <column name="label.units" width="40" align="right" value="x${ticketline.printMultiply()}"/>
-    <column name="label.tax" width="40" align="right" value="${ticketline.printTaxRate()}"/>
-    <column name="label.value" width="40" align="right" value="${ticketline.printValue()}"/>
+    <column name="label.showdate" width="20" align="left" value="&lt;html&gt;#if ($ticketline.isBoxOfficeLine())${ticketline.printShowDate()}#end"/>
+    <column name="label.price" width="20" align="right" value="${ticketline.printPrice()}"/>
+    <column name="label.units" width="20" align="right" value="x${ticketline.printMultiply()}"/>
+    <column name="label.tax" width="20" align="right" value="${ticketline.printTaxRate()}"/>
+    <column name="label.value" width="20" align="right" value="${ticketline.printValue()}"/>
 </line>
 -->
 
