@@ -205,7 +205,7 @@ public class TicketLineInfo implements SerializableWrite, SerializableRead, Seri
             dp.setBytes(8, null);
         }
         dp.setDouble(9, refundQty);
-        dp.setString(10, m_oShow.getID());
+        dp.setString(10, (m_oShow == null) ? null : m_oShow.getID());
         dp.setDate(11, m_dShowDate);
     }
 
@@ -430,7 +430,7 @@ public class TicketLineInfo implements SerializableWrite, SerializableRead, Seri
     }
     
     public String getShowID() {
-        return m_oShow.getID();
+        return (m_oShow != null) ? m_oShow.getID() : "";
     }
     
     public ShowSalesInfo getShow() {
@@ -438,11 +438,11 @@ public class TicketLineInfo implements SerializableWrite, SerializableRead, Seri
     }
     
     public String getShowTheatreName() {
-        return m_oShow.getTheatreName();
+        return (m_oShow != null) ? m_oShow.getTheatreName() : "";
     }
     
     public String getShowFeaturesText() {
-        return m_oShow.getShowFeaturesText();
+        return (m_oShow != null) ? m_oShow.getShowFeaturesText() : "";
     }
     
     public Date getShowDate() {

@@ -64,7 +64,14 @@
 		<line></line>
 		<line><text align ="left" length="17">Item</text><text align ="right" length="8">Price</text><text align ="right" length="7">Qty</text><text align ="right" length="10">Value</text></line>
 		<line><text align="left" length="42">------------------------------------------</text></line>
-#foreach ($ticketline in $ticket.getLines())
+#set ($currentshowid = "")
+#foreach ($ticketline in $ticket.getLinesByShow())
+#if ( $ticketline.isBoxOfficeLine() && $currentshowid != $ticketline.getShowID())
+#set ($currentshowid = $ticketline.getShowID())
+	<line>
+		<text align="left" length="42" bold="true">${ticketline.printShowTheatreName()}</text>		
+	</line>
+#end
 	<line>
 	
 	#if ($ticketline.isProductCom())
