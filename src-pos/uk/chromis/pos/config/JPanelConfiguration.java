@@ -93,6 +93,10 @@ public class JPanelConfiguration extends JPanel implements JPanelView {
         m_panelconfig.add(panel);
         jPanelRestaurantSetup.add(panel.getConfigComponent());
 
+        panel = new JPanelConfigBoxOffice();
+        m_panelconfig.add(panel);
+        jPanelBoxOfficeSetup.add(panel.getConfigComponent());
+        
     }
 
     private void restoreProperties() {
@@ -192,6 +196,7 @@ public class JPanelConfiguration extends JPanel implements JPanelView {
         jPanelSystem = new javax.swing.JPanel();
         jPanelTicketSetup = new javax.swing.JPanel();
         jPanelRestaurantSetup = new javax.swing.JPanel();
+        jPanelBoxOfficeSetup = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jbtnRestore = new javax.swing.JButton();
         jbtnSave = new javax.swing.JButton();
@@ -243,6 +248,11 @@ public class JPanelConfiguration extends JPanel implements JPanelView {
         jPanelRestaurantSetup.setPreferredSize(new java.awt.Dimension(0, 500));
         jPanelRestaurantSetup.setLayout(new javax.swing.BoxLayout(jPanelRestaurantSetup, javax.swing.BoxLayout.LINE_AXIS));
         jTabbedPane1.addTab("Restaurant Setup", jPanelRestaurantSetup);
+
+        jPanelBoxOfficeSetup.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jPanelBoxOfficeSetup.setPreferredSize(new java.awt.Dimension(0, 500));
+        jPanelBoxOfficeSetup.setLayout(new javax.swing.BoxLayout(jPanelBoxOfficeSetup, javax.swing.BoxLayout.LINE_AXIS));
+        jTabbedPane1.addTab("Box Office Setup", jPanelBoxOfficeSetup);
 
         jbtnRestore.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jbtnRestore.setText(AppLocal.getIntString("Button.Factory")); // NOI18N
@@ -305,7 +315,7 @@ public class JPanelConfiguration extends JPanel implements JPanelView {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jbtnExit, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 780, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 909, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -341,6 +351,7 @@ public class JPanelConfiguration extends JPanel implements JPanelView {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanelBoxOfficeSetup;
     private javax.swing.JPanel jPanelDatabase;
     private javax.swing.JPanel jPanelGeneral;
     private javax.swing.JPanel jPanelLocale;
