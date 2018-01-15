@@ -38,6 +38,7 @@ import javax.swing.*;
 import javax.swing.event.EventListenerList;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import uk.chromis.pos.forms.AppConfig;
 import uk.chromis.pos.ticket.ShowSalesInfo;
 
 /**
@@ -103,7 +104,7 @@ public class JCatalogBoxOffice extends JPanel implements ListSelectionListener, 
     private void setSelectedShow(JBoxOfficePanel p) {
         m_oSelectedShow = p.getSelectedShow();
         m_dSelectedDate = p.getSelectedDate();
-        setComponentEnabled( m_oSelectedShow != null && m_dSelectedDate != null );
+        //setComponentEnabled( m_oSelectedShow != null && m_dSelectedDate != null );
     }
     
     
@@ -190,10 +191,8 @@ public class JCatalogBoxOffice extends JPanel implements ListSelectionListener, 
     protected void fireSelectedProduct(ProductInfoExt prod, ShowSalesInfo show, Date showDate) {
         EventListener[] l = listeners.getListeners(ActionListener.class);
         ActionEvent e = null;
-        if (show != null && showDate != null) {
-            prod.setShowSalesInfo(show);
-            prod.setShowDate(showDate);
-        }
+        prod.setShowSalesInfo(show);
+        prod.setShowDate(showDate);
         for (EventListener l1 : l) {
             if (e == null) {
                 e = new ActionEvent(prod, ActionEvent.ACTION_PERFORMED, prod.getID());
@@ -208,7 +207,11 @@ public class JCatalogBoxOffice extends JPanel implements ListSelectionListener, 
             m_jProducts.add(jcurrTab, "");
 
             java.util.List<ProductInfoExt> prods;
-            prods = m_dlSales.getAllBoxOfficeProducts();
+            if (AppConfig.getInstance().getBoolean("boxoffice.allowregularproducts")) {
+                prods = m_dlSales.getAllProductCatalogByCatOrder();
+            } else {
+                prods = m_dlSales.getAllBoxOfficeProducts();
+            }
             
             for (ProductInfoExt prod : prods) {
                 newColour = m_dlSales.getCategoryColour(prod.getCategoryID());

@@ -24,10 +24,10 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jchkAllowRegularProducts" min="-2" pref="220" max="-2" attributes="0"/>
-              <EmptySpace pref="474" max="32767" attributes="0"/>
+              <Component id="jchkAllowRegularProducts" min="-2" pref="403" max="-2" attributes="0"/>
+              <EmptySpace pref="291" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -45,7 +45,7 @@
     <Component class="eu.hansolo.custom.SteelCheckBox" name="jchkAllowRegularProducts">
       <Properties>
         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
-          <ResourceString bundle="pos_messages.properties" key="label.tableshowcustomerdetails" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+          <ResourceString bundle="pos_messages.properties" key="label.boxofficeallowstandardproducts" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
         </Property>
       </Properties>
     </Component>

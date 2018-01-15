@@ -22,10 +22,12 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Date;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import uk.chromis.basic.BasicException;
 import uk.chromis.pos.catalog.CatalogSelector;
+import uk.chromis.pos.catalog.JBoxOfficeDialog;
 import uk.chromis.pos.catalog.JCatalog;
 import uk.chromis.pos.catalog.JCatalogBoxOffice;
 import uk.chromis.pos.catalog.JCatalogFull;
@@ -146,10 +148,16 @@ public class JPanelTicketSales extends JPanelTicket {
         public void actionPerformed(ActionEvent e) {
             ProductInfoExt prod = (ProductInfoExt) e.getSource();
             ShowSalesInfo show = prod.getShowSalesInfo();
-            if (show != null) {
-                buttonTransition((ProductInfoExt) e.getSource(), prod.getShowSalesInfo(), prod.getShowDate());            
+            Date showDate = prod.getShowDate();
+            if (prod.getIsBoxOffice() && ( show == null || showDate == null )) {
+                // It's a box office product and no show is selected
+                if (JBoxOfficeDialog.showDialog(m_ticketlines, dlSales) ) {
+                    buttonTransition(prod, JBoxOfficeDialog.getSelectedShow(), JBoxOfficeDialog.getSelectedShowDate());
+                }
+            } else if ( prod.getIsBoxOffice() && show != null && showDate != null) {
+                buttonTransition(prod, show, showDate);            
             } else {
-                buttonTransition((ProductInfoExt) e.getSource());
+                buttonTransition(prod);
             }
         }
     }

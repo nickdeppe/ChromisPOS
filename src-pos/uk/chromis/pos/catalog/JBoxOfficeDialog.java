@@ -12,7 +12,9 @@ import java.awt.Frame;
 import java.awt.Window;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.Date;
 import javax.swing.SwingUtilities;
+import uk.chromis.beans.LocaleResources;
 import uk.chromis.pos.forms.DataLogicSales;
 import uk.chromis.pos.sales.JPanelButtons;
 import uk.chromis.pos.ticket.ShowSalesInfo;
@@ -23,8 +25,11 @@ import uk.chromis.pos.ticket.ShowSalesInfo;
  */
 public class JBoxOfficeDialog extends javax.swing.JDialog  {
   
+    private static LocaleResources m_resources;
     private DataLogicSales m_dlSales;
-    private ShowSalesInfo m_selectedShow;
+    private static ShowSalesInfo m_selectedShow;
+    private static Date m_selectedShowDate;
+    private static boolean m_cancelled;
     
     
     /**
@@ -42,12 +47,22 @@ public class JBoxOfficeDialog extends javax.swing.JDialog  {
     
     
     private void initialize(DataLogicSales dlSales) {
+        
         m_dlSales = dlSales;
+        
+        if (m_resources == null) {
+            m_resources = new LocaleResources();
+            m_resources.addBundleName("beans_messages");
+        }
+
+        m_cancelled = false;
+        
         initComponents();
+    
     }
     
     
-    public static ShowSalesInfo showDialog(Component parent, DataLogicSales dlSales) {
+    public static boolean showDialog(Component parent, DataLogicSales dlSales) {
         
         Window window = SwingUtilities.windowForComponent(parent);
         
@@ -63,8 +78,21 @@ public class JBoxOfficeDialog extends javax.swing.JDialog  {
         
         myMsg.setVisible(true);
         
-        return myMsg.m_selectedShow;
+        return !myMsg.m_cancelled;
         
+    }
+    
+    
+    public static Date getSelectedShowDate() {
+        return JBoxOfficeDialog.m_selectedShowDate;
+    }
+    
+    public static ShowSalesInfo getSelectedShow() {
+        return JBoxOfficeDialog.m_selectedShow;
+    }
+    
+    public static boolean isCancelled() {
+        return JBoxOfficeDialog.m_cancelled;
     }
     
     
@@ -75,8 +103,8 @@ public class JBoxOfficeDialog extends javax.swing.JDialog  {
         }
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
-//            me.m_selectedShow = me.jCatalogBoxOfficePanel1.getSelectedShow();
-            me.setVisible(false);
+            me.m_selectedShow = me.jCatalogBoxOfficePanel1.getSelectedShow();
+            me.m_selectedShowDate = me.jCatalogBoxOfficePanel1.getSelectedDate();
         }
     }
     
@@ -92,8 +120,35 @@ public class JBoxOfficeDialog extends javax.swing.JDialog  {
 
         jBoxOfficePanel = new javax.swing.JPanel();
         jCatalogBoxOfficePanel1 = new uk.chromis.pos.catalog.JBoxOfficePanel(m_dlSales);
+        jPanel1 = new javax.swing.JPanel();
+        jcmdOK = new javax.swing.JButton();
+        jcmdCancel = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        jPanel1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
+
+        jcmdOK.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jcmdOK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uk/chromis/images/ok.png"))); // NOI18N
+        jcmdOK.setText(m_resources.getString("button.ok")); // NOI18N
+        jcmdOK.setMargin(new java.awt.Insets(8, 16, 8, 16));
+        jcmdOK.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcmdOKActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jcmdOK);
+
+        jcmdCancel.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jcmdCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uk/chromis/images/cancel.png"))); // NOI18N
+        jcmdCancel.setText(m_resources.getString("button.cancel")); // NOI18N
+        jcmdCancel.setMargin(new java.awt.Insets(8, 16, 8, 16));
+        jcmdCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcmdCancelActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jcmdCancel);
 
         javax.swing.GroupLayout jBoxOfficePanelLayout = new javax.swing.GroupLayout(jBoxOfficePanel);
         jBoxOfficePanel.setLayout(jBoxOfficePanelLayout);
@@ -101,14 +156,20 @@ public class JBoxOfficeDialog extends javax.swing.JDialog  {
             jBoxOfficePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jBoxOfficePanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jCatalogBoxOfficePanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 831, Short.MAX_VALUE)
+                .addGroup(jBoxOfficePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jCatalogBoxOfficePanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 574, Short.MAX_VALUE)
+                    .addGroup(jBoxOfficePanelLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jBoxOfficePanelLayout.setVerticalGroup(
             jBoxOfficePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jBoxOfficePanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jCatalogBoxOfficePanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 405, Short.MAX_VALUE)
+                .addComponent(jCatalogBoxOfficePanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 366, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -116,13 +177,13 @@ public class JBoxOfficeDialog extends javax.swing.JDialog  {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 843, Short.MAX_VALUE)
+            .addGap(0, 586, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(jBoxOfficePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 417, Short.MAX_VALUE)
+            .addGap(0, 434, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(jBoxOfficePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -130,9 +191,32 @@ public class JBoxOfficeDialog extends javax.swing.JDialog  {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jcmdOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcmdOKActionPerformed
+
+        if (this.m_selectedShow != null || this.m_selectedShowDate != null) {
+            m_cancelled = false;
+            setVisible(false);
+            dispose();
+        } else {
+            // TODO: Show message - no show or date is selected
+        }
+        
+    }//GEN-LAST:event_jcmdOKActionPerformed
+
+    private void jcmdCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcmdCancelActionPerformed
+        m_cancelled = true;
+        this.m_selectedShow = null;
+        this.m_selectedShowDate = null;
+        setVisible(false);
+        dispose();
+    }//GEN-LAST:event_jcmdCancelActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jBoxOfficePanel;
     private uk.chromis.pos.catalog.JBoxOfficePanel jCatalogBoxOfficePanel1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JButton jcmdCancel;
+    private javax.swing.JButton jcmdOK;
     // End of variables declaration//GEN-END:variables
 }

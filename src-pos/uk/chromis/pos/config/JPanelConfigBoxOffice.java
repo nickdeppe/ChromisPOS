@@ -87,7 +87,7 @@ public class JPanelConfigBoxOffice extends javax.swing.JPanel implements PanelCo
         setPreferredSize(new java.awt.Dimension(700, 650));
 
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("pos_messages"); // NOI18N
-        jchkAllowRegularProducts.setText(bundle.getString("label.tableshowcustomerdetails")); // NOI18N
+        jchkAllowRegularProducts.setText(bundle.getString("label.boxofficeallowstandardproducts")); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -95,8 +95,8 @@ public class JPanelConfigBoxOffice extends javax.swing.JPanel implements PanelCo
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jchkAllowRegularProducts, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(474, Short.MAX_VALUE))
+                .addComponent(jchkAllowRegularProducts, javax.swing.GroupLayout.PREFERRED_SIZE, 403, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(291, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
