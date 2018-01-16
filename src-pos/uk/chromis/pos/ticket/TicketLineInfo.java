@@ -251,7 +251,7 @@ public class TicketLineInfo implements SerializableWrite, SerializableRead, Seri
         l.attributes = (Properties) attributes.clone();
         l.m_sShowID = m_sShowID;
         l.m_dShowDate = m_dShowDate;
-        l.m_oShow = (ShowSalesInfo) m_oShow.clone();
+        l.m_oShow = (m_oShow != null) ? (ShowSalesInfo) m_oShow.clone() : null;
         return l;
     }
 
@@ -396,6 +396,11 @@ public class TicketLineInfo implements SerializableWrite, SerializableRead, Seri
         tax = value;
     }
     
+    
+    public void setShow(ShowSalesInfo value) {
+        m_oShow = value;
+    }
+    
 
     public String getProperty(String key) {
         return attributes.getProperty(key);
@@ -430,7 +435,7 @@ public class TicketLineInfo implements SerializableWrite, SerializableRead, Seri
     }
     
     public String getShowID() {
-        return (m_oShow != null) ? m_oShow.getID() : "";
+        return m_sShowID;
     }
     
     public ShowSalesInfo getShow() {

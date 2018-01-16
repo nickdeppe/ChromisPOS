@@ -275,13 +275,32 @@ public class JCalendarDialog extends javax.swing.JDialog {
         }
         
         m_date = dateresult.getTime();
-                
-        setVisible(false);
-        dispose();        
+        
+        if (JCalendarDialog.m_mindate != null) {
+            if (m_date.before(JCalendarDialog.m_mindate)) {
+                m_date = null;
+            }
+        }
+        if (JCalendarDialog.m_maxdate != null) {
+            if (m_date.after(JCalendarDialog.m_maxdate)) {
+                m_date = null;
+            }
+        }
+
+        if ( m_date != null) {
+            // Clear the min/max dates for next usage
+            JCalendarDialog.m_mindate = null;
+            JCalendarDialog.m_maxdate = null;
+            setVisible(false);
+            dispose();        
+        }
     }//GEN-LAST:event_jcmdOKActionPerformed
 
     private void jcmdCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcmdCancelActionPerformed
 
+        // Clear the min/max dates for next usage
+        JCalendarDialog.m_mindate = null;
+        JCalendarDialog.m_maxdate = null;
         setVisible(false);
         dispose();        
     }//GEN-LAST:event_jcmdCancelActionPerformed

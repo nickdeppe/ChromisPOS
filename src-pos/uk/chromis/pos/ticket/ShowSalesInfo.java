@@ -31,7 +31,7 @@ import uk.chromis.data.loader.SerializerRead;
  * @author adrianromero Created on 21 de marzo de 2007, 21:28
  *
  */
-public class ShowSalesInfo implements IKeyed {
+public class ShowSalesInfo implements IKeyed, Cloneable {
 
     protected String m_ID;
     protected String m_sTheatreID;

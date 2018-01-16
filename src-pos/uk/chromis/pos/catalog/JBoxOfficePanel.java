@@ -77,6 +77,13 @@ public class JBoxOfficePanel extends JPanel implements ListSelectionListener {
         this.jDateSelectorPanel1.setDate(new Date());
         
     }
+    
+    
+    
+    public void setSelectedDate(Date selectedDate) {
+        this.jDateSelectorPanel1.setDate(selectedDate);
+    }
+    
 
     @Override
     public void valueChanged(ListSelectionEvent e) {

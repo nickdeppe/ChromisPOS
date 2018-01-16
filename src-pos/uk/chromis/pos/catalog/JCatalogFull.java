@@ -239,6 +239,7 @@ public class JCatalogFull extends JPanel implements ListSelectionListener, Catal
         }
     }
 
+
     private class SelectedAction implements ActionListener {
 
         private final ProductInfoExt prod;

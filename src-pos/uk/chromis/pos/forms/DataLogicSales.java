@@ -1156,42 +1156,60 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                     ? null
                     : loadCustomerExt(customerid));
 
-            ticket.setLines(new PreparedSentence(
-                    s, 
-                    "SELECT "
-                            + "L.TICKET, "
-                            + "L.LINE, "
-                            + "L.PRODUCT, "
-                            + "L.ATTRIBUTESETINSTANCE_ID, "
-                            + "L.UNITS, "
-                            + "L.PRICE, "
-                            + "T.ID, "
-                            + "T.NAME, "
-                            + "T.CATEGORY, "
-                            + "T.CUSTCATEGORY, "
-                            + "T.PARENTID, "
-                            + "T.RATE, "
-                            + "T.RATECASCADE, "
-                            + "T.RATEORDER, "
-                            + "L.ATTRIBUTES, "
-                            + "L.REFUNDQTY, "
-                            + "L.SHOWID, "
-                            + "L.SHOWDATE "
-                    + "FROM "
-                            + "TICKETLINES L "
-                            + "INNER JOIN TAXES T ON L.TAXID = T.ID "
-                    + "WHERE "
-                            + "L.TICKET = ? "
-                    + "ORDER BY "
-                            + "L.LINE", 
-                    SerializerWriteString.INSTANCE, 
-                    new SerializerReadClass(TicketLineInfo.class)).list(ticket.getId()));
+            ticket.setLines(getLines(ticket.getId()));
             ticket.setPayments(new PreparedSentence(s //                    , "SELECT PAYMENT, TOTAL, TRANSID TENDERED FROM PAYMENTS WHERE RECEIPT = ?" 
                     , "SELECT PAYMENT, TOTAL, TRANSID, TENDERED, CARDNAME FROM PAYMENTS WHERE RECEIPT = ?", SerializerWriteString.INSTANCE, new SerializerReadClass(PaymentInfoTicket.class)).list(ticket.getId()));
         }
         return ticket;
     }
 
+    
+    public final List<TicketLineInfo> getLines(final String ticketID) throws BasicException {
+        
+        List<TicketLineInfo> lines = new PreparedSentence(
+            s, 
+            "SELECT "
+                    + "L.TICKET, "
+                    + "L.LINE, "
+                    + "L.PRODUCT, "
+                    + "L.ATTRIBUTESETINSTANCE_ID, "
+                    + "L.UNITS, "
+                    + "L.PRICE, "
+                    + "T.ID, "
+                    + "T.NAME, "
+                    + "T.CATEGORY, "
+                    + "T.CUSTCATEGORY, "
+                    + "T.PARENTID, "
+                    + "T.RATE, "
+                    + "T.RATECASCADE, "
+                    + "T.RATEORDER, "
+                    + "L.ATTRIBUTES, "
+                    + "L.REFUNDQTY, "
+                    + "L.SHOWID, "
+                    + "L.SHOWDATE "
+            + "FROM "
+                    + "TICKETLINES L "
+                    + "INNER JOIN TAXES T ON L.TAXID = T.ID "
+            + "WHERE "
+                    + "L.TICKET = ? "
+            + "ORDER BY "
+                    + "L.LINE", 
+            SerializerWriteString.INSTANCE, 
+            new SerializerReadClass(TicketLineInfo.class)).list(ticketID);
+        
+        for (int i = 0; i < lines.size(); i++) {
+            TicketLineInfo line = lines.get(i);
+            if (line.getShowID() != null && line.getShowID() != "") {
+                line.setShow(getShowInfo(line.getShowID()));
+            }
+        }
+        
+        return lines;
+        
+    }
+    
+    
+    
     /**
      *
      * @param ticket
@@ -1681,6 +1699,38 @@ public class DataLogicSales extends BeanFactoryDataSingle {
     
     
  
+    public final ShowSalesInfo getShowInfo(String showID) throws BasicException {
+        
+        ShowSalesInfo oShow = (ShowSalesInfo) new PreparedSentence(
+                s, 
+                "SELECT "
+                        + " S.ID, "
+                        + " S.THEATREID, "
+                        + " S.STARTDATE, "
+                        + " S.ENDDATE, "
+                        + " S.REPORTSTARTDATE, "
+                        + " S.REPORTENDDATE "
+                + "FROM "
+                    + " SHOWS S"
+                    + " INNER JOIN THEATRES T ON S.THEATREID = T.ID "                        
+                + "WHERE "
+                        + " S.ID = ? "
+                + "ORDER BY "
+                        + " T.NAME, "
+                        + " S.STARTDATE", 
+                SerializerWriteString.INSTANCE,
+                ShowSalesInfo.getSerializerRead()
+        ).find(showID);
+        
+        if (oShow != null) {
+            oShow.setTheatre(getTheatre(oShow.getTheatreID()));
+            oShow.setShowFeatures(getFeaturesForShow(oShow.getID()));
+        }
+                
+        return oShow;        
+        
+    }
+    
     
     
     /**

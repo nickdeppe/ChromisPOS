@@ -89,6 +89,7 @@ public class JCatalogBoxOffice extends JPanel implements ListSelectionListener, 
     }
 
 
+
     private class JBoxOfficePanelChange implements PropertyChangeListener {
         private final JBoxOfficePanel me;
         public JBoxOfficePanelChange(JBoxOfficePanel p) {
