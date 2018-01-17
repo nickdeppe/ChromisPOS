@@ -640,7 +640,8 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
                 // Comentario entonces donde se pueda
                 int i = m_ticketlines.getSelectedIndex();
                 // me salto el primer producto normal...
-                if (i >= 0 && !m_oTicket.getLine(i).isProductCom()) {
+                TicketLineInfo origLine = m_oTicket.getLine(i);
+                if (i >= 0 && !origLine.isProductCom()) {
                     i++;
                 }
                 // me salto todos los productos auxiliares...                
@@ -648,6 +649,12 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
                     i++;
                 }
                 if (i >= 0) {
+                    // Before adding, if selected line is a box office line, then make sure component line has same show and date
+                    if (origLine.isBoxOfficeLine()) {
+                        oLine.setShow(origLine.getShow());
+                        oLine.setShowID(origLine.getShowID());
+                        oLine.setShowDate(origLine.getShowDate());
+                    }
                     m_oTicket.insertLine(i, oLine);
                     m_ticketlines.insertTicketLine(i, oLine); // Pintamos la linea en la vista...                 
                 } else if (AppConfig.getInstance().getBoolean("till.customsounds")) {

@@ -401,6 +401,16 @@ public class TicketLineInfo implements SerializableWrite, SerializableRead, Seri
         m_oShow = value;
     }
     
+    
+    public void setShowDate(Date value) {
+        m_dShowDate = value;
+    }
+    
+    public void setShowID(String value) {
+        m_sShowID = value;
+    }
+    
+    
 
     public String getProperty(String key) {
         return attributes.getProperty(key);
@@ -543,7 +553,7 @@ public class TicketLineInfo implements SerializableWrite, SerializableRead, Seri
     }
     
     public boolean isBoxOfficeLine() {
-        return (this.m_oShow != null);
+        return (this.m_oShow != null && this.m_dShowDate != null);
     }
 
     public boolean canDiscount() {
