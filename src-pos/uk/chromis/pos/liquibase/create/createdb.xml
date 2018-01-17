@@ -1778,7 +1778,7 @@
         
         <insert tableName="RESOURCES">
             <column name="ID" value="75"/>
-            <column name="NAME" value="Printer.TicketBoxOffice"/>
+            <column name="NAME" value="Printer.TicketBoxOfficeFull"/>
             <column name="RESTYPE" valueNumeric="0"/>
             <column name="CONTENT" valueBlobResource="/uk/chromis/pos/templates/Printer.TicketBoxOfficeFull.xml"/>
         </insert>

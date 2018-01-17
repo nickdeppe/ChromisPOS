@@ -29,7 +29,7 @@
 	<line><text align="center" length="42">Chromis POS</text></line>
 	<line><text align="center" length="42">The New Face of Open source POS</text></line>
 	<line><text align="center" length="42">Copyright (c) (c) 2015-2016Chromis</text></line>
-	<line><text align="center" length="42">Printer.TicketBoxOffice</text></line>
+	<line><text align="center" length="42">Printer.TicketBoxOfficeFull</text></line>
 	<line></line>
 	<line></line>
 #set($ticketNumber = 0)
