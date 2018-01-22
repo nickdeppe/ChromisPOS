@@ -147,10 +147,10 @@ public abstract class JDBCSentence extends BaseSentence {
          * @return
          * @throws BasicException
          */
-        public java.util.Date getDate(int columnIndex) throws BasicException {
+        public java.sql.Date getDate(int columnIndex) throws BasicException {
             try {
                 java.sql.Date dt = m_rs.getDate(columnIndex);
-                return dt == null ? null : new java.util.Date(dt.getTime());
+                return dt;
             } catch (SQLException eSQL) {
                 throw new BasicException(eSQL);
             }

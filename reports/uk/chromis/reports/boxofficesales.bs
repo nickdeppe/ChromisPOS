@@ -1,0 +1,107 @@
+//   Chromis POS - The New Face of Open Source POS 
+//   Copyright (c) (c) 2015-2016 2016 Chromis , previous uniCenta & Openbravo POS works   
+//
+//   This file is part of chromis oPOS
+//
+//  Chromis POS is free software: you can redistribute it and/or modify
+//   it under the terms of the GNU General Public License as published by
+//   the Free Software Foundation, either version 3 of the License, or
+//   (at your option) any later version.
+//
+//   Chromis POS is distributed in the hope that it will be useful,
+//   but WITHOUT ANY WARRANTY; without even the implied warranty of
+//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//   GNU General Public License for more details.
+//
+//   You should have received a copy of the GNU General Public License
+//   along with Chromis POS.  If not, see <http://www.gnu.org/licenses/>.
+//
+//    Derby version
+
+
+report = new uk.chromis.pos.reports.PanelReportBean();
+
+report.setTitleKey("Menu.BoxOfficeSales");
+report.setReport("/uk/chromis/reports/boxofficesales");
+report.setResourceBundle("uk/chromis/reports/boxofficesales_messages");
+
+
+report.setSentence("SELECT " +
+    "sh.ID, " +
+    "th.NAME AS THEATRENAME, " +
+    "sh.STARTDATE, " +
+    "sh.ENDDATE, " +
+    "sh.REPORTSTARTDATE, " +
+    "sh.REPORTENDDATE, " +
+    "tl.SHOWDATE, " +
+    "pr.NAME AS PRODUCTNAME, " +
+    "tl.PRICE - (tl.PRICE * ta.RATE) AS NETPRICE, " +
+    "tl.PRICE * ta.RATE AS NETTAX, " +
+    "tl.PRICE AS GROSSPRICE, " +
+    "1 AS TICKETOPEN, " +
+    "SUM( CASE WHEN ti.TICKETTYPE = 0 THEN tl.UNITS ELSE 0 END ) + 1 AS TICKETCLOSE, " +
+    "SUM( CASE WHEN ti.TICKETTYPE = 0 THEN tl.UNITS ELSE 0 END ) AS GROSSSOLD, " +
+    "SUM( CASE WHEN ti.TICKETTYPE = 1 THEN ABS(tl.UNITS) ELSE 0 END ) AS REFUNDS, " +
+    "SUM(tl.UNITS) AS NETSOLD, " +
+    "SUM( (tl.PRICE * tl.UNITS) - ( tl.PRICE * ta.RATE * tl.UNITS )) AS NETADMISSIONS, " +
+    "SUM( tl.PRICE * ta.RATE * tl.UNITS ) AS NETTAXES, " +
+    "SUM(tl.PRICE * tl.UNITS) AS GROSSADMISSIONS " +
+"FROM  " +
+    "TICKETLINES tl " +
+    "INNER JOIN TICKETS ti ON " +
+    "tl.TICKET = ti.ID " +
+    "INNER JOIN RECEIPTS re ON " +
+    "ti.ID = re.ID " +
+    "INNER JOIN SHOWS sh ON " +
+    "tl.SHOWID = sh.ID " +
+    "INNER JOIN THEATRES th ON " +
+    "sh.THEATREID = th.ID " +
+    "INNER JOIN TAXES ta ON " +
+    "tl.TAXID = ta.ID " +
+    "INNER JOIN PRODUCTS pr ON " +
+    "   tl.PRODUCT = pr.ID " +
+"WHERE ?(QBF_FILTER) " + 
+"GROUP BY " +
+    "sh.ID, " +
+    "th.NAME, " +
+    "sh.STARTDATE, " +
+    "sh.ENDDATE, " +
+    "sh.REPORTSTARTDATE, " +
+    "sh.REPORTENDDATE, " +
+    "tl.SHOWDATE, " +
+    "pr.NAME, " +
+    "tl.PRICE - (tl.PRICE * ta.RATE), " +
+    "tl.PRICE * ta.RATE, " +
+    "tl.PRICE");
+
+report.addParameter("tl.SHOWDATE");
+report.addParameter("tl.SHOWDATE");
+
+paramdates = new uk.chromis.pos.reports.JParamsSQLDateInterval();
+
+paramdates.setStartDate(uk.chromis.beans.DateUtils.getToday());
+paramdates.setEndDate(uk.chromis.beans.DateUtils.getTodayMinutes());
+
+report.addQBFFilter(paramdates);
+
+report.addField("ID", uk.chromis.data.loader.Datas.STRING);
+report.addField("THEATRENAME", uk.chromis.data.loader.Datas.STRING);
+report.addField("STARTDATE", uk.chromis.data.loader.Datas.DATE);
+report.addField("ENDDATE", uk.chromis.data.loader.Datas.DATE);
+report.addField("REPORTSTARTDATE", uk.chromis.data.loader.Datas.DATE);
+report.addField("REPORTENDDATE", uk.chromis.data.loader.Datas.DATE);
+report.addField("SHOWDATE", uk.chromis.data.loader.Datas.DATE);
+report.addField("PRODUCTNAME", uk.chromis.data.loader.Datas.STRING);
+report.addField("NETPRICE", uk.chromis.data.loader.Datas.DOUBLE);
+report.addField("NETTAX", uk.chromis.data.loader.Datas.DOUBLE);
+report.addField("GROSSPRICE", uk.chromis.data.loader.Datas.DOUBLE);
+report.addField("TICKETOPEN", uk.chromis.data.loader.Datas.DOUBLE);
+report.addField("TICKETCLOSE", uk.chromis.data.loader.Datas.DOUBLE);
+report.addField("GROSSSOLD", uk.chromis.data.loader.Datas.DOUBLE);
+report.addField("REFUNDS", uk.chromis.data.loader.Datas.DOUBLE);
+report.addField("NETSOLD", uk.chromis.data.loader.Datas.DOUBLE);
+report.addField("NETADMISSIONS", uk.chromis.data.loader.Datas.DOUBLE);
+report.addField("NETTAXES", uk.chromis.data.loader.Datas.DOUBLE);
+report.addField("GROSSADMISSIONS", uk.chromis.data.loader.Datas.DOUBLE);
+
+report;
