@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.2.1.final using JasperReports Library version 6.2.1  -->
+<!-- 2018-01-19T14:33:45 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="boxofficesales_showdetail" pageWidth="572" pageHeight="752" columnWidth="572" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="b15a9605-922f-4f69-9cd2-979008b70109">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="ID" class="java.lang.String">
+		<parameterDescription><![CDATA[Show ID]]></parameterDescription>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT 
+	sf.STARTTIME,
+	sf.SEQUENCE,
+	f.NAME AS FEATURENAME,
+	r.NAME AS RATINGNAME
+FROM 
+	SHOWFEATURES AS sf
+	INNER JOIN FEATURES AS f ON 
+	 sf.FEATUREID = f.ID 
+	INNER JOIN RATINGS AS r ON 
+	 f.RATINGID = r.ID
+ WHERE
+ 	sf.SHOWID =  $P{ID} 
+ORDER BY
+	sf.SEQUENCE,
+	sf.STARTTIME]]>
+	</queryString>
+	<field name="STARTTIME" class="java.lang.String"/>
+	<field name="SEQUENCE" class="java.lang.Integer"/>
+	<field name="FEATURENAME" class="java.lang.String"/>
+	<field name="RATINGNAME" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="25" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<staticText>
+				<reportElement x="80" y="0" width="420" height="20" uuid="3fdfaae8-bb58-4325-8638-2ab3a5d76e45"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Feature]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="80" height="20" uuid="2acb24f7-13d9-4a4e-8dce-49b84b622fd8">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Time]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="25" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<staticText>
+				<reportElement x="80" y="0" width="420" height="20" uuid="3fdfaae8-bb58-4325-8638-2ab3a5d76e45"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Feature]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="80" height="20" uuid="2acb24f7-13d9-4a4e-8dce-49b84b622fd8">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Time]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="25" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<staticText>
+				<reportElement x="80" y="0" width="420" height="20" uuid="3fdfaae8-bb58-4325-8638-2ab3a5d76e45"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Feature]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="80" height="20" uuid="2acb24f7-13d9-4a4e-8dce-49b84b622fd8">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Time]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="21" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<textField>
+				<reportElement x="0" y="0" width="80" height="20" uuid="1e74128a-2bbe-4b15-aaae-764465c05f65"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{STARTTIME}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="80" y="0" width="420" height="20" uuid="862173cd-7478-4078-9d74-f27c8adbff2a"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{FEATURENAME} + " (" + $F{RATINGNAME} + ")"]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>
+

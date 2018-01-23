@@ -153,7 +153,7 @@ GROUP BY
 					<!--<subreportExpression><![CDATA["boxofficesales_showdetail.jasper"]]></subreportExpression>-->
 					<subreportExpression><![CDATA[JasperCompileManager.compileReport(
 net.sf.jasperreports.engine.xml.JRXmlLoader.load(getClass().getResourceAsStream(
-"/uk/chromis/reports/ticketsample_lines.jrxml"
+"/uk/chromis/reports/boxofficesales_showdetail.jrxml"
 ))
 )]]></subreportExpression>
 				</subreport>
