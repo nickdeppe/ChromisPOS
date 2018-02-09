@@ -656,7 +656,7 @@
             <column name="ALLPRODUCTS" type="${boolean.type}" defaultValueBoolean="false"/>  
             <column name="MANAGESTOCK" type="${boolean.type}" defaultValueBoolean="true" />                                                                                                                                                     
             <column name="ISBOXOFFICE" type="${boolean.type}" defaultValueBoolean="false" />
-            </column>
+            <column name="ISBOXOFFICEREPORTED" type="${boolean.type}" defaultValueBoolean="false" />
         </createTable>
 
         <modifySql dbms="mysql">

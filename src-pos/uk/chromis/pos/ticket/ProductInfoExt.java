@@ -73,6 +73,7 @@ public class ProductInfoExt {
     protected String m_packproduct;
     protected Boolean m_manageStock;
     protected Boolean m_isBoxOffice;
+    protected Boolean m_isBoxOfficeReported;
     protected ShowSalesInfo m_showInfo;
     protected Date m_showDate;
 
@@ -113,6 +114,7 @@ public class ProductInfoExt {
         m_packproduct = null;
         m_manageStock = true;
         m_isBoxOffice = false;
+        m_isBoxOfficeReported = false;
         m_showInfo = null;
     }
 
@@ -363,6 +365,14 @@ public class ProductInfoExt {
     public final void setIsBoxOffice(Boolean bValue) {
         m_isBoxOffice = bValue;
     }
+    
+    public final Boolean getIsBoxOfficeReported() {
+        return m_isBoxOfficeReported;
+    }
+    
+    public final void setIsBoxOfficeReported(Boolean bValue) {
+        m_isBoxOfficeReported = bValue;
+    }
 
     public final void setAlwaysAvailable(Boolean bValue) {
         m_bAlwaysAvailable = bValue;
@@ -472,6 +482,7 @@ public class ProductInfoExt {
                 product.m_promotionid = dr.getString(DataLogicSales.INDEX_PROMOTIONID + 1);
                 product.m_manageStock = dr.getBoolean(DataLogicSales.INDEX_MANAGESTOCK + 1);
                 product.m_isBoxOffice = dr.getBoolean(DataLogicSales.INDEX_ISBOXOFFICE + 1);
+                product.m_isBoxOfficeReported = dr.getBoolean(DataLogicSales.INDEX_ISBOXOFFICEREPORTED + 1);
 
                 return product;
             }

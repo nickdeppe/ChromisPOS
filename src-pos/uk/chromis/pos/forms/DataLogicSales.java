@@ -114,6 +114,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
     public static int INDEX_PROMOTIONID = FIELD_COUNT++;
     public static int INDEX_MANAGESTOCK = FIELD_COUNT++;
     public static int INDEX_ISBOXOFFICE = FIELD_COUNT++;
+    public static int INDEX_ISBOXOFFICEREPORTED = FIELD_COUNT++;
 
     
     public static int FEATURES_FIELD_COUNT = 0;
@@ -238,7 +239,8 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 new Field("PACKPRODUCT", Datas.STRING, Formats.STRING),
                 new Field("PROMOTIONID", Datas.STRING, Formats.STRING),
                 new Field("MANAGESTOCK", Datas.BOOLEAN, Formats.BOOLEAN),
-                new Field("ISBOXOFFICE", Datas.BOOLEAN, Formats.BOOLEAN)
+                new Field("ISBOXOFFICE", Datas.BOOLEAN, Formats.BOOLEAN),
+                new Field("ISBOXOFFICEREPORTED", Datas.BOOLEAN, Formats.BOOLEAN)
         );
 
         // If this fails there is a coding error - have you added a column
@@ -338,7 +340,8 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 + "P.ISPACK, P.PACKQUANTITY, P.PACKPRODUCT, "
                 + "P.PROMOTIONID, "
                 + "P.MANAGESTOCK, "
-                + "P.ISBOXOFFICE ";
+                + "P.ISBOXOFFICE, "
+                + "P.ISBOXOFFICEREPORTED ";
         return sel;
     }
 
@@ -1528,8 +1531,8 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                         + "ATTRIBUTESET_ID, IMAGE, STOCKCOST, STOCKVOLUME, ISCATALOG, CATORDER, "
                         + "ATTRIBUTES, ISKITCHEN, ISSERVICE, DISPLAY, ISVPRICE, "
                         + "ISVERPATRIB, TEXTTIP, WARRANTY, STOCKUNITS, ALIAS, ALWAYSAVAILABLE, DISCOUNTED, CANDISCOUNT, "
-                        + "ISPACK, PACKQUANTITY, PACKPRODUCT, PROMOTIONID, MANAGESTOCK, ISBOXOFFICE  ) "
-                        + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                        + "ISPACK, PACKQUANTITY, PACKPRODUCT, PROMOTIONID, MANAGESTOCK, ISBOXOFFICE, ISBOXOFFICEREPORTED  ) "
+                        + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                         new SerializerWriteBasicExt(productsRow.getDatas(),
                                 new int[]{INDEX_ID,
                                     INDEX_REFERENCE, INDEX_CODE, INDEX_CODETYPE,
@@ -1543,7 +1546,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                                     INDEX_WARRANTY, INDEX_STOCKUNITS, INDEX_ALIAS,
                                     INDEX_ALWAYSAVAILABLE, INDEX_DISCOUNTED, INDEX_CANDISCOUNT,
                                     INDEX_ISPACK, INDEX_PACKQUANTITY, INDEX_PACKPRODUCT,
-                                    INDEX_PROMOTIONID, INDEX_MANAGESTOCK, INDEX_ISBOXOFFICE})).exec(params);
+                                    INDEX_PROMOTIONID, INDEX_MANAGESTOCK, INDEX_ISBOXOFFICE, INDEX_ISBOXOFFICEREPORTED })).exec(params);
 
                 new PreparedSentence(s, "INSERT INTO STOCKCURRENT (LOCATION, PRODUCT, UNITS) VALUES ('0', ?, 0.0)",
                         new SerializerWriteBasicExt(productsRow.getDatas(), new int[]{INDEX_ID})).exec(params);
@@ -1589,7 +1592,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                         + "DISCOUNTED = ?, CANDISCOUNT = ?, "
                         + "ISPACK = ?, PACKQUANTITY = ?, PACKPRODUCT = ?, "
                         + "PROMOTIONID = ?, ISCATALOG = ?, CATORDER = ?, "
-                        + "MANAGESTOCK = ?, ISBOXOFFICE = ? "
+                        + "MANAGESTOCK = ?, ISBOXOFFICE = ?, ISBOXOFFICEREPORTED = ? "
                         + "WHERE ID = ?", new SerializerWriteBasicExt(productsRow.getDatas(),
                                 new int[]{
                                     INDEX_REFERENCE, INDEX_CODE, INDEX_CODETYPE,
@@ -1603,7 +1606,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                                     INDEX_ALWAYSAVAILABLE, INDEX_DISCOUNTED, INDEX_CANDISCOUNT,
                                     INDEX_ISPACK, INDEX_PACKQUANTITY, INDEX_PACKPRODUCT,
                                     INDEX_PROMOTIONID, INDEX_ISCATALOG, INDEX_CATORDER,
-                                    INDEX_MANAGESTOCK, INDEX_ISBOXOFFICE,
+                                    INDEX_MANAGESTOCK, INDEX_ISBOXOFFICE, INDEX_ISBOXOFFICEREPORTED, 
                                     INDEX_ID})).exec(params);
 
                 return i;
