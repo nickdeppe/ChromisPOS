@@ -310,6 +310,21 @@
         </modifySql>
     </changeSet>     
    
+   
+    <changeSet id="Create Boxoffice Exchange Table (New Database)" author="Chromis POS">
+        <createTable tableName="EXCHANGES">
+            <column name="ID" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="NAME" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <modifySql dbms="mysql">
+            <append value=" ENGINE = InnoDB DEFAULT CHARSET=utf8  "/>
+        </modifySql>
+    </changeSet>
+   
 
     <changeSet author="Chromis POS" id="Create Boxoffice Features Table (New Database)">
         <createTable tableName="FEATURES">
@@ -324,6 +339,7 @@
                 <constraints nullable="false" />
             </column>
             <column name="RATINGID" type="varchar(255)"/>
+            <column name="EXCHANGEID" type="varchar(255)"/>
             <column name="ACTIVE" type="${boolean.type}" defaultValueBoolean="true">
                 <constraints nullable="false" />
             </column>
@@ -639,7 +655,7 @@
             <column name="PROMOTIONID" type="varchar(50)" />                                 
             <column name="ALLPRODUCTS" type="${boolean.type}" defaultValueBoolean="false"/>  
             <column name="MANAGESTOCK" type="${boolean.type}" defaultValueBoolean="true" />                                                                                                                                                     
-            <column name="ISBOXOFFICE" type="${boolean.type}" defaultValueBoolean="false">
+            <column name="ISBOXOFFICE" type="${boolean.type}" defaultValueBoolean="false" />
             </column>
         </createTable>
 

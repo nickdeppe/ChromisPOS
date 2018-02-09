@@ -37,6 +37,7 @@ public class FeatureInfo implements IKeyed {
     private BufferedImage m_Image;
     private Integer m_iRuntime;
     private String m_sRatingID;
+    private String m_sExchangeID;
     private Boolean m_bActive;
 
     /**
@@ -49,12 +50,13 @@ public class FeatureInfo implements IKeyed {
      * @param ratingID
      * @param active
      */
-    public FeatureInfo(String id, String name, BufferedImage image, Integer runtime, String ratingID, Boolean active ) {
+    public FeatureInfo(String id, String name, BufferedImage image, Integer runtime, String ratingID, String exchangeID, Boolean active ) {
         m_sID = id;
         m_sName = name;
         m_Image = image;
         m_iRuntime = runtime;
         m_sRatingID = ratingID;
+        m_sExchangeID = exchangeID;
         m_bActive = active;
     }
 
@@ -107,7 +109,16 @@ public class FeatureInfo implements IKeyed {
     public String getRatingID() {
             return m_sRatingID;
     }
-
+    
+    
+    public void setExchangeID(String exchangeID) {
+        m_sExchangeID = exchangeID;
+    }
+    
+    public String getExchangeID() {
+        return m_sExchangeID;
+    }
+    
 
     public void setActive(Boolean active) {
             m_bActive = active;
@@ -122,7 +133,7 @@ public class FeatureInfo implements IKeyed {
         return new SerializerRead() {
             @Override
             public Object readValues(DataRead dr) throws BasicException {
-                return new FeatureInfo(dr.getString(1), dr.getString(2), ImageUtils.readImage(dr.getBytes(3)), dr.getInt(4), dr.getString(5), dr.getBoolean(6));
+                return new FeatureInfo(dr.getString(1), dr.getString(2), ImageUtils.readImage(dr.getBytes(3)), dr.getInt(4), dr.getString(5), dr.getString(6), dr.getBoolean(7));
             }
         };
     }

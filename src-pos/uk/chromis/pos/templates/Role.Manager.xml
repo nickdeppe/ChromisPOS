@@ -87,6 +87,7 @@
     <class name="uk.chromis.pos.inventory.AttributeUsePanel"/>
     <class name="uk.chromis.pos.inventory.AuxiliarPanel"/>
     <class name="uk.chromis.pos.inventory.CategoriesPanel"/>
+    <class name="uk.chromis.pos.inventory.ExchangesPanel" />
     <class name="uk.chromis.pos.inventory.FeaturesPanel" />
     <class name="uk.chromis.pos.inventory.ProductsPanel"/>
     <class name="uk.chromis.pos.inventory.ProductsWarehousePanel"/>

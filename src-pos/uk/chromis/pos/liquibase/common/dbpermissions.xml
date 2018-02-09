@@ -1081,6 +1081,18 @@
         </insert>
     </changeSet>
 
+    
+    <changeSet author="Chromis POS" id="Add exchanges maintenance option">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM DBPERMISSIONS WHERE DESCRIPTION = '##label.description139'</sqlCheck>
+        </preConditions>
+        <insert tableName="DBPERMISSIONS">
+            <column name="CLASSNAME" value="uk.chromis.pos.inventory.ExchangesPanel"/>  
+            <column name="SECTION" value="##label.sectionstock"/>
+            <column name="DISPLAYNAME" value="##label.displayname139"/>  
+            <column name="DESCRIPTION" value="##label.description139"/>  
+        </insert>
+    </changeSet>
   
     <changeSet author="Chromis POS" id="drop top10salesMysql (NV)">   
         <sql> DELETE FROM DBPERMISSIONS WHERE DISPLAYNAME ='##label.displayname86'</sql>           

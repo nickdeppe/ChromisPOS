@@ -40,7 +40,9 @@ public final class FeaturesEditor extends JPanel implements EditorRecord {
 
     private Object m_id;
     private final SentenceList ratingSentence;
+    private final SentenceList exchangesSentence;
     private ComboBoxValModel ratingsModel;
+    private ComboBoxValModel exchangesModel;
 
 
     /**
@@ -59,6 +61,7 @@ public final class FeaturesEditor extends JPanel implements EditorRecord {
         m_jRating.addActionListener(dirty);
         
         ratingSentence = dlSales.getRatingsList();
+        exchangesSentence = dlSales.getExchangesList();
 		
         writeValueEOF();
     }
@@ -70,7 +73,9 @@ public final class FeaturesEditor extends JPanel implements EditorRecord {
     public void activate() throws BasicException {
 
         ratingsModel = new ComboBoxValModel(ratingSentence.list());
+        exchangesModel = new ComboBoxValModel(exchangesSentence.list());
         m_jRating.setModel(ratingsModel);
+        m_jExchange.setModel(exchangesModel);
 
     }
 
@@ -97,8 +102,14 @@ public final class FeaturesEditor extends JPanel implements EditorRecord {
         m_jFeatureRuntime.setValue(0);
         m_jActive.setSelected(false);
         m_jTabImage.setImage(null);
-//        ratingsModel.setSelectedKey(null);
-
+        
+        try {
+            ratingsModel.setSelectedKey(null);
+            exchangesModel.setSelectedKey(null);
+        } catch( Exception e ) {
+            
+        }
+            
         m_jName.setEnabled(false);
         m_jFeatureRuntime.setEnabled(false);
         m_jActive.setEnabled(false);
@@ -118,9 +129,10 @@ public final class FeaturesEditor extends JPanel implements EditorRecord {
         m_jFeatureRuntime.setValue(0);
         m_jActive.setSelected(true);
         m_jTabImage.setImage(null);
-//        ratingsModel.setSelectedKey(null);
 
-        // Los habilitados
+        ratingsModel.setSelectedKey(null);
+        exchangesModel.setSelectedKey(null);
+
         m_jName.setEnabled(true);
         m_jFeatureRuntime.setEnabled(true);
         m_jActive.setEnabled(true);
@@ -146,12 +158,14 @@ public final class FeaturesEditor extends JPanel implements EditorRecord {
         m_jActive.setSelected(false);
         m_jTabImage.setImage(null);
         ratingsModel.setSelectedKey(null);
+        exchangesModel.setSelectedKey(null);
 
         m_jName.setEnabled(false);
         m_jFeatureRuntime.setEnabled(false);
         m_jActive.setEnabled(false);
         m_jTabImage.setEnabled(false);
         m_jRating.setEnabled(false);
+        m_jExchange.setEnabled(false);
         
     }
 
@@ -169,13 +183,15 @@ public final class FeaturesEditor extends JPanel implements EditorRecord {
         m_jTabImage.setImage((BufferedImage) myfeature[2]);
         m_jFeatureRuntime.setValue(myfeature[3]);
         ratingsModel.setSelectedKey(myfeature[4]);
-        m_jActive.setSelected((Boolean) myfeature[5]);
+        exchangesModel.setSelectedKey(myfeature[5]);
+        m_jActive.setSelected((Boolean) myfeature[6]);
         
         m_jName.setEnabled(true);
         m_jFeatureRuntime.setEnabled(true);
         m_jActive.setEnabled(true);
         m_jTabImage.setEnabled(true);
         m_jRating.setEnabled(true);
+        m_jExchange.setEnabled(true);
         
     }
 
@@ -193,7 +209,8 @@ public final class FeaturesEditor extends JPanel implements EditorRecord {
         myfeature[2] = m_jTabImage.getImage();
         myfeature[3] = m_jFeatureRuntime.getValue();
         myfeature[4] = ratingsModel.getSelectedKey();
-        myfeature[5] = m_jActive.isSelected();
+        myfeature[5] = exchangesModel.getSelectedKey(); 
+        myfeature[6] = m_jActive.isSelected();
         
         return myfeature;
 
@@ -230,6 +247,8 @@ public final class FeaturesEditor extends JPanel implements EditorRecord {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         m_jRating = new javax.swing.JComboBox<>();
+        m_jExchange = new javax.swing.JComboBox<>();
+        jLabel6 = new javax.swing.JLabel();
         m_jTabImage = new uk.chromis.data.gui.JImageEditor();
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -259,9 +278,9 @@ public final class FeaturesEditor extends JPanel implements EditorRecord {
         m_jName.setBounds(180, 10, 270, 25);
 
         jLabel3.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jLabel3.setText(AppLocal.getIntString("label.featurerating")); // NOI18N
+        jLabel3.setText(AppLocal.getIntString("label.featureexchange")); // NOI18N
         m_jTabGeneral.add(jLabel3);
-        jLabel3.setBounds(10, 90, 130, 15);
+        jLabel3.setBounds(10, 130, 130, 15);
 
         m_jActive.setText(" ");
         m_jActive.addActionListener(new java.awt.event.ActionListener() {
@@ -270,7 +289,7 @@ public final class FeaturesEditor extends JPanel implements EditorRecord {
             }
         });
         m_jTabGeneral.add(m_jActive);
-        m_jActive.setBounds(180, 120, 30, 30);
+        m_jActive.setBounds(180, 170, 30, 30);
         m_jTabGeneral.add(m_jFeatureRuntime);
         m_jFeatureRuntime.setBounds(180, 50, 80, 26);
 
@@ -282,11 +301,20 @@ public final class FeaturesEditor extends JPanel implements EditorRecord {
         jLabel5.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel5.setText(AppLocal.getIntString("label.featureactive")); // NOI18N
         m_jTabGeneral.add(jLabel5);
-        jLabel5.setBounds(10, 130, 37, 15);
+        jLabel5.setBounds(10, 170, 37, 15);
 
         m_jRating.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         m_jTabGeneral.add(m_jRating);
         m_jRating.setBounds(180, 90, 350, 25);
+
+        m_jExchange.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        m_jTabGeneral.add(m_jExchange);
+        m_jExchange.setBounds(180, 130, 350, 25);
+
+        jLabel6.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel6.setText(AppLocal.getIntString("label.featurerating")); // NOI18N
+        m_jTabGeneral.add(jLabel6);
+        jLabel6.setBounds(10, 90, 130, 15);
 
         jTabbedPane1.addTab(AppLocal.getIntString("label.showgeneral"), m_jTabGeneral); // NOI18N
         jTabbedPane1.addTab(AppLocal.getIntString("label.showimage"), m_jTabImage); // NOI18N
@@ -307,8 +335,10 @@ public final class FeaturesEditor extends JPanel implements EditorRecord {
     private javax.swing.JLabel jLabel34;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JTabbedPane jTabbedPane1;
     private eu.hansolo.custom.SteelCheckBox m_jActive;
+    private javax.swing.JComboBox<String> m_jExchange;
     private javax.swing.JSpinner m_jFeatureRuntime;
     private javax.swing.JTextField m_jName;
     private javax.swing.JComboBox<String> m_jRating;

@@ -122,6 +122,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
     public static int INDEX_FEATURE_IMAGE = FEATURES_FIELD_COUNT++;
     public static int INDEX_FEATURE_RUNTIME = FEATURES_FIELD_COUNT++;
     public static int INDEX_FEATURE_RATINGID = FEATURES_FIELD_COUNT++;
+    public static int INDEX_FEATURE_EXCHANGEID = FEATURES_FIELD_COUNT++;
     public static int INDEX_FEATURE_ACTIVE = FEATURES_FIELD_COUNT++;
 
     public static int SHOWS_FIELD_COUNT = 0;
@@ -253,6 +254,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
             new Field("IMAGE", Datas.IMAGE, Formats.NULL),
             new Field("RUNTIME", Datas.INT, Formats.INT),
             new Field("RATINGID", Datas.STRING, Formats.STRING),
+            new Field("EXCHANGEID", Datas.STRING, Formats.STRING),
             new Field("ACTIVE", Datas.BOOLEAN, Formats.BOOLEAN, true, true, true)
         );
         
@@ -1849,6 +1851,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 + "F.IMAGE, "
                 + "F.RUNTIME, "
                 + "F.RATINGID, "
+                + "F.EXCHANGEID, "
                 + "F.ACTIVE "
                 + "FROM FEATURES F "
                 + "WHERE ?(QBF_FILTER) "
@@ -1882,6 +1885,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 + "F.IMAGE, "
                 + "F.RUNTIME, "
                 + "F.RATINGID, "
+                + "F.EXCHANGEID, "
                 + "F.ACTIVE "
                 + "FROM FEATURES F "
                 + "WHERE F.ACTIVE = TRUE "
@@ -1903,7 +1907,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 Object[] values = (Object[]) params;
                 return new PreparedSentence(
                             s, 
-                            "INSERT INTO FEATURES (ID, NAME, IMAGE, RUNTIME, RATINGID, ACTIVE) VALUES (?, ?, ?, ?, ?, ?)",
+                            "INSERT INTO FEATURES (ID, NAME, IMAGE, RUNTIME, RATINGID, EXCHANGEID, ACTIVE) VALUES (?, ?, ?, ?, ?, ?, ?)",
                             new SerializerWriteBasicExt(
                                 featuresRow.getDatas(),
                                 new int[] {
@@ -1912,6 +1916,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                                     INDEX_FEATURE_IMAGE, 
                                     INDEX_FEATURE_RUNTIME, 
                                     INDEX_FEATURE_RATINGID, 
+                                    INDEX_FEATURE_EXCHANGEID, 
                                     INDEX_FEATURE_ACTIVE
                                 }
                             )
@@ -1936,6 +1941,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                         + "IMAGE = ?, "
                         + "RUNTIME = ?, "
                         + "RATINGID = ?, "
+                        + "EXCHANGEID = ?, "
                         + "ACTIVE = ? "
                         + "WHERE ID = ?", 
                         new SerializerWriteBasicExt(
@@ -1945,6 +1951,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                                     INDEX_FEATURE_IMAGE, 
                                     INDEX_FEATURE_RUNTIME, 
                                     INDEX_FEATURE_RATINGID, 
+                                    INDEX_FEATURE_EXCHANGEID,
                                     INDEX_FEATURE_ACTIVE,
                                     INDEX_FEATURE_ID
                                 }
@@ -2204,6 +2211,26 @@ public class DataLogicSales extends BeanFactoryDataSingle {
         );
     }
 
+
+
+    /**
+     *
+     * @return
+     */
+    public final SentenceList getExchangesList() {
+        return new StaticSentence(
+                s,
+                "SELECT "
+                + "E.ID, "
+                + "E.NAME "
+                + "FROM EXCHANGES E "
+                + "ORDER BY E.NAME",
+                null,
+                ExchangeInfo.getSerializerRead()
+        );
+    }
+
+    
     
 
     /**

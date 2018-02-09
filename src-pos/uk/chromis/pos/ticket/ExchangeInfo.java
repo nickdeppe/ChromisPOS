@@ -28,23 +28,20 @@ import uk.chromis.data.loader.SerializerRead;
  * @author Adrian
  * @version
  */
-public class RatingInfo implements IKeyed {
+public class ExchangeInfo implements IKeyed {
 
     private String m_sID;
     private String m_sName;
-    private Boolean m_bActive;
 
     /**
      * Creates new CategoryInfo
      *
     * @param id
     * @param name
-    * @param active
      */
-    public RatingInfo(String id, String name, Boolean active ) {
+    public ExchangeInfo(String id, String name ) {
         m_sID = id;
         m_sName = name;
-        m_bActive = active;
     }
 
     @Override
@@ -68,15 +65,6 @@ public class RatingInfo implements IKeyed {
         m_sName = sName;
     }
 
-    public void setActive(Boolean active) {
-        m_bActive = active;
-    }
-
-    public Boolean getActive() {
-        return m_bActive;
-    }
-
-
     @Override
     public String toString() {
         return m_sName;
@@ -86,7 +74,7 @@ public class RatingInfo implements IKeyed {
         return new SerializerRead() {
             @Override
             public Object readValues(DataRead dr) throws BasicException {
-                return new RatingInfo(dr.getString(1), dr.getString(2), dr.getBoolean(3));
+                return new ExchangeInfo(dr.getString(1), dr.getString(2));
             }
         };
     }
