@@ -39,6 +39,7 @@
 	<class name="payment.free"/>
 	<class name="payment.cheque"/>
 	<class name="/uk/chromis/reports/piesalescat.bs"/>
+	<class name="/uk/chromis/reports/boxofficesales.bs"/>
 	<class name="/uk/chromis/reports/extendedcashregisterlog.bs"/>
 	<class name="button.refundit"/>
 	<class name="/uk/chromis/reports/taxes.bs"/>

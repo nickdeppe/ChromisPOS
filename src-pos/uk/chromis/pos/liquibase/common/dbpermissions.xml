@@ -1093,7 +1093,23 @@
             <column name="DESCRIPTION" value="##label.description139"/>  
         </insert>
     </changeSet>
-  
+
+
+
+		
+    <changeSet author="Chromis POS" id="Add box office sales report permission">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM DBPERMISSIONS WHERE DESCRIPTION = '##label.description140'</sqlCheck>
+        </preConditions>
+        <insert tableName="DBPERMISSIONS">		
+            <column name="CLASSNAME" value="/uk/chromis/reports/boxofficesales.bs"/>
+            <column name="SECTION" value="##label.sectionsales"/>
+            <column name="DISPLAYNAME" value="##label.displayname140"/>
+            <column name="DESCRIPTION" value="##label.description140"/>
+        </insert>		
+    </changeSet>
+
+    
     <changeSet author="Chromis POS" id="drop top10salesMysql (NV)">   
         <sql> DELETE FROM DBPERMISSIONS WHERE DISPLAYNAME ='##label.displayname86'</sql>           
     </changeSet> 

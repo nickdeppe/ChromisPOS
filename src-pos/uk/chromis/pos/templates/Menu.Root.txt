@@ -96,6 +96,7 @@ group = menu.addGroup("Menu.Backoffice");
         submenu.addPanel("/uk/chromis/images/reports.png", "Menu.SaleTaxes", "/uk/chromis/reports/saletaxes.bs");
         submenu.addPanel("/uk/chromis/images/reports.png", "Menu.TaxCatSales", "/uk/chromis/reports/taxcatsales.bs");
         submenu.addPanel("/uk/chromis/images/reports.png", "Menu.ReportTaxes", "/uk/chromis/reports/taxes.bs");
+        submenu.addPanel("/uk/chromis/images/reports.png", "Menu.BoxOfficeSales", "/uk/chromis/reports/boxofficesales.bs");
         submenu.addTitle("Menu.SalesManagement.Charts");
         submenu.addPanel("/uk/chromis/images/chart.png", "Menu.ProductSales", "/uk/chromis/reports/productsales.bs");
         submenu.addPanel("/uk/chromis/images/chart.png", "Menu.SalesChart", "/uk/chromis/reports/chartsales.bs");

@@ -60,7 +60,7 @@ report.setSentence("SELECT " +
     "tl.TAXID = ta.ID " +
     "INNER JOIN PRODUCTS pr ON " +
     "   tl.PRODUCT = pr.ID " +
-"WHERE ?(QBF_FILTER) " + 
+"WHERE ( ?(QBF_FILTER) ) AND pr.ISBOXOFFICEREPORTED = TRUE " + 
 "GROUP BY " +
     "sh.ID, " +
     "th.NAME, " +

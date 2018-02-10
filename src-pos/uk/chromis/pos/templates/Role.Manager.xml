@@ -116,6 +116,7 @@
     <class name="/uk/chromis/reports/shelfedgelabels.bs"/>
 
     <class name="uk.chromis.pos.forms.MenuSalesManagement"/>
+    <class name="/uk/chromis/reports/boxofficesales.bs"/>
     <class name="/uk/chromis/reports/cashflow.bs"/>
     <class name="/uk/chromis/reports/cashregisterlog.bs"/>
     <class name="/uk/chromis/reports/categorysales.bs"/>
