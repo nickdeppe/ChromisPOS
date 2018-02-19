@@ -232,7 +232,7 @@ net.sf.jasperreports.engine.xml.JRXmlLoader.load(getClass().getResourceAsStream(
 					<textElement textAlignment="Left" verticalAlignment="Middle">
 						<font size="12" isBold="true"/>
 					</textElement>
-					<textFieldExpression><![CDATA[DATEFORMAT($F{SHOWDATE},"MMM, D, YYYY")]]></textFieldExpression>
+					<textFieldExpression><![CDATA[DATEFORMAT($F{SHOWDATE},"MMM, d, YYYY")]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement x="0" y="2" width="50" height="20" uuid="7036a8a7-dfc6-498e-bbd2-a255fe94659d"/>
@@ -422,7 +422,7 @@ Admissions]]></text>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA["Printed: " + DATEFORMAT(new java.util.Date(),"MMMM, D YYYY HH:mm a")]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Printed: " + DATEFORMAT(new java.util.Date(),"MMMM, d YYYY HH:mm a")]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
@@ -441,7 +441,7 @@ Admissions]]></text>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA["Printed: " + DATEFORMAT(new java.util.Date(),"MMMM, D YYYY HH:mm a")]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Printed: " + DATEFORMAT(new java.util.Date(),"MMMM, d YYYY HH:mm a")]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>
