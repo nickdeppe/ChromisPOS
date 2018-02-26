@@ -114,7 +114,7 @@ public abstract class JPanelReport extends JPanel implements JPanelView, BeanFac
             InputStream in = getClass().getResourceAsStream(getReport() + ".ser");
             if (in == null) {      
                 // read and compile the report
-                JasperDesign jd = JRXmlLoader.load(getClass().getResourceAsStream(getReport() + ".jrxml"));            
+                JasperDesign jd = JRXmlLoader.load(getClass().getResourceAsStream(getReport() + ".jrxml"));
                 jr = JasperCompileManager.compileReport(jd);    
             } else {
 
@@ -162,6 +162,12 @@ public abstract class JPanelReport extends JPanel implements JPanelView, BeanFac
      * @return
      */
     protected abstract ReportFields getReportFields();
+    
+    /**
+     *
+     * @return
+     */
+    protected abstract HashMap<String, Object> getReportParameters();
 
     /**
      *
@@ -234,10 +240,10 @@ public abstract class JPanelReport extends JPanel implements JPanelView, BeanFac
                 JRDataSource data = new JRDataSourceBasic(getSentence(), getReportFields(), params);
                 
                 // Construyo el mapa de los parametros.
-                Map reportparams = new HashMap();
+                HashMap<String, Object> reportparams = getReportParameters();
                 reportparams.put("ARG", params);
                 if (res != null) {
-                      reportparams.put("REPORT_RESOURCE_BUNDLE", ResourceBundle.getBundle(res));
+                    reportparams.put("REPORT_RESOURCE_BUNDLE", ResourceBundle.getBundle(res));
                 }                
                 reportparams.put("TAXESLOGIC", taxeslogic); 
                 

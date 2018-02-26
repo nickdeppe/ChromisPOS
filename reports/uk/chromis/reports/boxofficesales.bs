@@ -21,9 +21,15 @@
 
 report = new uk.chromis.pos.reports.PanelReportBean();
 
+net.sf.jasperreports.engine.design.JasperDesign jd = net.sf.jasperreports.engine.xml.JRXmlLoader.load(this.getClass().getResourceAsStream("/uk/chromis/reports/boxofficesales_showdetail.jrxml"));
+net.sf.jasperreports.engine.JasperReport subReport = net.sf.jasperreports.engine.JasperCompileManager.compileReport(jd);
+
+
 report.setTitleKey("Menu.BoxOfficeSales");
 report.setReport("/uk/chromis/reports/boxofficesales");
 report.setResourceBundle("uk/chromis/reports/boxofficesales_messages");
+
+report.addReportParameter("SUBREPORT_PATH", subReport);
 
 
 report.setSentence("SELECT " +

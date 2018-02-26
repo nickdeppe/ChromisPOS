@@ -20,6 +20,7 @@
 package uk.chromis.pos.reports;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import uk.chromis.basic.BasicException;
 import uk.chromis.data.loader.BaseSentence;
@@ -44,15 +45,24 @@ public class PanelReportBean extends JPanelReport {
     private String resourcebundle = null;
     
     private String sentence;
+    
+    // JG 16 May 12 use diamond inference
+    private final List<Datas> fielddatas;
+    private final List<String> fieldnames;
+    
+    private final List<String> paramnames;
+    
+    private final JParamsComposed qbffilter;
+    
+    private final HashMap<String, Object> reportParams;
 
-    
-// JG 16 May 12 use diamond inference
-    private List<Datas> fielddatas = new ArrayList<>();
-    private List<String> fieldnames = new ArrayList<>();
-    
-    private List<String> paramnames = new ArrayList<>();
-    
-    private JParamsComposed qbffilter = new JParamsComposed();
+    public PanelReportBean() {
+        this.fieldnames = new ArrayList<>();
+        this.fielddatas = new ArrayList<>();
+        this.qbffilter = new JParamsComposed();
+        this.paramnames = new ArrayList<>();
+        this.reportParams = new HashMap<>();
+    }
     
     /**
      *
@@ -112,6 +122,7 @@ public class PanelReportBean extends JPanelReport {
      *
      * @return
      */
+    @Override
     public String getTitle() {
         return title;
     }
@@ -128,6 +139,7 @@ public class PanelReportBean extends JPanelReport {
      *
      * @return
      */
+    @Override
     protected String getReport() {
         return report;
     }
@@ -156,6 +168,7 @@ public class PanelReportBean extends JPanelReport {
      *
      * @return
      */
+    @Override
     protected String getResourceBundle() {
         return resourcebundle == null 
                 ? report 
@@ -192,6 +205,7 @@ public class PanelReportBean extends JPanelReport {
      *
      * @return
      */
+    @Override
     protected BaseSentence getSentence() {
         return new StaticSentence(m_App.getSession()
             , new QBFBuilder(sentence, paramnames.toArray(new String[paramnames.size()]))
@@ -203,8 +217,41 @@ public class PanelReportBean extends JPanelReport {
      *
      * @return
      */
+    @Override
     protected ReportFields getReportFields() {
         return new ReportFieldsArray(fieldnames.toArray(new String[fieldnames.size()]));
+    }
+    
+    /**
+     *
+     * @param key
+     * @param object
+     */
+    public void addReportParameter(String key, Object object) {
+        reportParams.put(key, object);
+    }
+    
+    /**
+     *
+     * @param key
+     * @param object
+     */
+    public void removeReportParameter(String key, Object object) {
+        reportParams.remove(key, object);
+    }
+    
+    /**
+     *
+     * @param key
+     */
+    public void removeReportParameter(String key) {
+        reportParams.remove(key);
+    }
+    
+    
+    @Override
+    public HashMap<String, Object> getReportParameters() {
+        return reportParams;
     }
 
     /**

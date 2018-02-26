@@ -4,6 +4,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="boxofficesales_2" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="589e026e-0202-464e-86f2-999dbe4edc33">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Mysql Chromis"/>
+        <parameter name="SUBREPORT_PATH" class="java.lang.Object"/>
 	<queryString>
 		<![CDATA[SELECT
 	sh.ID,
@@ -150,12 +151,13 @@ GROUP BY
 						<subreportParameterExpression><![CDATA[$F{ID}]]></subreportParameterExpression>
 					</subreportParameter>
 					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+                                        <subreportExpression><![CDATA[$P{SUBREPORT_PATH}]]></subreportExpression>
 					<!--<subreportExpression><![CDATA["boxofficesales_showdetail.jasper"]]></subreportExpression>-->
-					<subreportExpression><![CDATA[JasperCompileManager.compileReport(
+					<!--<subreportExpression><![CDATA[JasperCompileManager.compileReport(
 net.sf.jasperreports.engine.xml.JRXmlLoader.load(getClass().getResourceAsStream(
 "/uk/chromis/reports/boxofficesales_showdetail.jrxml"
 ))
-)]]></subreportExpression>
+)]]></subreportExpression> -->
 				</subreport>
 				<line>
 					<reportElement x="0" y="0" width="570" height="1" uuid="27c793e2-9a0e-48e7-8166-bb4bbd3a20f4">
