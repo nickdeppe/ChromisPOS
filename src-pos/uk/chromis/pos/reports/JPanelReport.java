@@ -245,7 +245,8 @@ public abstract class JPanelReport extends JPanel implements JPanelView, BeanFac
                 if (res != null) {
                     reportparams.put("REPORT_RESOURCE_BUNDLE", ResourceBundle.getBundle(res));
                 }                
-                reportparams.put("TAXESLOGIC", taxeslogic); 
+                reportparams.put("TAXESLOGIC", taxeslogic);
+                reportparams.put("APP", m_App);
                 
                 JasperPrint jp = JasperFillManager.fillReport(jr, reportparams, data);    
             

@@ -27,11 +27,12 @@ ORDER BY
 	sf.SEQUENCE,
 	sf.STARTTIME]]>
 	</queryString>
-	<field name="STARTTIME" class="java.lang.String"/>
+        <field name="_THIS" class="uk.chromis.pos.ticket.ShowFeaturesInfo"/>
+<!--	<field name="STARTTIME" class="java.lang.String"/>
 	<field name="SEQUENCE" class="java.lang.Integer"/>
 	<field name="FEATURENAME" class="java.lang.String"/>
 	<field name="RATINGNAME" class="java.lang.String"/>
-	<field name="EXCHANGENAME" class="java.lang.String"/>
+	<field name="EXCHANGENAME" class="java.lang.String"/> -->
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -81,21 +82,21 @@ ORDER BY
 				<textElement>
 					<font size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{STARTTIME}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{_THIS}.getStartTime()]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="80" y="0" width="240" height="20" uuid="862173cd-7478-4078-9d74-f27c8adbff2a"/>
 				<textElement>
 					<font size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{FEATURENAME}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{_THIS}.getFeatureName()]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="320" y="0" width="220" height="20" uuid="22c903a5-e299-4582-81a1-43c6a71abd0e"/>
 				<textElement>
 					<font size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{EXCHANGENAME}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{_THIS}.getExchangeName()]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

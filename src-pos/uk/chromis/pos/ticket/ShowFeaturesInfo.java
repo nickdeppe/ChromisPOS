@@ -44,6 +44,7 @@ public class ShowFeaturesInfo implements IKeyed, Cloneable {
     protected String m_sRatingID;
     protected Boolean m_bActive;
     protected String m_sRatingName;
+    protected String m_sExchangeName;
     
 
     /**
@@ -61,9 +62,10 @@ public class ShowFeaturesInfo implements IKeyed, Cloneable {
         m_sRatingID = null;
         m_bActive = null;
         m_sRatingName = null;
+        m_sExchangeName = null;
     }
 
-    public ShowFeaturesInfo( String id, String showID, String featureID, Integer sequence, String startTime, String featureName, BufferedImage image, Integer runtime, String ratingID, Boolean active, String ratingName ) {
+    public ShowFeaturesInfo( String id, String showID, String featureID, Integer sequence, String startTime, String featureName, BufferedImage image, Integer runtime, String ratingID, Boolean active, String ratingName, String exchangeName ) {
         m_ID = id;
         m_sShowID = showID;
         m_sFeatureID = featureID;
@@ -75,6 +77,7 @@ public class ShowFeaturesInfo implements IKeyed, Cloneable {
         m_sRatingID = ratingID;
         m_bActive = active;
         m_sRatingName = ratingName;
+        m_sExchangeName = exchangeName;
     }
 
 
@@ -171,6 +174,13 @@ public class ShowFeaturesInfo implements IKeyed, Cloneable {
         m_sRatingName = ratingName;
     }
     
+    public final String getExchangeName() {
+        return m_sExchangeName;
+    }
+    
+    public final void setExchangeName(String exchangeName) {
+        m_sExchangeName = exchangeName;
+    }
 
     @Override
     public final String toString() {
@@ -191,7 +201,7 @@ public class ShowFeaturesInfo implements IKeyed, Cloneable {
         return new SerializerRead() {
             @Override
             public Object readValues(DataRead dr) throws BasicException {
-                return new ShowFeaturesInfo(dr.getString(1), dr.getString(2), dr.getString(3), dr.getInt(4), dr.getString(5), dr.getString(6), ImageUtils.readImage(dr.getBytes(7)), dr.getInt(8), dr.getString(9), dr.getBoolean(10), dr.getString(11));
+                return new ShowFeaturesInfo(dr.getString(1), dr.getString(2), dr.getString(3), dr.getInt(4), dr.getString(5), dr.getString(6), ImageUtils.readImage(dr.getBytes(7)), dr.getInt(8), dr.getString(9), dr.getBoolean(10), dr.getString(11), dr.getString(12));
             }
         };
     }
