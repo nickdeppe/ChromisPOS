@@ -1803,7 +1803,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                         + " F.RATINGID, "
                         + " F.ACTIVE, "
                         + " R.NAME AS RATINGNAME, "
-                        + " E.NAME AS EXCHANGENAME "
+                        + " COALESCE(E.NAME, '') AS EXCHANGENAME "
                         + "FROM "
                         + " SHOWFEATURES SF "
                         + " INNER JOIN FEATURES F ON SF.FEATUREID = F.ID "

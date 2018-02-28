@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.2.1.final using JasperReports Library version 6.2.1  -->
-<!-- 2018-01-22T12:35:31 -->
+<!-- 2018-02-27T13:07:01 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="boxofficesales_2" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="589e026e-0202-464e-86f2-999dbe4edc33">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Mysql Chromis"/>
-        <parameter name="SUBREPORT_PATH" class="java.lang.Object"/>
-        <parameter name="APP" class="uk.chromis.pos.forms.AppView"/>
+	<parameter name="SUBREPORT_PATH" class="java.lang.Object"/>
+	<parameter name="APP" class="uk.chromis.pos.forms.AppView"/>
 	<queryString>
 		<![CDATA[SELECT
 	sh.ID,
@@ -75,11 +75,9 @@ GROUP BY
 	<field name="GROSSADMISSIONS" class="java.lang.Double"/>
 	<sortField name="THEATRENAME"/>
 	<sortField name="SHOWDATE"/>
-        <variable name="dlSales" class="uk.chromis.pos.forms.DataLogicSales" incrementType="None" calculation="Nothing">
-            <variableExpression>
-                <![CDATA[$P{APP}.getBean("uk.chromis.pos.forms.DataLogicSales")]]>
-            </variableExpression>
-        </variable>
+	<variable name="dlSales" class="uk.chromis.pos.forms.DataLogicSales" resetType="Report">
+		<variableExpression><![CDATA[$P{APP}.getBean("uk.chromis.pos.forms.DataLogicSales")]]></variableExpression>
+	</variable>
 	<variable name="GROSSSOLD1" class="java.lang.Double" resetType="Group" resetGroup="SHOWDATE" calculation="Sum">
 		<variableExpression><![CDATA[$F{GROSSSOLD}]]></variableExpression>
 	</variable>
@@ -143,7 +141,7 @@ GROUP BY
 	<group name="THEATRENAME" keepTogether="true">
 		<groupExpression><![CDATA[$F{THEATRENAME}]]></groupExpression>
 		<groupHeader>
-			<band height="50">
+			<band height="37">
 				<textField>
 					<reportElement x="0" y="10" width="190" height="20" uuid="c43604ed-ce8f-4b3f-b672-02c30fa1f991"/>
 					<textElement>
@@ -151,13 +149,6 @@ GROUP BY
 					</textElement>
 					<textFieldExpression><![CDATA[$F{THEATRENAME}]]></textFieldExpression>
 				</textField>
-				<subreport>
-					<reportElement x="10" y="30" width="360" height="20" uuid="ea8d48a6-eb16-4da8-9578-13b6cd2f8a69"/>
-					<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource(
-$V{dlSales}.getFeaturesForShow($F{ID})
-)]]></dataSourceExpression>
-                                        <subreportExpression><![CDATA[$P{SUBREPORT_PATH}]]></subreportExpression>
-				</subreport>
 				<line>
 					<reportElement x="0" y="0" width="570" height="1" uuid="27c793e2-9a0e-48e7-8166-bb4bbd3a20f4">
 						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
@@ -224,6 +215,29 @@ $V{dlSales}.getFeaturesForShow($F{ID})
 			</band>
 		</groupFooter>
 	</group>
+	<group name="ID" keepTogether="true">
+		<groupExpression><![CDATA[$F{ID}]]></groupExpression>
+		<groupHeader>
+			<band height="45">
+				<textField>
+					<reportElement x="0" y="0" width="280" height="15" uuid="62a58107-d5ff-44bd-bfed-ef72528d10bf">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
+					<textElement>
+						<font size="9" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{ID}]]></textFieldExpression>
+				</textField>
+				<subreport>
+					<reportElement x="10" y="15" width="360" height="20" uuid="ea8d48a6-eb16-4da8-9578-13b6cd2f8a69"/>
+					<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource(
+$V{dlSales}.getFeaturesForShow($F{ID})
+)]]></dataSourceExpression>
+					<subreportExpression><![CDATA[$P{SUBREPORT_PATH}]]></subreportExpression>
+				</subreport>
+			</band>
+		</groupHeader>
+	</group>
 	<group name="SHOWDATE">
 		<groupExpression><![CDATA[$F{SHOWDATE}]]></groupExpression>
 		<groupHeader>
@@ -243,54 +257,14 @@ $V{dlSales}.getFeaturesForShow($F{ID})
 					<text><![CDATA[Date:]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="0" y="26" width="60" height="30" uuid="6f5d9c4f-c3c2-41db-a5ed-466290155e54"/>
+					<reportElement x="0" y="28" width="60" height="30" uuid="6f5d9c4f-c3c2-41db-a5ed-466290155e54"/>
 					<textElement verticalAlignment="Bottom">
 						<font size="9"/>
 					</textElement>
 					<text><![CDATA[Type]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="200" y="26" width="40" height="30" uuid="276494af-1a9c-45af-958d-ee2bfb49d130"/>
-					<textElement textAlignment="Right" verticalAlignment="Bottom">
-						<font size="9"/>
-					</textElement>
-					<text><![CDATA[Ticket
-Open]]></text>
-				</staticText>
-				<staticText>
-					<reportElement x="240" y="26" width="40" height="30" uuid="f2a380c2-b3d4-435e-8c34-79dc6fc558a7"/>
-					<textElement textAlignment="Right" verticalAlignment="Bottom">
-						<font size="9"/>
-					</textElement>
-					<text><![CDATA[Ticket
-Close]]></text>
-				</staticText>
-				<staticText>
-					<reportElement x="280" y="26" width="40" height="30" uuid="e47166c0-6297-4c49-973c-fd57f68b8bbe"/>
-					<textElement textAlignment="Right" verticalAlignment="Bottom">
-						<font size="9"/>
-					</textElement>
-					<text><![CDATA[Gross
-Sold]]></text>
-				</staticText>
-				<staticText>
-					<reportElement x="320" y="26" width="40" height="30" uuid="169c4b0b-0c53-4b03-9b31-08c9f293f055"/>
-					<textElement textAlignment="Right" verticalAlignment="Bottom">
-						<font size="9"/>
-					</textElement>
-					<text><![CDATA[Ref-
-unds]]></text>
-				</staticText>
-				<staticText>
-					<reportElement x="360" y="26" width="40" height="30" uuid="0ae63f81-0941-4375-a93f-9dd73b3a97a4"/>
-					<textElement textAlignment="Right" verticalAlignment="Bottom">
-						<font size="9"/>
-					</textElement>
-					<text><![CDATA[Net
-Sold]]></text>
-				</staticText>
-				<staticText>
-					<reportElement x="60" y="26" width="50" height="30" uuid="7faa013b-3d99-416c-96ca-abdcb3e857bd"/>
+					<reportElement x="60" y="28" width="50" height="30" uuid="7faa013b-3d99-416c-96ca-abdcb3e857bd"/>
 					<textElement textAlignment="Right" verticalAlignment="Bottom">
 						<font size="9"/>
 					</textElement>
@@ -298,7 +272,7 @@ Sold]]></text>
 Price]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="110" y="26" width="40" height="30" uuid="f9440a5f-23a9-4ceb-bc31-44080d8a616a"/>
+					<reportElement x="110" y="28" width="40" height="30" uuid="f9440a5f-23a9-4ceb-bc31-44080d8a616a"/>
 					<textElement textAlignment="Right" verticalAlignment="Bottom">
 						<font size="9"/>
 					</textElement>
@@ -306,7 +280,7 @@ Price]]></text>
 Tax]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="150" y="26" width="50" height="30" uuid="6472c6ca-313d-432e-97dc-7a10cab2b4d6"/>
+					<reportElement x="150" y="28" width="50" height="30" uuid="6472c6ca-313d-432e-97dc-7a10cab2b4d6"/>
 					<textElement textAlignment="Right" verticalAlignment="Bottom">
 						<font size="9"/>
 					</textElement>
@@ -314,7 +288,39 @@ Tax]]></text>
 Price]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="400" y="26" width="60" height="30" uuid="ada4303d-b9bd-43d3-aa0c-4e9883b5f539"/>
+					<reportElement x="200" y="28" width="40" height="30" uuid="276494af-1a9c-45af-958d-ee2bfb49d130"/>
+					<textElement textAlignment="Right" verticalAlignment="Bottom">
+						<font size="9"/>
+					</textElement>
+					<text><![CDATA[Ticket
+Open]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="240" y="28" width="40" height="30" uuid="f2a380c2-b3d4-435e-8c34-79dc6fc558a7"/>
+					<textElement textAlignment="Right" verticalAlignment="Bottom">
+						<font size="9"/>
+					</textElement>
+					<text><![CDATA[Ticket
+Close]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="280" y="28" width="40" height="30" uuid="e47166c0-6297-4c49-973c-fd57f68b8bbe"/>
+					<textElement textAlignment="Right" verticalAlignment="Bottom">
+						<font size="9"/>
+					</textElement>
+					<text><![CDATA[Gross
+Sold]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="320" y="28" width="40" height="30" uuid="169c4b0b-0c53-4b03-9b31-08c9f293f055"/>
+					<textElement textAlignment="Right" verticalAlignment="Bottom">
+						<font size="9"/>
+					</textElement>
+					<text><![CDATA[Ref-
+unds]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="400" y="28" width="60" height="30" uuid="ada4303d-b9bd-43d3-aa0c-4e9883b5f539"/>
 					<textElement textAlignment="Right" verticalAlignment="Bottom">
 						<font size="9"/>
 					</textElement>
@@ -322,7 +328,15 @@ Price]]></text>
 Admissions]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="460" y="26" width="50" height="30" uuid="48d2c432-a4d1-4aff-b7d3-fe0deade98fd"/>
+					<reportElement x="360" y="28" width="40" height="30" uuid="0ae63f81-0941-4375-a93f-9dd73b3a97a4"/>
+					<textElement textAlignment="Right" verticalAlignment="Bottom">
+						<font size="9"/>
+					</textElement>
+					<text><![CDATA[Net
+Sold]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="460" y="28" width="50" height="30" uuid="48d2c432-a4d1-4aff-b7d3-fe0deade98fd"/>
 					<textElement textAlignment="Right" verticalAlignment="Bottom">
 						<font size="9"/>
 					</textElement>
@@ -330,7 +344,7 @@ Admissions]]></text>
 Taxes]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="510" y="26" width="60" height="30" uuid="20ab513f-2b70-49fb-b046-7339e1695688"/>
+					<reportElement x="510" y="28" width="60" height="30" uuid="20ab513f-2b70-49fb-b046-7339e1695688"/>
 					<textElement textAlignment="Right" verticalAlignment="Bottom">
 						<font size="9"/>
 					</textElement>
