@@ -80,6 +80,8 @@ public abstract class JPanelReport extends JPanel implements JPanelView, BeanFac
      *
      */
     protected TaxesLogic taxeslogic;
+    
+    protected DataLogicSales dlSales;
 
     /** Creates new form JPanelReport */
     public JPanelReport() {
@@ -97,7 +99,7 @@ public abstract class JPanelReport extends JPanel implements JPanelView, BeanFac
         
         m_App = app;
         
-        DataLogicSales dlSales = (DataLogicSales) app.getBean("uk.chromis.pos.forms.DataLogicSales");
+        dlSales = (DataLogicSales) app.getBean("uk.chromis.pos.forms.DataLogicSales");
         taxsent = dlSales.getTaxList();
         
         editor = getEditorCreator();
@@ -247,6 +249,7 @@ public abstract class JPanelReport extends JPanel implements JPanelView, BeanFac
                 }                
                 reportparams.put("TAXESLOGIC", taxeslogic);
                 reportparams.put("APP", m_App);
+                reportparams.put("DL_SALES", dlSales);
                 
                 JasperPrint jp = JasperFillManager.fillReport(jr, reportparams, data);    
             

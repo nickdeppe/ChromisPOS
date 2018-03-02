@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.2.1.final using JasperReports Library version 6.2.1  -->
-<!-- 2018-02-27T13:06:14 -->
+<!-- 2018-03-01T18:09:56 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="boxofficesales_showdetail" pageWidth="572" pageHeight="752" columnWidth="572" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="b15a9605-922f-4f69-9cd2-979008b70109">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<parameter name="ID" class="java.lang.String">
@@ -45,14 +45,14 @@ ORDER BY
 		<band height="18" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<staticText>
-				<reportElement x="80" y="0" width="240" height="14" uuid="3fdfaae8-bb58-4325-8638-2ab3a5d76e45"/>
+				<reportElement x="70" y="0" width="190" height="14" uuid="3fdfaae8-bb58-4325-8638-2ab3a5d76e45"/>
 				<textElement>
 					<font size="10" isUnderline="true"/>
 				</textElement>
 				<text><![CDATA[Feature]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="0" width="80" height="14" uuid="2acb24f7-13d9-4a4e-8dce-49b84b622fd8">
+				<reportElement x="0" y="0" width="70" height="14" uuid="2acb24f7-13d9-4a4e-8dce-49b84b622fd8">
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 				</reportElement>
 				<textElement>
@@ -61,7 +61,7 @@ ORDER BY
 				<text><![CDATA[Time]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="320" y="0" width="220" height="14" uuid="9da2263c-1f8f-4432-8e6f-57956fc17054"/>
+				<reportElement x="260" y="0" width="190" height="14" uuid="9da2263c-1f8f-4432-8e6f-57956fc17054"/>
 				<textElement>
 					<font size="10" isUnderline="true"/>
 				</textElement>
@@ -73,21 +73,21 @@ ORDER BY
 		<band height="19" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<textField>
-				<reportElement x="0" y="0" width="80" height="16" uuid="1e74128a-2bbe-4b15-aaae-764465c05f65"/>
+				<reportElement x="0" y="0" width="70" height="16" uuid="1e74128a-2bbe-4b15-aaae-764465c05f65"/>
 				<textElement>
 					<font size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{_THIS}.getStartTime()]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="80" y="0" width="240" height="16" uuid="862173cd-7478-4078-9d74-f27c8adbff2a"/>
+				<reportElement x="70" y="0" width="190" height="16" uuid="862173cd-7478-4078-9d74-f27c8adbff2a"/>
 				<textElement>
 					<font size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{_THIS}.getFeatureName()]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="320" y="0" width="220" height="16" uuid="22c903a5-e299-4582-81a1-43c6a71abd0e"/>
+				<reportElement x="260" y="0" width="190" height="16" uuid="22c903a5-e299-4582-81a1-43c6a71abd0e"/>
 				<textElement>
 					<font size="10"/>
 				</textElement>
