@@ -1846,6 +1846,18 @@
             <column name="RESTYPE" valueNumeric="0"/>  
             <column name="CONTENT" valueBlobResource="/uk/chromis/pos/promotion/scripts/promotion.fixedpricegroup.txt"/>  
         </insert> 
+        <insert tableName="RESOURCES">  
+            <column name="ID" value="6707"/>  
+            <column name="NAME" value="Business.Name"/>  
+            <column name="RESTYPE" valueNumeric="0"/>  
+            <column name="CONTENT" valueBlobResource="/uk/chromis/pos/templates/Business.Name.txt"/>  
+        </insert> 
+        <insert tableName="RESOURCES">  
+            <column name="ID" value="6708"/>  
+            <column name="NAME" value="Business.ContactInfo"/>  
+            <column name="RESTYPE" valueNumeric="0"/>  
+            <column name="CONTENT" valueBlobResource="/uk/chromis/pos/templates/Business.ContactInfo.txt"/>  
+        </insert> 
     </changeSet>   
     
     <changeSet author="Chromis POS" id="Insert into CATEGORIES Table (New Database)"> 

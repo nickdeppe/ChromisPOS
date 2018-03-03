@@ -42,12 +42,12 @@ ORDER BY
 		</band>
 	</pageHeader>
 	<columnHeader>
-		<band height="18" splitType="Stretch">
+		<band height="20" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<staticText>
 				<reportElement x="70" y="0" width="190" height="14" uuid="3fdfaae8-bb58-4325-8638-2ab3a5d76e45"/>
 				<textElement>
-					<font size="10" isUnderline="true"/>
+					<font size="10" isUnderline="true" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Feature]]></text>
 			</staticText>
@@ -56,14 +56,14 @@ ORDER BY
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 				</reportElement>
 				<textElement>
-					<font size="10" isUnderline="true"/>
+					<font size="10" isUnderline="true" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Time]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="260" y="0" width="190" height="14" uuid="9da2263c-1f8f-4432-8e6f-57956fc17054"/>
 				<textElement>
-					<font size="10" isUnderline="true"/>
+					<font size="10" isUnderline="true" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Exchange]]></text>
 			</staticText>

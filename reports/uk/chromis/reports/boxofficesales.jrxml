@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.2.1.final using JasperReports Library version 6.2.1  -->
-<!-- 2018-03-01T18:15:08 -->
+<!-- 2018-03-03T13:24:53 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="boxofficesales_2" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="589e026e-0202-464e-86f2-999dbe4edc33">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Mysql Chromis"/>
 	<parameter name="SUBREPORT_PATH" class="java.lang.Object"/>
 	<parameter name="DL_SALES" class="uk.chromis.pos.forms.DataLogicSales"/>
+	<parameter name="DL_SYSTEM" class="uk.chromis.pos.forms.DataLogicSystem"/>
+	<parameter name="ARG" class="java.lang.Object" isForPrompting="false"/>
 	<queryString>
 		<![CDATA[SELECT
 	sh.ID,
@@ -135,12 +137,12 @@ GROUP BY
 	<variable name="GROSSADMISSIONS4" class="java.lang.Double" calculation="Sum">
 		<variableExpression><![CDATA[$F{GROSSADMISSIONS}]]></variableExpression>
 	</variable>
-	<group name="THEATRENAME" keepTogether="true">
+	<group name="THEATRENAME" isStartNewPage="true" isReprintHeaderOnEachPage="true" keepTogether="true">
 		<groupExpression><![CDATA[$F{THEATRENAME}]]></groupExpression>
 		<groupHeader>
 			<band height="37">
 				<textField>
-					<reportElement x="60" y="10" width="280" height="20" uuid="c43604ed-ce8f-4b3f-b672-02c30fa1f991"/>
+					<reportElement x="80" y="10" width="280" height="20" uuid="c43604ed-ce8f-4b3f-b672-02c30fa1f991"/>
 					<textElement>
 						<font size="14" isBold="true"/>
 					</textElement>
@@ -153,7 +155,7 @@ GROUP BY
 					</reportElement>
 				</line>
 				<staticText>
-					<reportElement x="0" y="10" width="60" height="20" uuid="6a83b755-edd8-43bb-ab64-e30b23807f0a"/>
+					<reportElement x="0" y="10" width="80" height="20" uuid="6a83b755-edd8-43bb-ab64-e30b23807f0a"/>
 					<textElement>
 						<font size="14" isBold="true"/>
 					</textElement>
@@ -164,7 +166,7 @@ GROUP BY
 		<groupFooter>
 			<band height="26">
 				<textField>
-					<reportElement x="0" y="0" width="280" height="15" uuid="62a58107-d5ff-44bd-bfed-ef72528d10bf">
+					<reportElement x="0" y="3" width="280" height="15" uuid="62a58107-d5ff-44bd-bfed-ef72528d10bf">
 						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					</reportElement>
 					<textElement>
@@ -173,7 +175,7 @@ GROUP BY
 					<textFieldExpression><![CDATA[$F{THEATRENAME} + " total"]]></textFieldExpression>
 				</textField>
 				<textField pattern="#,##0.###;(#,##0.###-)">
-					<reportElement x="280" y="0" width="40" height="15" uuid="384ddd2e-fb59-4396-b757-24463a59a4ad">
+					<reportElement x="280" y="3" width="40" height="15" uuid="384ddd2e-fb59-4396-b757-24463a59a4ad">
 						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					</reportElement>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
@@ -182,35 +184,35 @@ GROUP BY
 					<textFieldExpression><![CDATA[$V{GROSSSOLD2}]]></textFieldExpression>
 				</textField>
 				<textField pattern="#,##0.###;(#,##0.###-)">
-					<reportElement x="320" y="0" width="40" height="15" uuid="90498dd5-ee80-481e-bcbe-21878ba15647"/>
+					<reportElement x="320" y="3" width="40" height="15" uuid="90498dd5-ee80-481e-bcbe-21878ba15647"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font size="9"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$V{REFUNDS2}]]></textFieldExpression>
 				</textField>
 				<textField pattern="#,##0.###;(#,##0.###-)">
-					<reportElement x="360" y="0" width="40" height="15" uuid="8c0bf003-7324-4dd1-8f7b-d64ecdce7d33"/>
+					<reportElement x="360" y="3" width="40" height="15" uuid="8c0bf003-7324-4dd1-8f7b-d64ecdce7d33"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font size="9"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$V{NETSOLD2}]]></textFieldExpression>
 				</textField>
 				<textField pattern="¤#,##0.00#;¤(-#,##0.00#)">
-					<reportElement x="400" y="0" width="60" height="15" uuid="680973ba-0c78-4415-8d4e-20dd290d0b89"/>
+					<reportElement x="400" y="3" width="60" height="15" uuid="680973ba-0c78-4415-8d4e-20dd290d0b89"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font size="9"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$V{NETADMISSIONS2}]]></textFieldExpression>
 				</textField>
 				<textField pattern="¤#,##0.00#;¤(-#,##0.00#)">
-					<reportElement x="460" y="0" width="50" height="15" uuid="f0de8d5c-32b6-4165-b191-067e1a657b92"/>
+					<reportElement x="460" y="3" width="50" height="15" uuid="f0de8d5c-32b6-4165-b191-067e1a657b92"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font size="9"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$V{NETTAXES2}]]></textFieldExpression>
 				</textField>
 				<textField pattern="¤#,##0.00#;¤(-#,##0.00#)">
-					<reportElement x="510" y="0" width="60" height="15" uuid="c309f863-47a3-4670-b657-3b4a5ea6fea1"/>
+					<reportElement x="510" y="3" width="60" height="15" uuid="c309f863-47a3-4670-b657-3b4a5ea6fea1"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font size="9"/>
 					</textElement>
@@ -219,7 +221,7 @@ GROUP BY
 			</band>
 		</groupFooter>
 	</group>
-	<group name="ID" keepTogether="true">
+	<group name="ID" isReprintHeaderOnEachPage="true" keepTogether="true">
 		<groupExpression><![CDATA[$F{ID}]]></groupExpression>
 		<groupHeader>
 			<band height="38">
@@ -240,33 +242,34 @@ $P{DL_SALES}.getFeaturesForShow($F{ID})
 			</band>
 		</groupHeader>
 	</group>
-	<group name="SHOWDATE">
+	<group name="SHOWDATE" isReprintHeaderOnEachPage="true" keepTogether="true">
 		<groupExpression><![CDATA[$F{SHOWDATE}]]></groupExpression>
 		<groupHeader>
-			<band height="58">
+			<band height="56">
+				<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				<textField>
-					<reportElement x="60" y="2" width="370" height="20" uuid="1eeb60c0-6d38-4b10-b1d9-0d0168e19bc1"/>
+					<reportElement x="60" y="4" width="370" height="20" uuid="1eeb60c0-6d38-4b10-b1d9-0d0168e19bc1"/>
 					<textElement textAlignment="Left" verticalAlignment="Middle">
 						<font size="12" isBold="true"/>
 					</textElement>
-					<textFieldExpression><![CDATA[DATEFORMAT($F{SHOWDATE},"MMM, d, YYYY")]]></textFieldExpression>
+					<textFieldExpression><![CDATA[DATEFORMAT($F{SHOWDATE},"EEE, MMMM, d, YYYY")]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement x="0" y="2" width="50" height="20" uuid="7036a8a7-dfc6-498e-bbd2-a255fe94659d"/>
+					<reportElement x="0" y="4" width="60" height="20" uuid="7036a8a7-dfc6-498e-bbd2-a255fe94659d"/>
 					<textElement verticalAlignment="Middle">
 						<font size="12" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Date:]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="0" y="28" width="60" height="30" uuid="6f5d9c4f-c3c2-41db-a5ed-466290155e54"/>
+					<reportElement x="0" y="24" width="60" height="30" uuid="6f5d9c4f-c3c2-41db-a5ed-466290155e54"/>
 					<textElement verticalAlignment="Bottom">
 						<font size="9" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Type]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="60" y="28" width="50" height="30" uuid="7faa013b-3d99-416c-96ca-abdcb3e857bd"/>
+					<reportElement x="60" y="24" width="50" height="30" uuid="7faa013b-3d99-416c-96ca-abdcb3e857bd"/>
 					<textElement textAlignment="Right" verticalAlignment="Bottom">
 						<font size="9" isBold="true"/>
 					</textElement>
@@ -274,7 +277,7 @@ $P{DL_SALES}.getFeaturesForShow($F{ID})
 Price]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="110" y="28" width="40" height="30" uuid="f9440a5f-23a9-4ceb-bc31-44080d8a616a"/>
+					<reportElement x="110" y="24" width="40" height="30" uuid="f9440a5f-23a9-4ceb-bc31-44080d8a616a"/>
 					<textElement textAlignment="Right" verticalAlignment="Bottom">
 						<font size="9" isBold="true"/>
 					</textElement>
@@ -282,7 +285,7 @@ Price]]></text>
 Tax]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="150" y="28" width="50" height="30" uuid="6472c6ca-313d-432e-97dc-7a10cab2b4d6"/>
+					<reportElement x="150" y="24" width="50" height="30" uuid="6472c6ca-313d-432e-97dc-7a10cab2b4d6"/>
 					<textElement textAlignment="Right" verticalAlignment="Bottom">
 						<font size="9" isBold="true"/>
 					</textElement>
@@ -290,7 +293,7 @@ Tax]]></text>
 Price]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="200" y="28" width="40" height="30" uuid="276494af-1a9c-45af-958d-ee2bfb49d130"/>
+					<reportElement x="200" y="24" width="40" height="30" uuid="276494af-1a9c-45af-958d-ee2bfb49d130"/>
 					<textElement textAlignment="Right" verticalAlignment="Bottom">
 						<font size="9" isBold="true"/>
 					</textElement>
@@ -298,7 +301,7 @@ Price]]></text>
 Open]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="240" y="28" width="40" height="30" uuid="f2a380c2-b3d4-435e-8c34-79dc6fc558a7"/>
+					<reportElement x="240" y="24" width="40" height="30" uuid="f2a380c2-b3d4-435e-8c34-79dc6fc558a7"/>
 					<textElement textAlignment="Right" verticalAlignment="Bottom">
 						<font size="9" isBold="true"/>
 					</textElement>
@@ -306,7 +309,7 @@ Open]]></text>
 Close]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="280" y="28" width="40" height="30" uuid="e47166c0-6297-4c49-973c-fd57f68b8bbe"/>
+					<reportElement x="280" y="24" width="40" height="30" uuid="e47166c0-6297-4c49-973c-fd57f68b8bbe"/>
 					<textElement textAlignment="Right" verticalAlignment="Bottom">
 						<font size="9" isBold="true"/>
 					</textElement>
@@ -314,7 +317,7 @@ Close]]></text>
 Sold]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="320" y="28" width="40" height="30" uuid="169c4b0b-0c53-4b03-9b31-08c9f293f055"/>
+					<reportElement x="320" y="24" width="40" height="30" uuid="169c4b0b-0c53-4b03-9b31-08c9f293f055"/>
 					<textElement textAlignment="Right" verticalAlignment="Bottom">
 						<font size="9" isBold="true"/>
 					</textElement>
@@ -322,7 +325,7 @@ Sold]]></text>
 unds]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="400" y="28" width="60" height="30" uuid="ada4303d-b9bd-43d3-aa0c-4e9883b5f539"/>
+					<reportElement x="400" y="24" width="60" height="30" uuid="ada4303d-b9bd-43d3-aa0c-4e9883b5f539"/>
 					<textElement textAlignment="Right" verticalAlignment="Bottom">
 						<font size="9" isBold="true"/>
 					</textElement>
@@ -330,7 +333,7 @@ unds]]></text>
 Admissions]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="360" y="28" width="40" height="30" uuid="0ae63f81-0941-4375-a93f-9dd73b3a97a4"/>
+					<reportElement x="360" y="24" width="40" height="30" uuid="0ae63f81-0941-4375-a93f-9dd73b3a97a4"/>
 					<textElement textAlignment="Right" verticalAlignment="Bottom">
 						<font size="9" isBold="true"/>
 					</textElement>
@@ -338,7 +341,7 @@ Admissions]]></text>
 Sold]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="460" y="28" width="50" height="30" uuid="48d2c432-a4d1-4aff-b7d3-fe0deade98fd"/>
+					<reportElement x="460" y="24" width="50" height="30" uuid="48d2c432-a4d1-4aff-b7d3-fe0deade98fd"/>
 					<textElement textAlignment="Right" verticalAlignment="Bottom">
 						<font size="9" isBold="true"/>
 					</textElement>
@@ -346,7 +349,7 @@ Sold]]></text>
 Taxes]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="510" y="28" width="60" height="30" uuid="20ab513f-2b70-49fb-b046-7339e1695688"/>
+					<reportElement x="510" y="24" width="60" height="30" uuid="20ab513f-2b70-49fb-b046-7339e1695688"/>
 					<textElement textAlignment="Right" verticalAlignment="Bottom">
 						<font size="9" isBold="true"/>
 					</textElement>
@@ -365,7 +368,7 @@ Admissions]]></text>
 					<textElement>
 						<font size="9" isBold="true"/>
 					</textElement>
-					<textFieldExpression><![CDATA[DATEFORMAT($F{SHOWDATE},"M/D/YYYY") + " total"]]></textFieldExpression>
+					<textFieldExpression><![CDATA[DATEFORMAT($F{SHOWDATE},"MMM, d, YYYY") + " total"]]></textFieldExpression>
 				</textField>
 				<textField pattern="#,##0.###;(#,##0.###-)">
 					<reportElement x="280" y="0" width="40" height="15" uuid="5134778d-9676-49b7-b018-4eff702b1437">
@@ -426,40 +429,57 @@ Admissions]]></text>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="47" splitType="Stretch">
+		<band height="71" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="10" width="280" height="30" uuid="e7c4c9b3-7b16-4e79-9ee3-8a0d365ac60d"/>
+				<reportElement x="0" y="0" width="280" height="30" uuid="e7c4c9b3-7b16-4e79-9ee3-8a0d365ac60d"/>
 				<textElement verticalAlignment="Middle">
 					<font size="19" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Box Office Sales Report]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="300" y="12" width="270" height="30" uuid="1991bbf4-3743-4125-915c-c587c407509b"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="12"/>
+				<reportElement x="385" y="0" width="185" height="18" uuid="80fcf77e-88bf-4011-8ade-3a5297bd9813"/>
+				<textFieldExpression><![CDATA[uk.chromis.format.Formats.DATE.formatValue((java.util.Date)((Object[])((Object[])$P{ARG})[0])[1])]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="385" y="18" width="185" height="18" uuid="3a6a4a3c-1101-4e67-813a-f943a86aaf1f"/>
+				<textFieldExpression><![CDATA[uk.chromis.format.Formats.DATE.formatValue((java.util.Date)((Object[])((Object[])$P{ARG})[0])[3])]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="350" y="18" width="30" height="18" uuid="e7d826fd-527c-46f6-affd-e6483547b1f2"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[To: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="310" y="0" width="70" height="18" uuid="e1a4dc5f-322d-4987-b139-e04d07b43d85"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[Date Range:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="37" width="240" height="16" uuid="7d53cdc0-04f7-41dd-b1b4-a728a76fbd66">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA["Printed: " + DATEFORMAT(new java.util.Date(),"MMMM, d YYYY HH:mm a")]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{DL_SYSTEM}.getResourceAsText("Business.Name")]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="53" width="240" height="14" uuid="291f639f-f941-448c-a6d0-1bcd189e5349"/>
+				<textFieldExpression><![CDATA[$P{DL_SYSTEM}.getResourceAsText("Business.ContactInfo")]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
 	<pageHeader>
-		<band height="52" splitType="Stretch">
+		<band height="28" splitType="Stretch">
 			<printWhenExpression><![CDATA[$V{PAGE_NUMBER} > 1]]></printWhenExpression>
 			<staticText>
-				<reportElement x="0" y="10" width="280" height="30" uuid="bf525297-7a92-4532-92bd-780fede837aa"/>
+				<reportElement x="0" y="0" width="280" height="20" uuid="bf525297-7a92-4532-92bd-780fede837aa"/>
 				<textElement verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Box Office Sales Report]]></text>
 			</staticText>
-			<textField>
-				<reportElement x="300" y="12" width="270" height="30" uuid="fd2c55a8-fca8-4809-bd0b-bf73a4970e8a"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="12"/>
-				</textElement>
-				<textFieldExpression><![CDATA["Printed: " + DATEFORMAT(new java.util.Date(),"MMMM, d YYYY HH:mm a")]]></textFieldExpression>
-			</textField>
 		</band>
 	</pageHeader>
 	<columnHeader>
@@ -556,19 +576,26 @@ Admissions]]></text>
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="45" splitType="Stretch"/>
+		<band splitType="Stretch"/>
 	</columnFooter>
 	<pageFooter>
-		<band height="55" splitType="Stretch">
+		<band height="47" splitType="Stretch">
 			<textField>
-				<reportElement x="410" y="10" width="80" height="30" uuid="6b1751d4-7349-4036-8957-ddf6e6cfd2b4"/>
+				<reportElement x="0" y="10" width="80" height="30" uuid="6b1751d4-7349-4036-8957-ddf6e6cfd2b4"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA["Page " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report">
-				<reportElement x="490" y="10" width="80" height="30" uuid="4bcf188b-cc5c-4a08-a4c1-7eac25c2e9fb"/>
+				<reportElement x="80" y="10" width="80" height="30" uuid="4bcf188b-cc5c-4a08-a4c1-7eac25c2e9fb"/>
 				<textElement textAlignment="Left"/>
 				<textFieldExpression><![CDATA[" of " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="300" y="10" width="270" height="30" uuid="1991bbf4-3743-4125-915c-c587c407509b"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Printed: " + DATEFORMAT(new java.util.Date(),"MMMM, d YYYY HH:mm a")]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageFooter>
