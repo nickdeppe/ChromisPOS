@@ -107,6 +107,13 @@ public class SentenceUpdateResultSet implements DataResultSet {
     public java.util.Date getDate(int columnIndex) throws BasicException {
         throw new BasicException(LocalRes.getIntString("exception.nodataset"));
     }
+    
+    
+    
+    @Override
+    public java.util.Date getTime(int columnIndex) throws BasicException {
+        throw new BasicException(LocalRes.getIntString("exception.nodataset"));
+    }
 
     //public java.io.InputStream getBinaryStream(int columnIndex) throws DataException;
     /**

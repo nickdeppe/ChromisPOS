@@ -159,6 +159,18 @@ public abstract class BatchSentence extends BaseSentence {
          * @return
          * @throws BasicException
          */
+        @Override
+        public java.util.Date getTime(int columnIndex) throws BasicException {
+            throw new BasicException(LocalRes.getIntString("exception.nodataset"));
+        }
+        
+        
+        /**
+         *
+         * @param columnIndex
+         * @return
+         * @throws BasicException
+         */
                 @Override
         public byte[] getBytes(int columnIndex) throws BasicException {
             throw new BasicException(LocalRes.getIntString("exception.nodataset"));

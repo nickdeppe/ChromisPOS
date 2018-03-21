@@ -61,7 +61,7 @@ public class ShowFeaturePanel extends JPanelTable2 {
                 new Field("SHOWID", Datas.STRING, Formats.STRING),
                 new Field("FEATUREID", Datas.STRING, Formats.STRING),
                 new Field("SEQUENCE", Datas.INT, Formats.INT, false, false, true),
-                new Field("STARTIME", Datas.STRING, Formats.STRING, true, false, false),
+                new Field("STARTTIME", Datas.TIME, Formats.TIME, true, false, false),
                 new Field(AppLocal.getIntString("label.name"), Datas.STRING, Formats.STRING, true, true, true)
         );
 

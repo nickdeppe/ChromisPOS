@@ -113,6 +113,14 @@ public class NormalBuilder implements ISQLBuilderStatic {
 //        }
 
         @Override
+        public void setTime(int paramIndex, java.util.Date dValue) throws BasicException {
+            ensurePlace(paramIndex - 1);
+            java.sql.Time newTime = new java.sql.Time(dValue.getTime());
+            m_aParams.set(paramIndex - 1, DataWriteUtils.getSQLValue(newTime));
+        }
+        
+        
+        @Override
         public void setBytes(int paramIndex, byte[] value) throws BasicException {
             throw new BasicException(LocalRes.getIntString("exception.noparamtype"));
         }

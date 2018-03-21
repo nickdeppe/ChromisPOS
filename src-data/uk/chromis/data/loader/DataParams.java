@@ -66,6 +66,11 @@ public abstract class DataParams implements DataWrite {
         dw.setDate(paramIndex, dValue);
     }
     
+    @Override
+    public void setTime(int paramIndex, Date dValue) throws BasicException {
+        dw.setTime(paramIndex, dValue);
+    }
+    
     public void setBytes(int paramIndex, byte[] value) throws BasicException {
         dw.setBytes(paramIndex, value);
     }

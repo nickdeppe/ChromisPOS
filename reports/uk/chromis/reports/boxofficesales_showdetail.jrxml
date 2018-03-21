@@ -77,7 +77,7 @@ ORDER BY
 				<textElement>
 					<font size="10"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{_THIS}.getStartTime()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[DATEFORMAT($F{_THIS}.getStartTime(),"hh:mm a")]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="70" y="0" width="190" height="16" uuid="862173cd-7478-4078-9d74-f27c8adbff2a"/>

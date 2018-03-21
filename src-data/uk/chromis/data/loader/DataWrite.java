@@ -37,6 +37,8 @@ public interface DataWrite {
     public void setTimestamp(int paramIndex, java.util.Date dValue) throws BasicException;
 
     public void setDate(int paramIndex, java.util.Date dValue) throws BasicException;
+    
+    public void setTime(int paramIndex, java.util.Date dValue) throws BasicException;
 
     public void setBytes(int paramIndex, byte[] value) throws BasicException;
 

@@ -155,6 +155,23 @@ public abstract class JDBCSentence extends BaseSentence {
                 throw new BasicException(eSQL);
             }
         }
+        
+        
+        /**
+         *
+         * @param columnIndex
+         * @return
+         * @throws BasicException
+         */
+        @Override
+        public java.sql.Time getTime(int columnIndex) throws BasicException {
+            try {
+                java.sql.Time dt = m_rs.getTime(columnIndex);
+                return dt;
+            } catch (SQLException eSQL) {
+                throw new BasicException(eSQL);
+            }
+        }
 
         /**
          *

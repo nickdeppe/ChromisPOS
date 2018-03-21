@@ -168,7 +168,11 @@ public class JBoxOfficePanel extends JPanel implements ListSelectionListener {
 
         @Override
         public int getSize() {
-            return m_showList.size();
+            if ( m_showList == null ) {
+                return 0;
+            } else {
+                return m_showList.size();
+            }
         }
 
         @Override

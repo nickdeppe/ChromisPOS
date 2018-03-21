@@ -22,9 +22,11 @@ import java.awt.image.BufferedImage;
 import java.util.Date;
 import uk.chromis.basic.BasicException;
 import uk.chromis.data.loader.DataRead;
+import uk.chromis.data.loader.Datas;
 import uk.chromis.data.loader.IKeyed;
 import uk.chromis.data.loader.ImageUtils;
 import uk.chromis.data.loader.SerializerRead;
+import uk.chromis.format.Formats;
 
 /**
  *
@@ -37,7 +39,7 @@ public class ShowFeaturesInfo implements IKeyed, Cloneable {
     protected String m_sShowID;
     protected String m_sFeatureID;
     protected Integer m_iSequence;
-    protected String m_sStartTime;
+    protected Date m_dStartTime;
     protected String m_sFeatureName;
     protected BufferedImage m_Image;
     protected Integer m_iRuntime;
@@ -55,7 +57,7 @@ public class ShowFeaturesInfo implements IKeyed, Cloneable {
         m_sShowID = null;
         m_sFeatureID = null;
         m_iSequence = null;
-        m_sStartTime = null;
+        m_dStartTime = null;
         m_sFeatureName = null;
         m_Image = null;
         m_iRuntime = null;
@@ -65,12 +67,12 @@ public class ShowFeaturesInfo implements IKeyed, Cloneable {
         m_sExchangeName = null;
     }
 
-    public ShowFeaturesInfo( String id, String showID, String featureID, Integer sequence, String startTime, String featureName, BufferedImage image, Integer runtime, String ratingID, Boolean active, String ratingName, String exchangeName ) {
+    public ShowFeaturesInfo( String id, String showID, String featureID, Integer sequence, Date startTime, String featureName, BufferedImage image, Integer runtime, String ratingID, Boolean active, String ratingName, String exchangeName ) {
         m_ID = id;
         m_sShowID = showID;
         m_sFeatureID = featureID;
         m_iSequence = sequence;
-        m_sStartTime = startTime;
+        m_dStartTime = startTime;
         m_sFeatureName = featureName;
         m_Image = image;
         m_iRuntime = runtime;
@@ -118,12 +120,12 @@ public class ShowFeaturesInfo implements IKeyed, Cloneable {
         m_iSequence = sequence;
     }
     
-    public final String getStartTime() {
-        return m_sStartTime;
+    public final Date getStartTime() {
+        return m_dStartTime;
     }
     
-    public final void setStartTime(String startTime) {
-        m_sStartTime = startTime;
+    public final void setStartTime(Date startTime) {
+        m_dStartTime = startTime;
     }
     
     public final String getFeatureName() {
@@ -184,7 +186,7 @@ public class ShowFeaturesInfo implements IKeyed, Cloneable {
 
     @Override
     public final String toString() {
-        return m_sStartTime + " - " + m_sFeatureName + " - " + m_sRatingName;
+        return Formats.TIMEHOURMINAMPM.formatValue(m_dStartTime) + " - " + m_sFeatureName + " - " + m_sRatingName;
     }
     
     @Override
@@ -201,7 +203,7 @@ public class ShowFeaturesInfo implements IKeyed, Cloneable {
         return new SerializerRead() {
             @Override
             public Object readValues(DataRead dr) throws BasicException {
-                return new ShowFeaturesInfo(dr.getString(1), dr.getString(2), dr.getString(3), dr.getInt(4), dr.getString(5), dr.getString(6), ImageUtils.readImage(dr.getBytes(7)), dr.getInt(8), dr.getString(9), dr.getBoolean(10), dr.getString(11), dr.getString(12));
+                return new ShowFeaturesInfo(dr.getString(1), dr.getString(2), dr.getString(3), dr.getInt(4), dr.getTime(5), dr.getString(6), ImageUtils.readImage(dr.getBytes(7)), dr.getInt(8), dr.getString(9), dr.getBoolean(10), dr.getString(11), dr.getString(12));
             }
         };
     }

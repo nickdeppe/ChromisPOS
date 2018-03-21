@@ -163,12 +163,7 @@ public class ShowFeatureEditor extends javax.swing.JPanel implements EditorRecor
         showKey = obj[1];
         featureModel.setSelectedKey(obj[2]);
         m_jSequence.setValue(obj[3]);
-        try {
-            Date getDate = (Date)Formats.TIMEHOURMINAMPM.parseValue(obj[4].toString());
-            m_jStartTime.setValue(getDate);
-        } catch (BasicException ex) {
-            
-        }
+        m_jStartTime.setValue(obj[4]);
 
         m_jFeature.setEnabled(true);
         m_jSequence.setEnabled(true);
@@ -189,12 +184,7 @@ public class ShowFeatureEditor extends javax.swing.JPanel implements EditorRecor
         showKey = obj[1];
         featureModel.setSelectedKey(obj[2]);
         m_jSequence.setValue(obj[3]);
-        try {
-            Date getDate = (Date)Formats.TIMEHOURMINAMPM.parseValue(obj[4].toString());
-            m_jStartTime.setValue(getDate);
-        } catch (BasicException ex) {
-            
-        }
+        m_jStartTime.setValue(obj[4]);
         
         m_jFeature.setEnabled(false);
         m_jSequence.setEnabled(false);
@@ -228,7 +218,7 @@ public class ShowFeatureEditor extends javax.swing.JPanel implements EditorRecor
             showKey,
             Formats.STRING.formatValue(featureModel.getSelectedKey()),
             Formats.INT.parseValue(m_jSequence.getValue().toString()),
-            Formats.TIMEHOURMINAMPM.formatValue(m_jStartTime.getValue()),
+            (java.util.Date)m_jStartTime.getValue(),
             Formats.STRING.formatValue(featureModel.getSelectedText())
         };
     }

@@ -928,7 +928,7 @@
             <column name="SEQUENCE" type="integer">
                 <constraints nullable="false"/>
             </column>
-            <column name="STARTTIME" type="char(8)">
+            <column name="STARTTIME" type="time">
                 <constraints nullable="false"/>
             </column>
         </createTable>

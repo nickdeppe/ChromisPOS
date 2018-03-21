@@ -42,8 +42,10 @@ public abstract class Datas {
     public final static Datas NULL = new DatasNULL();
     public final static Datas BIGDECIMAL = new DatasBIGDECIMAL();
     public final static Datas DATE = new DatasDATE();
+    public final static Datas TIME = new DatasTIME();
     private static DateFormat tsf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
     private static DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+    private static DateFormat tf = new SimpleDateFormat("HH:mm:ss.SSS");
 
     private Datas() {
     }
@@ -278,6 +280,37 @@ public abstract class Datas {
         }
     }
 
+    
+
+    private static final class DatasTIME extends Datas {
+
+        @Override
+        public Object getValue(DataRead dr, int i) throws BasicException {
+            return dr.getTime(i);
+        }
+
+        @Override
+        public void setValue(DataWrite dw, int i, Object value) throws BasicException {
+            dw.setTime(i, (java.util.Date) value);
+        }
+
+        @Override
+        public Class getClassValue() {
+            return java.util.Date.class;
+        }
+
+        @Override
+        protected String toStringAbstract(Object value) {
+            return tf.format(value);
+        }
+
+        @Override
+        protected int compareAbstract(Object o1, Object o2) {
+            return ((java.util.Date) o1).compareTo((java.util.Date) o2);
+        }
+    }
+    
+    
     private static final class DatasBYTES extends Datas {
 
         public Object getValue(DataRead dr, int i) throws BasicException {
