@@ -28,12 +28,14 @@ import uk.chromis.pos.forms.AppConfig;
  */
 public class JPanelConfigBoxOffice extends javax.swing.JPanel implements PanelConfig {
 
-    private DirtyManager dirty = new DirtyManager();
+    private final DirtyManager dirty = new DirtyManager();
 
     public JPanelConfigBoxOffice() {
         initComponents();
 
         jchkAllowRegularProducts.addActionListener(dirty);
+        jchkResetShowDate.addActionListener(dirty);
+        
     }
 
     /**
@@ -60,6 +62,7 @@ public class JPanelConfigBoxOffice extends javax.swing.JPanel implements PanelCo
     @Override
     public void loadProperties() {
         jchkAllowRegularProducts.setSelected(AppConfig.getInstance().getBoolean("boxoffice.allowregularproducts"));
+        jchkResetShowDate.setSelected(AppConfig.getInstance().getBoolean("boxoffice.resetshowdate"));
 
         dirty.setDirty(false);
     }
@@ -70,6 +73,7 @@ public class JPanelConfigBoxOffice extends javax.swing.JPanel implements PanelCo
     @Override
     public void saveProperties() {
         AppConfig.getInstance().setBoolean("boxoffice.allowregularproducts", jchkAllowRegularProducts.isSelected());
+        AppConfig.getInstance().setBoolean("boxoffice.resetshowdate", jchkResetShowDate.isSelected());
         dirty.setDirty(false);
     }
 
@@ -82,6 +86,7 @@ public class JPanelConfigBoxOffice extends javax.swing.JPanel implements PanelCo
     private void initComponents() {
 
         jchkAllowRegularProducts = new eu.hansolo.custom.SteelCheckBox();
+        jchkResetShowDate = new eu.hansolo.custom.SteelCheckBox();
 
         setMinimumSize(new java.awt.Dimension(700, 500));
         setPreferredSize(new java.awt.Dimension(700, 650));
@@ -89,13 +94,22 @@ public class JPanelConfigBoxOffice extends javax.swing.JPanel implements PanelCo
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("pos_messages"); // NOI18N
         jchkAllowRegularProducts.setText(bundle.getString("label.boxofficeallowstandardproducts")); // NOI18N
 
+        jchkResetShowDate.setText(bundle.getString("label.boxofficeallowstandardproducts")); // NOI18N
+        jchkResetShowDate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jchkResetShowDateActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jchkAllowRegularProducts, javax.swing.GroupLayout.PREFERRED_SIZE, 403, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jchkAllowRegularProducts, javax.swing.GroupLayout.PREFERRED_SIZE, 403, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jchkResetShowDate, javax.swing.GroupLayout.PREFERRED_SIZE, 403, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(291, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -103,13 +117,20 @@ public class JPanelConfigBoxOffice extends javax.swing.JPanel implements PanelCo
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jchkAllowRegularProducts, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(464, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jchkResetShowDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(578, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jchkResetShowDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jchkResetShowDateActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jchkResetShowDateActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private eu.hansolo.custom.SteelCheckBox jchkAllowRegularProducts;
+    private eu.hansolo.custom.SteelCheckBox jchkResetShowDate;
     // End of variables declaration//GEN-END:variables
 
 }

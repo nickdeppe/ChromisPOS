@@ -63,7 +63,11 @@ public interface CatalogSelector {
      *
      * @param l
      */
-    public void removeActionListener(ActionListener l);    
+    public void removeActionListener(ActionListener l);
+    
+    
+    
+    public void postSave();
     
 
 }

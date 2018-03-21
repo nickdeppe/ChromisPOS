@@ -24,9 +24,12 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
+          <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jchkAllowRegularProducts" min="-2" pref="403" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="jchkAllowRegularProducts" alignment="0" min="-2" pref="403" max="-2" attributes="0"/>
+                  <Component id="jchkResetShowDate" alignment="0" min="-2" pref="403" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace pref="291" max="32767" attributes="0"/>
           </Group>
       </Group>
@@ -36,7 +39,9 @@
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jchkAllowRegularProducts" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="464" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jchkResetShowDate" min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="578" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -48,6 +53,16 @@
           <ResourceString bundle="pos_messages.properties" key="label.boxofficeallowstandardproducts" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
         </Property>
       </Properties>
+    </Component>
+    <Component class="eu.hansolo.custom.SteelCheckBox" name="jchkResetShowDate">
+      <Properties>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="pos_messages.properties" key="label.boxofficeallowstandardproducts" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+        </Property>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jchkResetShowDateActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

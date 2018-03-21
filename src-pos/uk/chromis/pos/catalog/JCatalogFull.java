@@ -238,6 +238,11 @@ public class JCatalogFull extends JPanel implements ListSelectionListener, Catal
             cl.show(m_jProducts, "PRODUCT." + id);
         }
     }
+    
+    @Override
+    public void postSave() {
+        // If there is any processing that needs to happen after a ticket is saved, this is where it should go
+    }
 
 
     private class SelectedAction implements ActionListener {

@@ -420,6 +420,8 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
     protected abstract void resetSouthComponent();
 
     protected abstract void reLoadCatalog();
+    
+    protected abstract void finishTicket();
 
     @SuppressWarnings("empty-statement")
     @Override
@@ -1805,6 +1807,10 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
             // reset the payment info
             m_oTicket.resetTaxes();
             m_oTicket.resetPayments();
+            
+            // Do any post-save processing
+            finishTicket();
+            
         }
 
         // cancelled the ticket.total script

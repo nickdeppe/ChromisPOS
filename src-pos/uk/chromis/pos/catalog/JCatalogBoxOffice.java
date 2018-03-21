@@ -88,6 +88,15 @@ public class JCatalogBoxOffice extends JPanel implements ListSelectionListener, 
         this.jBoxOfficePanel.addPropertyChangeListener("Show", new JBoxOfficePanelChange(this.jBoxOfficePanel) );
     }
 
+    
+    @Override
+    public void postSave() {
+        // If there is any processing that needs to happen after a ticket is saved, this is where it should go
+        if (AppConfig.getInstance().getBoolean("boxoffice.resetshowdate")) {
+            this.jBoxOfficePanel.resetPanel();
+        }
+    }
+
 
 
     private class JBoxOfficePanelChange implements PropertyChangeListener {

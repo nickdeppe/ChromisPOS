@@ -143,6 +143,11 @@ public class JPanelTicketSales extends JPanelTicket {
 
     }
     
+    
+    public void finishTicket() {
+        m_cat.postSave();
+    }
+    
     private class CatalogListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {

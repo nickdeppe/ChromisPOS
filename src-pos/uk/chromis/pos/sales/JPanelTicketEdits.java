@@ -116,6 +116,12 @@ public class JPanelTicketEdits extends JPanelTicket {
     @Override
     protected void resetSouthComponent() {
     }
+
+    @Override
+    protected void finishTicket() {
+        // If any post-processing needs to happen after the ticket is saved, this is where it should go.
+        
+    }
       
     private class CatalogListener implements ActionListener {
         @Override
