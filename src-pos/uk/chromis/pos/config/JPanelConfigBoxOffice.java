@@ -94,7 +94,7 @@ public class JPanelConfigBoxOffice extends javax.swing.JPanel implements PanelCo
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("pos_messages"); // NOI18N
         jchkAllowRegularProducts.setText(bundle.getString("label.boxofficeallowstandardproducts")); // NOI18N
 
-        jchkResetShowDate.setText(bundle.getString("label.boxofficeallowstandardproducts")); // NOI18N
+        jchkResetShowDate.setText(bundle.getString("label.boxofficeresetdate")); // NOI18N
         jchkResetShowDate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jchkResetShowDateActionPerformed(evt);
