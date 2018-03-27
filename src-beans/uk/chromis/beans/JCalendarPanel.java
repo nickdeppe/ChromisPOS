@@ -194,51 +194,14 @@ public class JCalendarPanel extends javax.swing.JPanel {
 
         if (this.m_mindate == null && this.m_maxdate == null) {
             return true;
+        } else if ( this.m_mindate != null && !DateUtils.isDateLessThanOrEqual(this.m_mindate, dDate) ) {
+            return false;
+        } else if ( this.m_maxdate != null && !DateUtils.isDateGreaterThanOrEqual(this.m_maxdate, dDate)  ) {
+            return false;
         } else {
-            
-            if (this.m_mindate != null ) {
-                
-                Calendar c1 = Calendar.getInstance();
-                Calendar c2 = Calendar.getInstance();
-                c1.setTime(this.m_mindate);
-                c2.setTime(dDate);
-
-                int c1Day = c1.get(Calendar.DAY_OF_YEAR);
-                int c2Day = c2.get(Calendar.DAY_OF_YEAR);
-                int c1Year = c1.get(Calendar.YEAR);
-                int c2Year = c2.get(Calendar.YEAR);
-
-                if ( c1Year > c2Year) {
-                    return false;
-                } else if (c1Year == c2Year && c1Day > c2Day) {
-                    return false;
-                }
-
-            }
-            
-            if (this.m_maxdate != null ) {
-                
-                Calendar c1 = Calendar.getInstance();
-                Calendar c2 = Calendar.getInstance();
-                c1.setTime(this.m_maxdate);
-                c2.setTime(dDate);
-
-                int c1Day = c1.get(Calendar.DAY_OF_YEAR);
-                int c2Day = c2.get(Calendar.DAY_OF_YEAR);
-                int c1Year = c1.get(Calendar.YEAR);
-                int c2Year = c2.get(Calendar.YEAR);
-
-                if ( c1Year < c2Year) {
-                    return false;
-                } else if (c1Year == c2Year && c1Day < c2Day) {
-                    return false;
-                }
-
-            }
-            
             return true;
-            
         }
+            
     }
 
     private void renderDay() {

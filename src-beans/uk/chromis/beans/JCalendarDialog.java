@@ -277,12 +277,12 @@ public class JCalendarDialog extends javax.swing.JDialog {
         m_date = dateresult.getTime();
         
         if (JCalendarDialog.m_mindate != null) {
-            if (m_date.before(JCalendarDialog.m_mindate)) {
+            if (!DateUtils.isDateGreaterThanOrEqual(m_date, m_mindate)) {
                 m_date = null;
             }
         }
         if (JCalendarDialog.m_maxdate != null) {
-            if (m_date.after(JCalendarDialog.m_maxdate)) {
+            if (!DateUtils.isDateLessThanOrEqual(m_date, m_maxdate)) {
                 m_date = null;
             }
         }

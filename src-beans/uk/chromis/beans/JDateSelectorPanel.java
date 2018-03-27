@@ -71,8 +71,8 @@ public class JDateSelectorPanel extends javax.swing.JPanel {
 
     public void setMinDate(Date minDate) {
         this.minDate = minDate;
-        if (this.selectedDate.before(this.minDate)) {
-            this.minDate = this.selectedDate;
+        if (DateUtils.isDateLessThanOrEqual(this.selectedDate, this.minDate)) {
+            this.selectedDate = this.minDate;
         }
         this.setDate(this.selectedDate);
     }
