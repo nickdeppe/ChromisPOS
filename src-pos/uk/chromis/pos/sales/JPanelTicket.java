@@ -803,7 +803,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
                                         current_unit += loop_unit;
                                         loop_ticketline.setMultiply(0.0D);
                                         if (oLine.getTicketLine() == j) {
-                                            oLine.setTicketLine(i);
+                                            oLine = current_ticketline;
                                         }
                                         newLineNumber = i;
                                     }
@@ -823,7 +823,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
                                     loop_ticketline.setMultiply(0.0D);
                                     newLineNumber = i;
                                     if (oLine.getTicketLine() == j) {
-                                        oLine.setTicketLine(i);
+                                        oLine = current_ticketline;
                                     }
                                 }
                             }
