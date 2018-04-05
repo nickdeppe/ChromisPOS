@@ -6,8 +6,11 @@
 package uk.chromis.pos.catalog;
 
 import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.swing.*;
@@ -16,6 +19,8 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import uk.chromis.basic.BasicException;
 import uk.chromis.beans.JDateSelectorPanel;
+import uk.chromis.format.Formats;
+import uk.chromis.pos.forms.AppConfig;
 import uk.chromis.pos.forms.DataLogicSales;
 import uk.chromis.pos.ticket.ShowSalesInfo;
 import uk.chromis.pos.util.ThumbNailBuilder;
@@ -32,6 +37,7 @@ public class JBoxOfficePanel extends JPanel implements ListSelectionListener {
     private final ThumbNailBuilder m_thumbBuilder;
     private ShowSalesInfo m_currentShow;
     private ShowListModel m_showListModel;
+    private Timer m_timer;
     
     
     public JBoxOfficePanel(DataLogicSales dlSales) {
@@ -51,8 +57,18 @@ public class JBoxOfficePanel extends JPanel implements ListSelectionListener {
         
         jShowList.addListSelectionListener(this);
         
-        initializeDates();        
-        
+        initializeDates();
+    
+        // TODO: Monitor the current time
+        // If the date changes, then reset the date selector panel min and current date
+        m_timer = new Timer(100000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println(new Date());
+            }
+        });
+        m_timer.start();
+               
     }
     
     
@@ -69,12 +85,54 @@ public class JBoxOfficePanel extends JPanel implements ListSelectionListener {
         
     }
     
+    private Date getCurrentDate() {
+        AppConfig app = AppConfig.getInstance();
+        Date startOfDay;
+        Date now = new Date();
+        try {
+            startOfDay = (Date) Formats.TIME.parseValue(app.getProperty("boxoffice.workdaystart"));
+        } catch (BasicException ex) {
+            startOfDay = null;
+        }
+        if (startOfDay == null) {
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(new Date());
+            cal.set(Calendar.HOUR_OF_DAY, 0);
+            cal.set(Calendar.MINUTE, 0);
+            cal.set(Calendar.SECOND, 0);
+            cal.set(Calendar.MILLISECOND, 0);
+            startOfDay = cal.getTime();
+        }
+        
+        Calendar startCal = Calendar.getInstance();
+        Calendar nowCal = Calendar.getInstance();
+        Calendar compareCal = Calendar.getInstance();
+        startCal.setTime(startOfDay);
+        compareCal.setTime(now);
+        compareCal.set(Calendar.HOUR_OF_DAY, startCal.get(Calendar.HOUR_OF_DAY));
+        compareCal.set(Calendar.MINUTE, startCal.get(Calendar.MINUTE));
+        compareCal.set(Calendar.SECOND, startCal.get(Calendar.SECOND));
+        compareCal.set(Calendar.MILLISECOND, startCal.get(Calendar.MILLISECOND));
+        nowCal.setTime(now);
+        
+        if (nowCal.getTimeInMillis() < compareCal.getTimeInMillis()) {
+            // The current time is less than the start of the day
+            // So, use yesterday's date
+            nowCal.add(Calendar.DAY_OF_YEAR, -1);
+        }
+        
+        return nowCal.getTime();
+        
+    }
+    
     
     private void initializeDates() {
         
+        Date currentDate = getCurrentDate();
+        
         this.jDateSelectorPanel1.addPropertyChangeListener("Date", new JPanelDateChange(this.jDateSelectorPanel1) ); 
-        this.jDateSelectorPanel1.setMinDate(new Date());
-        this.jDateSelectorPanel1.setDate(new Date());
+        this.jDateSelectorPanel1.setMinDate(currentDate);
+        this.jDateSelectorPanel1.setDate(currentDate);
         
         this.resetPanel();
         
@@ -82,7 +140,7 @@ public class JBoxOfficePanel extends JPanel implements ListSelectionListener {
     
     
     public void resetPanel() {
-        this.jDateSelectorPanel1.setDate(new Date());
+        this.jDateSelectorPanel1.setDate(getCurrentDate());
     }
     
     

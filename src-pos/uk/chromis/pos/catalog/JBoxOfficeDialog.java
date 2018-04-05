@@ -16,7 +16,6 @@ import java.util.Date;
 import javax.swing.SwingUtilities;
 import uk.chromis.beans.LocaleResources;
 import uk.chromis.pos.forms.DataLogicSales;
-import uk.chromis.pos.sales.JPanelButtons;
 import uk.chromis.pos.ticket.ShowSalesInfo;
 
 /**
@@ -34,6 +33,9 @@ public class JBoxOfficeDialog extends javax.swing.JDialog  {
     
     /**
      * Creates new form jCatalogBoxOfficeDialog
+     * @param parent
+     * @param modal
+     * @param dlSales
      */
     public JBoxOfficeDialog(java.awt.Frame parent, boolean modal, DataLogicSales dlSales) {
         super(parent, modal);
