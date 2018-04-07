@@ -74,6 +74,7 @@ public class ShowsFilter extends javax.swing.JPanel implements ReportEditorCreat
     public void activate() throws BasicException {
 
         List b = theatreSentence.list();
+        b.add(0,null);
         theatreModel = new ComboBoxValModel(b);
         theatreModel.setSelectedFirst();
         m_jTheatre.setModel(theatreModel);

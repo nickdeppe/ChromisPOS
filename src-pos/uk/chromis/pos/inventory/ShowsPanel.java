@@ -27,21 +27,31 @@ import java.util.logging.Logger;
 import javax.swing.ListCellRenderer;
 import uk.chromis.basic.BasicException;
 import uk.chromis.data.gui.ListCellRendererBasic;
+import uk.chromis.data.loader.Datas;
+import uk.chromis.data.loader.QBFBuilder;
+import uk.chromis.data.loader.SerializerWriteBasic;
+import uk.chromis.data.loader.StaticSentence;
 import uk.chromis.data.loader.TableDefinition;
+import uk.chromis.data.model.Column;
+import uk.chromis.data.model.Field;
+import uk.chromis.data.model.PrimaryKey;
+import uk.chromis.data.model.Row;
+import uk.chromis.data.model.Table;
 import uk.chromis.data.user.EditorRecord;
 import uk.chromis.data.user.ListProvider;
 import uk.chromis.data.user.ListProviderCreator;
 import uk.chromis.data.user.SaveProvider;
+import uk.chromis.format.Formats;
 import uk.chromis.pos.forms.AppConfig;
 import uk.chromis.pos.forms.AppLocal;
 import uk.chromis.pos.forms.DataLogicSales;
-import uk.chromis.pos.panels.JPanelTable;
+import uk.chromis.pos.panels.JPanelTable2;
 
 /**
  *
  * @author 
  */
-public class ShowsPanel extends JPanelTable {
+public class ShowsPanel extends JPanelTable2 {
 
     private DataLogicSales m_dlSales;
     
@@ -69,46 +79,85 @@ public class ShowsPanel extends JPanelTable {
     @Override
     protected void init() {
 
+    
+
         m_dlSales = (DataLogicSales) app.getBean("uk.chromis.pos.forms.DataLogicSales");
-        tShows = m_dlSales.getTableShows();
         
         filter = new ShowsFilter();
         filter.init(app);
-       
+        filter.addActionListener(new ShowsPanel.ReloadActionListener());
 
-        try {
+
+        row = new Row(
+            new Field("ID", Datas.STRING, Formats.STRING),
+            new Field("THEATREID", Datas.STRING, Formats.STRING, false, true, true),
+            new Field("STARTDATE", Datas.DATE, Formats.DATE, true, true, true),
+            new Field("ENDDATE", Datas.DATE, Formats.DATE, true, false, false),
+            new Field("REPORTSTARTDATE", Datas.DATE, Formats.DATE),
+            new Field("REPORTSTARTDATE", Datas.DATE, Formats.DATE),
+            new Field("THEATRENAME", Datas.STRING, Formats.STRING, true, false, false)
+        );
+        
+
+        Table table = new Table(
+                "SHOWS",
+                new PrimaryKey("ID"),
+                new Column("THEATREID"),
+                new Column("STARTDATE"),
+                new Column("ENDDATE"),
+                new Column("REPORTSTARTDATE"),
+                new Column("REPORTENDDATE")
+        );
+        
+        lpr = new ListProviderCreator(
+            new StaticSentence(app.getSession(),
+                new QBFBuilder(
+                    "SELECT "
+                    + "S.ID, "
+                    + "S.THEATREID, "
+                    + "S.STARTDATE, "
+                    + "S.ENDDATE, "
+                    + "S.REPORTSTARTDATE, "
+                    + "S.REPORTENDDATE, "
+                    + "T.NAME AS THEATRENAME "
+                    + "FROM SHOWS S "
+                    + "INNER JOIN THEATRES T ON S.THEATREID = T.ID "
+                    + "WHERE ?(QBF_FILTER) "
+                    + "ORDER BY S.STARTDATE, S.ENDDATE, T.NAME",
+                    new String[] {
+                        "S.THEATREID",
+                        "S.ENDDATE"
+                    },
+                    false
+                ),
+                new SerializerWriteBasic(
+                    new Datas[]{
+                        Datas.OBJECT, Datas.STRING,
+                        Datas.OBJECT, Datas.DATE
+                    }
+                ),
+                row.getSerializerRead()
+            ),
+            filter
+        );
+        
+        spr = row.getSaveProvider(app.getSession(), table);
+
+        try {        
             editor = new ShowsEditor(m_dlSales, dirty, filter);
         } catch (BasicException ex) {
             Logger.getLogger(ShowsPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-
-        if (AppConfig.getInstance().getBoolean("display.longnames")) {
+        
+        
+        if (AppConfig.getInstance().getBoolean("display.longnames")) { 
             setListWidth(350);
+        } else {
+            setListWidth(300);
         }
 
 
     }
-
-
-    /**
-     *
-     * @return
-     */
-    @Override
-    public ListProvider getListProvider() {
-        return new ListProviderCreator(m_dlSales.getShowQBF(), filter);
-    }
-
-    /**
-     *
-     * @return
-     */
-    @Override
-    public SaveProvider getSaveProvider() {
-        return new SaveProvider(m_dlSales.getShowUpdate(), m_dlSales.getShowInsert(), m_dlSales.getShowDelete());
-    }
-
 
 
     /**
@@ -139,16 +188,7 @@ public class ShowsPanel extends JPanelTable {
     }
 
     
-    
-    /**
-     *
-     * @return
-     */
-    @Override
-    public ListCellRenderer getListCellRenderer() {
-        return new ListCellRendererBasic(tShows.getRenderStringBasic(new int[]{2,3}));
-    }
-    
+
     
     /**
      *

@@ -223,7 +223,8 @@ public class ShowsEditor extends javax.swing.JPanel implements EditorRecord {
             Formats.DATE.parseValue(m_jStartDate.getText()),
             Formats.DATE.parseValue(m_jEndDate.getText()),
             Formats.DATE.parseValue(m_jReportStartDate.getText()),
-            Formats.DATE.parseValue(m_jReportEndDate.getText())
+            Formats.DATE.parseValue(m_jReportEndDate.getText()),
+            Formats.STRING.formatValue(theatreModel.getSelectedText())
         };
     }
 
