@@ -35,8 +35,8 @@
         
         <modifySql dbms="mysql">
             <append value=" ENGINE = InnoDB DEFAULT CHARSET=utf8  "/>
-        </modifySql>                                                                 
-    </changeSet>    
+        </modifySql>
+    </changeSet>
     
     <changeSet author="Chromis POS" id="Create Attribute Table (New Database)">
         <createTable tableName="ATTRIBUTE">
@@ -283,7 +283,7 @@
             </column>
             <column name="DISPLAYNAME" type="varchar(255)">
                 <constraints nullable="false"/>
-            </column>            
+            </column>
             <column name="DESCRIPTION" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
@@ -291,7 +291,7 @@
         
         <modifySql dbms="mysql">
             <append value=" ENGINE = InnoDB DEFAULT CHARSET=utf8  "/>
-        </modifySql>                        
+        </modifySql>
     </changeSet>
 
  
@@ -308,48 +308,8 @@
         <modifySql dbms="mysql">
             <append value=" ENGINE = InnoDB DEFAULT CHARSET=utf8  "/>
         </modifySql>
-    </changeSet>     
-   
-   
-    <changeSet id="Create Boxoffice Exchange Table (New Database)" author="Chromis POS">
-        <createTable tableName="EXCHANGES">
-            <column name="ID" type="varchar(255)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="NAME" type="varchar(255)">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-        <modifySql dbms="mysql">
-            <append value=" ENGINE = InnoDB DEFAULT CHARSET=utf8  "/>
-        </modifySql>
     </changeSet>
    
-
-    <changeSet author="Chromis POS" id="Create Boxoffice Features Table (New Database)">
-        <createTable tableName="FEATURES">
-            <column name="ID" type="varchar(255)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="NAME" type="varchar(255)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="IMAGE" type="${blob.type}"/>
-            <column name="RUNTIME" type="integer">
-                <constraints nullable="false" />
-            </column>
-            <column name="RATINGID" type="varchar(255)"/>
-            <column name="EXCHANGEID" type="varchar(255)"/>
-            <column name="ACTIVE" type="${boolean.type}" defaultValueBoolean="true">
-                <constraints nullable="false" />
-            </column>
-        </createTable>
-        <modifySql dbms="mysql">
-            <append value=" ENGINE = InnoDB DEFAULT CHARSET=utf8  "/>
-        </modifySql>
-    </changeSet>
-        
-             
                        
     <changeSet author="Chromis POS" id="Create Floors Table (New Database)">
         <createTable tableName="FLOORS">
@@ -365,17 +325,17 @@
         <modifySql dbms="mysql">
             <append value=" ENGINE = InnoDB DEFAULT CHARSET=utf8  "/>
         </modifySql>
-    </changeSet>          
+    </changeSet>
             
     <changeSet author="Chromis POS" id="Create Historic Version Table (New Database)">
         <createTable tableName="HVERSIONS">
-            <column name="VERSION" type="varchar(50)"/>            
-        </createTable> 
+            <column name="VERSION" type="varchar(50)"/>
+        </createTable>
         
         <modifySql dbms="mysql">
             <append value=" ENGINE = InnoDB DEFAULT CHARSET=utf8  "/>
-        </modifySql>                    
-    </changeSet>             
+        </modifySql>
+    </changeSet>
                 
     <changeSet author="Chromis POS" id="Create LEAVES Table (New Database)">
         <createTable tableName="LEAVES">
@@ -400,7 +360,7 @@
         <modifySql dbms="mysql">
             <append value=" ENGINE = InnoDB DEFAULT CHARSET=utf8  "/>
         </modifySql>
-    </changeSet>                  
+    </changeSet>
     
     <changeSet author="Chromis POS" id="Create Lineremoved Table (New Database)">
         <createTable tableName="LINEREMOVED">
@@ -411,7 +371,7 @@
                 <constraints  nullable="false"/>
             </column>
             <column name="NAME" type="varchar(255)"/>
-            <column name="TICKETID" type="varchar(255)"/>                
+            <column name="TICKETID" type="varchar(255)"/>
             <column name="PRODUCTID" type="varchar(255)" />
             <column name="PRODUCTNAME" type="varchar(255)"/>
             <column name="UNITS" type="double precision">
@@ -422,7 +382,7 @@
         <modifySql dbms="mysql">
             <append value=" ENGINE = InnoDB DEFAULT CHARSET=utf8  "/>
         </modifySql>
-    </changeSet>                   
+    </changeSet>
                                     
 
     <changeSet author="Chromis POS" id="Create Locations Table (New Database)">
@@ -438,21 +398,21 @@
 
         <modifySql dbms="mysql">
             <append value=" ENGINE = InnoDB DEFAULT CHARSET=utf8  "/>
-        </modifySql>       
-    </changeSet>                                                    
+        </modifySql>
+    </changeSet>
                                                                     
     <changeSet author="Chromis POS" id="Create Dynamic menu entries table (New Database)">
         <createTable tableName="MENUENTRIES">
             <column name="ENTRY" type="varchar(255)" />
             <column name="FOLLOWS" type="varchar(255)" />
             <column name="GRAPHIC" type="varchar(255)" />
-            <column name="TITLE" type="varchar(255)" />                
+            <column name="TITLE" type="varchar(255)" />
         </createTable>
         
         <modifySql dbms="mysql">
             <append value=" ENGINE = InnoDB DEFAULT CHARSET=utf8  "/>
-        </modifySql>        
-    </changeSet>                                                                                                 
+        </modifySql>
+    </changeSet>
     
     <changeSet author="Chromis POS" id="Create Moorers Table (New Database)">
         <createTable tableName="MOORERS">
@@ -467,31 +427,31 @@
         <modifySql dbms="mysql">
             <append value=" ENGINE = InnoDB DEFAULT CHARSET=utf8  "/>
         </modifySql>
-    </changeSet> 
+    </changeSet>
   
     <changeSet author="Chromis POS" id="Create Orders Table (New Database)">
         <createTable tableName="ORDERS">
             <column name="ID" type="varchar(50)">
                 <constraints nullable="false"/>
             </column>
-            <column name="ORDERID" type="varchar(50)"/>                
-            <column name="QTY" type="int"/>           
+            <column name="ORDERID" type="varchar(50)"/>
+            <column name="QTY" type="int"/>
             <column name="DETAILS" type="varchar(255)"/>
             <column name="ATTRIBUTES" type="varchar(255)"/>
             <column name="NOTES" type="varchar(255)"/>
             <column name="TICKETID" type="varchar(255)"/>
             <column name="ORDERTIME" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP"/>
-            <column name="DISPLAYID" type="int"/>  
+            <column name="DISPLAYID" type="int"/>
             <column name="AUXILIARY" type="int"/>
-            <column name="SEQUENCE" type="int" defaultValueNumeric="0">  
-                <constraints nullable="false"/>  
-            </column>                                
-        </createTable> 
+            <column name="SEQUENCE" type="int" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
 
         <modifySql dbms="mysql">
             <append value=" ENGINE = InnoDB DEFAULT CHARSET=utf8  "/>
-        </modifySql>                                                                 
-    </changeSet>  
+        </modifySql>
+    </changeSet>
      
     <changeSet author="Chromis POS" id="Create PAYMENTS Table (New Database)">
         <createTable tableName="PAYMENTS">
@@ -519,7 +479,7 @@
         <modifySql dbms="mysql">
             <append value=" ENGINE = InnoDB DEFAULT CHARSET=utf8  "/>
         </modifySql>
-    </changeSet>     
+    </changeSet>
        
     <changeSet author="Chromis POS" id="Create People Table (New Database)">
         <createTable tableName="PEOPLE">
@@ -584,7 +544,7 @@
             <column name="CODE" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="CODETYPE" type="varchar(50)"/>                
+            <column name="CODETYPE" type="varchar(50)"/>
             <column name="NAME" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
@@ -637,26 +597,24 @@
             <column name="STOCKUNITS" type="double precision" defaultValueNumeric="0.0">
                 <constraints nullable="false"/>
             </column>
-            <column name="ALIAS" type="varchar(50)"/>  
+            <column name="ALIAS" type="varchar(50)"/>
             <column name="ALWAYSAVAILABLE" type="${boolean.type}" defaultValueBoolean="false" >
-                <constraints nullable="false"/>  
-            </column> 
-            <column name="DISCOUNTED" type="varchar(5)" defaultValue="no"></column>  
+                <constraints nullable="false"/>
+            </column>
+            <column name="DISCOUNTED" type="varchar(5)" defaultValue="no"></column>
             <column name="CANDISCOUNT" type="${boolean.type}" defaultValueBoolean="true" >
-                <constraints nullable="false"/>  
-            </column> 
+                <constraints nullable="false"/>
+            </column>
             <column name="ISCATALOG" type="${boolean.type}" />
             <column name="CATORDER" type="integer"/>
             <column name="ISPACK" type="${boolean.type}" defaultValueBoolean="false" >
                 <constraints nullable="false"/>
             </column>
             <column name="PACKQUANTITY" type="double precision"/>
-            <column name="PACKPRODUCT" type="varchar(255)"/>                       
-            <column name="PROMOTIONID" type="varchar(50)" />                                 
-            <column name="ALLPRODUCTS" type="${boolean.type}" defaultValueBoolean="false"/>  
-            <column name="MANAGESTOCK" type="${boolean.type}" defaultValueBoolean="true" />                                                                                                                                                     
-            <column name="ISBOXOFFICE" type="${boolean.type}" defaultValueBoolean="false" />
-            <column name="ISBOXOFFICEREPORTED" type="${boolean.type}" defaultValueBoolean="false" />
+            <column name="PACKPRODUCT" type="varchar(255)"/>
+            <column name="PROMOTIONID" type="varchar(50)" />
+            <column name="ALLPRODUCTS" type="${boolean.type}" defaultValueBoolean="false"/>
+            <column name="MANAGESTOCK" type="${boolean.type}" defaultValueBoolean="true" />
         </createTable>
 
         <modifySql dbms="mysql">
@@ -682,7 +640,7 @@
         <modifySql dbms="mysql">
             <append value=" ENGINE = InnoDB DEFAULT CHARSET=utf8  "/>
         </modifySql>
-    </changeSet>           
+    </changeSet>
             
     <changeSet author="Chromis POS" id="Create recipes table d" dbms="derby">
         <sql>
@@ -692,61 +650,45 @@
             PRODUCT_KIT VARCHAR(255) NOT NULL,
             QUANTITY DOUBLE NOT NULL);           
         </sql>
-    </changeSet>                                                                                                                                                                                                                                                                                                                                                                                                                                          
+    </changeSet>
   
     <changeSet author="Chromis POS" id="Create recipes table - mp (New Database)" dbms="mysql, postgresql" >
         <createTable tableName="PRODUCTS_KIT">
-            <column name="ID" type="varchar(255)"/>                 
-            <column name="PRODUCT" type="varchar(255)" > 
+            <column name="ID" type="varchar(255)"/>
+            <column name="PRODUCT" type="varchar(255)" >
                 <constraints nullable="false" />
             </column>
-            <column name="PRODUCT_KIT" type="varchar(255)" >   
+            <column name="PRODUCT_KIT" type="varchar(255)" >
                 <constraints nullable="false" />
-            </column>         
-            <column name="QUANTITY" type="double precision" >       
+            </column>
+            <column name="QUANTITY" type="double precision" >
                 <constraints nullable="false" />
-            </column>            
-        </createTable>                        
+            </column>
+        </createTable>
                           
         <modifySql dbms="mysql">
             <append value=" ENGINE = InnoDB DEFAULT CHARSET=utf8  "/>
-        </modifySql>                                               
-    </changeSet>  
+        </modifySql>
+    </changeSet>
             
-    <changeSet author="Chromis POS" id="Create Promotion Table (New Database)">       
+    <changeSet author="Chromis POS" id="Create Promotion Table (New Database)">
         <createTable tableName="PROMOTIONS">
             <column name="ID" type="varchar(50)">
                 <constraints nullable="false"/>
             </column>
             <column name="NAME" type="varchar(255)" >
-                <constraints nullable="false" />                
+                <constraints nullable="false" />
             </column>
-            <column name="CRITERIA"  type="${blob.type}"/>           
+            <column name="CRITERIA"  type="${blob.type}"/>
             <column name="SCRIPT"  type="${blob.type}" >
                 <constraints nullable="false" />
             </column>
             <column name="ALLPRODUCTS" type="${boolean.type}"   
-                    defaultValueBoolean="false"/>  
+                    defaultValueBoolean="false"/>
             <column name="ISENABLED" type="${boolean.type}" 
                     defaultValueBoolean="true"/>
-        </createTable> 
-        
-        <modifySql dbms="mysql">
-            <append value=" ENGINE = InnoDB DEFAULT CHARSET=utf8  "/>
-        </modifySql>                  
-    </changeSet>            
-               
-               
-    <changeSet author="Chromis POS" id="create Ratings Table (New Database)">
-        <createTable tableName="RATINGS">
-            <column name="ID" type="varchar(255)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="NAME" type="varchar(255)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="ACTIVE" type="${boolean.type}" defaultValueBoolean="true"/>
         </createTable>
+        
         <modifySql dbms="mysql">
             <append value=" ENGINE = InnoDB DEFAULT CHARSET=utf8  "/>
         </modifySql>
@@ -771,7 +713,7 @@
         <modifySql dbms="mysql">
             <append value=" ENGINE = InnoDB DEFAULT CHARSET=utf8  "/>
         </modifySql>
-    </changeSet>              
+    </changeSet>
                  
     <changeSet author="Chromis POS" id="Create reservation_CUSTOMERS Table (New Database)">
         <createTable tableName="RESERVATION_CUSTOMERS">
@@ -786,7 +728,7 @@
         <modifySql dbms="mysql">
             <append value=" ENGINE = InnoDB DEFAULT CHARSET=utf8  "/>
         </modifySql>
-    </changeSet>                                   
+    </changeSet>
                     
     <changeSet author="Chromis POS" id="Create reservations Table (New Database)">
         <createTable tableName="RESERVATIONS">
@@ -833,7 +775,7 @@
         <modifySql dbms="mysql">
             <append value=" ENGINE = InnoDB DEFAULT CHARSET=utf8  "/>
         </modifySql>
-    </changeSet>                
+    </changeSet>
                 
     <changeSet author="Chromis POS" id="Create Roles Table (New Database)" >
         <createTable tableName="ROLES">
@@ -845,14 +787,14 @@
             </column>
             <column name="PERMISSIONS" type="${blob.type}"/>
             <column name="RIGHTSLEVEL" type="int" defaultValueNumeric="4" >
-                <constraints nullable="false"/> 
+                <constraints nullable="false"/>
             </column>
         </createTable>
  
         <modifySql dbms="mysql">
             <append value=" ENGINE = InnoDB DEFAULT CHARSET=utf8  "/>
         </modifySql>
-    </changeSet>                       
+    </changeSet>
                                   
     <changeSet author="Chromis POS" id="Create SharedTICKETS Table (New Database)">
         <createTable tableName="SHAREDTICKETS">
@@ -872,7 +814,7 @@
         <modifySql dbms="mysql">
             <append value=" ENGINE = InnoDB DEFAULT CHARSET=utf8  "/>
         </modifySql>
-    </changeSet>                       
+    </changeSet>
    
     <changeSet author="Chromis POS" id="Create SHIFT_BREAKS Table (New Database)">
         <createTable tableName="SHIFT_BREAKS">
@@ -903,7 +845,7 @@
             </column>
             <column name="STARTSHIFT" type="timestamp">
                 <constraints nullable="false"/>
-            </column> 
+            </column>
             <column name="ENDSHIFT" type="timestamp"/>
             <column name="PPLID" type="varchar(255)"/>
         </createTable>
@@ -914,67 +856,16 @@
     </changeSet>
     
 
-    <changeSet author="Chromis POS" id="Create box office show features table (New Database)">
-        <createTable tableName="SHOWFEATURES">
-            <column name="ID" type="varchar(255)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="SHOWID" type="varchar(255)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="FEATUREID" type="varchar(255)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="SEQUENCE" type="integer">
-                <constraints nullable="false"/>
-            </column>
-            <column name="STARTTIME" type="time">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-        <modifySql dbms="mysql">
-            <append value=" ENGINE = InnoDB DEFAULT CHARSET=utf8  "/>
-        </modifySql>
-    </changeSet>    
-    
-    
-    <changeSet author="Chromis POS" id="Create box office show table (New Database)">
-        <createTable tableName="SHOWS">
-            <column name="ID" type="varchar(255)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="THEATREID" type="varchar(255)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="STARTDATE" type="date">
-                <constraints nullable="false"/>
-            </column>
-            <column name="ENDDATE" type="date">
-                <constraints nullable="false"/>
-            </column>
-            <column name="REPORTSTARTDATE" type="date">
-                <constraints nullable="false"/>
-            </column>
-            <column name="REPORTENDDATE" type="date">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-        <modifySql dbms="mysql">
-            <append value=" ENGINE = InnoDB DEFAULT CHARSET=utf8  "/>
-        </modifySql>
-    </changeSet>    
-    
-
-    <changeSet author="Chromis POS" id="Create SITEGUID table. (New Database)"  >    
+    <changeSet author="Chromis POS" id="Create SITEGUID table. (New Database)"  >
         <createTable tableName="SITEGUID">
             <column name="GUID" type="varchar(50)">
                 <constraints nullable="false"/>
-            </column> 
-        </createTable>   
+            </column>
+        </createTable>
         
         <modifySql dbms="mysql">
             <append value=" ENGINE = InnoDB DEFAULT CHARSET=utf8  "/>
-        </modifySql>                                              
+        </modifySql>
     </changeSet>
 
     <changeSet author="Chromis POS" id="Create new STOCKCHANGES Table (New Database)">
@@ -982,22 +873,22 @@
             <column name="ID" type="varchar(100)">
                 <constraints  nullable="false"/>
             </column>
-            <column name="LOCATION" type="varchar(255)"/>                
-            <column name="USERNAME" type="varchar(50)"/>           
+            <column name="LOCATION" type="varchar(255)"/>
+            <column name="USERNAME" type="varchar(50)"/>
             <column name="UPLOADTIME" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP"/>
             <column name="PRODUCTID" type="varchar(255)"/>
             <column name="CHANGETYPE" type="int"/>
             <column name="DISPLAY" type="varchar(255)"/>
             <column name="FIELD" type="varchar(50)"/>
-            <column name="TEXTVALUE" type="varchar(255)"/> 
-            <column name="BLOBVALUE" type="${blob.type}"/>                                    
+            <column name="TEXTVALUE" type="varchar(255)"/>
+            <column name="BLOBVALUE" type="${blob.type}"/>
             <column name="CHANGES_PROCESSED" type="int"/>
-        </createTable>  
+        </createTable>
         
         <modifySql dbms="mysql">
             <append value=" ENGINE = InnoDB DEFAULT CHARSET=utf8  "/>
-        </modifySql>                  
-    </changeSet> 
+        </modifySql>
+    </changeSet>
 
     <changeSet author="Chromis POS" id="Create Stock current Table (New Database)">
         <createTable tableName="STOCKCURRENT">
@@ -1048,7 +939,7 @@
         <modifySql dbms="mysql">
             <append value=" ENGINE = InnoDB DEFAULT CHARSET=utf8  "/>
         </modifySql>
-    </changeSet>                        
+    </changeSet>
                           
     <changeSet author="Chromis POS" id="Create Stock level Table (New Database)">
         <createTable tableName="STOCKLEVEL">
@@ -1072,7 +963,7 @@
         <modifySql dbms="mysql">
             <append value=" ENGINE = InnoDB DEFAULT CHARSET=utf8  "/>
         </modifySql>
-    </changeSet>                         
+    </changeSet>
       
     <changeSet author="Chromis POS" id="Create TaxCATEGORIES Table (New Database)">
         <createTable tableName="TAXCATEGORIES">
@@ -1087,7 +978,7 @@
         <modifySql dbms="mysql">
             <append value=" ENGINE = InnoDB DEFAULT CHARSET=utf8  "/>
         </modifySql>
-    </changeSet>                                                                           
+    </changeSet>
                                                                                               
     <changeSet author="Chromis POS" id="Create TaxCustCategories Table (New Database)">
         <createTable tableName="TAXCUSTCATEGORIES">
@@ -1128,8 +1019,8 @@
 
         <modifySql dbms="mysql">
             <append value=" ENGINE = InnoDB DEFAULT CHARSET=utf8  "/>
-        </modifySql>    
-    </changeSet>                             
+        </modifySql>
+    </changeSet>
     
     <changeSet author="Chromis POS" id="Create TAXLINES Table (New Database)">
         <createTable tableName="TAXLINES">
@@ -1154,38 +1045,6 @@
             <append value=" ENGINE = InnoDB DEFAULT CHARSET=utf8  "/>
         </modifySql>
     </changeSet>
-    
-    
-    
-    <changeSet author="Chromis POS" id="Create box office theatres table(New Database)">
-        <createTable tableName="THEATRES">
-            <column name="ID" type="varchar(255)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="NAME" type="varchar(255)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="EXTRADESCRIPTION" type="varchar(255)">
-                <constraints nullable="true"/>
-            </column>
-            <column name="CAPACITYMODE" type="char(1)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="CAPACITY" type="int">
-                <constraints nullable="false"/>
-            </column>
-            <column name="HARDLIMIT" type="${boolean.type}" defaultValueBoolean="false">
-                <constraints nullable="false"/>
-            </column>
-            <column name="ACTIVE" type="${boolean.type}" defaultValueBoolean="true">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-        <modifySql dbms="mysql">
-            <append value=" ENGINE = InnoDB DEFAULT CHARSET=utf8  "/>
-        </modifySql>
-    </changeSet>    
-    
     
     
     <changeSet author="Chromis POS" id="Create THIRDPARTIES Table (New Database)">
@@ -1214,7 +1073,7 @@
         <modifySql dbms="mysql">
             <append value=" ENGINE = InnoDB DEFAULT CHARSET=utf8  "/>
         </modifySql>
-    </changeSet>  
+    </changeSet>
    
     <changeSet author="Chromis POS" id="Create TICKETLINES table (New Database)">
         <createTable tableName="TICKETLINES">
@@ -1226,12 +1085,6 @@
             </column>
             <column name="PRODUCT" type="varchar(255)"/>
             <column name="ATTRIBUTESETINSTANCE_ID" type="varchar(255)"/>
-            <column name="SHOWID" type="varchar(255)">
-                <constraints nullable="true"/>
-            </column>
-            <column name="SHOWDATE" type="date">
-                <constraints nullable="true"/>
-            </column>
             <column name="UNITS" type="double precision">
                 <constraints nullable="false"/>
             </column>
@@ -1242,13 +1095,13 @@
                 <constraints nullable="false"/>
             </column>
             <column name="ATTRIBUTES" type="${blob.type}"/>
-            <column name="REFUNDQTY" type="double precision" defaultValueNumeric="0.0"/>  
+            <column name="REFUNDQTY" type="double precision" defaultValueNumeric="0.0"/>
         </createTable>
         
         <modifySql dbms="mysql">
             <append value=" ENGINE = InnoDB DEFAULT CHARSET=utf8  "/>
-        </modifySql>        
-    </changeSet> 
+        </modifySql>
+    </changeSet>
         
     <changeSet author="Chromis POS" id="Create TICKETS Table (New Database)">
         <createTable tableName="TICKETS">
@@ -1281,34 +1134,34 @@
         <createTable tableName="VOUCHERS">
             <column name="VOUCHER" type="varchar(50)">
                 <constraints nullable="false"/>
-            </column>           
+            </column>
             <column name="SOLDDATE" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP"/>
-            <column name="REDEEMDATE" type="timestamp" />            
+            <column name="REDEEMDATE" type="timestamp" />
             <column name="SOLDTICKETID" type="varchar(50)"/>
-            <column name="REDEEMTICKETID" type="varchar(50)"/>                                    
-        </createTable> 
+            <column name="REDEEMTICKETID" type="varchar(50)"/>
+        </createTable>
         
         <modifySql dbms="mysql">
             <append value=" ENGINE = InnoDB DEFAULT CHARSET=utf8  "/>
-        </modifySql>                     
+        </modifySql>
     </changeSet>
     
     <!--
            Populate the new tables with any default data that is required          
-    -->                              
+    -->
     
-    <changeSet author="Chromis POS" id="Insert into APPLICATIONS Table (New Database)"> 
+    <changeSet author="Chromis POS" id="Insert into APPLICATIONS Table (New Database)">
         <insert tableName="APPLICATIONS">
             <column name="ID" value="chromispos"/>
             <column name="NAME" value="Chromis POS"/>
-            <column name="VERSION" value="0.58"/>          
+            <column name="VERSION" value="0.58"/>
         </insert>
-    </changeSet>          
+    </changeSet>
                                   
-    <changeSet author="Chromis POS" id="Insert into Roles Table (New Database)">  
+    <changeSet author="Chromis POS" id="Insert into Roles Table (New Database)">
         <preConditions onFail="MARK_RAN">
-            <sqlCheck expectedResult="0">SELECT COUNT(*) FROM ROLES</sqlCheck>  
-        </preConditions>        
+            <sqlCheck expectedResult="0">SELECT COUNT(*) FROM ROLES</sqlCheck>
+        </preConditions>
                                           
         <insert tableName="ROLES">
             <column name="ID" value="0"/>
@@ -1334,7 +1187,7 @@
             <column name="PERMISSIONS" valueBlobResource="/uk/chromis/pos/templates/Role.Guest.xml"/>
             <column name="RIGHTSLEVEL" valueNumeric="1" />
         </insert>
-    </changeSet>     
+    </changeSet>
     
     
     <changeSet author="Chromis POS" id="Insert into PEOPLE Table (New Database)" >
@@ -1757,19 +1610,19 @@
             <column name="NAME" value="Printer.TicketRefundPreview"/>
             <column name="RESTYPE" valueNumeric="0"/>
             <column name="CONTENT" valueBlobResource="/uk/chromis/pos/templates/Printer.TicketRefundPreview.xml"/>
-        </insert> 
+        </insert>
         <insert tableName="RESOURCES">
             <column name="ID" value="64"/>
             <column name="NAME" value="sql.ActionStockChanges"/>
             <column name="RESTYPE" valueNumeric="0"/>
             <column name="CONTENT" valueBlobResource="/uk/chromis/pos/templates/sql.ActionStockChanges.txt"/>
-        </insert>  
+        </insert>
         <insert tableName="RESOURCES">
             <column name="ID" value="65"/>
             <column name="NAME" value="Ticket.LineDisplay"/>
             <column name="RESTYPE" valueNumeric="0"/>
             <column name="CONTENT" valueBlobResource="/uk/chromis/pos/templates/Ticket.LineDisplay.xml"/>
-        </insert>                
+        </insert>
         <insert tableName="RESOURCES">
             <column name="ID" value="70"/>
             <column name="NAME" value="Display.Message"/>
@@ -1782,23 +1635,8 @@
             <column name="NAME" value="Ticket.CloseTimer"/>
             <column name="RESTYPE" valueNumeric="0"/>
             <column name="CONTENT" valueBlobResource="/uk/chromis/pos/templates/Ticket.CloseTimer.xml"/>
-        </insert> 
-        
-        <insert tableName="RESOURCES">
-            <column name="ID" value="74"/>
-            <column name="NAME" value="Printer.TicketBoxOffice"/>
-            <column name="RESTYPE" valueNumeric="0"/>
-            <column name="CONTENT" valueBlobResource="/uk/chromis/pos/templates/Printer.TicketBoxOffice.xml"/>
         </insert>
-        
-        
-        <insert tableName="RESOURCES">
-            <column name="ID" value="75"/>
-            <column name="NAME" value="Printer.TicketBoxOfficeFull"/>
-            <column name="RESTYPE" valueNumeric="0"/>
-            <column name="CONTENT" valueBlobResource="/uk/chromis/pos/templates/Printer.TicketBoxOfficeFull.xml"/>
-        </insert>
-        
+                
         <insert tableName="RESOURCES">
             <column name="ID" value="6700"/>
             <column name="NAME" value="help.promotion"/>
@@ -1840,49 +1678,49 @@
             <column name="RESTYPE" valueNumeric="0"/>
             <column name="CONTENT" valueBlobResource="/uk/chromis/pos/promotion/scripts/promotion.coupon.txt"/>
         </insert>
-        <insert tableName="RESOURCES">  
-            <column name="ID" value="6706"/>  
-            <column name="NAME" value="promotion.fixedpricegroup"/>  
-            <column name="RESTYPE" valueNumeric="0"/>  
-            <column name="CONTENT" valueBlobResource="/uk/chromis/pos/promotion/scripts/promotion.fixedpricegroup.txt"/>  
-        </insert> 
-        <insert tableName="RESOURCES">  
-            <column name="ID" value="6707"/>  
-            <column name="NAME" value="Business.Name"/>  
-            <column name="RESTYPE" valueNumeric="0"/>  
-            <column name="CONTENT" valueBlobResource="/uk/chromis/pos/templates/Business.Name.txt"/>  
-        </insert> 
-        <insert tableName="RESOURCES">  
-            <column name="ID" value="6708"/>  
-            <column name="NAME" value="Business.ContactInfo"/>  
-            <column name="RESTYPE" valueNumeric="0"/>  
-            <column name="CONTENT" valueBlobResource="/uk/chromis/pos/templates/Business.ContactInfo.txt"/>  
-        </insert> 
-    </changeSet>   
+        <insert tableName="RESOURCES">
+            <column name="ID" value="6706"/>
+            <column name="NAME" value="promotion.fixedpricegroup"/>
+            <column name="RESTYPE" valueNumeric="0"/>
+            <column name="CONTENT" valueBlobResource="/uk/chromis/pos/promotion/scripts/promotion.fixedpricegroup.txt"/>
+        </insert>
+        <insert tableName="RESOURCES">
+            <column name="ID" value="6707"/>
+            <column name="NAME" value="Business.Name"/>
+            <column name="RESTYPE" valueNumeric="0"/>
+            <column name="CONTENT" valueBlobResource="/uk/chromis/pos/templates/Business.Name.txt"/>
+        </insert>
+        <insert tableName="RESOURCES">
+            <column name="ID" value="6708"/>
+            <column name="NAME" value="Business.ContactInfo"/>
+            <column name="RESTYPE" valueNumeric="0"/>
+            <column name="CONTENT" valueBlobResource="/uk/chromis/pos/templates/Business.ContactInfo.txt"/>
+        </insert>
+    </changeSet>
     
-    <changeSet author="Chromis POS" id="Insert into CATEGORIES Table (New Database)"> 
+    <changeSet author="Chromis POS" id="Insert into CATEGORIES Table (New Database)">
         <insert tableName="CATEGORIES">
             <column name="ID" value="000"/>
             <column name="NAME" value="Category Standard"/>
-        </insert>        
+        </insert>
         <insert tableName="CATEGORIES">
             <column name="ID" value="xxx999"/>
             <column name="NAME" value="***"/>
-        </insert> 
-    </changeSet> 
+        </insert>
+    </changeSet>
 
-    <changeSet author="Chromis POS" id="Insert into TAXCATEGORIES Table (New Database)"> 
+    <changeSet author="Chromis POS" id="Insert into TAXCATEGORIES Table (New Database)">
         <insert tableName="TAXCATEGORIES">
             <column name="ID" value="000"/>
             <column name="NAME" value="Tax Exempt"/>
         </insert>
         <insert tableName="TAXCATEGORIES">
             <column name="ID" value="001"/>
-            <column name="NAME" value="Tax Standard"/>            
+            <column name="NAME" value="Tax Standard"/>
         </insert>
     </changeSet>
     
-    <changeSet author="Chromis POS" id="Insert into TAXES Table (New Database)"> 
+    <changeSet author="Chromis POS" id="Insert into TAXES Table (New Database)">
         <insert tableName="TAXES">
             <column name="ID" value="000"/>
             <column name="NAME" value="Tax Exempt"/>
@@ -1897,7 +1735,7 @@
         </insert>
     </changeSet>
 
-    <changeSet author="Chromis POS" id="Insert into PRODUCTS Table (New Database)"> 
+    <changeSet author="Chromis POS" id="Insert into PRODUCTS Table (New Database)">
         <insert tableName="PRODUCTS">
             <column name="ID" value="xxx999_999xxx_x9x9x9"/>
             <column name="REFERENCE" value="xxx999"/>
@@ -1909,10 +1747,9 @@
             <column name="PRICEBUY" valueNumeric="0.0"/>
             <column name="PRICESELL" valueNumeric="0.0"/>
             <column name="ISCATALOG" valueBoolean="true"/>
-            <column name="ISBOXOFFICE" valueBoolean="false"/>
-        </insert>  
-    </changeSet>      
-    <changeSet author="Chromis POS" id="Insert service charge into PRODUCTS Table (New Database)"> 
+        </insert>
+    </changeSet>
+    <changeSet author="Chromis POS" id="Insert service charge into PRODUCTS Table (New Database)">
         <insert tableName="PRODUCTS">
             <column name="ID" value="sc999-001"/>
             <column name="REFERENCE" value="sc999-001"/>
@@ -1924,26 +1761,25 @@
             <column name="PRICEBUY" valueNumeric="0.0"/>
             <column name="PRICESELL" valueNumeric="0.0"/>
             <column name="ISCATALOG" valueBoolean="true"/>
-            <column name="ISBOXOFFICE" valueBoolean="false"/>
-        </insert>  
-    </changeSet> 
+        </insert>
+    </changeSet>
     
-    <changeSet author="Chromis POS" id="Insert into LOCATIONS Table (New Database)"> 
+    <changeSet author="Chromis POS" id="Insert into LOCATIONS Table (New Database)">
         <insert tableName="LOCATIONS">
             <column name="ID" value="0"/>
             <column name="NAME" value="General"/>
         </insert>
     </changeSet>
     
-    <changeSet author="Chromis POS" id="Insert into FLOORS Table (New Database)"> 
+    <changeSet author="Chromis POS" id="Insert into FLOORS Table (New Database)">
         <insert tableName="FLOORS">
             <column name="ID" value="0"/>
             <column name="NAME" value="Restaurant floor"/>
             <column name="IMAGE" valueBlobResource="/uk/chromis/pos/templates/restaurant_floor.png"/>
-        </insert>         
-    </changeSet>    
+        </insert>
+    </changeSet>
       
-    <changeSet author="Chromis POS" id="Insert into PLACES Table (New Database)"> 
+    <changeSet author="Chromis POS" id="Insert into PLACES Table (New Database)">
         <insert tableName="PLACES">
             <column name="ID" value="1"/>
             <column name="NAME" value="Table 1"/>
@@ -2029,13 +1865,13 @@
             <column name="Y" valueNumeric="461"/>
             <column name="FLOOR" value="0"/>
         </insert>
-    </changeSet>   
+    </changeSet>
         
-    <changeSet author="Chromis POS" id="Insert into SHIFTS Table (New Database)"> 
+    <changeSet author="Chromis POS" id="Insert into SHIFTS Table (New Database)">
         <sql>INSERT INTO SHIFTS(ID, STARTSHIFT, ENDSHIFT, PPLID) VALUES ('0', '2013-12-02 00:00:00.001', '2013-12-02 00:00:00.002','0')</sql>
-    </changeSet> 
+    </changeSet>
 
-    <changeSet author="Chromis POS" id="Insert into BREAKS Table (New Database)"> 
+    <changeSet author="Chromis POS" id="Insert into BREAKS Table (New Database)">
         <insert tableName="BREAKS">
             <column name="ID" value="0"/>
             <column name="NAME" value="Lunch Break"/>
@@ -2051,68 +1887,29 @@
             <column name="NAME" value="MID Break"/>
             <column name="VISIBLE" valueBoolean="true"/>
         </insert>
-    </changeSet>  
-                    
-                    
-
-    <changeSet author="Chromis POS" id="Insert into RATINGS Table (New Database)">
-        <insert tableName="RATINGS">
-            <column name="ID" value="0"/>
-            <column name="NAME" value="NR"/>
-            <column name="ACTIVE" valueBoolean="true"/>
-        </insert>
-        <insert tableName="RATINGS">
-            <column name="ID" value="1"/>
-            <column name="NAME" value="G"/>
-            <column name="ACTIVE" valueBoolean="true"/>
-        </insert>
-        <insert tableName="RATINGS">
-            <column name="ID" value="2"/>
-            <column name="NAME" value="PG"/>
-            <column name="ACTIVE" valueBoolean="true"/>
-        </insert>
-        <insert tableName="RATINGS">
-            <column name="ID" value="3"/>
-            <column name="NAME" value="PG-13"/>
-            <column name="ACTIVE" valueBoolean="true"/>
-        </insert>
-        <insert tableName="RATINGS">
-            <column name="ID" value="4"/>
-            <column name="NAME" value="R"/>
-            <column name="ACTIVE" valueBoolean="true"/>
-        </insert>
-        <insert tableName="RATINGS">
-            <column name="ID" value="5"/>
-            <column name="NAME" value="NC-17"/>
-            <column name="ACTIVE" valueBoolean="true"/>
-        </insert>
-        <insert tableName="RATINGS">
-            <column name="ID" value="6"/>
-            <column name="NAME" value="X"/>
-            <column name="ACTIVE" valueBoolean="true"/>
-        </insert>
     </changeSet>
-                                        
                     
-    <changeSet author="Chromis POS" id="Create SITEGUID colunmn in tables part of new database (New Database)"  >    
-        <customChange class="uk.chromis.pos.util.SiteGUID" />                                       
+                    
+                    
+    <changeSet author="Chromis POS" id="Create SITEGUID colunmn in tables part of new database (New Database)"  >
+        <customChange class="uk.chromis.pos.util.SiteGUID" />
     </changeSet>
    
     <!-- Flag that database was created with new derby jdbc was used if database is derby -->
-    <changeSet author="Chromis POS" id="derby10.10.20">    
+    <changeSet author="Chromis POS" id="derby10.10.20">
     </changeSet>
     
     <!-- Flag that database was created with so we do not need drop Foreign Keys -->
-    <changeSet author="Chromis POS" id="Good FKs">    
-    </changeSet>    
+    <changeSet author="Chromis POS" id="Good FKs">
+    </changeSet>
     
     <!-- Flag used to indicate that database was created with new routine so latest version of upgrade routines to be used -->
-    <changeSet author="Chromis POS" id="New Database">    
-    </changeSet>   
+    <changeSet author="Chromis POS" id="New Database">
+    </changeSet>
     
     <!-- Flag used to indicate that database was created with new primary keys so latest version of upgrade routines to be used -->
-    <changeSet author="Chromis POS" id="New Primary Key structures included">    
-    </changeSet>          
+    <changeSet author="Chromis POS" id="New Primary Key structures included">
+    </changeSet>
     
 </databaseChangeLog>
 

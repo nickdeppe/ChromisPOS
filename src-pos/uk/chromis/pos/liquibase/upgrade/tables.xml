@@ -42,5 +42,353 @@
         <customChange class="uk.chromis.pos.util.SyncFlag" />                                       
     </changeSet>
     
+    
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+
+    <changeSet author="Chromis POS" id="Create Boxoffice Features Table vboxoffice">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="FEATURES"/>
+            </not>
+        </preConditions>
+        <createTable tableName="FEATURES">
+            <column name="ID" type="varchar(255)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="NAME" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="IMAGE" type="${blob.type}"/>
+            <column name="RUNTIME" type="integer">
+                <constraints nullable="false" />
+            </column>
+            <column name="RATINGID" type="varchar(255)"/>
+            <column name="EXCHANGEID" type="varchar(255)"/>
+            <column name="ACTIVE" type="${boolean.type}" defaultValueBoolean="true">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+        <modifySql dbms="mysql">
+            <append value=" ENGINE = InnoDB DEFAULT CHARSET=utf8  "/>
+        </modifySql>
+    </changeSet>
+        
+    
+
+    <changeSet author="Chromis POS" id="Create box office show features table vboxoffice">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="SHOWFEATURES"/>
+            </not>
+        </preConditions>
+        <createTable tableName="SHOWFEATURES">
+            <column name="ID" type="varchar(255)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="SHOWID" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="FEATUREID" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="SEQUENCE" type="integer">
+                <constraints nullable="false"/>
+            </column>
+            <column name="STARTTIME" type="time">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <modifySql dbms="mysql">
+            <append value=" ENGINE = InnoDB DEFAULT CHARSET=utf8  "/>
+        </modifySql>
+    </changeSet>    
+    
+    
+    
+    
+    <changeSet author="Chromis POS" id="Create box office theatres table vboxoffice">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="THEATRES"/>
+            </not>
+        </preConditions>        
+        <createTable tableName="THEATRES">
+            <column name="ID" type="varchar(255)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="NAME" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="EXTRADESCRIPTION" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="CAPACITYMODE" type="char(1)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CAPACITY" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="HARDLIMIT" type="${boolean.type}" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ACTIVE" type="${boolean.type}" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <modifySql dbms="mysql">
+            <append value=" ENGINE = InnoDB DEFAULT CHARSET=utf8  "/>
+        </modifySql>
+    </changeSet>    
+
+    
+    
+    <changeSet author="Chromis POS" id="Create box office show table vboxoffice">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="SHOWS"/>
+            </not>
+        </preConditions>
+        <createTable tableName="SHOWS">
+            <column name="ID" type="varchar(255)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="THEATREID" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="STARTDATE" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ENDDATE" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="REPORTSTARTDATE" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="REPORTENDDATE" type="date">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <modifySql dbms="mysql">
+            <append value=" ENGINE = InnoDB DEFAULT CHARSET=utf8  "/>
+        </modifySql>
+    </changeSet>    
+    
+            
+
+    
+        
+               
+    <changeSet author="Chromis POS" id="create Ratings Table vboxoffice">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="RATINGS"/>
+            </not>
+        </preConditions>
+        <createTable tableName="RATINGS">
+            <column name="ID" type="varchar(255)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="NAME" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ACTIVE" type="${boolean.type}" defaultValueBoolean="true"/>
+        </createTable>
+        <modifySql dbms="mysql">
+            <append value=" ENGINE = InnoDB DEFAULT CHARSET=utf8  "/>
+        </modifySql>
+    </changeSet>
+            
+ 
+    <changeSet id="Create Boxoffice Exchange Table vboxoffice" author="Chromis POS">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="EXCHANGES"/>
+            </not>
+        </preConditions>
+        <createTable tableName="EXCHANGES">
+            <column name="ID" type="varchar(255)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="NAME" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <modifySql dbms="mysql">
+            <append value=" ENGINE = InnoDB DEFAULT CHARSET=utf8  "/>
+        </modifySql>
+    </changeSet>
+              
+                    
+
+     <changeSet author="N Deppe" id="Update TICKETLINES table, add SHOWID column">
+         <preConditions onFail="MARK_RAN">
+             <not>
+                 <columnExists columnName="SHOWID" tableName="ORDERS"/>
+             </not>
+         </preConditions>
+         <addColumn tableName="TICKETLINES">
+            <column name="SHOWID" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+         </addColumn>
+     </changeSet>
+     
+     <changeSet author="N Deppe" id="Update TICKETLINES table, add SHOWDATE column">
+         <preConditions onFail="MARK_RAN">
+             <not>
+                 <columnExists columnName="SHOWDATE" tableName="ORDERS"/>
+             </not>
+         </preConditions>
+         <addColumn tableName="TICKETLINES">
+            <column name="SHOWDATE" type="date">
+                <constraints nullable="true"/>
+            </column>
+         </addColumn>         
+     </changeSet>
+    
+     <changeSet author="N Deppe" id="Update PRODUCTS table, add ISBOXOFFICE column">
+         <preConditions onFail="MARK_RAN">
+             <not>
+                 <columnExists columnName="ISBOXOFFICE" tableName="PRODUCTS"/>
+             </not>
+         </preConditions>
+         <addColumn tableName="PRODUCTS">
+            <column name="ISBOXOFFICE" type="${boolean.type}" defaultValueBoolean="false" />
+         </addColumn>
+     </changeSet>
+     
+     <changeSet author="N Deppe" id="Update PRODUCTS table, add ISBOXOFFICEREPORTED column">
+         <preConditions onFail="MARK_RAN">
+             <not>
+                 <columnExists columnName="ISBOXOFFICEREPORTED" tableName="PRODUCTS"/>
+             </not>
+         </preConditions>
+         <addColumn tableName="PRODUCTS">
+            <column name="ISBOXOFFICEREPORTED" type="${boolean.type}" defaultValueBoolean="false" />             
+         </addColumn>
+     </changeSet>
+    
+    <changeSet author="N Deppe" id="Create foreign key constraints TICKETLINES" dbms="mysql, postgresql, hypersql, hsqldb, oracle" >
+        <preConditions onFail="MARK_RAN">    
+            <not>
+                <foreignKeyConstraintExists foreignKeyTableName="TICKETLINES" foreignKeyName="TICKETLINES_SHOWID_FK"/>  
+            </not>          
+        </preConditions>
+        <addForeignKeyConstraint baseColumnNames="SHOWID"
+                                 constraintName ="TICKETLINES_SHOWID_FK"
+                                 referencedColumnNames = "ID"
+                                 baseTableName="TICKETLINES"
+                                 referencedTableName="SHOWS"/>
+    </changeSet>   
+
+    <changeSet author="N Deppe" id="Create foreign key constraints SHOWS" dbms="mysql, postgresql, hypersql, hsqldb, oracle" >
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <foreignKeyConstraintExists foreignKeyTableName="SHOWS" foreignKeyName="SHOWS_THEATREID_FK"/>
+            </not>          
+        </preConditions>
+        <addForeignKeyConstraint baseColumnNames="THEATREID"
+                                 constraintName ="SHOWS_THEATREID_FK"
+                                 referencedColumnNames = "ID"
+                                 baseTableName="SHOWS"
+                                 referencedTableName="THEATRES"/>
+    </changeSet>
+
+    <changeSet author="N Deppe" id="Create foreign key constraints SHOWFEATURES_01" dbms="mysql, postgresql, hypersql, hsqldb, oracle" >
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <foreignKeyConstraintExists foreignKeyTableName="SHOWFEATURES" foreignKeyName="SHOWFEATURES_FEATUREID_FK"/>
+            </not>          
+        </preConditions>
+        <addForeignKeyConstraint baseColumnNames="FEATUREID"
+                                 constraintName ="SHOWFEATURES_FEATUREID_FK"
+                                 referencedColumnNames = "ID"
+                                 baseTableName="SHOWFEATURES"
+                                 referencedTableName="FEATURES"/>
+    </changeSet>
+
+    <changeSet author="N Deppe" id="Create foreign key constraints SHOWFEATURES_02" dbms="mysql, postgresql, hypersql, hsqldb, oracle" >
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <foreignKeyConstraintExists foreignKeyTableName="SHOWFEATURES" foreignKeyName="SHOWFEATURES_SHOWID_FK"/>
+            </not>          
+        </preConditions>
+        <addForeignKeyConstraint baseColumnNames="SHOWID"
+                                 constraintName ="SHOWFEATURES_SHOWID_FK"
+                                 referencedColumnNames = "ID"
+                                 baseTableName="SHOWFEATURES"
+                                 referencedTableName="SHOWS"/>
+    </changeSet>
+
+    <changeSet author="N Deppe" id="Create foreign key constraints FEATURES_01" dbms="mysql, postgresql, hypersql, hsqldb, oracle" >
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <foreignKeyConstraintExists foreignKeyTableName="FEATURES" foreignKeyName="FEATURES_RATINGID_FK"/>
+            </not>          
+        </preConditions>
+        <addForeignKeyConstraint baseColumnNames="RATINGID"
+                                 constraintName ="FEATURES_RATINGID_FK"
+                                 referencedColumnNames = "ID"
+                                 baseTableName="FEATURES"
+                                 referencedTableName="RATINGS"/>
+    </changeSet>
+
+    <changeSet author="N Deppe" id="Create foreign key constraints FEATURES_02" dbms="mysql, postgresql, hypersql, hsqldb, oracle" >
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <foreignKeyConstraintExists foreignKeyTableName="FEATURES" foreignKeyName="FEATURES_EXCHANGEID_FK"/>
+            </not>          
+        </preConditions>
+        <addForeignKeyConstraint baseColumnNames="EXCHANGEID"
+                                 constraintName ="FEATURES_EXCHANGEID_FK"
+                                 referencedColumnNames = "ID"
+                                 baseTableName="FEATURES"
+                                 referencedTableName="EXCHANGES"/>
+    </changeSet>
+    
+
+    <changeSet author="N Deppe" id="Create indexes for SHOWFEATURES" dbms="mysql, postgresql, hypersql, hsqldb, oracle" >
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <indexExists tableName="SHOWFEATURES" indexName="SHOWFEATURES_IDX_01" />
+            </not>          
+        </preConditions>
+        <createIndex tableName="SHOWFEATURES"
+                     indexName="SHOWFEATURES_IDX_01"
+                     unique="false">
+            <column name="SEQUENCE" type="integer"/>
+        </createIndex>                                               
+    </changeSet>
+
+    <changeSet author="N Deppe" id="Create indexes for SHOWS_01" dbms="mysql, postgresql, hypersql, hsqldb, oracle" >
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <indexExists tableName="SHOWS" indexName="SHOWS_IDX_01" />
+            </not>          
+        </preConditions>
+        <createIndex tableName="SHOWS"
+                     indexName="SHOWS_IDX_01"
+                     unique="false">
+            <column name="STARTDATE" type="date"/>
+            <column name="ENDDATE" type="date"/>
+        </createIndex>                                               
+    </changeSet>
+
+
+    <changeSet author="N Deppe" id="Create indexes for SHOWS_02" dbms="mysql, postgresql, hypersql, hsqldb, oracle" >
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <indexExists tableName="SHOWS" indexName="SHOWS_IDX_02" />
+            </not>          
+        </preConditions>
+        <createIndex tableName="SHOWS"
+                     indexName="SHOWS_IDX_02"
+                     unique="false">
+            <column name="REPORTSTARTDATE" type="date"/>
+            <column name="REPORTENDDATE" type="date"/>
+        </createIndex>
+    </changeSet>             
+             
+             
 </databaseChangeLog>
 

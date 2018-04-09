@@ -253,28 +253,7 @@ public class SiteGUID implements liquibase.change.custom.CustomTaskChange {
             SQL = "ALTER TABLE VOUCHERS ADD COLUMN SITEGUID VARCHAR(50) NOT NULL DEFAULT '" + guid + "'";
             pstmt = conn.prepareStatement(SQL);
             pstmt.executeUpdate();
-            
-            
-            SQL = "ALTER TABLE THEATRES ADD COLUMN SITEGUID VARCHAR(50) NOT NULL DEFAULT '" + guid + "'";
-            pstmt = conn.prepareStatement(SQL);
-            pstmt.executeUpdate();
-            
-            SQL = "ALTER TABLE SHOWS ADD COLUMN SITEGUID VARCHAR(50) NOT NULL DEFAULT '" + guid + "'";
-            pstmt = conn.prepareStatement(SQL);
-            pstmt.executeUpdate();
-            
-            SQL = "ALTER TABLE FEATURES ADD COLUMN SITEGUID VARCHAR(50) NOT NULL DEFAULT '" + guid + "'";
-            pstmt = conn.prepareStatement(SQL);
-            pstmt.executeUpdate();
-            
-            SQL = "ALTER TABLE SHOWFEATURES ADD COLUMN SITEGUID VARCHAR(50) NOT NULL DEFAULT '" + guid + "'";
-            pstmt = conn.prepareStatement(SQL);
-            pstmt.executeUpdate();
-            
-            SQL = "ALTER TABLE RATINGS ADD COLUMN SITEGUID VARCHAR(50) NOT NULL DEFAULT '" + guid + "'";
-            pstmt = conn.prepareStatement(SQL);
-            pstmt.executeUpdate();
-            
+                        
             conn.close();
 
         } catch (SQLException ex) {
