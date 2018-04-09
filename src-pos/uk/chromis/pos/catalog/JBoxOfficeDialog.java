@@ -57,7 +57,7 @@ public class JBoxOfficeDialog extends javax.swing.JDialog  {
             m_resources.addBundleName("beans_messages");
         }
 
-        m_cancelled = false;
+        m_cancelled = true;
         
         initComponents();
     
