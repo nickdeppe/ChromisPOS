@@ -24,6 +24,8 @@ import uk.chromis.data.loader.DataRead;
 import uk.chromis.data.loader.IKeyed;
 import uk.chromis.data.loader.ImageUtils;
 import uk.chromis.data.loader.SerializerRead;
+import uk.chromis.format.Formats;
+import uk.chromis.pos.util.StringUtils;
 
 /**
  *
@@ -72,9 +74,17 @@ public class FeatureInfo implements IKeyed {
     public String getID() {
         return m_sID;
     }
+    
+    public final String printID() {
+        return StringUtils.encodeXML(getID());
+    }
 
     public String getName() {
         return m_sName;
+    }
+    
+    public final String printName() {
+        return StringUtils.encodeXML(getName());
     }
 
     public void setName(String sName) {
@@ -102,12 +112,20 @@ public class FeatureInfo implements IKeyed {
             return m_iRuntime;
     }
 
+    public String printRuntime() {
+        return StringUtils.encodeXML(Formats.INT.formatValue(getRuntime()));
+    }
+    
     public void setRatingID(String ratingID) {
             m_sRatingID = ratingID;
     }
 
     public String getRatingID() {
             return m_sRatingID;
+    }
+    
+    public String printRatingID() {
+        return StringUtils.encodeXML(getRatingID());
     }
     
     
@@ -119,6 +137,10 @@ public class FeatureInfo implements IKeyed {
         return m_sExchangeID;
     }
     
+    public String printExchangeID() {
+        return StringUtils.encodeXML(getExchangeID());
+    }
+    
 
     public void setActive(Boolean active) {
             m_bActive = active;
@@ -126,6 +148,10 @@ public class FeatureInfo implements IKeyed {
 
     public Boolean getActive() {
             return m_bActive;
+    }
+    
+    public String printActive() {
+        return StringUtils.encodeXML(Formats.BOOLEAN.formatValue(getActive()));
     }
 
 

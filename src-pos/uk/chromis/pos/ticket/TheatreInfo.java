@@ -22,6 +22,8 @@ import uk.chromis.basic.BasicException;
 import uk.chromis.data.loader.DataRead;
 import uk.chromis.data.loader.IKeyed;
 import uk.chromis.data.loader.SerializerRead;
+import uk.chromis.format.Formats;
+import uk.chromis.pos.util.StringUtils;
 
 /**
  *
@@ -43,6 +45,7 @@ public class TheatreInfo implements IKeyed {
      *
     * @param id
     * @param name
+     * @param extraDescription
     * @param capacityMode
     * @param capacity
     * @param hardLimit
@@ -70,9 +73,17 @@ public class TheatreInfo implements IKeyed {
     public String getID() {
         return m_sID;
     }
+    
+    public final String printID() {
+        return StringUtils.encodeXML(getID());
+    }
 
     public String getName() {
         return m_sName;
+    }
+    
+    public final String printName() {
+        return StringUtils.encodeXML(getName());
     }
 
     public void setName(String sName) {
@@ -83,12 +94,20 @@ public class TheatreInfo implements IKeyed {
         return m_sExtraDescription;
     }
     
+    public final String printExtraDescription() {
+        return StringUtils.encodeXML(getExtraDescription());
+    }
+    
     public void setExtraDescription(String extraDescription) {
         m_sExtraDescription = extraDescription;
     }
     
     public String getCapacityMode() {
         return m_sCapacityMode;
+    }
+    
+    public final String printCapacityMode() {
+        return StringUtils.encodeXML(getCapacityMode());
     }
 
     public void setCapacityMode(String capacityMode) {
@@ -98,6 +117,10 @@ public class TheatreInfo implements IKeyed {
 
     public Integer getCapacity() {
         return m_iCapacity;
+    }
+    
+    public final String printCapacity() {
+        return StringUtils.encodeXML(Formats.INT.formatValue(getCapacity()));
     }
 
     public void setCapacity(Integer capacity) {
@@ -114,6 +137,10 @@ public class TheatreInfo implements IKeyed {
         return m_bHardLimit;
     }
 
+    public String printHardLimit() {
+        return StringUtils.encodeXML(Formats.BOOLEAN.formatValue(getHardLimit()));
+    }
+            
 
 
     public void setActive(Boolean active) {
@@ -122,6 +149,10 @@ public class TheatreInfo implements IKeyed {
 
     public Boolean getActive() {
         return m_bActive;
+    }
+    
+    public String printActive() {
+        return StringUtils.encodeXML(Formats.BOOLEAN.formatValue(getActive()));
     }
 
 

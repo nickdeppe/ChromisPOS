@@ -25,6 +25,8 @@ import uk.chromis.basic.BasicException;
 import uk.chromis.data.loader.DataRead;
 import uk.chromis.data.loader.IKeyed;
 import uk.chromis.data.loader.SerializerRead;
+import uk.chromis.format.Formats;
+import uk.chromis.pos.util.StringUtils;
 
 /**
  *
@@ -76,9 +78,17 @@ public class ShowSalesInfo implements IKeyed, Cloneable {
     public final void setID(String id) {
         m_ID = id;
     }
+    
+    public final String printID() {
+        return StringUtils.encodeXML(getID());
+    }
 
     public final String getTheatreID() {
         return m_sTheatreID;
+    }
+    
+    public final String printTheatreID() {
+        return StringUtils.encodeXML(getTheatreID());
     }
 
     public final void setTheatreID(String id) {
@@ -88,6 +98,10 @@ public class ShowSalesInfo implements IKeyed, Cloneable {
     public final Date getStartDate() {
         return m_dStartDate;
     }
+    
+    public final String printStartDate() {
+        return StringUtils.encodeXML(Formats.DATE.formatValue(getStartDate()));
+    }
 
     public final void setStartDate( Date startDate ) {
         m_dStartDate = startDate;
@@ -95,6 +109,10 @@ public class ShowSalesInfo implements IKeyed, Cloneable {
 
     public final Date getEndDate() {
         return m_dStartDate;
+    }
+    
+    public final String printEndDate() {
+        return StringUtils.encodeXML(Formats.DATE.formatValue(getEndDate()));
     }
 
     public final void setEndDate( Date endDate ) {
@@ -104,6 +122,10 @@ public class ShowSalesInfo implements IKeyed, Cloneable {
     public final Date getReportStartDate() {
         return m_dReportStartDate;
     }
+    
+    public final String printReportStartDate() {
+        return StringUtils.encodeXML(Formats.DATE.formatValue(getReportStartDate()));
+    }
 
     public final void setReportStartDate( Date startDate ) {
         m_dReportStartDate = startDate;
@@ -112,6 +134,10 @@ public class ShowSalesInfo implements IKeyed, Cloneable {
     public final Date getReportEndDate() {
         return m_dReportStartDate;
     }
+    
+    public final String printReportEndDate() {
+        return StringUtils.encodeXML(Formats.DATE.formatValue(getReportEndDate()));
+    }
 
     public final void setReportEndDate( Date endDate ) {
         m_dReportEndDate = endDate;
@@ -119,6 +145,10 @@ public class ShowSalesInfo implements IKeyed, Cloneable {
 
     public final String getTheatreName() {
         return m_oTheatre.getName();
+    }
+    
+    public final String printTheatreName() {
+        return StringUtils.encodeXML(getTheatreName());
     }
     
     public final List<ShowFeaturesInfo> getShowFeatures() {

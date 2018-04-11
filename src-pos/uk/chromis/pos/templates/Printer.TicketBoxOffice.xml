@@ -48,16 +48,16 @@
 	<line><text>Price includes ${ticketline.printTax()} tax</text></line>
 #end
 	<line></line>
-	<line size="2"><text align="left" length="21" underline="true" bold="true">${theatre.getName().toUpperCase()}</text></line>
+	<line size="2"><text align="left" length="21" underline="true" bold="true">${theatre.printName().toUpperCase()}</text></line>
 #if($ticketline.getExtraDescription() != "")
 	<line></line>
-	<line><text align="left" length="42">${theatre.getExtraDescription()}</text></line>
+	<line><text align="left" length="42">${theatre.printExtraDescription()}</text></line>
 #end
 	<line></line>
 	<line></line>
 	<line size="1"><text align="left" length="42" bold="true">${ticketline.printShowDate()}</text></line>
 #foreach($feature in $features)
-	<line><text align="left" length="9">${feature.getStartTime()}</text><text align="left" length="28" bold="true">${feature.getFeatureName()}</text><text align="left" length="5">${feature.getRatingName()}</text></line>
+	<line><text align="left" length="9">${feature.printStartTime()}</text><text align="left" length="28" bold="true">${feature.printFeatureName()}</text><text align="left" length="5">${feature.printRatingName()}</text></line>
 #end
 	<line></line>
 	<line><text align="left" length="42">Purchased ${ticket.printDate()}</text></line>

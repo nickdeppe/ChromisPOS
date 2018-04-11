@@ -22,6 +22,7 @@ import uk.chromis.basic.BasicException;
 import uk.chromis.data.loader.DataRead;
 import uk.chromis.data.loader.IKeyed;
 import uk.chromis.data.loader.SerializerRead;
+import uk.chromis.pos.util.StringUtils;
 
 /**
  *
@@ -56,9 +57,17 @@ public class ExchangeInfo implements IKeyed {
     public String getID() {
         return m_sID;
     }
+    
+    public String printID() {
+        return StringUtils.encodeXML(getID());
+    }    
 
     public String getName() {
         return m_sName;
+    }
+
+    public final String printName() {
+        return StringUtils.encodeXML(getName());
     }
 
     public void setName(String sName) {

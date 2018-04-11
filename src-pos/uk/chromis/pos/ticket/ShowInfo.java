@@ -24,6 +24,7 @@ import uk.chromis.data.loader.DataRead;
 import uk.chromis.data.loader.IKeyed;
 import uk.chromis.data.loader.SerializerRead;
 import uk.chromis.format.Formats;
+import uk.chromis.pos.util.StringUtils;
 
 /**
  *
@@ -72,6 +73,10 @@ public class ShowInfo implements IKeyed {
     public final String getID() {
         return m_ID;
     }
+    
+    public final String printID() {
+        return StringUtils.encodeXML(getID());
+    }
 
     public final void setID(String id) {
         m_ID = id;
@@ -85,12 +90,24 @@ public class ShowInfo implements IKeyed {
         m_sTheatreID = id;
     }
     
+    public final String printTheatreID() {
+        return StringUtils.encodeXML(getTheatreID());
+    }    
+    
     public final String getDateText() {
         return m_sDateText;
     }
+    
+    public final String printDateText() {
+        return StringUtils.encodeXML(getDateText());
+    }    
 
     public final Date getStartDate() {
         return m_dStartDate;
+    }
+    
+    public final String printStartDate() {
+        return StringUtils.encodeXML(Formats.DATE.formatValue(getStartDate()));
     }
 
     public final void setStartDate( Date startDate ) {
@@ -101,6 +118,10 @@ public class ShowInfo implements IKeyed {
     public final Date getEndDate() {
         return m_dStartDate;
     }
+    
+    public final String printEndDate() {
+        return StringUtils.encodeXML(Formats.DATE.formatValue(getEndDate()));
+    }
 
     public final void setEndDate( Date endDate ) {
         m_dEndDate = endDate;
@@ -110,6 +131,10 @@ public class ShowInfo implements IKeyed {
     public final Date getReportStartDate() {
         return m_dReportStartDate;
     }
+    
+    public final String printReportStartDate() {
+        return StringUtils.encodeXML(Formats.DATE.formatValue(getReportStartDate()));
+    }
 
     public final void setReportStartDate( Date startDate ) {
         m_dReportStartDate = startDate;
@@ -117,6 +142,10 @@ public class ShowInfo implements IKeyed {
 
     public final Date getReportEndDate() {
         return m_dReportStartDate;
+    }
+    
+    public final String printReportEndDate() {
+        return StringUtils.encodeXML(Formats.DATE.formatValue(getReportEndDate()));
     }
 
     public final void setReportEndDate( Date endDate ) {

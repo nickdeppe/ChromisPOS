@@ -22,11 +22,11 @@ import java.awt.image.BufferedImage;
 import java.util.Date;
 import uk.chromis.basic.BasicException;
 import uk.chromis.data.loader.DataRead;
-import uk.chromis.data.loader.Datas;
 import uk.chromis.data.loader.IKeyed;
 import uk.chromis.data.loader.ImageUtils;
 import uk.chromis.data.loader.SerializerRead;
 import uk.chromis.format.Formats;
+import uk.chromis.pos.util.StringUtils;
 
 /**
  *
@@ -91,6 +91,10 @@ public class ShowFeaturesInfo implements IKeyed, Cloneable {
     public final String getID() {
         return m_ID;
     }
+    
+    public final String printID() {
+        return StringUtils.encodeXML(getID());
+    }
 
     public final void setID(String id) {
         m_ID = id;
@@ -100,12 +104,20 @@ public class ShowFeaturesInfo implements IKeyed, Cloneable {
         return m_sShowID;
     }
     
+    public final String printShowID() {
+        return StringUtils.encodeXML(getShowID());
+    }
+    
     public final void setShowID(String showID) {
         m_sShowID = showID;
     }
     
     public final String getFeatureID() {
         return m_sFeatureID;
+    }
+    
+    public final String printFeatureID() {
+        return StringUtils.encodeXML(getFeatureID());
     }
     
     public final void setFeatureID(String featureID) {
@@ -119,6 +131,10 @@ public class ShowFeaturesInfo implements IKeyed, Cloneable {
     public final void setSequence(Integer sequence) {
         m_iSequence = sequence;
     }
+
+    public final String printSequence() {
+        return StringUtils.encodeXML(Formats.INT.formatValue(getSequence()));
+    }
     
     public final Date getStartTime() {
         return m_dStartTime;
@@ -128,12 +144,20 @@ public class ShowFeaturesInfo implements IKeyed, Cloneable {
         m_dStartTime = startTime;
     }
     
+    public final String printStartTime() {
+        return StringUtils.encodeXML(Formats.TIME.formatValue(getStartTime()));        
+    }
+    
     public final String getFeatureName() {
         return m_sFeatureName;
     }
     
     public final void setFeatureName(String featureName) {
         m_sFeatureName = featureName;
+    }
+    
+    public final String printFeatureName() {
+        return StringUtils.encodeXML(getFeatureName());
     }
     
     public final BufferedImage getImage() {
@@ -150,6 +174,10 @@ public class ShowFeaturesInfo implements IKeyed, Cloneable {
     
     public final void setRuntme(Integer runtime) {
         m_iRuntime = runtime;
+    }
+    
+    public final String printRuntime() {
+        return StringUtils.encodeXML(Formats.INT.formatValue(getRuntime()));
     }
 
     public final String getRatingID() {
@@ -176,12 +204,20 @@ public class ShowFeaturesInfo implements IKeyed, Cloneable {
         m_sRatingName = ratingName;
     }
     
+    public final String printRatingName() {
+        return StringUtils.encodeXML(getRatingName());
+    }
+    
     public final String getExchangeName() {
         return m_sExchangeName;
     }
     
     public final void setExchangeName(String exchangeName) {
         m_sExchangeName = exchangeName;
+    }
+    
+    public final String printExchangeName() {
+        return StringUtils.encodeXML(getExchangeName());
     }
 
     @Override
@@ -190,7 +226,7 @@ public class ShowFeaturesInfo implements IKeyed, Cloneable {
     }
     
     @Override
-    public Object clone() {
+    public Object clone() throws CloneNotSupportedException {
         try {
             return super.clone();
         }

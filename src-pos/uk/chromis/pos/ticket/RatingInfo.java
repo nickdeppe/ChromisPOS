@@ -22,6 +22,8 @@ import uk.chromis.basic.BasicException;
 import uk.chromis.data.loader.DataRead;
 import uk.chromis.data.loader.IKeyed;
 import uk.chromis.data.loader.SerializerRead;
+import uk.chromis.format.Formats;
+import uk.chromis.pos.util.StringUtils;
 
 /**
  *
@@ -59,11 +61,19 @@ public class RatingInfo implements IKeyed {
     public String getID() {
         return m_sID;
     }
-
+    
+    public String printID() {
+        return StringUtils.encodeXML(getID());
+    }
+    
     public String getName() {
         return m_sName;
     }
 
+    public final String printName() {
+        return StringUtils.encodeXML(getName());
+    }
+    
     public void setName(String sName) {
         m_sName = sName;
     }
@@ -74,6 +84,10 @@ public class RatingInfo implements IKeyed {
 
     public Boolean getActive() {
         return m_bActive;
+    }
+    
+    public String printActive() {
+        return StringUtils.encodeXML(Formats.BOOLEAN.formatValue(getActive()));
     }
 
 
