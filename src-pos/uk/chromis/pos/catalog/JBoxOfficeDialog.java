@@ -78,6 +78,8 @@ public class JBoxOfficeDialog extends javax.swing.JDialog  {
         
         myMsg.jCatalogBoxOfficePanel1.addPropertyChangeListener("Show", new JPanelShowChange(myMsg));
         
+        myMsg.jCatalogBoxOfficePanel1.resetPanel();
+        
         myMsg.setVisible(true);
         
         return !myMsg.m_cancelled;

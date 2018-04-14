@@ -86,6 +86,7 @@ public class JCatalogBoxOffice extends JPanel implements ListSelectionListener, 
         m_boxOfficeSize = boxOfficeImageSize;
         initComponents();
         this.jBoxOfficePanel.addPropertyChangeListener("Show", new JBoxOfficePanelChange(this.jBoxOfficePanel) );
+        this.jBoxOfficePanel.resetPanel();
     }
 
     
@@ -197,6 +198,8 @@ public class JCatalogBoxOffice extends JPanel implements ListSelectionListener, 
     /**
      *
      * @param prod
+     * @param show
+     * @param showDate
      */
     protected void fireSelectedProduct(ProductInfoExt prod, ShowSalesInfo show, Date showDate) {
         EventListener[] l = listeners.getListeners(ActionListener.class);

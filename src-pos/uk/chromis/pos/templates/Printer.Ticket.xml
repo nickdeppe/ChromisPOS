@@ -26,6 +26,20 @@
 	<line><text align="center" length="20">Thank you</text></line>
 </display>
 
+#set ($opendrawer = "")
+#foreach ($paymentline in $ticket.payments)
+	#if ($paymentline.name == "cash")
+        	#set ($opendrawer = "Y")
+	#end
+	#if ($paymentline.name == "cashrefund")
+        	#set ($opendrawer = "Y")
+	#end
+#end
+#if ($opendrawer == "Y")
+    <opendrawer/>
+#end
+
+
 <ticket>
 	<image>Printer.Ticket.Logo</image>
 	<line></line>
@@ -209,14 +223,5 @@
 
 
 </ticket>
-
-#foreach ($paymentline in $ticket.payments)
-	#if ($paymentline.name == "cash")
-		<opendrawer/>
-	#end
-	#if ($paymentline.name == "cashrefund")
-		<opendrawer/>
-	#end
-#end
 
 </output>

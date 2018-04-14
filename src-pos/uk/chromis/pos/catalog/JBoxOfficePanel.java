@@ -59,7 +59,7 @@ public class JBoxOfficePanel extends JPanel implements ListSelectionListener {
         
         initializeDates();
     
-        // TODO: Monitor the current time
+        // Monitor the current time
         // If the date changes, then reset the date selector panel min and current date
         m_timer = new Timer(60000, new ActionListener() {
             @Override
@@ -75,8 +75,7 @@ public class JBoxOfficePanel extends JPanel implements ListSelectionListener {
                 int currDayOfYear = currCal.get(Calendar.DAY_OF_YEAR);
                 int currYear = currCal.get(Calendar.YEAR);
                 if ( testYear < currYear || testDayOfYear < currDayOfYear) {
-                    jDateSelectorPanel1.setMinDate(getCurrentDate());
-                    resetPanel();
+                    initializeDates();
                 }
             }
         });
@@ -151,6 +150,7 @@ public class JBoxOfficePanel extends JPanel implements ListSelectionListener {
     
     public void resetPanel() {
         this.jDateSelectorPanel1.setDate(getCurrentDate());
+        this.jShowList.clearSelection();
     }
     
     
@@ -212,9 +212,9 @@ public class JBoxOfficePanel extends JPanel implements ListSelectionListener {
         
         m_showListModel = new ShowListModel(showList);
         jShowList.setModel(m_showListModel);
-        if (m_showListModel.getSize() > 0) {
-            jShowList.setSelectedIndex(0);
-        }
+//        if (m_showListModel.getSize() > 0) {
+//            jShowList.setSelectedIndex(0);
+//        }
                 
     }
     
