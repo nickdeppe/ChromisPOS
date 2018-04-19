@@ -75,7 +75,11 @@ public class JBoxOfficePanel extends JPanel implements ListSelectionListener {
                 int currDayOfYear = currCal.get(Calendar.DAY_OF_YEAR);
                 int currYear = currCal.get(Calendar.YEAR);
                 if ( testYear < currYear || testDayOfYear < currDayOfYear) {
-                    initializeDates();
+                    m_selectedDate = getCurrentDate();
+                    jDateSelectorPanel1.setMinDate(m_selectedDate);
+                    jDateSelectorPanel1.setDate(m_selectedDate);
+                    showShowsForDate(m_selectedDate);
+                    jShowList.clearSelection();
                 }
             }
         });
