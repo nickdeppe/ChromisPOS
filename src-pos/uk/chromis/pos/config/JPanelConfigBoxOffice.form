@@ -34,6 +34,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="m_jSpinnerWorkdayStart" min="-2" pref="127" max="-2" attributes="0"/>
                   </Group>
+                  <Component id="jchkAutoAdjustDate" alignment="0" min="-2" pref="403" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="291" max="32767" attributes="0"/>
           </Group>
@@ -46,12 +47,14 @@
               <Component id="jchkAllowRegularProducts" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jchkResetShowDate" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jchkAutoAdjustDate" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="m_jSpinnerWorkdayStart" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="528" max="32767" attributes="0"/>
+              <EmptySpace pref="461" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -91,6 +94,17 @@
           <SpinnerModel initial="now" stepSize="12" type="date"/>
         </Property>
       </Properties>
+    </Component>
+    <Component class="eu.hansolo.custom.SteelCheckBox" name="jchkAutoAdjustDate">
+      <Properties>
+        <Property name="selected" type="boolean" value="true"/>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="pos_messages.properties" key="label.boxofficeautoadjustdate" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+        </Property>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jchkAutoAdjustDateActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

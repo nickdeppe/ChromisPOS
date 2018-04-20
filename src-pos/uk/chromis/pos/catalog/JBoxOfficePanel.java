@@ -32,6 +32,8 @@ import uk.chromis.pos.util.ThumbNailBuilder;
  */
 public class JBoxOfficePanel extends JPanel implements ListSelectionListener {
 
+    private AppConfig m_app;
+
     private Date m_selectedDate;
     private final DataLogicSales m_dlSales;
     private final ThumbNailBuilder m_thumbBuilder;
@@ -49,6 +51,8 @@ public class JBoxOfficePanel extends JPanel implements ListSelectionListener {
         
         initComponents();
         
+        m_app = AppConfig.getInstance();
+        
         m_dlSales = dlSales;
         
         m_thumbBuilder = new ThumbNailBuilder(imageSize, imageSize, "uk/chromis/images/package.png");
@@ -61,29 +65,31 @@ public class JBoxOfficePanel extends JPanel implements ListSelectionListener {
     
         // Monitor the current time
         // If the date changes, then reset the date selector panel min and current date
-        m_timer = new Timer(60000, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Date currentDate = getCurrentDate();
-                Date test = jDateSelectorPanel1.getDate();
-                Calendar testCal = Calendar.getInstance();
-                Calendar currCal = Calendar.getInstance();
-                testCal.setTime(test);
-                currCal.setTime(currentDate);
-                int testDayOfYear = testCal.get(Calendar.DAY_OF_YEAR);
-                int testYear = testCal.get(Calendar.YEAR);
-                int currDayOfYear = currCal.get(Calendar.DAY_OF_YEAR);
-                int currYear = currCal.get(Calendar.YEAR);
-                if ( testYear < currYear || testDayOfYear < currDayOfYear) {
-                    m_selectedDate = getCurrentDate();
-                    jDateSelectorPanel1.setMinDate(m_selectedDate);
-                    jDateSelectorPanel1.setDate(m_selectedDate);
-                    showShowsForDate(m_selectedDate);
-                    jShowList.clearSelection();
+        if (m_app.getBoolean("boxoffice.autoadjustdate")) {            
+            m_timer = new Timer(60000, new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    Date currentDate = getCurrentDate();
+                    Date test = jDateSelectorPanel1.getDate();
+                    Calendar testCal = Calendar.getInstance();
+                    Calendar currCal = Calendar.getInstance();
+                    testCal.setTime(test);
+                    currCal.setTime(currentDate);
+                    int testDayOfYear = testCal.get(Calendar.DAY_OF_YEAR);
+                    int testYear = testCal.get(Calendar.YEAR);
+                    int currDayOfYear = currCal.get(Calendar.DAY_OF_YEAR);
+                    int currYear = currCal.get(Calendar.YEAR);
+                    if ( testYear < currYear || testDayOfYear < currDayOfYear) {
+                        m_selectedDate = getCurrentDate();
+                        jDateSelectorPanel1.setMinDate(m_selectedDate);
+                        jDateSelectorPanel1.setDate(m_selectedDate);
+                        showShowsForDate(m_selectedDate);
+                        jShowList.clearSelection();
+                    }
                 }
-            }
-        });
-        m_timer.start();
+            });
+            m_timer.start();
+        }
                
     }
     
@@ -102,11 +108,10 @@ public class JBoxOfficePanel extends JPanel implements ListSelectionListener {
     }
     
     private Date getCurrentDate() {
-        AppConfig app = AppConfig.getInstance();
         Date startOfDay;
         Date now = new Date();
         try {
-            startOfDay = (Date) Formats.TIME.parseValue(app.getProperty("boxoffice.workdaystart"));
+            startOfDay = (Date) Formats.TIME.parseValue(m_app.getProperty("boxoffice.workdaystart"));
         } catch (BasicException ex) {
             startOfDay = null;
         }

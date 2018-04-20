@@ -41,6 +41,7 @@ public class JPanelConfigBoxOffice extends javax.swing.JPanel implements PanelCo
         app = AppConfig.getInstance();
         jchkAllowRegularProducts.addActionListener(dirty);
         jchkResetShowDate.addActionListener(dirty);
+        jchkAutoAdjustDate.addActionListener(dirty);
         
         String appFormatTime = app.getProperty("format.time");
         String timeFormat = ( appFormatTime == null || appFormatTime.equals("") ) ? "hh:mm a" : appFormatTime ;
@@ -74,6 +75,7 @@ public class JPanelConfigBoxOffice extends javax.swing.JPanel implements PanelCo
     public void loadProperties() {
         jchkAllowRegularProducts.setSelected(app.getBoolean("boxoffice.allowregularproducts"));
         jchkResetShowDate.setSelected(app.getBoolean("boxoffice.resetshowdate"));
+        jchkAutoAdjustDate.setSelected(app.getBoolean("boxoffice.autoadjustdate"));
         Date date;
         try {
             date = (Date) Formats.TIME.parseValue(app.getProperty("boxoffice.workdaystart"));
@@ -102,6 +104,7 @@ public class JPanelConfigBoxOffice extends javax.swing.JPanel implements PanelCo
         String timeFormat = Formats.TIME.formatValue(m_jSpinnerWorkdayStart.getValue());
         app.setBoolean("boxoffice.allowregularproducts", jchkAllowRegularProducts.isSelected());
         app.setBoolean("boxoffice.resetshowdate", jchkResetShowDate.isSelected());
+        app.setBoolean("boxoffice.autoadjustdate", jchkAutoAdjustDate.isSelected());
         app.setProperty("boxoffice.workdaystart", timeFormat);
         dirty.setDirty(false);
     }
@@ -118,6 +121,7 @@ public class JPanelConfigBoxOffice extends javax.swing.JPanel implements PanelCo
         jchkResetShowDate = new eu.hansolo.custom.SteelCheckBox();
         jLabel1 = new javax.swing.JLabel();
         m_jSpinnerWorkdayStart = new javax.swing.JSpinner();
+        jchkAutoAdjustDate = new eu.hansolo.custom.SteelCheckBox();
 
         setMinimumSize(new java.awt.Dimension(700, 500));
         setPreferredSize(new java.awt.Dimension(700, 650));
@@ -138,6 +142,14 @@ public class JPanelConfigBoxOffice extends javax.swing.JPanel implements PanelCo
         m_jSpinnerWorkdayStart.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         m_jSpinnerWorkdayStart.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(), null, null, java.util.Calendar.MINUTE));
 
+        jchkAutoAdjustDate.setSelected(true);
+        jchkAutoAdjustDate.setText(bundle.getString("label.boxofficeautoadjustdate")); // NOI18N
+        jchkAutoAdjustDate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jchkAutoAdjustDateActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -150,7 +162,8 @@ public class JPanelConfigBoxOffice extends javax.swing.JPanel implements PanelCo
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(m_jSpinnerWorkdayStart, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(m_jSpinnerWorkdayStart, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jchkAutoAdjustDate, javax.swing.GroupLayout.PREFERRED_SIZE, 403, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(291, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -160,11 +173,13 @@ public class JPanelConfigBoxOffice extends javax.swing.JPanel implements PanelCo
                 .addComponent(jchkAllowRegularProducts, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jchkResetShowDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jchkAutoAdjustDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(47, 47, 47)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(m_jSpinnerWorkdayStart, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(528, Short.MAX_VALUE))
+                .addContainerGap(461, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -172,10 +187,15 @@ public class JPanelConfigBoxOffice extends javax.swing.JPanel implements PanelCo
         // TODO add your handling code here:
     }//GEN-LAST:event_jchkResetShowDateActionPerformed
 
+    private void jchkAutoAdjustDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jchkAutoAdjustDateActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jchkAutoAdjustDateActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private eu.hansolo.custom.SteelCheckBox jchkAllowRegularProducts;
+    private eu.hansolo.custom.SteelCheckBox jchkAutoAdjustDate;
     private eu.hansolo.custom.SteelCheckBox jchkResetShowDate;
     private javax.swing.JSpinner m_jSpinnerWorkdayStart;
     // End of variables declaration//GEN-END:variables
