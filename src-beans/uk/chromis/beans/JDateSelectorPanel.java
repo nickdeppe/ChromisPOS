@@ -92,9 +92,7 @@ public class JDateSelectorPanel extends javax.swing.JPanel {
     
     public final void setEnabled(boolean enabled) {
         this.enabled = enabled;
-        this.m_jButtonDate.setEnabled(enabled);
-        this.m_jButtonDatePrevious.setEnabled(enabled);
-        this.m_jButtonDateNext.setEnabled(enabled);
+        enableDateControls();
     }
     
     
@@ -107,16 +105,27 @@ public class JDateSelectorPanel extends javax.swing.JPanel {
         Date oldDate = this.selectedDate;
         this.selectedDate = setDate;
         setButtonText();
-        if (this.minDate != null ) {
-            if (isDateLessThan(this.minDate, this.selectedDate)) {
-                this.m_jButtonDatePrevious.setEnabled(true);
-            } else {
-                this.m_jButtonDatePrevious.setEnabled(false);
-            }
-        } else {
-            this.m_jButtonDatePrevious.setEnabled(true);
-        }
+        enableDateControls();
         this.firePropertyChange("Date", oldDate, this.selectedDate);
+    }
+    
+    
+    private final void enableDateControls() {
+        if (!this.enabled) {
+            this.m_jButtonDate.setEnabled(false);
+            this.m_jButtonDatePrevious.setEnabled(false);
+            this.m_jButtonDateNext.setEnabled(false);
+        } else {
+            if (this.minDate != null ) {
+                if (isDateLessThan(this.minDate, this.selectedDate)) {
+                    this.m_jButtonDatePrevious.setEnabled(true);
+                } else {
+                    this.m_jButtonDatePrevious.setEnabled(false);
+                }
+            } else {
+                this.m_jButtonDatePrevious.setEnabled(true);
+            }
+        }
     }
     
     
