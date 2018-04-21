@@ -45,7 +45,7 @@
     </Container>
     <Component class="uk.chromis.pos.catalog.JBoxOfficePanel" name="jBoxOfficePanel">
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new uk.chromis.pos.catalog.JBoxOfficePanel(m_dlSales, m_boxOfficeSize)"/>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new uk.chromis.pos.catalog.JBoxOfficePanel(m_dlSales, m_App, m_boxOfficeSize)"/>
         <AuxValue name="JavaCodeGenerator_SerializeTo" type="java.lang.String" value="JCatalogBoxOffice_jBoxOfficePanel1"/>
       </AuxValues>
     </Component>

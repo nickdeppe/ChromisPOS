@@ -18,6 +18,9 @@ import uk.chromis.format.Formats;
  */
 public class JDateSelectorPanel extends javax.swing.JPanel {
 
+    
+    private boolean enabled = true;
+    
     private Date selectedDate;
     private Calendar cal;
     private Date minDate = null;
@@ -83,6 +86,20 @@ public class JDateSelectorPanel extends javax.swing.JPanel {
     
     public void clearMinDate() {
         this.setDate(null);
+    }
+    
+    
+    
+    public final void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+        this.m_jButtonDate.setEnabled(enabled);
+        this.m_jButtonDatePrevious.setEnabled(enabled);
+        this.m_jButtonDateNext.setEnabled(enabled);
+    }
+    
+    
+    public final boolean getEnabled() {
+        return this.enabled;
     }
     
     

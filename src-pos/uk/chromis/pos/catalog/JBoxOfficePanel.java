@@ -21,6 +21,7 @@ import uk.chromis.basic.BasicException;
 import uk.chromis.beans.JDateSelectorPanel;
 import uk.chromis.format.Formats;
 import uk.chromis.pos.forms.AppConfig;
+import uk.chromis.pos.forms.AppView;
 import uk.chromis.pos.forms.DataLogicSales;
 import uk.chromis.pos.ticket.ShowSalesInfo;
 import uk.chromis.pos.util.ThumbNailBuilder;
@@ -33,6 +34,7 @@ import uk.chromis.pos.util.ThumbNailBuilder;
 public class JBoxOfficePanel extends JPanel implements ListSelectionListener {
 
     private AppConfig m_app;
+    private AppView m_AppView;
 
     private Date m_selectedDate;
     private final DataLogicSales m_dlSales;
@@ -42,16 +44,17 @@ public class JBoxOfficePanel extends JPanel implements ListSelectionListener {
     private Timer m_timer;
     
     
-    public JBoxOfficePanel(DataLogicSales dlSales) {
-        this(dlSales, 50);
+    public JBoxOfficePanel(DataLogicSales dlSales, AppView app) {
+        this(dlSales, app, 50);
     }
     
     
-    public JBoxOfficePanel(DataLogicSales dlSales, int imageSize) {
+    public JBoxOfficePanel(DataLogicSales dlSales, AppView app, int imageSize) {
         
         initComponents();
         
         m_app = AppConfig.getInstance();
+        m_AppView = app;
         
         m_dlSales = dlSales;
         
@@ -60,8 +63,6 @@ public class JBoxOfficePanel extends JPanel implements ListSelectionListener {
         jShowList.setCellRenderer(new ShowListCellRenderer());
         
         jShowList.addListSelectionListener(this);
-        
-        initializeDates();
     
         // Monitor the current time
         // If the date changes, then reset the date selector panel min and current date
@@ -90,7 +91,10 @@ public class JBoxOfficePanel extends JPanel implements ListSelectionListener {
             });
             m_timer.start();
         }
-               
+        
+        
+        this.activate();
+                
     }
     
     
@@ -106,6 +110,20 @@ public class JBoxOfficePanel extends JPanel implements ListSelectionListener {
         jShowList.setCellRenderer(new ShowListCellRenderer());
         
     }
+    
+    
+    public void activate() {
+                
+        initializeDates();
+        
+        if (m_AppView.getAppUserView().getUser().hasPermission("boxoffice.SelectDate")) {
+            jDateSelectorPanel1.setEnabled(true);
+        } else {
+            jDateSelectorPanel1.setEnabled(false);
+        }
+        
+    }
+    
     
     private Date getCurrentDate() {
         Date startOfDay;

@@ -78,6 +78,7 @@ public class JPanelTicketSales extends JPanelTicket {
         
         if (AppConfig.getInstance().getProperty("machine.ticketsbag").equals("boxoffice")) {
             m_cat = new JCatalogBoxOffice(dlSales,
+                    m_App,
                     "true".equals(m_jbtnconfig.getProperty("pricevisible")),
                     "true".equals(m_jbtnconfig.getProperty("taxesincluded")),
                     Integer.parseInt(m_jbtnconfig.getProperty("img-width", "64")),
@@ -156,7 +157,7 @@ public class JPanelTicketSales extends JPanelTicket {
             Date showDate = prod.getShowDate();
             if (prod.getIsBoxOffice() && ( show == null || showDate == null )) {
                 // It's a box office product and no show is selected
-                if (JBoxOfficeDialog.showDialog(m_ticketlines, dlSales) ) {
+                if (JBoxOfficeDialog.showDialog(m_ticketlines, dlSales, m_App) ) {
                     buttonTransition(prod, JBoxOfficeDialog.getSelectedShow(), JBoxOfficeDialog.getSelectedShowDate());
                 }
             } else if ( prod.getIsBoxOffice() && show != null && showDate != null) {

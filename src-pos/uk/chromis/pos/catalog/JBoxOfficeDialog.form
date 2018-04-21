@@ -72,7 +72,7 @@
       <SubComponents>
         <Component class="uk.chromis.pos.catalog.JBoxOfficePanel" name="jCatalogBoxOfficePanel1">
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new uk.chromis.pos.catalog.JBoxOfficePanel(m_dlSales)"/>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new uk.chromis.pos.catalog.JBoxOfficePanel(m_dlSales, m_app)"/>
           </AuxValues>
         </Component>
         <Container class="javax.swing.JPanel" name="jPanel1">

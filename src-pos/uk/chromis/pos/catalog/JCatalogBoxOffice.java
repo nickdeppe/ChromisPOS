@@ -39,6 +39,7 @@ import javax.swing.event.EventListenerList;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import uk.chromis.pos.forms.AppConfig;
+import uk.chromis.pos.forms.AppView;
 import uk.chromis.pos.ticket.ShowSalesInfo;
 
 /**
@@ -63,9 +64,11 @@ public class JCatalogBoxOffice extends JPanel implements ListSelectionListener, 
     private Date m_dSelectedDate;
     
     private int m_boxOfficeSize;
+    
+    private AppView m_App;
 
-    public JCatalogBoxOffice(DataLogicSales dlSales) {
-        this(dlSales, false, false, 64, 54, 50);
+    public JCatalogBoxOffice(DataLogicSales dlSales, AppView app) {
+        this(dlSales, app, false, false, 64, 54, 50);
     }
 
     
@@ -78,14 +81,16 @@ public class JCatalogBoxOffice extends JPanel implements ListSelectionListener, 
      * @param height
      * @param boxOfficeImageSize
      */
-    public JCatalogBoxOffice(DataLogicSales dlSales, boolean pricevisible, boolean taxesincluded, int width, int height, int boxOfficeImageSize) {
+    public JCatalogBoxOffice(DataLogicSales dlSales, AppView app, boolean pricevisible, boolean taxesincluded, int width, int height, int boxOfficeImageSize) {
         m_dlSales = dlSales;
+        m_App = app;
         this.pricevisible = pricevisible;
         this.taxesincluded = taxesincluded;
         tnbbutton = new ThumbNailBuilder(width, height, "uk/chromis/images/package.png");
         m_boxOfficeSize = boxOfficeImageSize;
         initComponents();
         this.jBoxOfficePanel.addPropertyChangeListener("Show", new JBoxOfficePanelChange(this.jBoxOfficePanel) );
+        this.jBoxOfficePanel.activate();
         this.jBoxOfficePanel.resetPanel();
     }
 
@@ -152,6 +157,8 @@ public class JCatalogBoxOffice extends JPanel implements ListSelectionListener, 
         taxeslogic = new TaxesLogic(m_dlSales.getTaxList().list());
 
         buildProductPanel();
+        
+        jBoxOfficePanel.activate();
         
         setSelectedShow(jBoxOfficePanel);
     }
@@ -314,7 +321,7 @@ public class JCatalogBoxOffice extends JPanel implements ListSelectionListener, 
     private void initComponents() {
 
         m_jProducts = new javax.swing.JPanel();
-        jBoxOfficePanel = new uk.chromis.pos.catalog.JBoxOfficePanel(m_dlSales, m_boxOfficeSize);
+        jBoxOfficePanel = new uk.chromis.pos.catalog.JBoxOfficePanel(m_dlSales, m_App, m_boxOfficeSize);
 
         m_jProducts.setLayout(new java.awt.CardLayout());
 
