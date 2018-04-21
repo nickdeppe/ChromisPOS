@@ -128,7 +128,7 @@ public class ShowsPanel extends JPanelTable2 {
                         "S.THEATREID",
                         "S.ENDDATE"
                     },
-                    false
+                    true
                 ),
                 new SerializerWriteBasic(
                     new Datas[]{
