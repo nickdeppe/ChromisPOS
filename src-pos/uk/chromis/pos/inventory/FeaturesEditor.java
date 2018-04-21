@@ -59,6 +59,7 @@ public final class FeaturesEditor extends JPanel implements EditorRecord {
         m_jActive.addActionListener(dirty);
         m_jTabImage.addPropertyChangeListener("image", dirty);
         m_jRating.addActionListener(dirty);
+        m_jExchange.addActionListener(dirty);
         
         ratingSentence = dlSales.getRatingsList();
         exchangesSentence = dlSales.getExchangesList();
