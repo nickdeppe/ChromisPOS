@@ -31,7 +31,7 @@ import uk.chromis.pos.util.ThumbNailBuilder;
  *
  * @author nick
  */
-public class JBoxOfficePanel extends JPanel implements ListSelectionListener {
+public final class JBoxOfficePanel extends JPanel implements ListSelectionListener {
 
     private AppConfig m_app;
     private AppView m_AppView;
@@ -81,11 +81,7 @@ public class JBoxOfficePanel extends JPanel implements ListSelectionListener {
                     int currDayOfYear = currCal.get(Calendar.DAY_OF_YEAR);
                     int currYear = currCal.get(Calendar.YEAR);
                     if ( testYear < currYear || testDayOfYear < currDayOfYear) {
-                        m_selectedDate = getCurrentDate();
-                        jDateSelectorPanel1.setMinDate(m_selectedDate);
-                        jDateSelectorPanel1.setDate(m_selectedDate);
-                        showShowsForDate(m_selectedDate);
-                        jShowList.clearSelection();
+                        updateList(getCurrentDate());
                     }
                 }
             });
@@ -97,7 +93,7 @@ public class JBoxOfficePanel extends JPanel implements ListSelectionListener {
                 
     }
     
-    
+        
     // This is here so the panel renders correctly in Netbeans.
     public JBoxOfficePanel() {
         
@@ -110,6 +106,17 @@ public class JBoxOfficePanel extends JPanel implements ListSelectionListener {
         jShowList.setCellRenderer(new ShowListCellRenderer());
         
     }
+    
+    
+    
+    public void updateList(Date date) {
+        m_selectedDate = date;
+        jDateSelectorPanel1.setMinDate(m_selectedDate);
+        jDateSelectorPanel1.setDate(m_selectedDate);
+        showShowsForDate(m_selectedDate);
+        jShowList.clearSelection();        
+    }
+    
     
     
     public void activate() {
@@ -166,18 +173,13 @@ public class JBoxOfficePanel extends JPanel implements ListSelectionListener {
     
     
     private void initializeDates() {
-                
         this.jDateSelectorPanel1.addPropertyChangeListener("Date", new JPanelDateChange(this.jDateSelectorPanel1) ); 
-        this.jDateSelectorPanel1.setMinDate(getCurrentDate());
-        
         this.resetPanel();
-        
     }
     
     
     public void resetPanel() {
-        this.jDateSelectorPanel1.setDate(getCurrentDate());
-        this.jShowList.clearSelection();
+        updateList(getCurrentDate());
     }
     
     
@@ -239,9 +241,6 @@ public class JBoxOfficePanel extends JPanel implements ListSelectionListener {
         
         m_showListModel = new ShowListModel(showList);
         jShowList.setModel(m_showListModel);
-//        if (m_showListModel.getSize() > 0) {
-//            jShowList.setSelectedIndex(0);
-//        }
                 
     }
     

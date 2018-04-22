@@ -54,6 +54,7 @@ public class JBoxOfficeDialog extends javax.swing.JDialog  {
     private void initialize(DataLogicSales dlSales, AppView app) {
         
         m_dlSales = dlSales;
+        m_app = app;
         
         if (m_resources == null) {
             m_resources = new LocaleResources();
