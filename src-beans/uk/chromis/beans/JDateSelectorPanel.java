@@ -116,6 +116,8 @@ public class JDateSelectorPanel extends javax.swing.JPanel {
             this.m_jButtonDatePrevious.setEnabled(false);
             this.m_jButtonDateNext.setEnabled(false);
         } else {
+            this.m_jButtonDate.setEnabled(true);
+            this.m_jButtonDateNext.setEnabled(true);
             if (this.minDate != null ) {
                 if (isDateLessThan(this.minDate, this.selectedDate)) {
                     this.m_jButtonDatePrevious.setEnabled(true);
