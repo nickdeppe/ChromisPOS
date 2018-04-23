@@ -28,6 +28,8 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="m_jStartTime" min="-2" pref="177" max="-2" attributes="0"/>
                           <Component id="m_jSequence" min="-2" pref="110" max="-2" attributes="0"/>
+                          <Component id="m_jchkPrintTicket" min="-2" max="-2" attributes="0"/>
+                          <Component id="m_jchkPrintReport" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
@@ -61,7 +63,11 @@
                   <Component id="jLabel10" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
                   <Component id="m_jStartTime" alignment="3" min="-2" pref="41" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="1" pref="148" max="32767" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="m_jchkPrintTicket" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="m_jchkPrintReport" min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="64" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -135,6 +141,20 @@
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JSpinner( new javax.swing.SpinnerDateModel() )"/>
       </AuxValues>
+    </Component>
+    <Component class="eu.hansolo.custom.SteelCheckBox" name="m_jchkPrintTicket">
+      <Properties>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="pos_messages.properties" key="label.printticket" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+        </Property>
+      </Properties>
+    </Component>
+    <Component class="eu.hansolo.custom.SteelCheckBox" name="m_jchkPrintReport">
+      <Properties>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="pos_messages.properties" key="label.printreport" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+        </Property>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>

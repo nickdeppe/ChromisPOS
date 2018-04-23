@@ -59,7 +59,9 @@
 	<line></line>
 	<line size="1"><text align="left" length="42" bold="true">${ticketline.printShowDate()}</text></line>
 			#foreach($feature in $features)
+                            #if($feature.getPrintTicket())
 	<line><text align="left" length="9">${feature.printStartTime()}</text><text align="left" length="28" bold="true">${feature.printFeatureName()}</text><text align="left" length="5">${feature.printRatingName()}</text></line>
+                            #end
 			#end
 	<line></line>
 	<line></line>

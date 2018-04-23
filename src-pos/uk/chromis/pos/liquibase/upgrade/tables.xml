@@ -223,7 +223,7 @@
      <changeSet author="N Deppe" id="Update TICKETLINES table, add SHOWID column">
          <preConditions onFail="MARK_RAN">
              <not>
-                 <columnExists columnName="SHOWID" tableName="ORDERS"/>
+                 <columnExists columnName="SHOWID" tableName="TICKETLINES"/>
              </not>
          </preConditions>
          <addColumn tableName="TICKETLINES">
@@ -236,7 +236,7 @@
      <changeSet author="N Deppe" id="Update TICKETLINES table, add SHOWDATE column">
          <preConditions onFail="MARK_RAN">
              <not>
-                 <columnExists columnName="SHOWDATE" tableName="ORDERS"/>
+                 <columnExists columnName="SHOWDATE" tableName="TICKETLINES"/>
              </not>
          </preConditions>
          <addColumn tableName="TICKETLINES">
@@ -389,6 +389,37 @@
         </createIndex>
     </changeSet>             
              
+
+
+     <changeSet author="N Deppe" id="Update SHOWFEATURES table, add PRINTTICKET column">
+         <preConditions onFail="MARK_RAN">
+             <not>
+                 <columnExists columnName="PRINTTICKET" tableName="SHOWFEATURES"/>
+             </not>
+         </preConditions>
+         <addColumn tableName="SHOWFEATURES">
+            <column name="PRINTTICKET" type="${boolean.type}" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+         </addColumn>
+     </changeSet>
              
+
+     <changeSet author="N Deppe" id="Update SHOWFEATURES table, add PRINTREPORT column">
+         <preConditions onFail="MARK_RAN">
+             <not>
+                 <columnExists columnName="PRINTREPORT" tableName="SHOWFEATURES"/>
+             </not>
+         </preConditions>
+         <addColumn tableName="SHOWFEATURES">
+            <column name="PRINTREPORT" type="${boolean.type}" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+         </addColumn>
+     </changeSet>
+             
+                          
+                                       
+                                                                 
 </databaseChangeLog>
 

@@ -62,6 +62,8 @@ public class ShowFeaturePanel extends JPanelTable2 {
                 new Field("FEATUREID", Datas.STRING, Formats.STRING),
                 new Field("SEQUENCE", Datas.INT, Formats.INT, false, false, true),
                 new Field("STARTTIME", Datas.TIME, Formats.TIME, true, false, false),
+                new Field("PRINTTICKET", Datas.BOOLEAN, Formats.BOOLEAN, false, false, false),
+                new Field("PRINTREPORT", Datas.BOOLEAN, Formats.BOOLEAN, false, false, false),
                 new Field(AppLocal.getIntString("label.name"), Datas.STRING, Formats.STRING, true, true, true)
         );
 
@@ -71,7 +73,9 @@ public class ShowFeaturePanel extends JPanelTable2 {
                 new Column("SHOWID"),
                 new Column("FEATUREID"),
                 new Column("SEQUENCE"),
-                new Column("STARTTIME")
+                new Column("STARTTIME"),
+                new Column("PRINTTICKET"),
+                new Column("PRINTREPORT")
         );
 
         lpr = row.getListProvider(
@@ -82,6 +86,8 @@ public class ShowFeaturePanel extends JPanelTable2 {
                         + "SF.FEATUREID, "
                         + "SF.SEQUENCE, "
                         + "SF.STARTTIME, "
+                        + "SF.PRINTTICKET, "
+                        + "SF.PRINTREPORT, "
                         + "F.NAME "
                 + "FROM "
                         + "SHOWFEATURES SF "

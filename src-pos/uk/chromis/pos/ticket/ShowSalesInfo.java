@@ -188,7 +188,9 @@ public class ShowSalesInfo implements IKeyed, Cloneable {
         String buttonText = "<html><font size='+1'>" + getTheatreName() + "</font>";
         for(int i = 0; i < m_oShowFeatures.size(); i++) {
             ShowFeaturesInfo feature = m_oShowFeatures.get(i);
-            buttonText += "<br>" + feature.toString();
+            if (feature.getPrintTicket()) {
+                buttonText += "<br>" + feature.toString();
+            }
         }
         return buttonText;
     }
@@ -197,7 +199,9 @@ public class ShowSalesInfo implements IKeyed, Cloneable {
         String toolTip = getTheatreName();
         for(int i = 0; i < m_oShowFeatures.size(); i++) {
             ShowFeaturesInfo feature = m_oShowFeatures.get(i);
-            toolTip += ", " + feature.toString();
+            if (feature.getPrintTicket()) {
+                toolTip += ", " + feature.toString();
+            }
         }
         return toolTip;
     }
@@ -205,10 +209,14 @@ public class ShowSalesInfo implements IKeyed, Cloneable {
     
     public final BufferedImage getButtonImage() {
         BufferedImage image;
+        ShowFeaturesInfo feature;
         for (int i = 0; i < m_oShowFeatures.size(); i++) {
-            image = m_oShowFeatures.get(i).getImage();
-            if ( image != null ) {
-                return image;
+            feature = m_oShowFeatures.get(i);
+            if ( feature.getPrintTicket() ) {
+                image = feature.getImage();
+                if ( image != null ) {
+                    return image;
+                }
             }
         }
         return null;  // If we reached this far, we didn't find a feature with an image
@@ -220,9 +228,11 @@ public class ShowSalesInfo implements IKeyed, Cloneable {
         ShowFeaturesInfo feature;
         for (int i = 0; i < m_oShowFeatures.size(); i++) {
             feature = m_oShowFeatures.get(i);
-            if (!featuresText.equals(""))
-                featuresText += ", ";
-            featuresText += feature.getFeatureName();
+            if (feature.getPrintTicket()) {
+                if (!featuresText.equals(""))
+                    featuresText += ", ";
+                featuresText += feature.getFeatureName();
+            }
         }
         return featuresText;
     }

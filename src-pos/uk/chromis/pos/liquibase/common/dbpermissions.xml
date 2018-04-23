@@ -1113,7 +1113,7 @@
 		
     <changeSet author="Chromis POS" id="Add box select dates button">
         <preConditions onFail="MARK_RAN">
-            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM DBPERMISSIONS WHERE DESCRIPTION = '##label.description141'</sqlCheck>
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM DBPERMISSIONS WHERE CLASSNAME = 'boxoffice.SelectDate'</sqlCheck>
         </preConditions>
         <insert tableName="DBPERMISSIONS">		
             <column name="CLASSNAME" value="boxoffice.SelectDate"/>

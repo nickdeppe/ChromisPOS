@@ -60,6 +60,8 @@ public class ShowFeatureEditor extends javax.swing.JPanel implements EditorRecor
         m_jFeature.addActionListener(dirty);
         m_jSequence.addChangeListener(dirty);
         m_jStartTime.addChangeListener(dirty);
+        m_jchkPrintReport.addActionListener(dirty);
+        m_jchkPrintTicket.addActionListener(dirty);
         
 
 //        featureSentence = new StaticSentence(
@@ -121,10 +123,15 @@ public class ShowFeatureEditor extends javax.swing.JPanel implements EditorRecor
         featureModel.setSelectedKey(null);
         m_jSequence.setValue(1);
         m_jStartTime.setValue(new Date());
+        m_jchkPrintReport.setSelected(true);
+        m_jchkPrintTicket.setSelected(true);
+        
 
         m_jFeature.setEnabled(false);
         m_jSequence.setEnabled(false);
         m_jStartTime.setEnabled(false);
+        m_jchkPrintReport.setEnabled(false);
+        m_jchkPrintTicket.setEnabled(false);
 
     }
 
@@ -143,10 +150,14 @@ public class ShowFeatureEditor extends javax.swing.JPanel implements EditorRecor
             m_jSequence.setValue(1);
         }
         m_jStartTime.setValue(new Date());
+        m_jchkPrintReport.setSelected(true);
+        m_jchkPrintTicket.setSelected(true);
 
         m_jFeature.setEnabled(true);
         m_jSequence.setEnabled(true);
         m_jStartTime.setEnabled(true);
+        m_jchkPrintReport.setEnabled(true);
+        m_jchkPrintTicket.setEnabled(true);
 
     }
 
@@ -164,10 +175,14 @@ public class ShowFeatureEditor extends javax.swing.JPanel implements EditorRecor
         featureModel.setSelectedKey(obj[2]);
         m_jSequence.setValue(obj[3]);
         m_jStartTime.setValue(obj[4]);
+        m_jchkPrintTicket.setSelected((boolean) obj[5]);
+        m_jchkPrintReport.setSelected((boolean) obj[6]);
 
         m_jFeature.setEnabled(true);
         m_jSequence.setEnabled(true);
         m_jStartTime.setEnabled(true);
+        m_jchkPrintTicket.setEnabled(true);
+        m_jchkPrintReport.setEnabled(true);
         
     }
 
@@ -185,10 +200,15 @@ public class ShowFeatureEditor extends javax.swing.JPanel implements EditorRecor
         featureModel.setSelectedKey(obj[2]);
         m_jSequence.setValue(obj[3]);
         m_jStartTime.setValue(obj[4]);
+        m_jchkPrintTicket.setSelected((boolean) obj[5]);
+        m_jchkPrintReport.setSelected((boolean) obj[6]);
         
         m_jFeature.setEnabled(false);
         m_jSequence.setEnabled(false);
         m_jStartTime.setEnabled(false);
+        m_jchkPrintTicket.setEnabled(true);
+        m_jchkPrintReport.setEnabled(true);
+
     }
 
 
@@ -219,6 +239,8 @@ public class ShowFeatureEditor extends javax.swing.JPanel implements EditorRecor
             Formats.STRING.formatValue(featureModel.getSelectedKey()),
             Formats.INT.parseValue(m_jSequence.getValue().toString()),
             (java.util.Date)m_jStartTime.getValue(),
+            m_jchkPrintTicket.isSelected(),
+            m_jchkPrintReport.isSelected(),
             Formats.STRING.formatValue(featureModel.getSelectedText())
         };
     }
@@ -238,6 +260,8 @@ public class ShowFeatureEditor extends javax.swing.JPanel implements EditorRecor
         m_jFeature = new javax.swing.JComboBox<>();
         m_jSequence = new javax.swing.JSpinner();
         m_jStartTime = new javax.swing.JSpinner( new javax.swing.SpinnerDateModel() );
+        m_jchkPrintTicket = new eu.hansolo.custom.SteelCheckBox();
+        m_jchkPrintReport = new eu.hansolo.custom.SteelCheckBox();
 
         jLabel13.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel13.setText(AppLocal.getIntString("label.feature")); // NOI18N
@@ -257,6 +281,11 @@ public class ShowFeatureEditor extends javax.swing.JPanel implements EditorRecor
         m_jStartTime.setModel(new javax.swing.SpinnerDateModel());
         m_jStartTime.setMinimumSize(new java.awt.Dimension(211, 40));
 
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("pos_messages"); // NOI18N
+        m_jchkPrintTicket.setText(bundle.getString("label.printticket")); // NOI18N
+
+        m_jchkPrintReport.setText(bundle.getString("label.printreport")); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -271,7 +300,9 @@ public class ShowFeatureEditor extends javax.swing.JPanel implements EditorRecor
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(m_jStartTime, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(m_jSequence, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(m_jSequence, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(m_jchkPrintTicket, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(m_jchkPrintReport, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -295,7 +326,11 @@ public class ShowFeatureEditor extends javax.swing.JPanel implements EditorRecor
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(m_jStartTime, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(1, 148, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(m_jchkPrintTicket, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(m_jchkPrintReport, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(64, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -307,6 +342,8 @@ public class ShowFeatureEditor extends javax.swing.JPanel implements EditorRecor
     private javax.swing.JComboBox<String> m_jFeature;
     private javax.swing.JSpinner m_jSequence;
     private javax.swing.JSpinner m_jStartTime;
+    private eu.hansolo.custom.SteelCheckBox m_jchkPrintReport;
+    private eu.hansolo.custom.SteelCheckBox m_jchkPrintTicket;
     // End of variables declaration//GEN-END:variables
 
 

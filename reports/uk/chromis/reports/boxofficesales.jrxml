@@ -229,7 +229,7 @@ GROUP BY
 				<subreport>
 					<reportElement x="60" y="2" width="360" height="10" uuid="ea8d48a6-eb16-4da8-9578-13b6cd2f8a69"/>
 					<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource(
-$P{DL_SALES}.getFeaturesForShow($F{ID})
+$P{DL_SALES}.getFeaturesForBoxOfficeReport($F{ID})
 )]]></dataSourceExpression>
 					<subreportExpression><![CDATA[$P{SUBREPORT_PATH}]]></subreportExpression>
 				</subreport>

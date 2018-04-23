@@ -47,6 +47,8 @@ public class ShowFeaturesInfo implements IKeyed, Cloneable {
     protected Boolean m_bActive;
     protected String m_sRatingName;
     protected String m_sExchangeName;
+    protected Boolean m_bPrintTicket;
+    protected Boolean m_bPrintReport;
     
 
     /**
@@ -65,9 +67,11 @@ public class ShowFeaturesInfo implements IKeyed, Cloneable {
         m_bActive = null;
         m_sRatingName = null;
         m_sExchangeName = null;
+        m_bPrintReport = null;
+        m_bPrintTicket = null;
     }
 
-    public ShowFeaturesInfo( String id, String showID, String featureID, Integer sequence, Date startTime, String featureName, BufferedImage image, Integer runtime, String ratingID, Boolean active, String ratingName, String exchangeName ) {
+    public ShowFeaturesInfo( String id, String showID, String featureID, Integer sequence, Date startTime, Boolean printTicket, Boolean printReport, String featureName, BufferedImage image, Integer runtime, String ratingID, Boolean active, String ratingName, String exchangeName ) {
         m_ID = id;
         m_sShowID = showID;
         m_sFeatureID = featureID;
@@ -80,6 +84,8 @@ public class ShowFeaturesInfo implements IKeyed, Cloneable {
         m_bActive = active;
         m_sRatingName = ratingName;
         m_sExchangeName = exchangeName;
+        m_bPrintTicket = printTicket;
+        m_bPrintReport = printReport;
     }
 
 
@@ -219,6 +225,23 @@ public class ShowFeaturesInfo implements IKeyed, Cloneable {
     public final String printExchangeName() {
         return StringUtils.encodeXML(getExchangeName());
     }
+    
+    
+    public final Boolean getPrintTicket() {
+        return m_bPrintTicket;
+    }
+    
+    public final void setPrintTicket(Boolean b) {
+        m_bPrintTicket = b;
+    }
+    
+    public final Boolean getPrintReport() {
+        return m_bPrintReport;
+    }
+    
+    public final void setPrintReport(Boolean b) {
+        m_bPrintReport = b;
+    }
 
     @Override
     public final String toString() {
@@ -239,7 +262,7 @@ public class ShowFeaturesInfo implements IKeyed, Cloneable {
         return new SerializerRead() {
             @Override
             public Object readValues(DataRead dr) throws BasicException {
-                return new ShowFeaturesInfo(dr.getString(1), dr.getString(2), dr.getString(3), dr.getInt(4), dr.getTime(5), dr.getString(6), ImageUtils.readImage(dr.getBytes(7)), dr.getInt(8), dr.getString(9), dr.getBoolean(10), dr.getString(11), dr.getString(12));
+                return new ShowFeaturesInfo(dr.getString(1), dr.getString(2), dr.getString(3), dr.getInt(4), dr.getTime(5), dr.getBoolean(6), dr.getBoolean(7), dr.getString(8), ImageUtils.readImage(dr.getBytes(9)), dr.getInt(10), dr.getString(11), dr.getBoolean(12), dr.getString(13), dr.getString(14));
             }
         };
     }

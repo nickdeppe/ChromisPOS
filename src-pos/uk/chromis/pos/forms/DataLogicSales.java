@@ -146,6 +146,8 @@ public class DataLogicSales extends BeanFactoryDataSingle {
     public static int INDEX_SHOW_FEATURES_FEATUREID = SHOW_FEATURES_FIELD_COUNT++;
     public static int INDEX_SHOW_FEATURES_SEQUENCE = SHOW_FEATURES_FIELD_COUNT++;
     public static int INDEX_SHOW_FEATURES_STARTTIME = SHOW_FEATURES_FIELD_COUNT++;
+    public static int INDEX_SHOW_FEATURES_PRINTTICKET = SHOW_FEATURES_FIELD_COUNT++;
+    public static int INDEX_SHOW_FEATURES_PRINTREPORT = SHOW_FEATURES_FIELD_COUNT++;
 
     
     /**
@@ -291,7 +293,9 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 new Field("FEATUREID", Datas.STRING, Formats.STRING),
                 new Field("NAME", Datas.STRING, Formats.STRING),
                 new Field("SEQUENCE", Datas.INT, Formats.INT),
-                new Field("STARTTIME", Datas.TIME, Formats.TIME)
+                new Field("STARTTIME", Datas.TIME, Formats.TIME),
+                new Field("PRINTTICKET", Datas.BOOLEAN, Formats.BOOLEAN),
+                new Field("PRINTREPORT", Datas.BOOLEAN, Formats.BOOLEAN)
         );
         
         showFeaturesRow = new Row(
@@ -299,7 +303,9 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 new Field("SHOWID", Datas.STRING, Formats.STRING),
                 new Field("FEATUREID", Datas.STRING, Formats.STRING),
                 new Field("SEQUENCE", Datas.INT, Formats.INT),
-                new Field("STARTTIME", Datas.TIME, Formats.TIME)
+                new Field("STARTTIME", Datas.TIME, Formats.TIME),
+                new Field("PRINTTICKET", Datas.BOOLEAN, Formats.BOOLEAN),
+                new Field("PRINTREPORT", Datas.BOOLEAN, Formats.BOOLEAN)
         );
         
         assert (SHOW_FEATURES_FIELD_COUNT == showFeaturesRow.getFields().length );
@@ -1797,6 +1803,8 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                         + " SF.FEATUREID, "
                         + " SF.SEQUENCE, "
                         + " SF.STARTTIME, "
+                        + " SF.PRINTTICKET, "
+                        + " SF.PRINTREPORT, "
                         + " F.NAME, "
                         + " F.IMAGE, "
                         + " F.RUNTIME, "
@@ -1817,6 +1825,46 @@ public class DataLogicSales extends BeanFactoryDataSingle {
         ).list(showID);
     }
     
+
+
+    
+    /**
+     *
+     * @return @throws BasicException
+     */
+    public final List<ShowFeaturesInfo> getFeaturesForBoxOfficeReport(String showID) throws BasicException {
+        return new PreparedSentence(
+                s, 
+                "SELECT "
+                        + " SF.ID, "
+                        + " SF.SHOWID, "
+                        + " SF.FEATUREID, "
+                        + " SF.SEQUENCE, "
+                        + " SF.STARTTIME, "
+                        + " SF.PRINTTICKET, "
+                        + " SF.PRINTREPORT, "
+                        + " F.NAME, "
+                        + " F.IMAGE, "
+                        + " F.RUNTIME, "
+                        + " F.RATINGID, "
+                        + " F.ACTIVE, "
+                        + " R.NAME AS RATINGNAME, "
+                        + " COALESCE(E.NAME, '') AS EXCHANGENAME "
+                        + "FROM "
+                        + " SHOWFEATURES SF "
+                        + " INNER JOIN FEATURES F ON SF.FEATUREID = F.ID "
+                        + " INNER JOIN RATINGS R ON F.RATINGID = R.ID "
+                        + " LEFT OUTER JOIN EXCHANGES E ON F.EXCHANGEID = E.ID "
+                        + "WHERE "
+                        + " SF.SHOWID = ? "
+                        + " AND SF.PRINTREPORT = TRUE "
+                        + "ORDER BY SF.SEQUENCE, SF.STARTTIME", 
+                SerializerWriteString.INSTANCE, 
+                ShowFeaturesInfo.getSerializerRead()
+        ).list(showID);
+    }
+
+
     
     public final Integer getNextShowFeatureSequence(String showID) throws BasicException {
         
@@ -2049,7 +2097,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 Object[] values = (Object[]) params;
                 return new PreparedSentence(
                     s,
-                    "INSERT INTO SHOWFEATURES (ID, SHOWID, FEATUREID, SEQUENCE, STARTTIME) VALUES (?, ?, ?, ?, ?)",
+                    "INSERT INTO SHOWFEATURES (ID, SHOWID, FEATUREID, SEQUENCE, STARTTIME, PRINTTICKET, PRINTREPORT) VALUES (?, ?, ?, ?, ?, ?, ?)",
                     new SerializerWriteBasicExt(
                         showFeaturesRow.getDatas(),
                         new int[] {
@@ -2080,7 +2128,9 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                         + "SHOWID = ?, "
                         + "FEATUREID = ?, "
                         + "SEQUENCE = ?, "
-                        + "STARTTIME = ? "
+                        + "STARTTIME = ?, "
+                        + "PRINTTICKET = ?, "
+                        + "PRINTREPORT = ? "
                         + "WHERE ID = ?",
                         new SerializerWriteBasicExt(
                                 showFeaturesRow.getDatas(),
