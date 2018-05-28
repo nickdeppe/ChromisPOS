@@ -78,7 +78,15 @@ report.setSentence("SELECT " +
     "pr.NAME, " +
     "tl.PRICE - (tl.PRICE * ta.RATE), " +
     "tl.PRICE * ta.RATE, " +
-    "tl.PRICE");
+    "tl.PRICE " +
+  "ORDER BY " +
+    "th.NAME, " +
+    "sh.STARTDATE, " +
+    "sh.ENDDATE, " +
+    "sh.ID, " +
+    "tl.SHOWDATE, " +
+    "pr.NAME "
+);
 
 report.addParameter("tl.SHOWDATE");
 report.addParameter("tl.SHOWDATE");
