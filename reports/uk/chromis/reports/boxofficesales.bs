@@ -39,7 +39,11 @@ report.setSentence("SELECT " +
     "sh.ENDDATE, " +
     "sh.REPORTSTARTDATE, " +
     "sh.REPORTENDDATE, " +
-    "tl.SHOWDATE, " +
+    "CASE " +
+    "  WHEN tl.SHOWDATE < sh.REPORTSTARTDATE THEN sh.REPORTSTARTDATE " +
+    "  WHEN tl.SHOWDATE > sh.REPORTENDDATE THEN sh.REPORTENDDATE " +
+    "  ELSE tl.SHOWDATE " +
+    "END AS SHOWDATE, " +
     "pr.NAME AS PRODUCTNAME, " +
     "tl.PRICE - (tl.PRICE * ta.RATE) AS NETPRICE, " +
     "tl.PRICE * ta.RATE AS NETTAX, " +
@@ -74,7 +78,11 @@ report.setSentence("SELECT " +
     "sh.ENDDATE, " +
     "sh.REPORTSTARTDATE, " +
     "sh.REPORTENDDATE, " +
-    "tl.SHOWDATE, " +
+    "CASE " +
+    "  WHEN tl.SHOWDATE < sh.REPORTSTARTDATE THEN sh.REPORTSTARTDATE " +
+    "  WHEN tl.SHOWDATE > sh.REPORTENDDATE THEN sh.REPORTENDDATE " +
+    "  ELSE tl.SHOWDATE " +
+    "END, " +
     "pr.NAME, " +
     "tl.PRICE - (tl.PRICE * ta.RATE), " +
     "tl.PRICE * ta.RATE, " +
@@ -84,12 +92,16 @@ report.setSentence("SELECT " +
     "sh.STARTDATE, " +
     "sh.ENDDATE, " +
     "sh.ID, " +
-    "tl.SHOWDATE, " +
+    "CASE " +
+    "  WHEN tl.SHOWDATE < sh.REPORTSTARTDATE THEN sh.REPORTSTARTDATE " +
+    "  WHEN tl.SHOWDATE > sh.REPORTENDDATE THEN sh.REPORTENDDATE " +
+    "  ELSE tl.SHOWDATE " +
+    "END, " +
     "pr.NAME "
 );
 
-report.addParameter("tl.SHOWDATE");
-report.addParameter("tl.SHOWDATE");
+report.addParameter("CASE WHEN tl.SHOWDATE < sh.REPORTSTARTDATE THEN sh.REPORTSTARTDATE WHEN tl.SHOWDATE > sh.REPORTENDDATE THEN sh.REPORTENDDATE ELSE tl.SHOWDATE END");
+report.addParameter("CASE WHEN tl.SHOWDATE < sh.REPORTSTARTDATE THEN sh.REPORTSTARTDATE WHEN tl.SHOWDATE > sh.REPORTENDDATE THEN sh.REPORTENDDATE ELSE tl.SHOWDATE END");
 
 paramdates = new uk.chromis.pos.reports.JParamsSQLDateInterval();
 
