@@ -399,6 +399,7 @@ public class TicketLineInfo implements SerializableWrite, SerializableRead, Seri
     
     public void setShow(ShowSalesInfo value) {
         m_oShow = value;
+        m_sShowID = m_oShow.getID();
     }
     
     
