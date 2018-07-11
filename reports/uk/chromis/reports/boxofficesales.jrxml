@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
-<!-- 2018-05-27T19:40:03 -->
+<!-- 2018-05-27T21:45:18 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="boxofficesales_2" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="589e026e-0202-464e-86f2-999dbe4edc33">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Mysql Chromis"/>
@@ -76,6 +76,8 @@ GROUP BY
 	<field name="NETTAXES" class="java.lang.Double"/>
 	<field name="GROSSADMISSIONS" class="java.lang.Double"/>
 	<sortField name="STARTDATE"/>
+	<sortField name="THEATRENAME"/>
+	<sortField name="ID"/>
 	<sortField name="SHOWDATE"/>
 	<variable name="GROSSSOLD1" class="java.lang.Double" resetType="Group" resetGroup="SHOWDATE" calculation="Sum">
 		<variableExpression><![CDATA[$F{GROSSSOLD}]]></variableExpression>
@@ -137,10 +139,10 @@ GROUP BY
 	<variable name="GROSSADMISSIONS4" class="java.lang.Double" calculation="Sum">
 		<variableExpression><![CDATA[$F{GROSSADMISSIONS}]]></variableExpression>
 	</variable>
-	<group name="ID" isReprintHeaderOnEachPage="true" keepTogether="true">
+	<group name="ID" isStartNewPage="true" isReprintHeaderOnEachPage="true" keepTogether="true">
 		<groupExpression><![CDATA[$F{ID}]]></groupExpression>
 		<groupHeader>
-			<band height="24">
+			<band height="23">
 				<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				<subreport>
 					<reportElement x="84" y="2" width="360" height="10" uuid="ea8d48a6-eb16-4da8-9578-13b6cd2f8a69"/>
