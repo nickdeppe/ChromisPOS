@@ -143,7 +143,7 @@ public class FeaturesPanel extends JPanelTable {
         jeditor.activate();
         jFeaturesFilter.activate();
 
-        setLoadOnActivation(true);
+        setLoadOnActivation(false);
 
         super.activate();
     }
