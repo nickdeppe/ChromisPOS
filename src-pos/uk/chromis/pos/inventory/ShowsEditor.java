@@ -337,7 +337,7 @@ public class ShowsEditor extends javax.swing.JPanel implements EditorRecord {
         });
 
         jLabel14.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jLabel14.setText(AppLocal.getIntString("label.productshowreportenddate")); // NOI18N
+        jLabel14.setText(AppLocal.getIntString("label.BoxOfficeProductSet")); // NOI18N
 
         m_jBoxOfficeProductSet.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
 

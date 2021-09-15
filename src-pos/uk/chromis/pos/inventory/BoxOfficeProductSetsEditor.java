@@ -205,12 +205,12 @@ public class BoxOfficeProductSetsEditor extends javax.swing.JPanel implements Ed
         m_jActive = new eu.hansolo.custom.SteelCheckBox();
 
         jLabel13.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jLabel13.setText(AppLocal.getIntString("label.theatre")); // NOI18N
+        jLabel13.setText(AppLocal.getIntString("label.boxofficeproductsetsname")); // NOI18N
 
         m_jName.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
         jLabel15.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jLabel15.setText(AppLocal.getIntString("label.theatre")); // NOI18N
+        jLabel15.setText(AppLocal.getIntString("label.boxofficeproductsetsactive")); // NOI18N
 
         m_jActive.setText(" ");
         m_jActive.addActionListener(new java.awt.event.ActionListener() {
