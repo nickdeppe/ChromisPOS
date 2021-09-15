@@ -26,6 +26,7 @@ import uk.chromis.format.Formats;
 import java.awt.image.BufferedImage;
 import java.util.Date;
 import java.util.Properties;
+import uk.chromis.data.loader.IKeyed;
 import uk.chromis.pos.forms.DataLogicSales;
 
 /**
@@ -33,7 +34,7 @@ import uk.chromis.pos.forms.DataLogicSales;
  * @author adrianromero
  *
  */
-public class ProductInfoExt {
+public class ProductInfoExt implements IKeyed {
 
     private static final long serialVersionUID = 7587696873037L;
 
@@ -492,5 +493,10 @@ public class ProductInfoExt {
     @Override
     public final String toString() {
         return m_sRef + " - " + m_sName;
+    }
+
+    @Override
+    public Object getKey() {
+        return m_ID;
     }
 }

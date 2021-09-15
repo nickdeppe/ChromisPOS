@@ -20,10 +20,9 @@
 package uk.chromis.pos.inventory;
 
 import java.awt.Component;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.UUID;
 import java.util.Date;
+import java.util.List;
 import uk.chromis.basic.BasicException;
 import uk.chromis.beans.JCalendarDialog;
 import uk.chromis.data.gui.ComboBoxValModel;
@@ -43,8 +42,10 @@ public class ShowsEditor extends javax.swing.JPanel implements EditorRecord {
     private Object showid;
     
     private final SentenceList theatreSentence;
+    private final SentenceList boxOfficeProductSetSentence;
 
     private ComboBoxValModel theatreModel;
+    private ComboBoxValModel boxOfficeProductSetModel;
 
     private enum RecordStatus {
         EOF,
@@ -73,8 +74,10 @@ public class ShowsEditor extends javax.swing.JPanel implements EditorRecord {
         m_jEndDate.getDocument().addDocumentListener(dirty);
         m_jReportStartDate.getDocument().addDocumentListener(dirty);
         m_jReportEndDate.getDocument().addDocumentListener(dirty);
+        m_jBoxOfficeProductSet.addActionListener(dirty);
         
         theatreSentence = dlSales.getTheatresList();
+        boxOfficeProductSetSentence = dlSales.getBoxOfficeProductSetsList();
 
     }
     
@@ -98,8 +101,17 @@ public class ShowsEditor extends javax.swing.JPanel implements EditorRecord {
 
     public void activate() throws BasicException {
 
+        
+        
         theatreModel = new ComboBoxValModel(theatreSentence.list());
         m_jTheatre.setModel(theatreModel);
+
+        
+
+        List b = boxOfficeProductSetSentence.list();
+        b.add(0, null);
+        boxOfficeProductSetModel = new ComboBoxValModel(b);
+        m_jBoxOfficeProductSet.setModel(boxOfficeProductSetModel);
 
     }
 
@@ -116,12 +128,14 @@ public class ShowsEditor extends javax.swing.JPanel implements EditorRecord {
         m_jEndDate.setText(null);
         m_jReportStartDate.setText(null);
         m_jReportEndDate.setText(null);
+        boxOfficeProductSetModel.setSelectedKey(null);
 
         m_jTheatre.setEnabled(false);
         m_jStartDate.setEnabled(false);
         m_jEndDate.setEnabled(false);
         m_jReportStartDate.setEnabled(false);
         m_jReportEndDate.setEnabled(false);
+        m_jBoxOfficeProductSet.setEnabled(false);
 
         this.recStatus = RecordStatus.EOF;
         
@@ -139,12 +153,14 @@ public class ShowsEditor extends javax.swing.JPanel implements EditorRecord {
         m_jEndDate.setText(null);
         m_jReportStartDate.setText(null);
         m_jReportEndDate.setText(null);
+        boxOfficeProductSetModel.setSelectedKey(null);
 
         m_jTheatre.setEnabled(true);
         m_jStartDate.setEnabled(true);
         m_jEndDate.setEnabled(true);
         m_jReportStartDate.setEnabled(true);
         m_jReportEndDate.setEnabled(true);
+        m_jBoxOfficeProductSet.setEnabled(true);
 
         this.recStatus = RecordStatus.INSERT;
     }
@@ -164,12 +180,14 @@ public class ShowsEditor extends javax.swing.JPanel implements EditorRecord {
         m_jEndDate.setText(Formats.DATE.formatValue(obj[3]));
         m_jReportStartDate.setText(Formats.DATE.formatValue(obj[4]));
         m_jReportEndDate.setText(Formats.DATE.formatValue(obj[5]));
+        boxOfficeProductSetModel.setSelectedKey(obj[6]);
 
         m_jTheatre.setEnabled(true);
         m_jStartDate.setEnabled(true);
         m_jEndDate.setEnabled(true);
         m_jReportStartDate.setEnabled(true);
         m_jReportEndDate.setEnabled(true);
+        m_jBoxOfficeProductSet.setEnabled(true);
         
         this.recStatus = RecordStatus.UPDATE;
 
@@ -190,11 +208,13 @@ public class ShowsEditor extends javax.swing.JPanel implements EditorRecord {
         m_jEndDate.setText(Formats.DATE.formatValue(obj[3]));
         m_jReportStartDate.setText(Formats.DATE.formatValue(obj[4]));
         m_jReportEndDate.setText(Formats.DATE.formatValue(obj[5]));
+        boxOfficeProductSetModel.setSelectedKey(obj[6]);
 
         m_jStartDate.setEnabled(false);
         m_jEndDate.setEnabled(false);
         m_jReportStartDate.setEnabled(false);
         m_jReportEndDate.setEnabled(false);
+        m_jBoxOfficeProductSet.setEnabled(false);
         
         this.recStatus = RecordStatus.DELETE;
 
@@ -217,6 +237,8 @@ public class ShowsEditor extends javax.swing.JPanel implements EditorRecord {
      */
     @Override
     public Object createValue() throws BasicException {
+        Object boxOfficeProductSetModelKey = boxOfficeProductSetModel.getSelectedKey();
+
         return new Object[] {
             showid,
             Formats.STRING.formatValue(theatreModel.getSelectedKey()),
@@ -224,8 +246,10 @@ public class ShowsEditor extends javax.swing.JPanel implements EditorRecord {
             Formats.DATE.parseValue(m_jEndDate.getText()),
             Formats.DATE.parseValue(m_jReportStartDate.getText()),
             Formats.DATE.parseValue(m_jReportEndDate.getText()),
+            ( boxOfficeProductSetModelKey == null ) ? null : Formats.STRING.formatValue(boxOfficeProductSetModel.getSelectedKey()),
             Formats.STRING.formatValue(theatreModel.getSelectedText())
         };
+
     }
 
     /** This method is called from within the constructor to
@@ -251,6 +275,8 @@ public class ShowsEditor extends javax.swing.JPanel implements EditorRecord {
         m_jbtnEndDate = new javax.swing.JButton();
         m_jbtnReportStartDate = new javax.swing.JButton();
         m_jbtn_ReportEndDate = new javax.swing.JButton();
+        jLabel14 = new javax.swing.JLabel();
+        m_jBoxOfficeProductSet = new javax.swing.JComboBox<>();
 
         jLabel13.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel13.setText(AppLocal.getIntString("label.theatre")); // NOI18N
@@ -310,6 +336,11 @@ public class ShowsEditor extends javax.swing.JPanel implements EditorRecord {
             }
         });
 
+        jLabel14.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel14.setText(AppLocal.getIntString("label.productshowreportenddate")); // NOI18N
+
+        m_jBoxOfficeProductSet.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -351,7 +382,11 @@ public class ShowsEditor extends javax.swing.JPanel implements EditorRecord {
                                 .addComponent(m_jReportEndDate, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(m_jbtn_ReportEndDate, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 82, Short.MAX_VALUE)))
+                        .addGap(0, 82, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(m_jBoxOfficeProductSet, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -384,7 +419,11 @@ public class ShowsEditor extends javax.swing.JPanel implements EditorRecord {
                         .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(m_jReportEndDate, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(m_jbtn_ReportEndDate, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 100, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(m_jBoxOfficeProductSet, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 67, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -481,7 +520,9 @@ public class ShowsEditor extends javax.swing.JPanel implements EditorRecord {
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JComboBox<String> m_jBoxOfficeProductSet;
     private javax.swing.JTextField m_jEndDate;
     private javax.swing.JTextField m_jReportEndDate;
     private javax.swing.JTextField m_jReportStartDate;

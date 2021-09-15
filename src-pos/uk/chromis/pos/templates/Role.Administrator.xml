@@ -139,5 +139,7 @@
         <class name="uk.chromis.pos.inventory.RatingsPanel" />
         <class name="uk.chromis.pos.inventory.ShowFeaturePanel" />
         <class name="uk.chromis.pos.inventory.ExchangesPanel" />
+        <class name="uk.chromis.pos.inventory.BoxOfficeProductSetsPanel" />
+        <class name="uk.chromis.pos.inventory.BoxOfficeProductSetProductsPanel" />
         <class name="boxoffice.SelectDate" />
  </permissions>        
