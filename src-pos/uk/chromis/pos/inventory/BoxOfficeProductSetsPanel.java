@@ -149,7 +149,7 @@ public class BoxOfficeProductSetsPanel extends JPanelTable {
         jEditor.activate();
         jFilter.activate();
 
-        setLoadOnActivation(false);
+        setLoadOnActivation(true);
 
         super.activate();
     }
