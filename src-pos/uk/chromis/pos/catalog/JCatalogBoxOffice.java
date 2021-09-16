@@ -34,8 +34,6 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.*;
 import javax.swing.event.EventListenerList;
 import javax.swing.event.ListSelectionEvent;
@@ -239,6 +237,7 @@ public class JCatalogBoxOffice extends JPanel implements ListSelectionListener, 
             boxOfficeProductSetID = m_oSelectedShow.getBoxOfficeProductSetID();
             useTab = "SET_" + boxOfficeProductSetID;
         } else {
+            boxOfficeProductSetID = null;
             useTab = "DEFAULT";
         }
         
@@ -249,7 +248,7 @@ public class JCatalogBoxOffice extends JPanel implements ListSelectionListener, 
                 m_jProducts.add(jcurrTab, useTab);
 
                 java.util.List<ProductInfoExt> prods;
-                if ( m_oSelectedShow != null && m_oSelectedShow.getBoxOfficeProductSetID() != null ) {
+                if ( boxOfficeProductSetID != null ) {
                     prods = m_dlSales.getAllBoxOfficeProducts(m_oSelectedShow.getBoxOfficeProductSetID());
                 } else {
                     prods = m_dlSales.getAllBoxOfficeProducts();
@@ -280,9 +279,6 @@ public class JCatalogBoxOffice extends JPanel implements ListSelectionListener, 
         CardLayout cl = (CardLayout) (m_jProducts.getLayout());
         cl.show(m_jProducts, useTab);
         
-        
-//        m_jProducts.removeAll();
-
     }
 
     private String getProductLabel(ProductInfoExt product) {
