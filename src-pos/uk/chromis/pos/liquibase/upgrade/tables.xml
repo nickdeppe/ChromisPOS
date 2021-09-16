@@ -518,7 +518,24 @@
                                  baseTableName="SHOWS"
                                  referencedTableName="BOXOFFICEPRODUCTSETS"/>
     </changeSet>
+
+
+    <changeSet author="N Deppe" id="Create indexes for BOXOFFICEPRODUCTSETS_PRODUCTS_01" dbms="mysql, postgresql, hypersql, hsqldb, oracle" >
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <indexExists tableName="BOXOFFICEPRODUCTSETS_PRODUCTS" indexName="BOXOFFICEPRODUCTSETS_PRODUCTS_01" />
+            </not>          
+        </preConditions>
+        <createIndex tableName="BOXOFFICEPRODUCTSETS_PRODUCTS"
+                     indexName="BOXOFFICEPRODUCTSETS_PRODUCTS_01"
+                     unique="true">
+            <column name="BOXOFFICEPRODUCTSETID" type="varchar(255)"/>
+            <column name="PRODUCTID" type="varchar(255)"/>
+        </createIndex>
+    </changeSet>             
+             
                                        
+                                                                                                                     
                                                                  
 </databaseChangeLog>
 
