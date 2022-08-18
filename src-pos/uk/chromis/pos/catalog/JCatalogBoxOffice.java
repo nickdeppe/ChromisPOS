@@ -56,8 +56,9 @@ public class JCatalogBoxOffice extends JPanel implements ListSelectionListener, 
     private TaxesLogic taxeslogic;
     private boolean pricevisible;
     private boolean taxesincluded;
-    private final Map<String, ProductInfoExt> m_productsset = new HashMap<>();
-    private final Set<String> m_categoriesset = new HashSet<>();
+//    private final Map<String, ProductInfoExt> m_productsset = new HashMap<>();
+//    private final Set<String> m_categoriesset = new HashSet<>();
+    private final Set<String> m_BoxOfficeProductSetsSet = new HashSet<>();
     private ThumbNailBuilder tnbbutton;
     private Object newColour;
     private ShowSalesInfo m_oSelectedShow;
@@ -118,9 +119,13 @@ public class JCatalogBoxOffice extends JPanel implements ListSelectionListener, 
     
     
     private void setSelectedShow(JBoxOfficePanel p) {
+ 
         m_oSelectedShow = p.getSelectedShow();
         m_dSelectedDate = p.getSelectedDate();
-        //setComponentEnabled( m_oSelectedShow != null && m_dSelectedDate != null );
+        
+        // Change the available products in the products list based on the selected show
+        buildProductPanel();
+        
     }
     
     
@@ -149,18 +154,16 @@ public class JCatalogBoxOffice extends JPanel implements ListSelectionListener, 
      */
     @Override
     public void loadCatalog() throws BasicException {
-        m_jProducts.removeAll();
-        m_productsset.clear();
-        m_categoriesset.clear();
+//        m_productsset.clear();
+//        m_categoriesset.clear();
 
         // Load the taxes logic
         taxeslogic = new TaxesLogic(m_dlSales.getTaxList().list());
-
-        buildProductPanel();
         
         jBoxOfficePanel.activate();
         
-        setSelectedShow(jBoxOfficePanel);
+        setSelectedShow(jBoxOfficePanel);        
+        
     }
 
     /**
@@ -222,28 +225,60 @@ public class JCatalogBoxOffice extends JPanel implements ListSelectionListener, 
     }
 
     private void buildProductPanel() {
-        try {
-            JCatalogTab jcurrTab = new JCatalogTab();
-            m_jProducts.add(jcurrTab, "");
 
-            java.util.List<ProductInfoExt> prods;
-            if (AppConfig.getInstance().getBoolean("boxoffice.allowregularproducts")) {
-                prods = m_dlSales.getAllProductCatalogByCatOrder();
-            } else {
-                prods = m_dlSales.getAllBoxOfficeProducts();
+        // TODO: Instead of rebuilding the entire panel, create a new tab for each product set
+        // and a tab for the default product set.
+        // If a product set is already loaded, display the tab instead of reloading.
+        
+        String useTab;
+        String boxOfficeProductSetID;
+        
+        if ( m_oSelectedShow != null && m_oSelectedShow.getBoxOfficeProductSetID() != null ) {
+            boxOfficeProductSetID = m_oSelectedShow.getBoxOfficeProductSetID();
+            useTab = "SET_" + boxOfficeProductSetID;
+        } else {
+            boxOfficeProductSetID = null;
+            useTab = "DEFAULT";
+        }
+        
+        if ( !m_BoxOfficeProductSetsSet.contains(useTab) ) {
+            // Build the tab and add it to the set
+            try {
+                JCatalogTab jcurrTab = new JCatalogTab();
+                m_jProducts.add(jcurrTab, useTab);
+
+                java.util.List<ProductInfoExt> prods;
+                if ( boxOfficeProductSetID != null ) {
+                    prods = m_dlSales.getAllBoxOfficeProducts(m_oSelectedShow.getBoxOfficeProductSetID());
+                } else {
+                    prods = m_dlSales.getAllBoxOfficeProducts();
+                }
+                if (AppConfig.getInstance().getBoolean("boxoffice.allowregularproducts")) {
+                    prods.addAll(m_dlSales.getAllNonBoxOfficeProducts());
+                }            
+
+
+                for (ProductInfoExt prod : prods) {
+                    newColour = m_dlSales.getCategoryColour(prod.getCategoryID());
+                    String sColour = (String) newColour;
+                    if (sColour == null) {
+                        sColour = "";
+                    }                
+                    jcurrTab.addButton(new ImageIcon(tnbbutton.getThumbNailText(prod.getImage(), getProductLabel(prod))), new SelectedAction(prod), prod.getTextTip(), sColour);
+                }
+
+                m_BoxOfficeProductSetsSet.add(useTab);
+                
+            } catch (BasicException e) {
+                JMessageDialog.showMessage(this, new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.notactive"), e));
             }
             
-            for (ProductInfoExt prod : prods) {
-                newColour = m_dlSales.getCategoryColour(prod.getCategoryID());
-                String sColour = (String) newColour;
-                if (sColour == null) {
-                    sColour = "";
-                }                
-                jcurrTab.addButton(new ImageIcon(tnbbutton.getThumbNailText(prod.getImage(), getProductLabel(prod))), new SelectedAction(prod), prod.getTextTip(), sColour);
-            }
-        } catch (BasicException e) {
-            JMessageDialog.showMessage(this, new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.notactive"), e));
         }
+        
+        // The tab has been loaded already
+        CardLayout cl = (CardLayout) (m_jProducts.getLayout());
+        cl.show(m_jProducts, useTab);
+        
     }
 
     private String getProductLabel(ProductInfoExt product) {
@@ -259,40 +294,40 @@ public class JCatalogBoxOffice extends JPanel implements ListSelectionListener, 
         }
     }
 
-    private void showProductPanel(String id) {
-        ProductInfoExt product = m_productsset.get(id);
-        if (product == null) {
-            if (m_productsset.containsKey(id)) {
-            } else {
-                try {
-                    java.util.List<ProductInfoExt> products = m_dlSales.getProductComments(id);
-
-                    if (products.isEmpty()) {
-                        m_productsset.put(id, null);
-                    } else {
-                        product = m_dlSales.getProductInfo(id);
-                        m_productsset.put(id, product);
-
-                        JCatalogTab jcurrTab = new JCatalogTab();
-                        jcurrTab.applyComponentOrientation(getComponentOrientation());
-                        m_jProducts.add(jcurrTab, "PRODUCT." + id);
-
-                        // Add products
-                        for (ProductInfoExt prod : products) {
-                            jcurrTab.addButton(new ImageIcon(tnbbutton.getThumbNailText(prod.getImage(), getProductLabel(prod))), new SelectedAction(prod), prod.getTextTip(), "");
-                        }
-                        CardLayout cl = (CardLayout) (m_jProducts.getLayout());
-                        cl.show(m_jProducts, "PRODUCT." + id);
-                    }
-                } catch (BasicException eb) {
-                    m_productsset.put(id, null);
-                }
-            }
-        } else {
-            CardLayout cl = (CardLayout) (m_jProducts.getLayout());
-            cl.show(m_jProducts, "PRODUCT." + id);
-        }
-    }
+//    private void showProductPanel(String id) {
+//        ProductInfoExt product = m_productsset.get(id);
+//        if (product == null) {
+//            if (m_productsset.containsKey(id)) {
+//            } else {
+//                try {
+//                    java.util.List<ProductInfoExt> products = m_dlSales.getProductComments(id);
+//
+//                    if (products.isEmpty()) {
+//                        m_productsset.put(id, null);
+//                    } else {
+//                        product = m_dlSales.getProductInfo(id);
+//                        m_productsset.put(id, product);
+//
+//                        JCatalogTab jcurrTab = new JCatalogTab();
+//                        jcurrTab.applyComponentOrientation(getComponentOrientation());
+//                        m_jProducts.add(jcurrTab, "PRODUCT." + id);
+//
+//                        // Add products
+//                        for (ProductInfoExt prod : products) {
+//                            jcurrTab.addButton(new ImageIcon(tnbbutton.getThumbNailText(prod.getImage(), getProductLabel(prod))), new SelectedAction(prod), prod.getTextTip(), "");
+//                        }
+//                        CardLayout cl = (CardLayout) (m_jProducts.getLayout());
+//                        cl.show(m_jProducts, "PRODUCT." + id);
+//                    }
+//                } catch (BasicException eb) {
+//                    m_productsset.put(id, null);
+//                }
+//            }
+//        } else {
+//            CardLayout cl = (CardLayout) (m_jProducts.getLayout());
+//            cl.show(m_jProducts, "PRODUCT." + id);
+//        }
+//    }
 
     private class SelectedAction implements ActionListener {
 

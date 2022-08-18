@@ -418,8 +418,124 @@
          </addColumn>
      </changeSet>
              
+             
+     <changeSet author="N Deppe" id="Add BOXOFFICEPRODUCTSETS table">
+         <preConditions onFail="MARK_RAN">
+             <not>
+                 <tableExists tableName="BOXOFFICEPRODUCTSETS" />
+             </not>
+         </preConditions>
+         <createTable tableName="BOXOFFICEPRODUCTSETS">
+             <column name="ID" type="varchar(255)">
+                 <constraints nullable="false" primaryKey="true"/>
+             </column>
+             <column name="NAME" type="varchar(255)">
+                 <constraints nullable="false"/>
+             </column>
+             <column name="ACTIVE" type="${boolean.type}" defaultValueBoolean="true"/>
+         </createTable>
+        <modifySql dbms="mysql">
+            <append value=" ENGINE = InnoDB DEFAULT CHARSET=utf8  "/>
+        </modifySql>
+     </changeSet>
+
                           
+                                                                   
+    <changeSet author="Chromis POS" id="create BOXOFFICEPRODUCTSETS_PRODUCTS table">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="BOXOFFICEPRODUCTSETS_PRODUCTS"/>
+            </not>
+        </preConditions>
+        <createTable tableName="BOXOFFICEPRODUCTSETS_PRODUCTS">
+            <column name="ID" type="varchar(255)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="BOXOFFICEPRODUCTSETID" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PRODUCTID" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="SEQUENCE" type="INTEGER"/>
+        </createTable>
+        <modifySql dbms="mysql">
+            <append value=" ENGINE = InnoDB DEFAULT CHARSET=utf8  "/>
+        </modifySql>
+    </changeSet>
+                          
+
+    <changeSet author="N Deppe" id="Create foreign key constraints BOXOFFICEPRODUCTSETS_PRODUCTS" dbms="mysql, postgresql, hypersql, hsqldb, oracle" >
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <foreignKeyConstraintExists foreignKeyTableName="BOXOFFICEPRODUCTSETS_PRODUCTS_BOXOFFICEPRODUCTSETID" foreignKeyName="BOXOFFICEPRODUCTSETS_PRODUCTS_BOXOFFICEPRODUCTSETID_FK"/>
+            </not>          
+        </preConditions>
+        <addForeignKeyConstraint baseColumnNames="BOXOFFICEPRODUCTSETID"
+                                 constraintName ="BOXOFFICEPRODUCTSETS_PRODUCTS_BOXOFFICEPRODUCTSETID_FK"
+                                 referencedColumnNames = "ID"
+                                 baseTableName="BOXOFFICEPRODUCTSETS_PRODUCTS"
+                                 referencedTableName="BOXOFFICEPRODUCTSETS"/>
+    </changeSet>
+    
+
+    <changeSet author="N Deppe" id="Create foreign key constraints BOXOFFICEPRODUCTSETS_PRODUCTS_PRODUCTID" dbms="mysql, postgresql, hypersql, hsqldb, oracle" >
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <foreignKeyConstraintExists foreignKeyTableName="BOXOFFICEPRODUCTSETS_PRODUCTS" foreignKeyName="BOXOFFICEPRODUCTSETS_PRODUCTS_PRODUCTID_FK"/>
+            </not>          
+        </preConditions>
+        <addForeignKeyConstraint baseColumnNames="PRODUCTID"
+                                 constraintName ="BOXOFFICEPRODUCTSETS_PRODUCTS_PRODUCTID_FK"
+                                 referencedColumnNames = "ID"
+                                 baseTableName="BOXOFFICEPRODUCTSETS_PRODUCTS"
+                                 referencedTableName="PRODUCTS"/>
+    </changeSet>
+    
+    
+
+     <changeSet author="N Deppe" id="Update SHOWS table, add BOXOFFICEPRODUCTSETID column">
+         <preConditions onFail="MARK_RAN">
+             <not>
+                 <columnExists columnName="BOXOFFICEPRODUCTSETID" tableName="SHOWS"/>
+             </not>
+         </preConditions>
+         <addColumn tableName="SHOWS">
+            <column name="BOXOFFICEPRODUCTSETID" type="varchar(255)" />
+         </addColumn>
+     </changeSet>
+
+
+    <changeSet author="N Deppe" id="Create foreign key constraints SHOWS_BOXOFFICEPRODUCTSETID" dbms="mysql, postgresql, hypersql, hsqldb, oracle" >
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <foreignKeyConstraintExists foreignKeyTableName="SHOWS" foreignKeyName="SHOWS_BOXOFFICEPRODUCTSETID_FK"/>
+            </not>          
+        </preConditions>
+        <addForeignKeyConstraint baseColumnNames="BOXOFFICEPRODUCTSETID"
+                                 constraintName ="SHOWS_BOXOFFICEPRODUCTSETID_FK"
+                                 referencedColumnNames = "ID"
+                                 baseTableName="SHOWS"
+                                 referencedTableName="BOXOFFICEPRODUCTSETS"/>
+    </changeSet>
+
+
+    <changeSet author="N Deppe" id="Create indexes for BOXOFFICEPRODUCTSETS_PRODUCTS_01" dbms="mysql, postgresql, hypersql, hsqldb, oracle" >
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <indexExists tableName="BOXOFFICEPRODUCTSETS_PRODUCTS" indexName="BOXOFFICEPRODUCTSETS_PRODUCTS_01" />
+            </not>          
+        </preConditions>
+        <createIndex tableName="BOXOFFICEPRODUCTSETS_PRODUCTS"
+                     indexName="BOXOFFICEPRODUCTSETS_PRODUCTS_01"
+                     unique="true">
+            <column name="BOXOFFICEPRODUCTSETID" type="varchar(255)"/>
+            <column name="PRODUCTID" type="varchar(255)"/>
+        </createIndex>
+    </changeSet>             
+             
                                        
+                                                                                                                     
                                                                  
 </databaseChangeLog>
 

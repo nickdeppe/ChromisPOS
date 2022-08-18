@@ -1128,7 +1128,35 @@
         <sql> DELETE FROM DBPERMISSIONS WHERE DISPLAYNAME ='##label.displayname86'</sql>           
     </changeSet> 
     
-    
+
+        
+    <changeSet author="N Deppe" id="Add box office product set maintenance option">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM DBPERMISSIONS WHERE DESCRIPTION = '##label.description142'</sqlCheck>
+        </preConditions>
+        <insert tableName="DBPERMISSIONS">
+            <column name="CLASSNAME" value="uk.chromis.pos.inventory.BoxOfficeProductSetsPanel"/>  
+            <column name="SECTION" value="##label.sectionstock"/>
+            <column name="DISPLAYNAME" value="##label.displayname142"/>  
+            <column name="DESCRIPTION" value="##label.description142"/>  
+        </insert>
+    </changeSet>
+
+
+        
+    <changeSet author="N Deppe" id="Add box office product set product maintenance option">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM DBPERMISSIONS WHERE DESCRIPTION = '##label.description143'</sqlCheck>
+        </preConditions>
+        <insert tableName="DBPERMISSIONS">
+            <column name="CLASSNAME" value="uk.chromis.pos.inventory.BoxOfficeProductSetProductsPanel"/>  
+            <column name="SECTION" value="##label.sectionstock"/>
+            <column name="DISPLAYNAME" value="##label.displayname143"/>  
+            <column name="DESCRIPTION" value="##label.description143"/>  
+        </insert>
+    </changeSet>
+
+            
     
     
 </databaseChangeLog>

@@ -43,6 +43,7 @@ public class ShowSalesInfo implements IKeyed, Cloneable {
     protected Date m_dReportEndDate;
     protected List<ShowFeaturesInfo> m_oShowFeatures;
     protected TheatreInfo m_oTheatre;
+    protected String m_sBoxOfficeProductSetID;
 
     /**
      * Creates a new instance of ProductShowInfoList
@@ -54,15 +55,17 @@ public class ShowSalesInfo implements IKeyed, Cloneable {
         m_dEndDate = null;
         m_dReportStartDate = null;
         m_dReportEndDate = null;
+        m_sBoxOfficeProductSetID = null;
     }
 
-    public ShowSalesInfo( String id, String theatreID, Date startDate, Date endDate, Date reportStartDate, Date reportEndDate ) {
+    public ShowSalesInfo( String id, String theatreID, Date startDate, Date endDate, Date reportStartDate, Date reportEndDate, String boxOfficeProductSetID ) {
         m_ID = id;
         m_sTheatreID = theatreID;
         m_dStartDate = startDate;
         m_dEndDate = endDate;
         m_dReportStartDate = reportStartDate;
         m_dReportEndDate = reportEndDate;
+        m_sBoxOfficeProductSetID = boxOfficeProductSetID;
     }
 
 
@@ -166,6 +169,20 @@ public class ShowSalesInfo implements IKeyed, Cloneable {
     public final TheatreInfo getTheatre() {
         return m_oTheatre;
     }
+
+
+    public final String getBoxOfficeProductSetID() {
+        return m_sBoxOfficeProductSetID;
+    }
+    
+    public final String printBoxOfficeProductSetID() {
+        return StringUtils.encodeXML(getBoxOfficeProductSetID());
+    }
+
+    public final void setBoxOfficeProductSetID(String id) {
+        m_sBoxOfficeProductSetID = id;
+    }
+        
     
     @Override
     public Object clone() {
@@ -242,7 +259,7 @@ public class ShowSalesInfo implements IKeyed, Cloneable {
         return new SerializerRead() {
             @Override
             public Object readValues(DataRead dr) throws BasicException {
-                return new ShowSalesInfo(dr.getString(1), dr.getString(2), dr.getDate(3), dr.getDate(4), dr.getDate(5), dr.getDate(6) );
+                return new ShowSalesInfo(dr.getString(1), dr.getString(2), dr.getDate(3), dr.getDate(4), dr.getDate(5), dr.getDate(6), dr.getString(7) );
             }
         };
     }

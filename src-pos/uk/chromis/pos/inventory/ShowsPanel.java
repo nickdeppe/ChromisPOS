@@ -91,6 +91,7 @@ public class ShowsPanel extends JPanelTable2 {
             new Field("ENDDATE", Datas.DATE, Formats.DATE, true, false, false),
             new Field("REPORTSTARTDATE", Datas.DATE, Formats.DATE),
             new Field("REPORTSTARTDATE", Datas.DATE, Formats.DATE),
+            new Field("BOXOFFICEPRODUCTSETID", Datas.STRING, Formats.STRING),
             new Field("THEATRENAME", Datas.STRING, Formats.STRING, true, false, false)
         );
         
@@ -102,7 +103,8 @@ public class ShowsPanel extends JPanelTable2 {
                 new Column("STARTDATE"),
                 new Column("ENDDATE"),
                 new Column("REPORTSTARTDATE"),
-                new Column("REPORTENDDATE")
+                new Column("REPORTENDDATE"),
+                new Column("BOXOFFICEPRODUCTSETID")
         );
         
         lpr = new ListProviderCreator(
@@ -115,6 +117,7 @@ public class ShowsPanel extends JPanelTable2 {
                     + "S.ENDDATE, "
                     + "S.REPORTSTARTDATE, "
                     + "S.REPORTENDDATE, "
+                    + "S.BOXOFFICEPRODUCTSETID, "
                     + "T.NAME AS THEATRENAME "
                     + "FROM SHOWS S "
                     + "INNER JOIN THEATRES T ON S.THEATREID = T.ID "

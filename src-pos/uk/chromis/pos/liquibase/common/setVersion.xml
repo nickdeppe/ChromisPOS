@@ -35,6 +35,13 @@
             <column name="VERSION" value="0.58.6 BOXOFFICE"/>
         </update>  
     </changeSet>
-    
+
+    <changeSet author="Chromis POS" id="Update to 0.59.0 BOXOFFICE">
+        <update tableName="APPLICATIONS">
+            <column name="VERSION" value="0.59.0 BOXOFFICE"/>
+        </update>  
+    </changeSet>
+
+            
 </databaseChangeLog>
 
