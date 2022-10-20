@@ -253,7 +253,7 @@ public class SiteGUID implements liquibase.change.custom.CustomTaskChange {
             SQL = "ALTER TABLE VOUCHERS ADD COLUMN SITEGUID VARCHAR(50) NOT NULL DEFAULT '" + guid + "'";
             pstmt = conn.prepareStatement(SQL);
             pstmt.executeUpdate();
-            
+                        
             conn.close();
 
         } catch (SQLException ex) {

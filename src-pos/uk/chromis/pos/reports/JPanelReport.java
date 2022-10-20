@@ -49,6 +49,7 @@ import uk.chromis.pos.forms.AppView;
 import uk.chromis.pos.forms.BeanFactoryApp;
 import uk.chromis.pos.forms.BeanFactoryException;
 import uk.chromis.pos.forms.DataLogicSales;
+import uk.chromis.pos.forms.DataLogicSystem;
 import uk.chromis.pos.forms.JPanelView;
 import uk.chromis.pos.sales.TaxesLogic;
 import uk.chromis.pos.util.JRViewer300;
@@ -80,6 +81,9 @@ public abstract class JPanelReport extends JPanel implements JPanelView, BeanFac
      *
      */
     protected TaxesLogic taxeslogic;
+    
+    protected DataLogicSales dlSales;
+    protected DataLogicSystem dlSystem;
 
     /** Creates new form JPanelReport */
     public JPanelReport() {
@@ -97,7 +101,10 @@ public abstract class JPanelReport extends JPanel implements JPanelView, BeanFac
         
         m_App = app;
         
-        DataLogicSales dlSales = (DataLogicSales) app.getBean("uk.chromis.pos.forms.DataLogicSales");
+        dlSales = (DataLogicSales) app.getBean("uk.chromis.pos.forms.DataLogicSales");
+        dlSystem = (DataLogicSystem) app.getBean("uk.chromis.pos.forms.DataLogicSystem");
+        
+        
         taxsent = dlSales.getTaxList();
         
         editor = getEditorCreator();
@@ -114,7 +121,7 @@ public abstract class JPanelReport extends JPanel implements JPanelView, BeanFac
             InputStream in = getClass().getResourceAsStream(getReport() + ".ser");
             if (in == null) {      
                 // read and compile the report
-                JasperDesign jd = JRXmlLoader.load(getClass().getResourceAsStream(getReport() + ".jrxml"));            
+                JasperDesign jd = JRXmlLoader.load(getClass().getResourceAsStream(getReport() + ".jrxml"));
                 jr = JasperCompileManager.compileReport(jd);    
             } else {
 
@@ -162,6 +169,12 @@ public abstract class JPanelReport extends JPanel implements JPanelView, BeanFac
      * @return
      */
     protected abstract ReportFields getReportFields();
+    
+    /**
+     *
+     * @return
+     */
+    protected abstract HashMap<String, Object> getReportParameters();
 
     /**
      *
@@ -234,12 +247,14 @@ public abstract class JPanelReport extends JPanel implements JPanelView, BeanFac
                 JRDataSource data = new JRDataSourceBasic(getSentence(), getReportFields(), params);
                 
                 // Construyo el mapa de los parametros.
-                Map reportparams = new HashMap();
+                HashMap<String, Object> reportparams = getReportParameters();
                 reportparams.put("ARG", params);
                 if (res != null) {
-                      reportparams.put("REPORT_RESOURCE_BUNDLE", ResourceBundle.getBundle(res));
+                    reportparams.put("REPORT_RESOURCE_BUNDLE", ResourceBundle.getBundle(res));
                 }                
-                reportparams.put("TAXESLOGIC", taxeslogic); 
+                reportparams.put("TAXESLOGIC", taxeslogic);
+                reportparams.put("DL_SALES", dlSales);
+                reportparams.put("DL_SYSTEM", dlSystem);
                 
                 JasperPrint jp = JasperFillManager.fillReport(jr, reportparams, data);    
             

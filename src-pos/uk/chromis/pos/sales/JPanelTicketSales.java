@@ -22,17 +22,19 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
+import java.util.Date;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import uk.chromis.basic.BasicException;
 import uk.chromis.pos.catalog.CatalogSelector;
+import uk.chromis.pos.catalog.JBoxOfficeDialog;
 import uk.chromis.pos.catalog.JCatalog;
+import uk.chromis.pos.catalog.JCatalogBoxOffice;
 import uk.chromis.pos.catalog.JCatalogFull;
 import uk.chromis.pos.forms.AppConfig;
-import uk.chromis.pos.forms.AppLocal;
 import uk.chromis.pos.forms.AppView;
 import uk.chromis.pos.ticket.ProductInfoExt;
+import uk.chromis.pos.ticket.ShowSalesInfo;
 
 /**
  *
@@ -74,7 +76,16 @@ public class JPanelTicketSales extends JPanelTicket {
     @Override
     protected Component getSouthComponent() {
         
-        if (AppConfig.getInstance().getBoolean("sales.newscreen")){
+        if (AppConfig.getInstance().getProperty("machine.ticketsbag").equals("boxoffice")) {
+            m_cat = new JCatalogBoxOffice(dlSales,
+                    m_App,
+                    "true".equals(m_jbtnconfig.getProperty("pricevisible")),
+                    "true".equals(m_jbtnconfig.getProperty("taxesincluded")),
+                    Integer.parseInt(m_jbtnconfig.getProperty("img-width", "64")),
+                    Integer.parseInt(m_jbtnconfig.getProperty("img-height", "54")),
+                    Integer.parseInt(m_jbtnconfig.getProperty("boxoffice-show-img-size", "50"))
+            );
+        } else if (AppConfig.getInstance().getBoolean("sales.newscreen")){
             m_cat = new JCatalogFull(dlSales,
                     "true".equals(m_jbtnconfig.getProperty("pricevisible")),
                     "true".equals(m_jbtnconfig.getProperty("taxesincluded")),
@@ -132,12 +143,28 @@ public class JPanelTicketSales extends JPanelTicket {
         }
 
     }
-
+    
+    
+    public void finishTicket() {
+        m_cat.postSave();
+    }
+    
     private class CatalogListener implements ActionListener {
-
         @Override
         public void actionPerformed(ActionEvent e) {
-            buttonTransition((ProductInfoExt) e.getSource());
+            ProductInfoExt prod = (ProductInfoExt) e.getSource();
+            ShowSalesInfo show = prod.getShowSalesInfo();
+            Date showDate = prod.getShowDate();
+            if (prod.getIsBoxOffice() && ( show == null || showDate == null )) {
+                // It's a box office product and no show is selected
+                if (JBoxOfficeDialog.showDialog(m_ticketlines, dlSales, m_App) ) {
+                    buttonTransition(prod, JBoxOfficeDialog.getSelectedShow(), JBoxOfficeDialog.getSelectedShowDate());
+                }
+            } else if ( prod.getIsBoxOffice() && show != null && showDate != null) {
+                buttonTransition(prod, show, showDate);            
+            } else {
+                buttonTransition(prod);
+            }
         }
     }
 

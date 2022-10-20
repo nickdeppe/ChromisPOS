@@ -117,5 +117,48 @@ public class DateUtils {
         
         return dNow.getTime();
     }
+    
+    
+    
+    public static boolean isDateLessThanOrEqual(Date date1, Date date2) {
+        
+        Calendar c1 = Calendar.getInstance();
+        Calendar c2 = Calendar.getInstance();
+        c1.setTime(date1);
+        c2.setTime(date2);
 
+        int c1Day = c1.get(Calendar.DAY_OF_YEAR);
+        int c2Day = c2.get(Calendar.DAY_OF_YEAR);
+        int c1Year = c1.get(Calendar.YEAR);
+        int c2Year = c2.get(Calendar.YEAR);
+
+        if ( c1Year > c2Year) {
+            return false;
+        } else if (c1Year == c2Year && c1Day > c2Day) {
+            return false;
+        } else return true;
+        
+    }
+
+    
+    public static boolean isDateGreaterThanOrEqual(Date date1, Date date2) {
+        
+        Calendar c1 = Calendar.getInstance();
+        Calendar c2 = Calendar.getInstance();
+        c1.setTime(date1);
+        c2.setTime(date2);
+
+        int c1Day = c1.get(Calendar.DAY_OF_YEAR);
+        int c2Day = c2.get(Calendar.DAY_OF_YEAR);
+        int c1Year = c1.get(Calendar.YEAR);
+        int c2Year = c2.get(Calendar.YEAR);
+
+        if ( c1Year > c2Year) {
+            return false;
+        } else return !(c1Year == c2Year && c1Day < c2Day);
+        
+    }
+    
+    
+    
 }

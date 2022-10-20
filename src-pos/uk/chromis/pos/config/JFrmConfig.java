@@ -93,7 +93,7 @@ public class JFrmConfig extends javax.swing.JFrame {
         setMinimumSize(new java.awt.Dimension(800, 650));
         setPreferredSize(new java.awt.Dimension(780, 700));
 
-        setSize(new java.awt.Dimension(758, 561));
+        setSize(new java.awt.Dimension(988, 561));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
     

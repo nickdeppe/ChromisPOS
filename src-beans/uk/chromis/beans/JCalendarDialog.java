@@ -41,6 +41,8 @@ public class JCalendarDialog extends javax.swing.JDialog {
     private static LocaleResources m_resources;
     
     private Date m_date;
+    private static Date m_mindate;
+    private static Date m_maxdate;
     private JCalendarPanel myCalendar = null;
     private JTimePanel myTime = null;
     
@@ -78,6 +80,26 @@ public class JCalendarDialog extends javax.swing.JDialog {
             return getWindow(parent.getParent());
         }
     }
+    
+    
+    public static void setMinDate(Date dDate) {
+        JCalendarDialog.m_mindate = dDate;
+    }
+    
+    
+    public static Date getMinDate() {
+        return JCalendarDialog.m_mindate;
+    }
+    
+    public static void setMaxDate(Date dDate) {
+        JCalendarDialog.m_maxdate = dDate;
+    }
+    
+    
+    public static Date getMaxDate() {
+        return JCalendarDialog.m_maxdate;
+    }
+    
 
     /**
      *
@@ -125,7 +147,11 @@ public class JCalendarDialog extends javax.swing.JDialog {
         Date d = date;
         int dialogwidth = 400;
         
-        myMsg.myCalendar = new JCalendarPanel(d);     
+        if(myMsg.m_mindate != null || myMsg.m_maxdate != null) {
+            myMsg.myCalendar = new JCalendarPanel(d, myMsg.m_mindate, myMsg.m_maxdate);
+        } else {
+            myMsg.myCalendar = new JCalendarPanel(d);
+        }
         myMsg.myCalendar.addPropertyChangeListener("Date", new JPanelCalendarChange(myMsg));
         myMsg.jPanelGrid.add(myMsg.myCalendar);
         
@@ -249,13 +275,32 @@ public class JCalendarDialog extends javax.swing.JDialog {
         }
         
         m_date = dateresult.getTime();
-                
-        setVisible(false);
-        dispose();        
+        
+        if (JCalendarDialog.m_mindate != null) {
+            if (!DateUtils.isDateGreaterThanOrEqual(m_date, m_mindate)) {
+                m_date = null;
+            }
+        }
+        if (JCalendarDialog.m_maxdate != null) {
+            if (!DateUtils.isDateLessThanOrEqual(m_date, m_maxdate)) {
+                m_date = null;
+            }
+        }
+
+        if ( m_date != null) {
+            // Clear the min/max dates for next usage
+            JCalendarDialog.m_mindate = null;
+            JCalendarDialog.m_maxdate = null;
+            setVisible(false);
+            dispose();        
+        }
     }//GEN-LAST:event_jcmdOKActionPerformed
 
     private void jcmdCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcmdCancelActionPerformed
 
+        // Clear the min/max dates for next usage
+        JCalendarDialog.m_mindate = null;
+        JCalendarDialog.m_maxdate = null;
         setVisible(false);
         dispose();        
     }//GEN-LAST:event_jcmdCancelActionPerformed

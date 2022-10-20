@@ -156,7 +156,9 @@ public final class ProductsEditor extends JPanel implements EditorRecord {
         m_jAlias.getDocument().addDocumentListener(dirty);
         m_jAlwaysAvailable.addActionListener(dirty);
         m_jDiscounted.addActionListener(dirty);
-		m_jManageStock.addActionListener(dirty);
+        m_jManageStock.addActionListener(dirty);
+        m_jBoxOffice.addActionListener(dirty);
+        m_jBoxOfficeReported.addActionListener(dirty);
 		
         writeValueEOF();
     }
@@ -236,7 +238,8 @@ public final class ProductsEditor extends JPanel implements EditorRecord {
                 m_jAlias.setText(info.getAlias());
                 m_jAlwaysAvailable.setSelected(info.getAlwaysAvailable());
                 m_jDiscounted.setSelected(info.getCanDiscount());
-				m_jManageStock.setSelected( info.getManageStock() );
+                m_jManageStock.setSelected( info.getManageStock() );
+                m_jBoxOffice.setSelected( info.getIsBoxOffice() );
                 m_jIsPack.setSelected(info.getIsPack());
                 m_jPackQuantity.setText(Formats.DOUBLE.formatValue(info.getPackQuantity()));
                 packproductmodel.setSelectedKey(info.getPromotionID());
@@ -304,7 +307,9 @@ public final class ProductsEditor extends JPanel implements EditorRecord {
         m_jAlias.setText(null);
         m_jAlwaysAvailable.setSelected(false);
         m_jDiscounted.setSelected(false);
-		m_jManageStock.setSelected( false ); 
+	m_jManageStock.setSelected( false ); 
+        m_jBoxOffice.setSelected( false );
+        m_jBoxOfficeReported.setSelected(false);
 
         reportlock = false;
 
@@ -346,7 +351,9 @@ public final class ProductsEditor extends JPanel implements EditorRecord {
         jLabelPackProduct.setEnabled(false);
 
         m_jDiscounted.setEnabled(false);
-		m_jManageStock.setEnabled( false ); 
+	m_jManageStock.setEnabled( false ); 
+        m_jBoxOffice.setEnabled(false);
+        m_jBoxOfficeReported.setVisible(false);
 
         calculateMargin();
         calculatePriceSellTax();
@@ -391,7 +398,9 @@ public final class ProductsEditor extends JPanel implements EditorRecord {
         m_jAlias.setText(null);
         m_jAlwaysAvailable.setSelected(false);
         m_jDiscounted.setSelected(true);
-		m_jManageStock.setSelected( true ); 
+	m_jManageStock.setSelected( true ); 
+        m_jBoxOffice.setSelected(false);
+        m_jBoxOfficeReported.setSelected(false);
 
         reportlock = false;
 
@@ -432,7 +441,9 @@ public final class ProductsEditor extends JPanel implements EditorRecord {
         jLabelPackProduct.setEnabled(false);
 
         m_jDiscounted.setEnabled(true);
-		 m_jManageStock.setEnabled( true ); 
+	m_jManageStock.setEnabled( true ); 
+        m_jBoxOffice.setEnabled(true);
+        m_jBoxOfficeReported.setVisible(false);
 
         m_jIsPack.setSelected(false);
         m_jPackQuantity.setText(null);
@@ -488,7 +499,9 @@ public final class ProductsEditor extends JPanel implements EditorRecord {
         m_jIsPack.setSelected(((Boolean) myprod[DataLogicSales.INDEX_ISPACK]));
         m_jPackQuantity.setText(Formats.DOUBLE.formatValue(myprod[DataLogicSales.INDEX_PACKQUANTITY]));
         packproductmodel.setSelectedKey(myprod[DataLogicSales.INDEX_PACKPRODUCT]);
-		m_jManageStock.setSelected( ((Boolean) myprod[DataLogicSales.INDEX_MANAGESTOCK]) ); 
+	m_jManageStock.setSelected( ((Boolean) myprod[DataLogicSales.INDEX_MANAGESTOCK]) ); 
+        m_jBoxOffice.setSelected( ((Boolean) myprod[DataLogicSales.INDEX_ISBOXOFFICE]) );
+        m_jBoxOfficeReported.setSelected( ((Boolean) myprod[DataLogicSales.INDEX_ISBOXOFFICEREPORTED]) );
     }
 
     /**
@@ -541,7 +554,9 @@ public final class ProductsEditor extends JPanel implements EditorRecord {
         m_jAlwaysAvailable.setEnabled(false);
         m_jDiscounted.setEnabled(false);
         m_jIsPack.setEnabled(true);
-		m_jManageStock.setEnabled( false );
+	m_jManageStock.setEnabled( false );
+        m_jBoxOffice.setEnabled(false);
+        m_jBoxOfficeReported.setVisible(false);
 
         m_jPackQuantity.setEnabled(m_jIsPack.isSelected());
         m_jPackProduct.setEnabled(m_jIsPack.isSelected());
@@ -607,6 +622,9 @@ public final class ProductsEditor extends JPanel implements EditorRecord {
         jLabelPackProduct.setEnabled(m_jIsPack.isSelected());
 
         
+        m_jBoxOfficeReported.setVisible(m_jBoxOffice.getModel().isSelected());
+
+        
         calculateMargin();
         calculatePriceSellTax();
         calculateGP();
@@ -656,7 +674,9 @@ public final class ProductsEditor extends JPanel implements EditorRecord {
         myprod[DataLogicSales.INDEX_ISPACK] = m_jIsPack.isSelected();
         myprod[DataLogicSales.INDEX_PACKQUANTITY] = Formats.DOUBLE.parseValue(m_jPackQuantity.getText());
         myprod[DataLogicSales.INDEX_PACKPRODUCT] = packproductmodel.getSelectedKey();
-		myprod[DataLogicSales.INDEX_MANAGESTOCK] = m_jManageStock.isSelected(); 
+        myprod[DataLogicSales.INDEX_MANAGESTOCK] = m_jManageStock.isSelected(); 
+        myprod[DataLogicSales.INDEX_ISBOXOFFICE] = m_jBoxOffice.isSelected(); 
+        myprod[DataLogicSales.INDEX_ISBOXOFFICEREPORTED] = m_jBoxOfficeReported.isSelected(); 
         return myprod;
 
     }
@@ -1054,7 +1074,9 @@ public final class ProductsEditor extends JPanel implements EditorRecord {
         m_jVprice = new eu.hansolo.custom.SteelCheckBox();
         m_jService = new eu.hansolo.custom.SteelCheckBox();
         m_jComment = new eu.hansolo.custom.SteelCheckBox();
-		m_jManageStock = new eu.hansolo.custom.SteelCheckBox(); 
+        m_jManageStock = new eu.hansolo.custom.SteelCheckBox();
+        m_jBoxOffice = new eu.hansolo.custom.SteelCheckBox();
+        m_jBoxOfficeReported = new eu.hansolo.custom.SteelCheckBox();
         m_jImage = new uk.chromis.data.gui.JImageEditor();
         jPanel4 = new javax.swing.JPanel();
         jLabel28 = new javax.swing.JLabel();
@@ -1388,11 +1410,23 @@ public final class ProductsEditor extends JPanel implements EditorRecord {
         jPanel2.add(m_jComment);
         m_jComment.setBounds(20, 110, 200, 30);
 
-		m_jManageStock.setText(bundle.getString("label.managestock")); // NOI18N  
-        jPanel2.add(m_jManageStock);  
-        m_jManageStock.setBounds(20, 290, 200, 30);  
+        m_jManageStock.setText(bundle.getString("label.managestock")); // NOI18N
+        jPanel2.add(m_jManageStock);
+        m_jManageStock.setBounds(20, 290, 200, 30);
 
-		
+        m_jBoxOffice.setText(bundle.getString("label.boxoffice")); // NOI18N
+        m_jBoxOffice.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                m_jBoxOfficeActionPerformed(evt);
+            }
+        });
+        jPanel2.add(m_jBoxOffice);
+        m_jBoxOffice.setBounds(20, 320, 200, 30);
+
+        m_jBoxOfficeReported.setText(bundle.getString("label.boxofficereported")); // NOI18N
+        jPanel2.add(m_jBoxOfficeReported);
+        m_jBoxOfficeReported.setBounds(20, 350, 390, 30);
+
         jTabbedPane1.addTab(AppLocal.getIntString("label.prodstock"), jPanel2); // NOI18N
         jTabbedPane1.addTab("Image", m_jImage);
 
@@ -1591,6 +1625,15 @@ public final class ProductsEditor extends JPanel implements EditorRecord {
         }
     }//GEN-LAST:event_m_jPackQuantityFocusLost
 
+    private void m_jBoxOfficeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_jBoxOfficeActionPerformed
+        // TODO add your handling code here:
+
+        eu.hansolo.custom.SteelCheckBox myCheck = (eu.hansolo.custom.SteelCheckBox) evt.getSource();
+        m_jBoxOfficeReported.setVisible(myCheck.getModel().isSelected());
+        m_jBoxOfficeReported.getModel().setSelected(myCheck.getModel().isSelected());
+        
+    }//GEN-LAST:event_m_jBoxOfficeActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonHTML;
     private eu.hansolo.custom.SteelCheckBox jCheckBoxPromotion;
@@ -1637,6 +1680,8 @@ public final class ProductsEditor extends JPanel implements EditorRecord {
     private javax.swing.JTextField m_jAlias;
     private eu.hansolo.custom.SteelCheckBox m_jAlwaysAvailable;
     private javax.swing.JComboBox m_jAtt;
+    private eu.hansolo.custom.SteelCheckBox m_jBoxOffice;
+    private eu.hansolo.custom.SteelCheckBox m_jBoxOfficeReported;
     private javax.swing.JTextField m_jCatalogOrder;
     private javax.swing.JComboBox m_jCategory;
     private eu.hansolo.custom.SteelCheckBox m_jCheckWarrantyReceipt;
@@ -1650,7 +1695,7 @@ public final class ProductsEditor extends JPanel implements EditorRecord {
     private eu.hansolo.custom.SteelCheckBox m_jInCatalog;
     private eu.hansolo.custom.SteelCheckBox m_jIsPack;
     private eu.hansolo.custom.SteelCheckBox m_jKitchen;
-	private eu.hansolo.custom.SteelCheckBox m_jManageStock; 
+    private eu.hansolo.custom.SteelCheckBox m_jManageStock;
     private javax.swing.JTextField m_jName;
     private javax.swing.JComboBox m_jPackProduct;
     private javax.swing.JTextField m_jPackQuantity;

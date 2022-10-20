@@ -208,7 +208,7 @@
             <append value=" ENGINE = InnoDB DEFAULT CHARSET=utf8  "/>
         </modifySql>                  
     </changeSet>   
-                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+                                                               
     <changeSet author="Chromis POS" id="Create Historic Version Table (NV)">
         <preConditions onFail="MARK_RAN">
             <not>
@@ -246,7 +246,7 @@
             ALTER TABLE PRODUCTS_KIT ADD CONSTRAINT PRODUCTS_KIT_FK_2 FOREIGN KEY (PRODUCT_KIT) REFERENCES PRODUCTS(ID);
             CREATE UNIQUE INDEX PKIT_INX_PROD ON PRODUCTS_KIT(PRODUCT, PRODUCT_KIT)
         </sql>
-    </changeSet>                                                                                                                                                                                                                                                                                                                                                                                                                                          
+    </changeSet>                                                      
   
     <changeSet author="Chromis POS" id="Create recipes table - mp (NV)" dbms="mysql, postgresql, hypersql, hsqldb, oracle" >
         <preConditions onFail="MARK_RAN">
@@ -301,7 +301,185 @@
             <column name="PRODUCT_KIT" type="varchar(255)"/>
         </createIndex>                                               
     </changeSet>   
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+
+        
+
+    <changeSet author="Chromis POS" id="Create Boxoffice Features Table vboxoffice">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="FEATURES"/>
+            </not>
+        </preConditions>
+        <createTable tableName="FEATURES">
+            <column name="ID" type="varchar(255)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="NAME" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="IMAGE" type="${blob.type}"/>
+            <column name="RUNTIME" type="integer">
+                <constraints nullable="false" />
+            </column>
+            <column name="RATINGID" type="varchar(255)"/>
+            <column name="EXCHANGEID" type="varchar(255)"/>
+            <column name="ACTIVE" type="${boolean.type}" defaultValueBoolean="true">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+        <modifySql dbms="mysql">
+            <append value=" ENGINE = InnoDB DEFAULT CHARSET=utf8  "/>
+        </modifySql>
+    </changeSet>
+        
+    
+
+    <changeSet author="Chromis POS" id="Create box office show features table vboxoffice">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="SHOWFEATURES"/>
+            </not>
+        </preConditions>
+        <createTable tableName="SHOWFEATURES">
+            <column name="ID" type="varchar(255)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="SHOWID" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="FEATUREID" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="SEQUENCE" type="integer">
+                <constraints nullable="false"/>
+            </column>
+            <column name="STARTTIME" type="time">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <modifySql dbms="mysql">
+            <append value=" ENGINE = InnoDB DEFAULT CHARSET=utf8  "/>
+        </modifySql>
+    </changeSet>    
+    
+    
+    
+    
+    <changeSet author="Chromis POS" id="Create box office theatres table vboxoffice">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="THEATRES"/>
+            </not>
+        </preConditions>        
+        <createTable tableName="THEATRES">
+            <column name="ID" type="varchar(255)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="NAME" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="EXTRADESCRIPTION" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="CAPACITYMODE" type="char(1)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CAPACITY" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="HARDLIMIT" type="${boolean.type}" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ACTIVE" type="${boolean.type}" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <modifySql dbms="mysql">
+            <append value=" ENGINE = InnoDB DEFAULT CHARSET=utf8  "/>
+        </modifySql>
+    </changeSet>    
+
+    
+    
+    <changeSet author="Chromis POS" id="Create box office show table vboxoffice">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="SHOWS"/>
+            </not>
+        </preConditions>
+        <createTable tableName="SHOWS">
+            <column name="ID" type="varchar(255)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="THEATREID" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="STARTDATE" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ENDDATE" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="REPORTSTARTDATE" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="REPORTENDDATE" type="date">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <modifySql dbms="mysql">
+            <append value=" ENGINE = InnoDB DEFAULT CHARSET=utf8  "/>
+        </modifySql>
+    </changeSet>    
+    
+            
+
+    
+        
+               
+    <changeSet author="Chromis POS" id="create Ratings Table vboxoffice">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="RATINGS"/>
+            </not>
+        </preConditions>
+        <createTable tableName="RATINGS">
+            <column name="ID" type="varchar(255)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="NAME" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ACTIVE" type="${boolean.type}" defaultValueBoolean="true"/>
+        </createTable>
+        <modifySql dbms="mysql">
+            <append value=" ENGINE = InnoDB DEFAULT CHARSET=utf8  "/>
+        </modifySql>
+    </changeSet>
+            
+ 
+    <changeSet id="Create Boxoffice Exchange Table (New Database)" author="Chromis POS">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="EXCHANGES"/>
+            </not>
+        </preConditions>
+        <createTable tableName="EXCHANGES">
+            <column name="ID" type="varchar(255)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="NAME" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <modifySql dbms="mysql">
+            <append value=" ENGINE = InnoDB DEFAULT CHARSET=utf8  "/>
+        </modifySql>
+    </changeSet>
+                    
+                                                       
+                                    
+                         
     <!-- End of new tables sections -->
     <!-- ***************************************************************************************** -->
     <!-- ***************************************************************************************** -->
@@ -547,6 +725,54 @@
          </addColumn>                       
      </changeSet>   
 
+
+
+     <changeSet author="N Deppe" id="Update TICKETLINES table, add SHOWID column">
+         <preConditions onFail="MARK_RAN">
+             <not>
+                 <columnExists columnName="SHOWID" tableName="ORDERS"/>
+             </not>
+         </preConditions>
+         <addColumn tableName="TICKETLINES">
+            <column name="SHOWID" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+         </addColumn>
+     </changeSet>
+     <changeSet author="N Deppe" id="Update TICKETLINES table, add SHOWDATE column">
+         <preConditions onFail="MARK_RAN">
+             <not>
+                 <columnExists columnName="SHOWDATE" tableName="ORDERS"/>
+             </not>
+         </preConditions>
+         <addColumn tableName="TICKETLINES">
+            <column name="SHOWDATE" type="date">
+                <constraints nullable="true"/>
+            </column>
+         </addColumn>         
+     </changeSet>
+    
+     <changeSet author="N Deppe" id="Update PRODUCTS table, add ISBOXOFFICE column">
+         <preConditions onFail="MARK_RAN">
+             <not>
+                 <columnExists columnName="ISBOXOFFICE" tableName="PRODUCTS"/>
+             </not>
+         </preConditions>
+         <addColumn tableName="PRODUCTS">
+            <column name="ISBOXOFFICE" type="${boolean.type}" defaultValueBoolean="false" />
+         </addColumn>
+     </changeSet>
+     <changeSet author="N Deppe" id="Update PRODUCTS table, add ISBOXOFFICE column">
+         <preConditions onFail="MARK_RAN">
+             <not>
+                 <columnExists columnName="ISBOXOFFICEREPORTED" tableName="PRODUCTS"/>
+             </not>
+         </preConditions>
+         <addColumn tableName="PRODUCTS">
+            <column name="ISBOXOFFICEREPORTED" type="${boolean.type}" defaultValueBoolean="false" />             
+         </addColumn>
+     </changeSet>
+    
     
   <!--  
     <changeSet author="Chromis POS" id="Add tableopen column in sharedtickets if it does not exist" >    
@@ -577,8 +803,8 @@
             <column name="NAME" value="Printer.TicketRefundPreview"/>
             <column name="RESTYPE" valueNumeric="0"/>
             <column name="CONTENT" valueBlobResource="/uk/chromis/pos/templates/Printer.TicketRefundPreview.xml"/>
-        </insert>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
-    </changeSet>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+        </insert>           
+    </changeSet>                                   
             
     <changeSet author="Chromis POS" id="Add reportlogo to resources">
         <preConditions onFail="MARK_RAN">
@@ -691,7 +917,7 @@
             <column name="NAME" value="script.ServiceCharge"/>
             <column name="RESTYPE" valueNumeric="0"/>
             <column name="CONTENT" valueBlobResource="/uk/chromis/pos/templates/script.ServiceCharge.txt"/>
-        </insert>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+        </insert>           
     </changeSet>
     
     <changeSet author="Chromis POS" id="Update service charge script">
@@ -711,7 +937,7 @@
             <column name="NAME" value="Ticket.CloseTimer"/>
             <column name="RESTYPE" valueNumeric="0"/>
             <column name="CONTENT" valueBlobResource="/uk/chromis/pos/templates/Ticket.CloseTimer.xml"/>
-        </insert>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+        </insert>           
     </changeSet>    
     
     <changeSet author="Chromis POS" id="Update refundit script">
@@ -743,9 +969,36 @@
             <column name="NAME" value="Ticket.LineDisplay"/>
             <column name="RESTYPE" valueNumeric="0"/>
             <column name="CONTENT" valueBlobResource="/uk/chromis/pos/templates/Ticket.LineDisplay.xml"/>
-        </insert>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
-    </changeSet>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+        </insert>        
+    </changeSet>      
+    
+
+    <changeSet author="Chromis POS" id="Add Printer.TicketBoxOffice">  
+        <preConditions onFail="MARK_RAN">  
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM RESOURCES WHERE NAME = 'Printer.TicketBoxOffice'</sqlCheck>  
+        </preConditions>  
+        <insert tableName="RESOURCES">
+            <column name="ID" value="74"/>
+            <column name="NAME" value="Printer.TicketBoxOffice"/>
+            <column name="RESTYPE" valueNumeric="0"/>
+            <column name="CONTENT" valueBlobResource="/uk/chromis/pos/templates/Printer.TicketBoxOffice.xml"/>
+        </insert>
+    </changeSet>
+        
+
+    <changeSet author="Chromis POS" id="Add Printer.TicketBoxOfficeFull">  
+        <preConditions onFail="MARK_RAN">  
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM RESOURCES WHERE NAME = 'Printer.TicketBoxOfficeFull'</sqlCheck>  
+        </preConditions>  
+        <insert tableName="RESOURCES">
+            <column name="ID" value="75"/>
+            <column name="NAME" value="Printer.TicketBoxOfficeFull"/>
+            <column name="RESTYPE" valueNumeric="0"/>
+            <column name="CONTENT" valueBlobResource="/uk/chromis/pos/templates/Printer.TicketBoxOfficeFull.xml"/>
+        </insert>
+    </changeSet>
+                      
+                    
     <!-- End of resource changeset section   -->
     <!-- ***************************************************************************************** -->
     <!-- ***************************************************************************************** -->
@@ -775,7 +1028,7 @@
         </insert>    
     </changeSet>
 
-                                                                                                                                                                                                                                                                                                                                                                                                                                  
+                                              
     <changeSet author="Chromis POS" id="Add new Service Charge product to table (NV)">   
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">SELECT COUNT(0) FROM PRODUCTS WHERE ID='sc999-001'  </sqlCheck>
@@ -841,7 +1094,7 @@
         <addColumn tableName="LINEREMOVED">
             <column name="ID" type="varchar(255)" defaultValue="" > 
                 <constraints nullable="false"/>
-            </column>                                                                       
+            </column>     
         </addColumn>          
     </changeSet>
 
@@ -873,9 +1126,9 @@
 
     <changeSet author="Chromis POS" id="Add Primary key to DRAWEROPENED table (NV)">
         <sql>ALTER TABLE DRAWEROPENED ADD PRIMARY KEY (ID)</sql>        
-    </changeSet>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+    </changeSet>                                                         
+             
+                    
     <!-- End of add new data to tables changeset section   -->    
     <!-- ***************************************************************************************** -->
     <!-- ***************************************************************************************** -->
@@ -986,6 +1239,52 @@
             <column name="TITLE" value="Menu.BestSellers" />   
         </insert>                                          
     </changeSet> 
+    
+    
+    
+    
+                        
+
+    <changeSet author="Chromis POS" id="Insert into RATINGS Table vboxoffice">
+        <insert tableName="RATINGS">
+            <column name="ID" value="0"/>
+            <column name="NAME" value="NR"/>
+            <column name="ACTIVE" valueBoolean="true"/>
+        </insert>
+        <insert tableName="RATINGS">
+            <column name="ID" value="1"/>
+            <column name="NAME" value="G"/>
+            <column name="ACTIVE" valueBoolean="true"/>
+        </insert>
+        <insert tableName="RATINGS">
+            <column name="ID" value="2"/>
+            <column name="NAME" value="PG"/>
+            <column name="ACTIVE" valueBoolean="true"/>
+        </insert>
+        <insert tableName="RATINGS">
+            <column name="ID" value="3"/>
+            <column name="NAME" value="PG-13"/>
+            <column name="ACTIVE" valueBoolean="true"/>
+        </insert>
+        <insert tableName="RATINGS">
+            <column name="ID" value="4"/>
+            <column name="NAME" value="R"/>
+            <column name="ACTIVE" valueBoolean="true"/>
+        </insert>
+        <insert tableName="RATINGS">
+            <column name="ID" value="5"/>
+            <column name="NAME" value="NC-17"/>
+            <column name="ACTIVE" valueBoolean="true"/>
+        </insert>
+        <insert tableName="RATINGS">
+            <column name="ID" value="6"/>
+            <column name="NAME" value="X"/>
+            <column name="ACTIVE" valueBoolean="true"/>
+        </insert>
+    </changeSet>
+                                        
+                            
+
  
     <!-- ***************************************************************************************** -->
     <!--                Update Administrator permissions if required                               -->
@@ -996,6 +1295,7 @@
             <where>ID='0'</where>         
         </update> 
     </changeSet>  
+    
     
     
     <!-- Flag used to indicate that this point new  upgrade will be used -->

@@ -15,6 +15,7 @@
     <include file="uk/chromis/pos/liquibase/common/sequences.xml"/> 
     <include file="uk/chromis/pos/liquibase/common/dbpermissions.xml"/>   
     <include file="uk/chromis/pos/liquibase/upgrade/tables.xml"/>
+    <include file="uk/chromis/pos/liquibase/upgrade/data.xml"/>
     <include file="uk/chromis/pos/liquibase/common/setVersion.xml"/>
    
 </databaseChangeLog>

@@ -39,6 +39,7 @@
 	<class name="payment.free"/>
 	<class name="payment.cheque"/>
 	<class name="/uk/chromis/reports/piesalescat.bs"/>
+	<class name="/uk/chromis/reports/boxofficesales.bs"/>
 	<class name="/uk/chromis/reports/extendedcashregisterlog.bs"/>
 	<class name="button.refundit"/>
 	<class name="/uk/chromis/reports/taxes.bs"/>
@@ -132,4 +133,13 @@
 	<class name="/uk/chromis/reports/top10sales.bs"/>
 	<class name="/uk/chromis/reports/barcodesheet.bs"/>
         <class name="uk.chromis.pos.sales.JPanelUnlockTables"/>
+        <class name="uk.chromis.pos.inventory.FeaturesPanel" />
+        <class name="uk.chromis.pos.inventory.TheatresPanel" />
+        <class name="uk.chromis.pos.inventory.ShowsPanel" />
+        <class name="uk.chromis.pos.inventory.RatingsPanel" />
+        <class name="uk.chromis.pos.inventory.ShowFeaturePanel" />
+        <class name="uk.chromis.pos.inventory.ExchangesPanel" />
+        <class name="uk.chromis.pos.inventory.BoxOfficeProductSetsPanel" />
+        <class name="uk.chromis.pos.inventory.BoxOfficeProductSetProductsPanel" />
+        <class name="boxoffice.SelectDate" />
  </permissions>        

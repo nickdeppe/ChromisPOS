@@ -34,6 +34,8 @@ import uk.chromis.pos.payment.PaymentInfoTicket;
 import uk.chromis.pos.ticket.*;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
@@ -56,6 +58,12 @@ public class DataLogicSales extends BeanFactoryDataSingle {
     private SentenceFind m_productname;
     protected Datas[] stockdatas;
     protected Row productsRow;
+    protected Row featuresRow;
+    protected Row showsRow;
+    protected Row ratingsRow;
+    protected Row showFeaturesQBFRow;
+    protected Row showFeaturesRow;
+    protected Row boxOfficeProductSetsRow;
     private String pName;
     private Double getTotal;
     private Double getTendered;
@@ -106,7 +114,49 @@ public class DataLogicSales extends BeanFactoryDataSingle {
     public static int INDEX_PACKPRODUCT = FIELD_COUNT++;
     public static int INDEX_PROMOTIONID = FIELD_COUNT++;
     public static int INDEX_MANAGESTOCK = FIELD_COUNT++;
+    public static int INDEX_ISBOXOFFICE = FIELD_COUNT++;
+    public static int INDEX_ISBOXOFFICEREPORTED = FIELD_COUNT++;
 
+    
+    public static int FEATURES_FIELD_COUNT = 0;
+    public static int INDEX_FEATURE_ID = FEATURES_FIELD_COUNT++;
+    public static int INDEX_FEATURE_NAME = FEATURES_FIELD_COUNT++;
+    public static int INDEX_FEATURE_IMAGE = FEATURES_FIELD_COUNT++;
+    public static int INDEX_FEATURE_RUNTIME = FEATURES_FIELD_COUNT++;
+    public static int INDEX_FEATURE_RATINGID = FEATURES_FIELD_COUNT++;
+    public static int INDEX_FEATURE_EXCHANGEID = FEATURES_FIELD_COUNT++;
+    public static int INDEX_FEATURE_ACTIVE = FEATURES_FIELD_COUNT++;
+    
+    public static int BOXOFFICEPRODUCTSETS_FIELD_COUNT = 0;
+    public static int INDEX_BOXOFFICEPRODUCTSET_ID = BOXOFFICEPRODUCTSETS_FIELD_COUNT++;
+    public static int INDEX_BOXOFFICEPRODUCTSET_NAME = BOXOFFICEPRODUCTSETS_FIELD_COUNT++;
+    public static int INDEX_BOXOFFICEPRODUCTSET_ACTIVE = BOXOFFICEPRODUCTSETS_FIELD_COUNT++;
+
+    public static int SHOWS_FIELD_COUNT = 0;
+    public static int INDEX_SHOW_ID = SHOWS_FIELD_COUNT++;
+    public static int INDEX_SHOW_THEATREID = SHOWS_FIELD_COUNT++;
+    public static int INDEX_SHOW_STARTDATE = SHOWS_FIELD_COUNT++;
+    public static int INDEX_SHOW_ENDDATE = SHOWS_FIELD_COUNT++;
+    public static int INDEX_SHOW_REPORTSTARTDATE = SHOWS_FIELD_COUNT++;
+    public static int INDEX_SHOW_REPORTENDDATE = SHOWS_FIELD_COUNT++;
+    public static int INDEX_SHOW_BOXOFFICEPRODUCTSETID = SHOWS_FIELD_COUNT++;
+    
+    public static int RATINGS_FIELD_COUNT = 0;
+    public static int INDEX_RATING_ID = RATINGS_FIELD_COUNT++;
+    public static int INDEX_RATING_NAME = RATINGS_FIELD_COUNT++;
+    public static int INDEX_RATING_ACTIVE = RATINGS_FIELD_COUNT++;
+    
+    
+    public static int SHOW_FEATURES_FIELD_COUNT = 0;
+    public static int INDEX_SHOW_FEATURES_ID = SHOW_FEATURES_FIELD_COUNT++;
+    public static int INDEX_SHOW_FEATURES_SHOWID = SHOW_FEATURES_FIELD_COUNT++;
+    public static int INDEX_SHOW_FEATURES_FEATUREID = SHOW_FEATURES_FIELD_COUNT++;
+    public static int INDEX_SHOW_FEATURES_SEQUENCE = SHOW_FEATURES_FIELD_COUNT++;
+    public static int INDEX_SHOW_FEATURES_STARTTIME = SHOW_FEATURES_FIELD_COUNT++;
+    public static int INDEX_SHOW_FEATURES_PRINTTICKET = SHOW_FEATURES_FIELD_COUNT++;
+    public static int INDEX_SHOW_FEATURES_PRINTREPORT = SHOW_FEATURES_FIELD_COUNT++;
+
+    
     /**
      * Creates a new instance of SentenceContainerGeneric
      */
@@ -197,12 +247,85 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 new Field("PACKQUANTITY", Datas.DOUBLE, Formats.DOUBLE),
                 new Field("PACKPRODUCT", Datas.STRING, Formats.STRING),
                 new Field("PROMOTIONID", Datas.STRING, Formats.STRING),
-                new Field("MANAGESTOCK", Datas.BOOLEAN, Formats.BOOLEAN)
+                new Field("MANAGESTOCK", Datas.BOOLEAN, Formats.BOOLEAN),
+                new Field("ISBOXOFFICE", Datas.BOOLEAN, Formats.BOOLEAN),
+                new Field("ISBOXOFFICEREPORTED", Datas.BOOLEAN, Formats.BOOLEAN)
         );
 
         // If this fails there is a coding error - have you added a column
         // to the PRODUCTS table and not added an INDEX_xxx for it?
         assert (FIELD_COUNT == productsRow.getFields().length);
+        
+        
+        
+        
+        featuresRow = new Row(
+            new Field("ID", Datas.STRING, Formats.STRING),
+            new Field("NAME", Datas.STRING, Formats.STRING, true, true, true),
+            new Field("IMAGE", Datas.IMAGE, Formats.NULL),
+            new Field("RUNTIME", Datas.INT, Formats.INT),
+            new Field("RATINGID", Datas.STRING, Formats.STRING),
+            new Field("EXCHANGEID", Datas.STRING, Formats.STRING),
+            new Field("ACTIVE", Datas.BOOLEAN, Formats.BOOLEAN, true, true, true)
+        );
+        
+        assert (FEATURES_FIELD_COUNT == featuresRow.getFields().length);
+
+        
+        
+
+        showsRow = new Row(
+            new Field("ID", Datas.STRING, Formats.STRING),
+            new Field("THEATREID", Datas.STRING, Formats.STRING, true, true, true),
+            new Field("STARTDATE", Datas.DATE, Formats.DATE),
+            new Field("ENDDATE", Datas.DATE, Formats.DATE),
+            new Field("REPORTSTARTDATE", Datas.DATE, Formats.DATE),
+            new Field("REPORTSTARTDATE", Datas.DATE, Formats.DATE),
+            new Field("BOXOFFICEPRODUCTSETID", Datas.STRING, Formats.STRING)
+        );
+        
+        assert (SHOWS_FIELD_COUNT == showsRow.getFields().length );
+        
+        
+        ratingsRow = new Row(
+                new Field("ID", Datas.STRING, Formats.STRING),
+                new Field("NAME", Datas.STRING, Formats.STRING),
+                new Field("ACTIVE", Datas.BOOLEAN, Formats.BOOLEAN)
+        );
+        assert (RATINGS_FIELD_COUNT == ratingsRow.getFields().length );
+        
+        
+        showFeaturesQBFRow = new Row(
+                new Field("ID", Datas.STRING, Formats.STRING),
+                new Field("SHOWID", Datas.STRING, Formats.STRING),
+                new Field("FEATUREID", Datas.STRING, Formats.STRING),
+                new Field("NAME", Datas.STRING, Formats.STRING),
+                new Field("SEQUENCE", Datas.INT, Formats.INT),
+                new Field("STARTTIME", Datas.TIME, Formats.TIME),
+                new Field("PRINTTICKET", Datas.BOOLEAN, Formats.BOOLEAN),
+                new Field("PRINTREPORT", Datas.BOOLEAN, Formats.BOOLEAN)
+        );
+        
+        showFeaturesRow = new Row(
+                new Field("ID", Datas.STRING, Formats.STRING),
+                new Field("SHOWID", Datas.STRING, Formats.STRING),
+                new Field("FEATUREID", Datas.STRING, Formats.STRING),
+                new Field("SEQUENCE", Datas.INT, Formats.INT),
+                new Field("STARTTIME", Datas.TIME, Formats.TIME),
+                new Field("PRINTTICKET", Datas.BOOLEAN, Formats.BOOLEAN),
+                new Field("PRINTREPORT", Datas.BOOLEAN, Formats.BOOLEAN)
+        );
+        
+        assert (SHOW_FEATURES_FIELD_COUNT == showFeaturesRow.getFields().length );
+
+        boxOfficeProductSetsRow = new Row(
+                new Field("ID", Datas.STRING, Formats.STRING),
+                new Field("NAME", Datas.STRING, Formats.STRING),
+                new Field("ACTIVE", Datas.BOOLEAN, Formats.BOOLEAN)
+        );
+        assert ( BOXOFFICEPRODUCTSETS_FIELD_COUNT == boxOfficeProductSetsRow.getFields().length );
+        
+        
     }
 
     private String getSelectFieldList() {
@@ -238,7 +361,9 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 + "P.CANDISCOUNT, "
                 + "P.ISPACK, P.PACKQUANTITY, P.PACKPRODUCT, "
                 + "P.PROMOTIONID, "
-                + "P.MANAGESTOCK ";
+                + "P.MANAGESTOCK, "
+                + "P.ISBOXOFFICE, "
+                + "P.ISBOXOFFICEREPORTED ";
         return sel;
     }
 
@@ -462,6 +587,90 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 + "ORDER BY P.CATORDER, P.NAME ", SerializerWriteString.INSTANCE, ProductInfoExt.getSerializerRead()).list(category);
     }
 
+
+
+
+    /**
+     *
+     * @return
+     * @throws BasicException
+     */
+    public final SentenceList getAllBoxOfficeProductsSentence() throws BasicException {
+        return new PreparedSentence(
+                s, 
+                "SELECT "
+                + getSelectFieldList()
+                + "FROM PRODUCTS P "
+                + "WHERE P.ISCATALOG = " + s.DB.TRUE() + " AND P.ISBOXOFFICE = " + s.DB.TRUE() + " "
+                + "ORDER BY P.CATORDER, P.NAME ", 
+                null, 
+                ProductInfoExt.getSerializerRead());
+    }
+    
+    /**
+     *
+     * @param boxOfficeProductSetID
+     * @return
+     * @throws BasicException
+     */
+    public final SentenceList getAllBoxOfficeProductsSentence( String boxOfficeProductSetID ) throws BasicException {
+        return new PreparedSentence(
+                s, 
+                "SELECT "
+                + getSelectFieldList()
+                + " FROM BOXOFFICEPRODUCTSETS_PRODUCTS SP "
+                + " INNER JOIN PRODUCTS P ON SP.PRODUCTID = P.ID "
+                + " WHERE SP.BOXOFFICEPRODUCTSETID = '" + boxOfficeProductSetID + "'"
+                + "      AND P.ISCATALOG = " + s.DB.TRUE() 
+                + "      AND P.ISBOXOFFICE = " + s.DB.TRUE()
+                + " ORDER BY SP.SEQUENCE, P.CATORDER, P.NAME ", 
+                null, 
+                ProductInfoExt.getSerializerRead());
+    }
+    
+    
+    
+    /**
+     *
+     * @return
+     * @throws BasicException
+     */
+    public List<ProductInfoExt> getAllBoxOfficeProducts() throws BasicException {
+        return getAllBoxOfficeProductsSentence().list();
+    }
+    
+    /**
+     *
+     * @param boxOfficeProductSetID
+     * @return
+     * @throws BasicException
+     */
+    public List<ProductInfoExt> getAllBoxOfficeProducts(String boxOfficeProductSetID) throws BasicException {
+        return getAllBoxOfficeProductsSentence(boxOfficeProductSetID).list();
+    }
+    
+    
+    
+    /**
+     *
+     * @param category
+     * @return
+     * @throws BasicException
+     */
+    public List<ProductInfoExt> getAllNonBoxOfficeProducts() throws BasicException {
+        return new PreparedSentence(
+                s, 
+                "SELECT "
+                + getSelectFieldList()
+                + "FROM PRODUCTS P "
+                + "WHERE P.ISCATALOG = " + s.DB.TRUE() + " AND P.ISBOXOFFICE = " + s.DB.FALSE() + " "
+                + "ORDER BY P.CATORDER, P.NAME ", 
+                null, 
+                ProductInfoExt.getSerializerRead()).list();
+    }
+    
+    
+    
     /**
      *
      * @param category
@@ -596,7 +805,9 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 + "P.ALWAYSAVAILABLE, "
                 + "P.DISCOUNTED, "
                 + "P.CANDISCOUNT, "
-                + "P.ISPACK, P.PACKQUANTITY, P.PACKPRODUCT, "
+                + "P.ISPACK, "
+                + "P.PACKQUANTITY, "
+                + "P.PACKPRODUCT, "
                 + "P.PROMOTIONID, "
                 + "P.MANAGESTOCK "
                 + "FROM STOCKCURRENT C RIGHT OUTER JOIN PRODUCTS P ON (C.PRODUCT = P.ID) "
@@ -611,6 +822,8 @@ public class DataLogicSales extends BeanFactoryDataSingle {
             Datas.OBJECT, Datas.DOUBLE,}), ProductInfoExt.getSerializerRead());
     }
 
+    
+    
     public SentenceList getProductListNormal() {
         return new StaticSentence(s, new QBFBuilder(
                 "SELECT "
@@ -1038,14 +1251,60 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                     ? null
                     : loadCustomerExt(customerid));
 
-            ticket.setLines(new PreparedSentence(s, "SELECT L.TICKET, L.LINE, L.PRODUCT, L.ATTRIBUTESETINSTANCE_ID, L.UNITS, L.PRICE, T.ID, T.NAME, T.CATEGORY, T.CUSTCATEGORY, T.PARENTID, T.RATE, T.RATECASCADE, T.RATEORDER, L.ATTRIBUTES, L.REFUNDQTY  "
-                    + "FROM TICKETLINES L, TAXES T WHERE L.TAXID = T.ID AND L.TICKET = ? ORDER BY L.LINE", SerializerWriteString.INSTANCE, new SerializerReadClass(TicketLineInfo.class)).list(ticket.getId()));
+            ticket.setLines(getLines(ticket.getId()));
             ticket.setPayments(new PreparedSentence(s //                    , "SELECT PAYMENT, TOTAL, TRANSID TENDERED FROM PAYMENTS WHERE RECEIPT = ?" 
                     , "SELECT PAYMENT, TOTAL, TRANSID, TENDERED, CARDNAME FROM PAYMENTS WHERE RECEIPT = ?", SerializerWriteString.INSTANCE, new SerializerReadClass(PaymentInfoTicket.class)).list(ticket.getId()));
         }
         return ticket;
     }
 
+    
+    public final List<TicketLineInfo> getLines(final String ticketID) throws BasicException {
+        
+        List<TicketLineInfo> lines = new PreparedSentence(
+            s, 
+            "SELECT "
+                    + "L.TICKET, "
+                    + "L.LINE, "
+                    + "L.PRODUCT, "
+                    + "L.ATTRIBUTESETINSTANCE_ID, "
+                    + "L.UNITS, "
+                    + "L.PRICE, "
+                    + "T.ID, "
+                    + "T.NAME, "
+                    + "T.CATEGORY, "
+                    + "T.CUSTCATEGORY, "
+                    + "T.PARENTID, "
+                    + "T.RATE, "
+                    + "T.RATECASCADE, "
+                    + "T.RATEORDER, "
+                    + "L.ATTRIBUTES, "
+                    + "L.REFUNDQTY, "
+                    + "L.SHOWID, "
+                    + "L.SHOWDATE "
+            + "FROM "
+                    + "TICKETLINES L "
+                    + "INNER JOIN TAXES T ON L.TAXID = T.ID "
+            + "WHERE "
+                    + "L.TICKET = ? "
+            + "ORDER BY "
+                    + "L.LINE", 
+            SerializerWriteString.INSTANCE, 
+            new SerializerReadClass(TicketLineInfo.class)).list(ticketID);
+        
+        for (int i = 0; i < lines.size(); i++) {
+            TicketLineInfo line = lines.get(i);
+            if (line.getShowID() != null && line.getShowID() != "") {
+                line.setShow(getShowInfo(line.getShowID()));
+            }
+        }
+        
+        return lines;
+        
+    }
+    
+    
+    
     /**
      *
      * @param ticket
@@ -1116,7 +1375,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 }
                 );
 
-                SentenceExec ticketlineinsert = new PreparedSentence(s, "INSERT INTO TICKETLINES (TICKET, LINE, PRODUCT, ATTRIBUTESETINSTANCE_ID, UNITS, PRICE, TAXID, ATTRIBUTES, REFUNDQTY) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", SerializerWriteBuilder.INSTANCE);
+                SentenceExec ticketlineinsert = new PreparedSentence(s, "INSERT INTO TICKETLINES (TICKET, LINE, PRODUCT, ATTRIBUTESETINSTANCE_ID, UNITS, PRICE, TAXID, ATTRIBUTES, REFUNDQTY, SHOWID, SHOWDATE) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", SerializerWriteBuilder.INSTANCE);
 
                 for (TicketLineInfo l : ticket.getLines()) {
 
@@ -1125,7 +1384,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                     if (l.getProductID() != null && l.isProductService() != true
                             && l.getManageStock() == true) {
 
-                        //     List<ProductsRecipeInfo> kit = getProductsKit(l.getProductID());
+                        //     List<ProductsRecipeInfo> kit = getProductsKit(l.getTheatreID());
                         //     if (kit.size() == 0) {
                         // update the stock
                         getStockDiaryInsert().exec(new Object[]{
@@ -1362,8 +1621,8 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                         + "ATTRIBUTESET_ID, IMAGE, STOCKCOST, STOCKVOLUME, ISCATALOG, CATORDER, "
                         + "ATTRIBUTES, ISKITCHEN, ISSERVICE, DISPLAY, ISVPRICE, "
                         + "ISVERPATRIB, TEXTTIP, WARRANTY, STOCKUNITS, ALIAS, ALWAYSAVAILABLE, DISCOUNTED, CANDISCOUNT, "
-                        + "ISPACK, PACKQUANTITY, PACKPRODUCT, PROMOTIONID, MANAGESTOCK  ) "
-                        + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                        + "ISPACK, PACKQUANTITY, PACKPRODUCT, PROMOTIONID, MANAGESTOCK, ISBOXOFFICE, ISBOXOFFICEREPORTED  ) "
+                        + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                         new SerializerWriteBasicExt(productsRow.getDatas(),
                                 new int[]{INDEX_ID,
                                     INDEX_REFERENCE, INDEX_CODE, INDEX_CODETYPE,
@@ -1377,7 +1636,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                                     INDEX_WARRANTY, INDEX_STOCKUNITS, INDEX_ALIAS,
                                     INDEX_ALWAYSAVAILABLE, INDEX_DISCOUNTED, INDEX_CANDISCOUNT,
                                     INDEX_ISPACK, INDEX_PACKQUANTITY, INDEX_PACKPRODUCT,
-                                    INDEX_PROMOTIONID, INDEX_MANAGESTOCK})).exec(params);
+                                    INDEX_PROMOTIONID, INDEX_MANAGESTOCK, INDEX_ISBOXOFFICE, INDEX_ISBOXOFFICEREPORTED })).exec(params);
 
                 new PreparedSentence(s, "INSERT INTO STOCKCURRENT (LOCATION, PRODUCT, UNITS) VALUES ('0', ?, 0.0)",
                         new SerializerWriteBasicExt(productsRow.getDatas(), new int[]{INDEX_ID})).exec(params);
@@ -1423,7 +1682,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                         + "DISCOUNTED = ?, CANDISCOUNT = ?, "
                         + "ISPACK = ?, PACKQUANTITY = ?, PACKPRODUCT = ?, "
                         + "PROMOTIONID = ?, ISCATALOG = ?, CATORDER = ?, "
-                        + "MANAGESTOCK = ? "
+                        + "MANAGESTOCK = ?, ISBOXOFFICE = ?, ISBOXOFFICEREPORTED = ? "
                         + "WHERE ID = ?", new SerializerWriteBasicExt(productsRow.getDatas(),
                                 new int[]{
                                     INDEX_REFERENCE, INDEX_CODE, INDEX_CODETYPE,
@@ -1437,7 +1696,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                                     INDEX_ALWAYSAVAILABLE, INDEX_DISCOUNTED, INDEX_CANDISCOUNT,
                                     INDEX_ISPACK, INDEX_PACKQUANTITY, INDEX_PACKPRODUCT,
                                     INDEX_PROMOTIONID, INDEX_ISCATALOG, INDEX_CATORDER,
-                                    INDEX_MANAGESTOCK,
+                                    INDEX_MANAGESTOCK, INDEX_ISBOXOFFICE, INDEX_ISBOXOFFICEREPORTED, 
                                     INDEX_ID})).exec(params);
 
                 return i;
@@ -1532,6 +1791,952 @@ public class DataLogicSales extends BeanFactoryDataSingle {
             }
         };
     }
+    
+    
+ 
+    public final ShowSalesInfo getShowInfo(String showID) throws BasicException {
+        
+        ShowSalesInfo oShow = (ShowSalesInfo) new PreparedSentence(
+                s, 
+                "SELECT "
+                        + " S.ID, "
+                        + " S.THEATREID, "
+                        + " S.STARTDATE, "
+                        + " S.ENDDATE, "
+                        + " S.REPORTSTARTDATE, "
+                        + " S.REPORTENDDATE,"
+                        + " S.BOXOFFICEPRODUCTSETID "
+                + "FROM "
+                    + " SHOWS S"
+                    + " INNER JOIN THEATRES T ON S.THEATREID = T.ID "                        
+                + "WHERE "
+                        + " S.ID = ? "
+                + "ORDER BY "
+                        + " T.NAME, "
+                        + " S.STARTDATE", 
+                SerializerWriteString.INSTANCE,
+                ShowSalesInfo.getSerializerRead()
+        ).find(showID);
+        
+        if (oShow != null) {
+            oShow.setTheatre(getTheatre(oShow.getTheatreID()));
+            oShow.setShowFeatures(getFeaturesForShow(oShow.getID()));
+        }
+                
+        return oShow;        
+        
+    }
+    
+    
+    
+    /**
+     *
+     * @return @throws BasicException
+     */
+    public final List<ShowSalesInfo> getShowsForDate(Date forDate) throws BasicException {
+        
+        DateFormat dbDateFormat = new SimpleDateFormat("yyyy-MM-dd");        
+        
+        String dateFormat = dbDateFormat.format(forDate);
+        
+        List<ShowSalesInfo> oShows = new PreparedSentence(
+                s, 
+                "SELECT "
+                        + " S.ID, "
+                        + " S.THEATREID, "
+                        + " S.STARTDATE, "
+                        + " S.ENDDATE, "
+                        + " S.REPORTSTARTDATE, "
+                        + " S.REPORTENDDATE,"
+                        + " S.BOXOFFICEPRODUCTSETID "
+                + "FROM "
+                    + " SHOWS S"
+                    + " INNER JOIN THEATRES T ON S.THEATREID = T.ID "                        
+                + "WHERE "
+                    + " S.STARTDATE <= '" + dateFormat + "' "
+                    + " AND S.ENDDATE >= '" + dateFormat + "' "
+                    + " AND EXISTS ( SELECT * FROM SHOWFEATURES SF WHERE S.ID = SF.SHOWID )"
+                + "ORDER BY "
+                        + " T.NAME, "
+                        + " S.STARTDATE", 
+                null, 
+                ShowSalesInfo.getSerializerRead()
+        ).list(dateFormat, dateFormat);
+        
+        
+        for (int i = 0; i < oShows.size(); i++ ) {
+            ShowSalesInfo show = oShows.get(i);
+            show.setTheatre(getTheatre(show.getTheatreID()));
+            show.setShowFeatures(getFeaturesForShow(show.getID()));
+        }
+        
+        return oShows;
+        
+    }
+    
+    
+    
+    /**
+     *
+     * @return @throws BasicException
+     */
+    public final List<ShowFeaturesInfo> getFeaturesForShow(String showID) throws BasicException {
+        return new PreparedSentence(
+                s, 
+                "SELECT "
+                        + " SF.ID, "
+                        + " SF.SHOWID, "
+                        + " SF.FEATUREID, "
+                        + " SF.SEQUENCE, "
+                        + " SF.STARTTIME, "
+                        + " SF.PRINTTICKET, "
+                        + " SF.PRINTREPORT, "
+                        + " F.NAME, "
+                        + " F.IMAGE, "
+                        + " F.RUNTIME, "
+                        + " F.RATINGID, "
+                        + " F.ACTIVE, "
+                        + " R.NAME AS RATINGNAME, "
+                        + " COALESCE(E.NAME, '') AS EXCHANGENAME "
+                        + "FROM "
+                        + " SHOWFEATURES SF "
+                        + " INNER JOIN FEATURES F ON SF.FEATUREID = F.ID "
+                        + " INNER JOIN RATINGS R ON F.RATINGID = R.ID "
+                        + " LEFT OUTER JOIN EXCHANGES E ON F.EXCHANGEID = E.ID "
+                        + "WHERE "
+                        + " SF.SHOWID = ? "
+                        + "ORDER BY SF.SEQUENCE, SF.STARTTIME", 
+                SerializerWriteString.INSTANCE, 
+                ShowFeaturesInfo.getSerializerRead()
+        ).list(showID);
+    }
+    
+
+
+    
+    /**
+     *
+     * @return @throws BasicException
+     */
+    public final List<ShowFeaturesInfo> getFeaturesForBoxOfficeReport(String showID) throws BasicException {
+        return new PreparedSentence(
+                s, 
+                "SELECT "
+                        + " SF.ID, "
+                        + " SF.SHOWID, "
+                        + " SF.FEATUREID, "
+                        + " SF.SEQUENCE, "
+                        + " SF.STARTTIME, "
+                        + " SF.PRINTTICKET, "
+                        + " SF.PRINTREPORT, "
+                        + " F.NAME, "
+                        + " F.IMAGE, "
+                        + " F.RUNTIME, "
+                        + " F.RATINGID, "
+                        + " F.ACTIVE, "
+                        + " R.NAME AS RATINGNAME, "
+                        + " COALESCE(E.NAME, '') AS EXCHANGENAME "
+                        + "FROM "
+                        + " SHOWFEATURES SF "
+                        + " INNER JOIN FEATURES F ON SF.FEATUREID = F.ID "
+                        + " INNER JOIN RATINGS R ON F.RATINGID = R.ID "
+                        + " LEFT OUTER JOIN EXCHANGES E ON F.EXCHANGEID = E.ID "
+                        + "WHERE "
+                        + " SF.SHOWID = ? "
+                        + " AND SF.PRINTREPORT = TRUE "
+                        + "ORDER BY SF.SEQUENCE, SF.STARTTIME", 
+                SerializerWriteString.INSTANCE, 
+                ShowFeaturesInfo.getSerializerRead()
+        ).list(showID);
+    }
+
+
+    
+    public final Integer getNextShowFeatureSequence(String showID) throws BasicException {
+        
+        Integer nextSequence;
+        
+        PreparedSentence p = new PreparedSentence(
+                s, 
+                "SELECT "
+                        + " MAX(SEQUENCE) AS MAXSEQUENCE "
+                        + "FROM "
+                        + " SHOWFEATURES SF "
+                        + "WHERE "
+                        + " SF.SHOWID = ? ",
+                SerializerWriteString.INSTANCE, 
+                SerializerReadInteger.INSTANCE
+        );
+        
+        nextSequence = (Integer) p.find(showID);
+        return (nextSequence == null) ? 1 : ++nextSequence;
+        
+    }
+    
+    
+    
+    
+
+    /**
+     *
+     * @return
+     */
+    public final SentenceList getFeaturesQBF() {
+        return new StaticSentence(s, 
+            new QBFBuilder(
+                "SELECT "
+                + "F.ID, "
+                + "F.NAME, "
+                + "F.IMAGE, "
+                + "F.RUNTIME, "
+                + "F.RATINGID, "
+                + "F.EXCHANGEID, "
+                + "F.ACTIVE "
+                + "FROM FEATURES F "
+                + "WHERE ?(QBF_FILTER) "
+                + "ORDER BY F.NAME",
+                new String[] {
+                    "F.NAME", 
+                    "F.ACTIVE"
+                }, 
+                false
+            ), 
+            new SerializerWriteBasic(
+                new Datas[]{
+                    Datas.OBJECT, Datas.STRING,
+                    Datas.OBJECT, Datas.BOOLEAN
+                }
+            ), 
+            featuresRow.getSerializerRead()
+        );
+    }
+
+
+    /**
+     *
+     * @return
+     */
+    public final SentenceList getBoxOfficeProductSetsQBF() {
+        return new StaticSentence(s, 
+            new QBFBuilder(
+                "SELECT "
+                + "P.ID, "
+                + "P.NAME, "
+                + "P.ACTIVE "
+                + "FROM BOXOFFICEPRODUCTSETS P "
+                + "WHERE ?(QBF_FILTER) "
+                + "ORDER BY P.NAME",
+                new String[] {
+                    "P.NAME", 
+                    "P.ACTIVE"
+                }, 
+                false
+            ), 
+            new SerializerWriteBasic(
+                new Datas[]{
+                    Datas.OBJECT, Datas.STRING,
+                    Datas.OBJECT, Datas.BOOLEAN
+                }
+            ), 
+            boxOfficeProductSetsRow.getSerializerRead()
+        );
+    }
+
+    
+    
+
+    /**
+     *
+     * @return
+     */
+    public final SentenceExec getBoxOfficeProductSetInsert() {
+        return new SentenceExecTransaction(s) {
+            @Override
+            public int execInTransaction(Object params) throws BasicException {
+                Object[] values = (Object[]) params;
+                return new PreparedSentence(
+                            s, 
+                            "INSERT INTO BOXOFFICEPRODUCTSETS (ID, NAME, ACTIVE) VALUES (?, ?, ?)",
+                            new SerializerWriteBasicExt(
+                                boxOfficeProductSetsRow.getDatas(),
+                                new int[] {
+                                    INDEX_BOXOFFICEPRODUCTSET_ID, 
+                                    INDEX_BOXOFFICEPRODUCTSET_NAME, 
+                                    INDEX_BOXOFFICEPRODUCTSET_ACTIVE
+                                }
+                            )
+                ).exec(params);
+            }
+        };
+    }
+
+    /**
+     *
+     * @return
+     */
+    public final SentenceExec getBoxOfficeProductSetUpdate() {
+        return new SentenceExecTransaction(s) {
+            @Override
+            public int execInTransaction(Object params) throws BasicException {
+                Object[] values = (Object[]) params;
+                return new PreparedSentence(s, 
+                        "UPDATE BOXOFFICEPRODUCTSETS "
+                        + "SET "
+                        + "NAME = ?, "
+                        + "ACTIVE = ? "
+                        + "WHERE ID = ?", 
+                        new SerializerWriteBasicExt(
+                                boxOfficeProductSetsRow.getDatas(),
+                                new int[]{
+                                    INDEX_BOXOFFICEPRODUCTSET_NAME, 
+                                    INDEX_BOXOFFICEPRODUCTSET_ACTIVE, 
+                                    INDEX_BOXOFFICEPRODUCTSET_ID
+                                }
+                        )
+                ).exec(params);
+            }
+        };
+    }
+
+    /**
+     *
+     * @return
+     */
+    public final SentenceExec getBoxOfficeProductSetDelete() {
+        return new SentenceExecTransaction(s) {
+            @Override
+            public int execInTransaction(Object params) throws BasicException {
+                return new PreparedSentence(s, "DELETE FROM BOXOFFICEPRODUCTSETS WHERE ID = ?", new SerializerWriteBasicExt(boxOfficeProductSetsRow.getDatas(), new int[]{INDEX_BOXOFFICEPRODUCTSET_ID})).exec(params);
+            }
+        };
+    }
+        
+    
+    /**
+     *
+     * @return
+     */
+    public final SentenceList getFeaturesList() {
+        return new StaticSentence(
+                s,
+                "SELECT "
+                + "F.ID, "
+                + "F.NAME, "
+                + "F.IMAGE, "
+                + "F.RUNTIME, "
+                + "F.RATINGID, "
+                + "F.EXCHANGEID, "
+                + "F.ACTIVE "
+                + "FROM FEATURES F "
+                + "WHERE F.ACTIVE = TRUE "
+                + "ORDER BY F.NAME",
+                null,
+                FeatureInfo.getSerializerRead()
+        );
+    }
+    
+
+    
+    /**
+     *
+     * @return
+     */
+    public final SentenceList getFeaturesNameList() {
+        return new StaticSentence(
+                s,
+                "SELECT "
+                + "F.ID, "
+                + "F.NAME "
+                + "FROM FEATURES F "
+                + "WHERE F.ACTIVE = TRUE "
+                + "ORDER BY F.NAME",
+                null,
+                FeatureNameInfo.getSerializerRead()
+        );
+    }
+    
+    
+    
+    /**
+     *
+     * @return
+     */
+    public final SentenceExec getFeatureInsert() {
+        return new SentenceExecTransaction(s) {
+            @Override
+            public int execInTransaction(Object params) throws BasicException {
+                Object[] values = (Object[]) params;
+                return new PreparedSentence(
+                            s, 
+                            "INSERT INTO FEATURES (ID, NAME, IMAGE, RUNTIME, RATINGID, EXCHANGEID, ACTIVE) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                            new SerializerWriteBasicExt(
+                                featuresRow.getDatas(),
+                                new int[] {
+                                    INDEX_FEATURE_ID, 
+                                    INDEX_FEATURE_NAME, 
+                                    INDEX_FEATURE_IMAGE, 
+                                    INDEX_FEATURE_RUNTIME, 
+                                    INDEX_FEATURE_RATINGID, 
+                                    INDEX_FEATURE_EXCHANGEID, 
+                                    INDEX_FEATURE_ACTIVE
+                                }
+                            )
+                ).exec(params);
+            }
+        };
+    }
+
+    /**
+     *
+     * @return
+     */
+    public final SentenceExec getFeatureUpdate() {
+        return new SentenceExecTransaction(s) {
+            @Override
+            public int execInTransaction(Object params) throws BasicException {
+                Object[] values = (Object[]) params;
+                return new PreparedSentence(s, 
+                        "UPDATE FEATURES "
+                        + "SET "
+                        + "NAME = ?, "
+                        + "IMAGE = ?, "
+                        + "RUNTIME = ?, "
+                        + "RATINGID = ?, "
+                        + "EXCHANGEID = ?, "
+                        + "ACTIVE = ? "
+                        + "WHERE ID = ?", 
+                        new SerializerWriteBasicExt(
+                                featuresRow.getDatas(),
+                                new int[]{
+                                    INDEX_FEATURE_NAME, 
+                                    INDEX_FEATURE_IMAGE, 
+                                    INDEX_FEATURE_RUNTIME, 
+                                    INDEX_FEATURE_RATINGID, 
+                                    INDEX_FEATURE_EXCHANGEID,
+                                    INDEX_FEATURE_ACTIVE,
+                                    INDEX_FEATURE_ID
+                                }
+                        )
+                ).exec(params);
+            }
+        };
+    }
+
+    /**
+     *
+     * @return
+     */
+    public final SentenceExec getFeatureDelete() {
+        return new SentenceExecTransaction(s) {
+            @Override
+            public int execInTransaction(Object params) throws BasicException {
+                return new PreparedSentence(s, "DELETE FROM FEATURES WHERE ID = ?", new SerializerWriteBasicExt(featuresRow.getDatas(), new int[]{INDEX_FEATURE_ID})).exec(params);
+            }
+        };
+    }
+    
+
+    public final SentenceList getShowsTheatresList() {
+        return new StaticSentence(
+                s,
+                "SELECT "
+                + " S.ID,"
+                + " T.NAME, "
+                + " S.STARTDATE, "
+                + " S.ENDDATE "
+                + "FROM "
+                + " SHOWS S "
+                + " INNER JOIN THEATRES T ON S.THEATREID = T.ID "
+                + "WHERE "
+                + " S.STARTDATE >= CURRENT_DATE "
+                + "ORDER BY"
+                + " T.NAME, "
+                + " S.STARTDATE, "
+                + " S.ENDDATE", 
+                null,
+                ShowTheatreInfo.getSerializerRead()
+        );
+    }
+    
+    
+    
+
+    /**
+     *
+     * @return
+     */
+    public final SentenceList getShowFeaturesQBF() {
+        return new StaticSentence(s,
+            new QBFBuilder(
+                "SELECT "
+                + "SF.ID, "
+                + "SF.SHOWID, "
+                + "SF.FEATUREID, "
+                + "F.NAME, "
+                + "SF.SEQUENCE, "
+                + "SF.STARTTIME "
+                + "FROM SHOWFEATURES SF INNER JOIN FEATURES F ON SF.FEATUREID = F.ID "
+                + "WHERE ?(QBF_FILTER) "
+                + "ORDER BY SF.SEQUENCE, F.NAME ",
+                new String[] {
+                    "SF.SHOWID"
+                },
+                false
+            ),
+            new SerializerWriteBasic(
+                new Datas[]{
+                    Datas.OBJECT, Datas.STRING
+                }
+            ),
+            showFeaturesQBFRow.getSerializerRead()
+        );
+    }
+    
+    
+
+    /**
+     *
+     * @return
+     */
+    public final SentenceExec getShowFeaturesInsert() {
+        return new SentenceExecTransaction(s) {
+            @Override
+            public int execInTransaction(Object params) throws BasicException {
+                Object[] values = (Object[]) params;
+                return new PreparedSentence(
+                    s,
+                    "INSERT INTO SHOWFEATURES (ID, SHOWID, FEATUREID, SEQUENCE, STARTTIME, PRINTTICKET, PRINTREPORT) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                    new SerializerWriteBasicExt(
+                        showFeaturesRow.getDatas(),
+                        new int[] {
+                            INDEX_SHOW_FEATURES_ID,
+                            INDEX_SHOW_FEATURES_SHOWID,
+                            INDEX_SHOW_FEATURES_FEATUREID,
+                            INDEX_SHOW_FEATURES_SEQUENCE,
+                            INDEX_SHOW_FEATURES_STARTTIME
+                        }
+                    )
+                ).exec(params);
+            }
+        };
+    }
+
+    /**
+     *
+     * @return
+     */
+    public final SentenceExec getShowFeaturesUpdate() {
+        return new SentenceExecTransaction(s) {
+            @Override
+            public int execInTransaction(Object params) throws BasicException {
+                Object[] values = (Object[]) params;
+                return new PreparedSentence(s,
+                        "UPDATE SHOWFEATURES "
+                        + "SET "
+                        + "SHOWID = ?, "
+                        + "FEATUREID = ?, "
+                        + "SEQUENCE = ?, "
+                        + "STARTTIME = ?, "
+                        + "PRINTTICKET = ?, "
+                        + "PRINTREPORT = ? "
+                        + "WHERE ID = ?",
+                        new SerializerWriteBasicExt(
+                                showFeaturesRow.getDatas(),
+                                new int[]{
+                                    INDEX_SHOW_FEATURES_SHOWID,
+                                    INDEX_SHOW_FEATURES_FEATUREID,
+                                    INDEX_SHOW_FEATURES_SEQUENCE,
+                                    INDEX_SHOW_FEATURES_STARTTIME,
+                                    INDEX_SHOW_FEATURES_ID
+                                }
+                        )
+                ).exec(params);
+            }
+        };
+    }
+
+    /**
+     *
+     * @return
+     */
+    public final SentenceExec getShowFeaturesDelete() {
+        return new SentenceExecTransaction(s) {
+            @Override
+            public int execInTransaction(Object params) throws BasicException {
+                return new PreparedSentence(s, 
+                        "DELETE FROM SHOWFEATURES WHERE ID = ?", 
+                        new SerializerWriteBasicExt(
+                                showFeaturesRow.getDatas(), 
+                                new int[]{
+                                    INDEX_SHOW_FEATURES_ID
+                                }
+                        )
+                ).exec(params);
+            }
+        };
+    }
+
+    
+    
+    
+    
+    /**
+     *
+     * @return
+     */
+    public final SentenceList getTheatresList() {
+        return new StaticSentence(
+                s,
+                "SELECT "
+                + "T.ID, "
+                + "T.NAME, "
+                + "T.EXTRADESCRIPTION, "
+                + "T.CAPACITYMODE, "
+                + "T.CAPACITY, "
+                + "T.HARDLIMIT, "
+                + "T.ACTIVE "
+                + "FROM THEATRES T "
+                + "WHERE T.ACTIVE = TRUE "
+                + "ORDER BY T.NAME",
+                null,
+                TheatreInfo.getSerializerRead()
+        );
+    }
+    
+    
+    public final TheatreInfo getTheatre(String theatreID) throws BasicException {
+        return (TheatreInfo) new PreparedSentence(
+                s, 
+                "SELECT "
+                + "T.ID, "
+                + "T.NAME, "
+                + "T.EXTRADESCRIPTION, "
+                + "T.CAPACITYMODE, "
+                + "T.CAPACITY, "
+                + "T.HARDLIMIT, "
+                + "T.ACTIVE "
+                + "FROM THEATRES T "
+                + "WHERE T.ID = ? ", 
+                SerializerWriteString.INSTANCE, 
+                TheatreInfo.getSerializerRead()
+        ).find(theatreID);        
+    }
+
+
+    
+    
+    
+    /**
+     *
+     * @return
+     */
+    public final SentenceList getBoxOfficeProductSetsList() {
+        return new StaticSentence(
+                s,
+                "SELECT "
+                + "P.ID, "
+                + "P.NAME, "
+                + "P.ACTIVE "
+                + "FROM BOXOFFICEPRODUCTSETS P "
+                + "WHERE P.ACTIVE = TRUE "
+                + "ORDER BY P.NAME",
+                null,
+                BoxOfficeProductSetInfo.getSerializerRead()
+        );
+    }
+    
+    
+    
+    public final BoxOfficeProductSetInfo getBoxOfficeProductSet(String setID) throws BasicException {
+        return (BoxOfficeProductSetInfo) new PreparedSentence(
+                s, 
+                "SELECT "
+                + "P.ID, "
+                + "P.NAME, "
+                + "P.ACTIVE "
+                + "FROM BOXOFFICEPRODUCTSETS P "
+                + "WHERE P.ID = ? ", 
+                SerializerWriteString.INSTANCE, 
+                BoxOfficeProductSetInfo.getSerializerRead()
+        ).find(setID);        
+    }
+
+    
+
+    /**
+     *
+     * @return
+     */
+    public final SentenceList getRatingsQBF() {
+        return new StaticSentence(s,
+            new QBFBuilder(
+                "SELECT "
+                + "R.ID, "
+                + "R.NAME, "
+                + "R.ACTIVE "
+                + "FROM RATINGS R "
+                + "WHERE ?(QBF_FILTER) "
+                + "ORDER BY R.NAME ",
+                new String[] {
+                    "R.NAME",
+                    "R.ACTIVE"
+                },
+                false
+            ),
+            new SerializerWriteBasic(
+                new Datas[]{
+                    Datas.OBJECT, Datas.STRING,
+                    Datas.OBJECT, Datas.BOOLEAN
+                }
+            ),
+            ratingsRow.getSerializerRead()
+        );
+    }
+    
+    
+    /**
+     *
+     * @return
+     */
+    public final SentenceList getRatingsList() {
+        return new StaticSentence(
+                s,
+                "SELECT "
+                + "R.ID, "
+                + "R.NAME, "
+                + "R.ACTIVE "
+                + "FROM RATINGS R "
+                + "WHERE R.ACTIVE = TRUE "
+                + "ORDER BY R.NAME",
+                null,
+                RatingInfo.getSerializerRead()
+        );
+    }
+
+
+
+    /**
+     *
+     * @return
+     */
+    public final SentenceList getExchangesList() {
+        return new StaticSentence(
+                s,
+                "SELECT "
+                + "E.ID, "
+                + "E.NAME "
+                + "FROM EXCHANGES E "
+                + "ORDER BY E.NAME",
+                null,
+                ExchangeInfo.getSerializerRead()
+        );
+    }
+
+    
+    
+
+    /**
+     *
+     * @return
+     */
+    public final SentenceExec getRatingInsert() {
+        return new SentenceExecTransaction(s) {
+            @Override
+            public int execInTransaction(Object params) throws BasicException {
+                Object[] values = (Object[]) params;
+                return new PreparedSentence(
+                    s,
+                    "INSERT INTO RATINGS (ID, NAME, ACTIVE) VALUES (?, ?, ?)",
+                    new SerializerWriteBasicExt(
+                        ratingsRow.getDatas(),
+                        new int[] {
+                            INDEX_RATING_ID,
+                            INDEX_RATING_NAME,
+                            INDEX_RATING_ACTIVE
+                        }
+                    )
+                ).exec(params);
+            }
+        };
+    }
+
+    /**
+     *
+     * @return
+     */
+    public final SentenceExec getRatingUpdate() {
+        return new SentenceExecTransaction(s) {
+            @Override
+            public int execInTransaction(Object params) throws BasicException {
+                Object[] values = (Object[]) params;
+                return new PreparedSentence(s,
+                        "UPDATE RATINGS "
+                        + "SET "
+                        + "NAME = ?, "
+                        + "ACTIVE = ? "
+                        + "WHERE ID = ?",
+                        new SerializerWriteBasicExt(
+                                ratingsRow.getDatas(),
+                                new int[]{
+                                    INDEX_RATING_NAME,
+                                    INDEX_RATING_ACTIVE,
+                                    INDEX_RATING_ID
+                                }
+                        )
+                ).exec(params);
+            }
+        };
+    }
+
+    /**
+     *
+     * @return
+     */
+    public final SentenceExec getRatingDelete() {
+        return new SentenceExecTransaction(s) {
+            @Override
+            public int execInTransaction(Object params) throws BasicException {
+                return new PreparedSentence(s, 
+                        "DELETE FROM RATINGS WHERE ID = ?", 
+                        new SerializerWriteBasicExt(
+                                ratingsRow.getDatas(), 
+                                new int[]{
+                                    INDEX_RATING_ID
+                                }
+                        )
+                ).exec(params);
+            }
+        };
+    }
+
+    
+    
+
+    /**
+     *
+     * @return
+     */
+    public final SentenceList getShowQBF() {
+        return new StaticSentence(s,
+            new QBFBuilder(
+                "SELECT "
+                + "S.ID, "
+                + "S.THEATREID, "
+                + "S.STARTDATE, "
+                + "S.ENDDATE, "
+                + "S.REPORTSTARTDATE, "
+                + "S.REPORTENDDATE "
+                + "FROM SHOWS S "
+                + "WHERE ?(QBF_FILTER) "
+                + "ORDER BY S.STARTDATE",
+                new String[] {
+                    "S.THEATREID",
+                    "S.ENDDATE"
+                },
+                false
+            ),
+            new SerializerWriteBasic(
+                new Datas[]{
+                    Datas.OBJECT, Datas.STRING,
+                    Datas.OBJECT, Datas.DATE
+                }
+            ),
+            showsRow.getSerializerRead()
+        );
+    }
+
+
+
+
+
+
+    /**
+     *
+     * @return
+     */
+    public final SentenceExec getShowInsert() {
+        return new SentenceExecTransaction(s) {
+            @Override
+            public int execInTransaction(Object params) throws BasicException {
+                Object[] values = (Object[]) params;
+                return new PreparedSentence(
+                    s,
+                    "INSERT INTO SHOWS (ID, THEATREID, STARTDATE, ENDDATE, REPORTSTARTDATE, REPORTENDDATE, BOXOFFICEPRODUCTSETID) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                    new SerializerWriteBasicExt(
+                        showsRow.getDatas(),
+                        new int[] {
+                            INDEX_SHOW_ID,
+                            INDEX_SHOW_THEATREID,
+                            INDEX_SHOW_STARTDATE,
+                            INDEX_SHOW_ENDDATE,
+                            INDEX_SHOW_REPORTSTARTDATE,
+                            INDEX_SHOW_REPORTENDDATE,
+                            INDEX_SHOW_BOXOFFICEPRODUCTSETID
+                        }
+                    )
+                ).exec(params);
+            }
+        };
+    }
+
+    /**
+     *
+     * @return
+     */
+    public final SentenceExec getShowUpdate() {
+        return new SentenceExecTransaction(s) {
+            @Override
+            public int execInTransaction(Object params) throws BasicException {
+                Object[] values = (Object[]) params;
+                return new PreparedSentence(s,
+                        "UPDATE SHOWS "
+                        + "SET "
+                        + "THEATREID = ?, "
+                        + "STARTDATE = ?, "
+                        + "ENDDATE = ?, "
+                        + "REPORTSTARTDATE = ?, "
+                        + "REPORTENDDATE = ?, "
+                        + "BOXOFFICEPRODUCTSETID = ? "
+                        + "WHERE ID = ?",
+                        new SerializerWriteBasicExt(
+                                showsRow.getDatas(),
+                                new int[]{
+                                    INDEX_SHOW_THEATREID,
+                                    INDEX_SHOW_STARTDATE,
+                                    INDEX_SHOW_ENDDATE,
+                                    INDEX_SHOW_REPORTSTARTDATE,
+                                    INDEX_SHOW_REPORTENDDATE,
+                                    INDEX_SHOW_BOXOFFICEPRODUCTSETID,
+                                    INDEX_SHOW_ID
+                                }
+                        )
+                ).exec(params);
+            }
+        };
+    }
+
+    /**
+     *
+     * @return
+     */
+    public final SentenceExec getShowDelete() {
+        return new SentenceExecTransaction(s) {
+            @Override
+            public int execInTransaction(Object params) throws BasicException {
+                return new PreparedSentence(s, 
+                        "DELETE FROM SHOWS WHERE ID = ?", 
+                        new SerializerWriteBasicExt(
+                                showsRow.getDatas(), 
+                                new int[]{
+                                    INDEX_SHOW_ID
+                                }
+                        )
+                ).exec(params);
+            }
+        };
+    }
+
+    
 
     /**
      * @param params[0] Product ID
@@ -1743,6 +2948,80 @@ public class DataLogicSales extends BeanFactoryDataSingle {
         );
     }
 
+    
+
+    public final TableDefinition getTableFeatures() {
+        return new TableDefinition(
+                s,
+                "FEATURES",
+                new String[]{"ID", "NAME", "IMAGE", "RUNTIME", "RATINGID", "ACTIVE"},
+                new String[]{"ID", AppLocal.getIntString("label.featurename"), AppLocal.getIntString("label.featureimage"), AppLocal.getIntString("label.featureruntime"), AppLocal.getIntString("label.featureratingid"), AppLocal.getIntString("label.featureactive")},
+                new Datas[]{Datas.STRING, Datas.STRING, Datas.IMAGE, Datas.INT, Datas.STRING, Datas.BOOLEAN },
+                new Formats[]{Formats.STRING, Formats.STRING, Formats.NULL, Formats.INT, Formats.STRING, Formats.BOOLEAN },
+                new int[]{0},
+                "NAME"
+        );
+    }
+    
+    
+
+    public final TableDefinition getTableBoxOfficeProductSets() {
+        return new TableDefinition(
+                s,
+                "BOXOFFICEPRODUCTSETS",
+                new String[]{"ID", "NAME", "ACTIVE"},
+                new String[]{"ID", AppLocal.getIntString("label.boxofficeproductsetsname"), AppLocal.getIntString("label.boxofficeproductsetsactive")},
+                new Datas[]{Datas.STRING, Datas.STRING, Datas.BOOLEAN },
+                new Formats[]{Formats.STRING, Formats.STRING, Formats.BOOLEAN },
+                new int[]{0},
+                "NAME"
+        );
+    }
+
+
+    public final TableDefinition getTableBoxOfficeProductSetProducts() {
+        return new TableDefinition(
+                s,
+                "BOXOFFICEPRODUCTSETS_PRODUCTS",
+                new String[]{"ID", "BOXOFFICEPRODUCTSETID", "PRODUCTID", "SEQUENCE"},
+                new String[]{"ID", AppLocal.getIntString("label.boxofficeproductsetid"), AppLocal.getIntString("label.boxofficeproductsetproductid"), AppLocal.getIntString("label.boxofficeproductsetproductsequence")},
+                new Datas[]{Datas.STRING, Datas.STRING, Datas.STRING, Datas.INT },
+                new Formats[]{Formats.STRING, Formats.STRING, Formats.STRING, Formats.INT },
+                new int[]{0},
+                "SEQUENCE"
+        );
+    }
+
+    
+    
+    public final TableDefinition getTableShows() {
+        return new TableDefinition(
+                s,
+                "SHOWS",
+                new String[]{"ID", "THEATREID", "STARTDATE", "ENDDATE", "REPORTSTARTDATE", "REPORTENDDATE", "BOXOFFICEPRODUCTSETID"},
+                new String[]{"ID", AppLocal.getIntString("label.theatreid"), AppLocal.getIntString("label.startdate"), AppLocal.getIntString("label.enddate"), AppLocal.getIntString("label.reportstartdate"), AppLocal.getIntString("label.reportenddate"), AppLocal.getIntString("label.boxofficeproductsetid") },
+                new Datas[]{Datas.STRING, Datas.STRING, Datas.DATE, Datas.DATE, Datas.DATE, Datas.DATE, Datas.STRING },
+                new Formats[]{Formats.STRING, Formats.STRING, Formats.DATE, Formats.DATE, Formats.DATE, Formats.DATE, Formats.STRING },
+                new int[]{0},
+                "THEATREID, STARTDATE, ENDDATE"
+        );
+    }
+    
+    
+    public final TableDefinition getTableRatings() {
+        return new TableDefinition(
+                s,
+                "RATINGS",
+                new String[]{"ID", "NAME", "ACTIVE"},
+                new String[]{"ID", AppLocal.getIntString("label.ratingname"), AppLocal.getIntString("label.ratingactive")},
+                new Datas[]{Datas.STRING, Datas.STRING, Datas.BOOLEAN},
+                new Formats[]{Formats.STRING, Formats.STRING, Formats.BOOLEAN},
+                new int[]{0},
+                "NAME"
+        );
+    }
+    
+    
     public final void updateRefundQty(Double qty, String ticket, Integer line) throws BasicException {
         m_updateRefund.exec(qty, ticket, line);
     }

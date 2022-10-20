@@ -73,3 +73,26 @@ if(isCash) {
 
 // Return to default settings
 UIManager.put("OptionPane.buttonFont", new FontUIResource(new Font(originalFont.getName(),originalFont.getStyle(),originalFont.getSize())));
+
+
+
+// Check for box office items
+// If there is at least one box office item, print the box office tickets
+boolean isBoxOffice = false;
+if ( ! ticket.getTicketType().toString().equals("REFUND") ) { 
+	for(int i= 0; i < ticket.getLinesCount(); i++){
+
+		line = ticket.getLine(i);
+
+		if (line.isProductBoxOffice()){
+			isBoxOffice = true;
+                        break;
+		}
+	}
+}
+if(isBoxOffice) {
+        // Use the following to print individual tickets
+	sales.printTicket("Printer.TicketBoxOffice");
+        // Use the following to print one consolidated ticket
+//      sales.printTicket("Printer.TicketBoxOfficeFull");
+}

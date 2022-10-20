@@ -24,16 +24,17 @@ import uk.chromis.data.loader.ImageUtils;
 import uk.chromis.data.loader.SerializerRead;
 import uk.chromis.format.Formats;
 import java.awt.image.BufferedImage;
+import java.util.Date;
 import java.util.Properties;
+import uk.chromis.data.loader.IKeyed;
 import uk.chromis.pos.forms.DataLogicSales;
-import uk.chromis.pos.util.SessionFactory;
 
 /**
  *
  * @author adrianromero
  *
  */
-public class ProductInfoExt {
+public class ProductInfoExt implements IKeyed {
 
     private static final long serialVersionUID = 7587696873037L;
 
@@ -72,6 +73,10 @@ public class ProductInfoExt {
     protected Double m_packquantity;
     protected String m_packproduct;
     protected Boolean m_manageStock;
+    protected Boolean m_isBoxOffice;
+    protected Boolean m_isBoxOfficeReported;
+    protected ShowSalesInfo m_showInfo;
+    protected Date m_showDate;
 
     public ProductInfoExt() {        
         m_ID = null;
@@ -109,6 +114,9 @@ public class ProductInfoExt {
         m_packquantity = 0.0;
         m_packproduct = null;
         m_manageStock = true;
+        m_isBoxOffice = false;
+        m_isBoxOfficeReported = false;
+        m_showInfo = null;
     }
 
     /**
@@ -350,6 +358,22 @@ public class ProductInfoExt {
     public final void setManageStock(Boolean bValue) {
         m_manageStock = bValue;
     }
+    
+    public final Boolean getIsBoxOffice() {
+        return m_isBoxOffice;
+    }
+    
+    public final void setIsBoxOffice(Boolean bValue) {
+        m_isBoxOffice = bValue;
+    }
+    
+    public final Boolean getIsBoxOfficeReported() {
+        return m_isBoxOfficeReported;
+    }
+    
+    public final void setIsBoxOfficeReported(Boolean bValue) {
+        m_isBoxOfficeReported = bValue;
+    }
 
     public final void setAlwaysAvailable(Boolean bValue) {
         m_bAlwaysAvailable = bValue;
@@ -393,6 +417,22 @@ public class ProductInfoExt {
 
     public void setPackProduct(String packproduct) {
         m_packproduct = packproduct;
+    }
+    
+    public void setShowSalesInfo(ShowSalesInfo show) {
+        m_showInfo = show;
+    }
+    
+    public ShowSalesInfo getShowSalesInfo() {
+        return m_showInfo;
+    }
+    
+    public void setShowDate(Date showDate) {
+        m_showDate = showDate;
+    }
+    
+    public Date getShowDate() {
+        return m_showDate;
     }
 
     public static SerializerRead getSerializerRead() {
@@ -442,6 +482,8 @@ public class ProductInfoExt {
                 product.m_packproduct = dr.getString(DataLogicSales.INDEX_PACKPRODUCT + 1);
                 product.m_promotionid = dr.getString(DataLogicSales.INDEX_PROMOTIONID + 1);
                 product.m_manageStock = dr.getBoolean(DataLogicSales.INDEX_MANAGESTOCK + 1);
+                product.m_isBoxOffice = dr.getBoolean(DataLogicSales.INDEX_ISBOXOFFICE + 1);
+                product.m_isBoxOfficeReported = dr.getBoolean(DataLogicSales.INDEX_ISBOXOFFICEREPORTED + 1);
 
                 return product;
             }
@@ -451,5 +493,10 @@ public class ProductInfoExt {
     @Override
     public final String toString() {
         return m_sRef + " - " + m_sName;
+    }
+
+    @Override
+    public Object getKey() {
+        return m_ID;
     }
 }

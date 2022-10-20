@@ -147,6 +147,38 @@ public abstract class JDBCSentence extends BaseSentence {
          * @return
          * @throws BasicException
          */
+        public java.sql.Date getDate(int columnIndex) throws BasicException {
+            try {
+                java.sql.Date dt = m_rs.getDate(columnIndex);
+                return dt;
+            } catch (SQLException eSQL) {
+                throw new BasicException(eSQL);
+            }
+        }
+        
+        
+        /**
+         *
+         * @param columnIndex
+         * @return
+         * @throws BasicException
+         */
+        @Override
+        public java.sql.Time getTime(int columnIndex) throws BasicException {
+            try {
+                java.sql.Time dt = m_rs.getTime(columnIndex);
+                return dt;
+            } catch (SQLException eSQL) {
+                throw new BasicException(eSQL);
+            }
+        }
+
+        /**
+         *
+         * @param columnIndex
+         * @return
+         * @throws BasicException
+         */
         public byte[] getBytes(int columnIndex) throws BasicException {
             try {
                 return m_rs.getBytes(columnIndex);

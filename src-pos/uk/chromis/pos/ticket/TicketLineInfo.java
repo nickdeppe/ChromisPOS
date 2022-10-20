@@ -22,6 +22,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Properties;
 import uk.chromis.basic.BasicException;
 import uk.chromis.data.loader.DataRead;
@@ -46,41 +47,49 @@ public class TicketLineInfo implements SerializableWrite, SerializableRead, Seri
     private Boolean updated = false;
     private Double refundQty;
     private Double orderQty;
+    private String m_sShowID;
+    private ShowSalesInfo m_oShow;
+    private Date m_dShowDate;
 
     public TicketLineInfo(String productid, double dMultiply, double dPrice, TaxInfo tax, Properties props) {
-        init(productid, null, dMultiply, dPrice, tax, props, 0.0);
+        init(productid, null, dMultiply, dPrice, tax, props, 0.0, null, null);
     }
 
     public TicketLineInfo(String productid, double dMultiply, double dPrice, TaxInfo tax) {
-        init(productid, null, dMultiply, dPrice, tax, new Properties(), 0.0);
+        init(productid, null, dMultiply, dPrice, tax, new Properties(), 0.0, null, null);
     }
 
     public TicketLineInfo(String productid, String productname, double dMultiply, double dPrice, String producttaxcategory, TaxInfo tax) {
         Properties props = new Properties();
         props.setProperty("product.name", productname);
         props.setProperty("product.taxcategoryid", producttaxcategory);
-        init(productid, null, dMultiply, dPrice, tax, props, 0.0);
+        init(productid, null, dMultiply, dPrice, tax, props, 0.0, null, null);
     }
 
     public TicketLineInfo(String productid, String productname, String producttaxcategory, double dMultiply, double dPrice, TaxInfo tax) {
         Properties props = new Properties();
         props.setProperty("product.name", productname);
         props.setProperty("product.taxcategoryid", producttaxcategory);
-        init(productid, null, dMultiply, dPrice, tax, props, 0.0);
+        init(productid, null, dMultiply, dPrice, tax, props, 0.0, null, null);
     }
 
     public TicketLineInfo(String productname, String producttaxcategory, double dMultiply, double dPrice, TaxInfo tax) {
         Properties props = new Properties();
         props.setProperty("product.name", productname);
         props.setProperty("product.taxcategoryid", producttaxcategory);
-        init(null, null, dMultiply, dPrice, tax, props, 0.0);
+        init(null, null, dMultiply, dPrice, tax, props, 0.0, null, null);
     }
 
     public TicketLineInfo() {
-        init(null, null, 0.0, 0.0, null, new Properties(), 0.0);
+        init(null, null, 0.0, 0.0, null, new Properties(), 0.0, null, null);
     }
 
     public TicketLineInfo(ProductInfoExt product, double dMultiply, double dPrice, TaxInfo tax, Properties attributes) {
+        this(product, dMultiply, dPrice, tax, attributes, null, null);
+    }
+    
+    
+    public TicketLineInfo(ProductInfoExt product, double dMultiply, double dPrice, TaxInfo tax, Properties attributes, ShowSalesInfo show, Date showDate) {
         String pid;
 
         if (product == null) {
@@ -95,6 +104,7 @@ public class TicketLineInfo implements SerializableWrite, SerializableRead, Seri
             attributes.setProperty("product.service", product.isService() ? "true" : "false");
             attributes.setProperty("product.vprice", product.isVprice() ? "true" : "false");
             attributes.setProperty("product.verpatrib", product.isVerpatrib() ? "true" : "false");
+            attributes.setProperty("product.boxoffice", product.getIsBoxOffice() ? "true" : "false");
 
             if (product.getTextTip() != null) {
                 attributes.setProperty("product.texttip", product.getTextTip());
@@ -130,7 +140,11 @@ public class TicketLineInfo implements SerializableWrite, SerializableRead, Seri
             attributes.setProperty("product.nosc", "0");
 
         }
-        init(pid, null, dMultiply, dPrice, tax, attributes, 0.0);
+        if ( show == null) {
+            init(pid, null, dMultiply, dPrice, tax, attributes, 0.0, null, null);
+        } else {
+            init(pid, null, dMultiply, dPrice, tax, attributes, 0.0, show, showDate);
+        }
 
         attributes.setProperty("product.managestock", product.getManageStock() ? "true" : "false");
     }
@@ -140,12 +154,10 @@ public class TicketLineInfo implements SerializableWrite, SerializableRead, Seri
     }
 
     public TicketLineInfo(TicketLineInfo line) {
-        init(line.productid, line.attsetinstid, line.multiply, line.price,
-                line.tax, (Properties) line.attributes.clone(), line.refundQty);
+        init(line.productid, line.attsetinstid, line.multiply, line.price, line.tax, (Properties) line.attributes.clone(), line.refundQty, line.m_oShow, line.m_dShowDate);
     }
 
-    private void init(String productid, String attsetinstid, double dMultiply,
-            double dPrice, TaxInfo tax, Properties attributes, double refund) {
+    private void init(String productid, String attsetinstid, double dMultiply, double dPrice, TaxInfo tax, Properties attributes, double refund, ShowSalesInfo show, Date showDate) {
 
         this.productid = productid;
         this.attsetinstid = attsetinstid;
@@ -156,6 +168,10 @@ public class TicketLineInfo implements SerializableWrite, SerializableRead, Seri
         m_sTicket = null;
         m_iLine = -1;
         refundQty = refund;
+        m_oShow = show;
+        m_sShowID = (show == null) ? null : show.getID();
+        m_dShowDate = showDate;
+        
     }
 
     void setTicket(String ticket, int line) {
@@ -189,6 +205,8 @@ public class TicketLineInfo implements SerializableWrite, SerializableRead, Seri
             dp.setBytes(8, null);
         }
         dp.setDouble(9, refundQty);
+        dp.setString(10, (m_oShow == null) ? null : m_oShow.getID());
+        dp.setDate(11, m_dShowDate);
     }
 
     @Override
@@ -217,6 +235,8 @@ public class TicketLineInfo implements SerializableWrite, SerializableRead, Seri
         } catch (IOException e) {
         }
         refundQty = dr.getDouble(16);
+        m_sShowID = dr.getString(17);
+        m_dShowDate = dr.getDate(18);
     }
 
     public TicketLineInfo copyTicketLine() {
@@ -229,6 +249,9 @@ public class TicketLineInfo implements SerializableWrite, SerializableRead, Seri
         l.price = price;
         l.tax = tax;
         l.attributes = (Properties) attributes.clone();
+        l.m_sShowID = m_sShowID;
+        l.m_dShowDate = m_dShowDate;
+        l.m_oShow = (m_oShow != null) ? (ShowSalesInfo) m_oShow.clone() : null;
         return l;
     }
 
@@ -372,6 +395,23 @@ public class TicketLineInfo implements SerializableWrite, SerializableRead, Seri
     public void setTaxInfo(TaxInfo value) {
         tax = value;
     }
+    
+    
+    public void setShow(ShowSalesInfo value) {
+        m_oShow = value;
+        m_sShowID = m_oShow.getID();
+    }
+    
+    
+    public void setShowDate(Date value) {
+        m_dShowDate = value;
+    }
+    
+    public void setShowID(String value) {
+        m_sShowID = value;
+    }
+    
+    
 
     public String getProperty(String key) {
         return attributes.getProperty(key);
@@ -403,6 +443,26 @@ public class TicketLineInfo implements SerializableWrite, SerializableRead, Seri
 
     public double getValue() {
         return price * multiply * (1.0 + getTaxRate());
+    }
+    
+    public String getShowID() {
+        return m_sShowID;
+    }
+    
+    public ShowSalesInfo getShow() {
+        return m_oShow;
+    }
+    
+    public String getShowTheatreName() {
+        return (m_oShow != null) ? m_oShow.getTheatreName() : "";
+    }
+    
+    public String getShowFeaturesText() {
+        return (m_oShow != null) ? m_oShow.getShowFeaturesText() : "";
+    }
+    
+    public Date getShowDate() {
+        return m_dShowDate;
     }
 
     public String printName() {
@@ -449,8 +509,24 @@ public class TicketLineInfo implements SerializableWrite, SerializableRead, Seri
         return Formats.CURRENCY.formatValue(getValue());
     }
 
+    public String printShowTheatreName() {
+        return StringUtils.encodeXML(getShowTheatreName());
+    }   
+    
+    public String printShowFeaturesText() {
+        return StringUtils.encodeXML(getShowFeaturesText());
+    }
+    
+    public String printShowDate() {
+        return Formats.DATE.formatValue(m_dShowDate);
+    }
+    
     public boolean isProductKitchen() {
         return "true".equals(attributes.getProperty("product.kitchen"));
+    }
+    
+    public boolean isProductBoxOffice() {
+        return "true".equals(attributes.getProperty("product.boxoffice"));
     }
 
     public boolean isProductService() {
@@ -475,6 +551,10 @@ public class TicketLineInfo implements SerializableWrite, SerializableRead, Seri
 
     public boolean isAlwaysAvailable() {
         return "true".equals(attributes.getProperty("product.alwaysavailable"));
+    }
+    
+    public boolean isBoxOfficeLine() {
+        return (this.m_oShow != null && this.m_dShowDate != null);
     }
 
     public boolean canDiscount() {

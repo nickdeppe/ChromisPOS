@@ -1021,12 +1021,142 @@
         </insert> 		  
     </changeSet> 
     
- 
+    <changeSet author="Chromis POS" id="Add feature maintenance option">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM DBPERMISSIONS WHERE DESCRIPTION = '##label.description134'</sqlCheck>
+        </preConditions>
+        <insert tableName="DBPERMISSIONS">
+            <column name="CLASSNAME" value="uk.chromis.pos.inventory.FeaturesPanel"/>
+            <column name="SECTION" value="##label.sectionstock"/>
+            <column name="DISPLAYNAME" value="##label.displayname134"/>  
+            <column name="DESCRIPTION" value="##label.description134"/>  
+        </insert>
+    </changeSet>
+    
+    <changeSet author="Chromis POS" id="Add theatres maintenance option">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM DBPERMISSIONS WHERE DESCRIPTION = '##label.description135'</sqlCheck>
+        </preConditions>
+        <insert tableName="DBPERMISSIONS">
+            <column name="CLASSNAME" value="uk.chromis.pos.inventory.TheatresPanel"/>  
+            <column name="SECTION" value="##label.sectionstock"/>
+            <column name="DISPLAYNAME" value="##label.displayname135"/>  
+            <column name="DESCRIPTION" value="##label.description135"/>  
+        </insert>
+    </changeSet>
+    
+    <changeSet author="Chromis POS" id="Add show maintenance option">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM DBPERMISSIONS WHERE DESCRIPTION = '##label.description136'</sqlCheck>
+        </preConditions>
+        <insert tableName="DBPERMISSIONS">
+            <column name="CLASSNAME" value="uk.chromis.pos.inventory.ShowsPanel"/>  
+            <column name="SECTION" value="##label.sectionstock"/>
+            <column name="DISPLAYNAME" value="##label.displayname136"/>  
+            <column name="DESCRIPTION" value="##label.description136"/>  
+        </insert>
+    </changeSet>
+    
+    <changeSet author="Chromis POS" id="Add ratings maintenance option">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(*) FROM DBPERMISSIONS WHERE DESCRIPTION = '##label.description137'</sqlCheck>
+        </preConditions>
+        <insert tableName="DBPERMISSIONS">
+            <column name="CLASSNAME" value="uk.chromis.pos.inventory.RatingsPanel"/>
+            <column name="SECTION" value="##label.sectionstock"/>
+            <column name="DISPLAYNAME" value="##label.displayname137"/>  
+            <column name="DESCRIPTION" value="##label.description137"/>  
+        </insert>
+    </changeSet>
+    
+    <changeSet author="Chromis POS" id="Add show features maintenance option">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(*) FROM DBPERMISSIONS WHERE DESCRIPTION = '##label.description138'</sqlCheck>
+        </preConditions>
+        <insert tableName="DBPERMISSIONS">
+            <column name="CLASSNAME" value="uk.chromis.pos.inventory.ShowFeaturePanel"/>
+            <column name="SECTION" value="##label.sectionstock"/>
+            <column name="DISPLAYNAME" value="##label.displayname138"/>  
+            <column name="DESCRIPTION" value="##label.description138"/>  
+        </insert>
+    </changeSet>
+
+    
+    <changeSet author="Chromis POS" id="Add exchanges maintenance option">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM DBPERMISSIONS WHERE DESCRIPTION = '##label.description139'</sqlCheck>
+        </preConditions>
+        <insert tableName="DBPERMISSIONS">
+            <column name="CLASSNAME" value="uk.chromis.pos.inventory.ExchangesPanel"/>  
+            <column name="SECTION" value="##label.sectionstock"/>
+            <column name="DISPLAYNAME" value="##label.displayname139"/>  
+            <column name="DESCRIPTION" value="##label.description139"/>  
+        </insert>
+    </changeSet>
+
+
+
+		
+    <changeSet author="Chromis POS" id="Add box office sales report permission">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM DBPERMISSIONS WHERE DESCRIPTION = '##label.description140'</sqlCheck>
+        </preConditions>
+        <insert tableName="DBPERMISSIONS">		
+            <column name="CLASSNAME" value="/uk/chromis/reports/boxofficesales.bs"/>
+            <column name="SECTION" value="##label.sectionsales"/>
+            <column name="DISPLAYNAME" value="##label.displayname140"/>
+            <column name="DESCRIPTION" value="##label.description140"/>
+        </insert>		
+    </changeSet>
+
+
+		
+    <changeSet author="Chromis POS" id="Add box select dates button">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM DBPERMISSIONS WHERE CLASSNAME = 'boxoffice.SelectDate'</sqlCheck>
+        </preConditions>
+        <insert tableName="DBPERMISSIONS">		
+            <column name="CLASSNAME" value="boxoffice.SelectDate"/>
+            <column name="SECTION" value="##label.sectionboxoffice"/>
+            <column name="DISPLAYNAME" value="##label.displayname141"/>
+            <column name="DESCRIPTION" value="##label.description141"/>
+        </insert>		
+    </changeSet>
+
+        
     <changeSet author="Chromis POS" id="drop top10salesMysql (NV)">   
         <sql> DELETE FROM DBPERMISSIONS WHERE DISPLAYNAME ='##label.displayname86'</sql>           
     </changeSet> 
     
-    
+
+        
+    <changeSet author="N Deppe" id="Add box office product set maintenance option">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM DBPERMISSIONS WHERE DESCRIPTION = '##label.description142'</sqlCheck>
+        </preConditions>
+        <insert tableName="DBPERMISSIONS">
+            <column name="CLASSNAME" value="uk.chromis.pos.inventory.BoxOfficeProductSetsPanel"/>  
+            <column name="SECTION" value="##label.sectionstock"/>
+            <column name="DISPLAYNAME" value="##label.displayname142"/>  
+            <column name="DESCRIPTION" value="##label.description142"/>  
+        </insert>
+    </changeSet>
+
+
+        
+    <changeSet author="N Deppe" id="Add box office product set product maintenance option">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM DBPERMISSIONS WHERE DESCRIPTION = '##label.description143'</sqlCheck>
+        </preConditions>
+        <insert tableName="DBPERMISSIONS">
+            <column name="CLASSNAME" value="uk.chromis.pos.inventory.BoxOfficeProductSetProductsPanel"/>  
+            <column name="SECTION" value="##label.sectionstock"/>
+            <column name="DISPLAYNAME" value="##label.displayname143"/>  
+            <column name="DESCRIPTION" value="##label.description143"/>  
+        </insert>
+    </changeSet>
+
+            
     
     
 </databaseChangeLog>

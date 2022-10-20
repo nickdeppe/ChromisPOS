@@ -47,6 +47,7 @@ public abstract class Formats {
     public final static Formats BYTEA = new FormatsBYTEA();
     public final static Formats HOURMIN = new FormatsHOURMIN();
     public final static Formats SIMPLEDATE = new FormatsSIMPLEDATE();
+    public final static Formats TIMEHOURMINAMPM = new FormatsTIMEHOURMINAMPM();
     private static NumberFormat m_integerformat = NumberFormat.getIntegerInstance();
     private static NumberFormat m_doubleformat = NumberFormat.getNumberInstance();
     private static NumberFormat m_currencyformat = NumberFormat.getCurrencyInstance();
@@ -55,6 +56,7 @@ public abstract class Formats {
     private static DateFormat m_timeformat = DateFormat.getTimeInstance();
     private static DateFormat m_datetimeformat = DateFormat.getDateTimeInstance();
     private static final DateFormat m_hourminformat = new SimpleDateFormat("H:mm:ss");
+    private static final DateFormat m_hourminampmformat = new SimpleDateFormat("h:mm a");
     private static final DateFormat m_simpledate = new SimpleDateFormat("dd-MM-yyyy");
 
     /**
@@ -491,6 +493,29 @@ public abstract class Formats {
 
     }
 
+    
+
+    private static final class FormatsTIMEHOURMINAMPM extends Formats {
+
+        @Override
+        protected String formatValueInt(Object value) {
+            return m_hourminampmformat.format(value);
+        }
+
+        @Override
+        protected Date parseValueInt(String value) throws ParseException {
+            return m_hourminampmformat.parse(value);
+        }
+
+        @Override
+        public int getAlignment() {
+            return javax.swing.SwingConstants.CENTER;
+        }
+
+    }
+    
+    
+    
     /**
      * Added; Thanks TSirwani 3 Mar 11
      */

@@ -45,6 +45,8 @@ public class JCalendarPanel extends javax.swing.JPanel {
     private static GregorianCalendar m_CalendarHelper = new GregorianCalendar(); // solo de ayuda
 
     private Date m_date;
+    private Date m_mindate;
+    private Date m_maxdate;
     private JButtonDate[] m_ListDates;
     private JLabel[] m_jDays;
 
@@ -73,7 +75,22 @@ public class JCalendarPanel extends javax.swing.JPanel {
     public JCalendarPanel(Date dDate) {
 
         super();
+        
+        initialRender(dDate);
 
+    }
+
+    
+    public JCalendarPanel(Date dDate, Date minDate, Date maxDate) {
+        super();
+        this.m_mindate = minDate;
+        this.m_maxdate = maxDate;
+        initialRender(dDate);
+    }
+    
+    
+    private void initialRender(Date dDate) {
+        
         if (m_resources == null) {
             m_resources = new LocaleResources();
             m_resources.addBundleName("beans_messages");
@@ -89,8 +106,9 @@ public class JCalendarPanel extends javax.swing.JPanel {
         // pintamos
         renderMonth();
         renderDay();
+        
     }
-
+    
     /**
      *
      * @param dNewDate
@@ -161,7 +179,7 @@ public class JCalendarPanel extends javax.swing.JPanel {
 
                 JButtonDate jAux = getLabelByDate(m_CalendarHelper.getTime());
                 jAux.DateInf = m_CalendarHelper.getTime();
-                jAux.setEnabled(isEnabled());
+                jAux.setEnabled(isEnabled() && isAllowedDate(m_CalendarHelper.getTime()));
                 jAux.setText(String.valueOf(m_CalendarHelper.get(Calendar.DAY_OF_MONTH)));
 
                 m_CalendarHelper.add(Calendar.DATE, 1);
@@ -169,6 +187,21 @@ public class JCalendarPanel extends javax.swing.JPanel {
         }
 
         m_jCurrent = null;
+    }
+    
+    
+    private boolean isAllowedDate(Date dDate) {
+
+        if (this.m_mindate == null && this.m_maxdate == null) {
+            return true;
+        } else if ( this.m_mindate != null && !DateUtils.isDateLessThanOrEqual(this.m_mindate, dDate) ) {
+            return false;
+        } else if ( this.m_maxdate != null && !DateUtils.isDateGreaterThanOrEqual(this.m_maxdate, dDate)  ) {
+            return false;
+        } else {
+            return true;
+        }
+            
     }
 
     private void renderDay() {

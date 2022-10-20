@@ -29,7 +29,9 @@ import java.util.Date;
  */
 public class DataWriteUtils {
     
-    private static DateFormat tsf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS"); 
+    private static DateFormat tsf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+    private static DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+    private static DateFormat tf = new SimpleDateFormat("HH:mm:ss.SSS");
     
     /** Creates a new instance of DataWriteUtils */
     public DataWriteUtils() {
@@ -53,6 +55,10 @@ public class DataWriteUtils {
             return getSQLValue((String) obj);
         } else if (obj instanceof Date) {
             return getSQLValue((Date) obj);
+        } else if (obj instanceof java.sql.Date) {
+            return getSQLValue((java.sql.Date) obj);
+        } else if (obj instanceof java.sql.Time) {
+            return getSQLValue((java.sql.Time) obj);
         } else {
             return getSQLValue(obj.toString());
         }            
@@ -120,6 +126,28 @@ public class DataWriteUtils {
             return "NULL";
         } else {
             return "{ts '" + tsf.format(dValue) + "'}";
+        }
+    }
+    
+    /**
+     *
+     * @param dValue
+     * @return
+     */
+    public static String getSQLValue(java.sql.Date dValue) {
+        if (dValue == null) {
+            return "NULL";
+        } else {
+            return "'" + df.format(dValue) + "'";
+        }
+    }
+    
+    
+    public static String getSQLValue(java.sql.Time tValue) {
+        if (tValue == null) {
+            return "NULL";
+        } else {
+            return "'" + tf.format(tValue) + "'";
         }
     }
     

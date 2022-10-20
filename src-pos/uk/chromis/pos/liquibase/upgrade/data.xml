@@ -45,5 +45,73 @@
         </update> 
     </changeSet>
     
+
+    <changeSet author="Chromis POS" id="Add Printer.TicketBoxOffice">  
+        <preConditions onFail="MARK_RAN">  
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM RESOURCES WHERE NAME = 'Printer.TicketBoxOffice'</sqlCheck>  
+        </preConditions>  
+        <insert tableName="RESOURCES">
+            <column name="ID" value="74"/>
+            <column name="NAME" value="Printer.TicketBoxOffice"/>
+            <column name="RESTYPE" valueNumeric="0"/>
+            <column name="CONTENT" valueBlobResource="/uk/chromis/pos/templates/Printer.TicketBoxOffice.xml"/>
+        </insert>
+    </changeSet>
+        
+
+    <changeSet author="Chromis POS" id="Add Printer.TicketBoxOfficeFull">  
+        <preConditions onFail="MARK_RAN">  
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM RESOURCES WHERE NAME = 'Printer.TicketBoxOfficeFull'</sqlCheck>  
+        </preConditions>  
+        <insert tableName="RESOURCES">
+            <column name="ID" value="75"/>
+            <column name="NAME" value="Printer.TicketBoxOfficeFull"/>
+            <column name="RESTYPE" valueNumeric="0"/>
+            <column name="CONTENT" valueBlobResource="/uk/chromis/pos/templates/Printer.TicketBoxOfficeFull.xml"/>
+        </insert>
+    </changeSet>
+                      
+
+                        
+
+    <changeSet author="Chromis POS" id="Insert into RATINGS Table vboxoffice">
+        <insert tableName="RATINGS">
+            <column name="ID" value="0"/>
+            <column name="NAME" value="NR"/>
+            <column name="ACTIVE" valueBoolean="true"/>
+        </insert>
+        <insert tableName="RATINGS">
+            <column name="ID" value="1"/>
+            <column name="NAME" value="G"/>
+            <column name="ACTIVE" valueBoolean="true"/>
+        </insert>
+        <insert tableName="RATINGS">
+            <column name="ID" value="2"/>
+            <column name="NAME" value="PG"/>
+            <column name="ACTIVE" valueBoolean="true"/>
+        </insert>
+        <insert tableName="RATINGS">
+            <column name="ID" value="3"/>
+            <column name="NAME" value="PG-13"/>
+            <column name="ACTIVE" valueBoolean="true"/>
+        </insert>
+        <insert tableName="RATINGS">
+            <column name="ID" value="4"/>
+            <column name="NAME" value="R"/>
+            <column name="ACTIVE" valueBoolean="true"/>
+        </insert>
+        <insert tableName="RATINGS">
+            <column name="ID" value="5"/>
+            <column name="NAME" value="NC-17"/>
+            <column name="ACTIVE" valueBoolean="true"/>
+        </insert>
+        <insert tableName="RATINGS">
+            <column name="ID" value="6"/>
+            <column name="NAME" value="X"/>
+            <column name="ACTIVE" valueBoolean="true"/>
+        </insert>
+    </changeSet>
+    
+    
 </databaseChangeLog>
 

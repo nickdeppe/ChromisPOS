@@ -421,6 +421,12 @@ public class JCatalog extends JPanel implements ListSelectionListener, CatalogSe
         }
     }
 
+    
+    @Override
+    public void postSave() {
+        // If there is any processing that needs to happen after a ticket is saved, this is where it should go
+    }
+
     private class SelectedAction implements ActionListener {
 
         private final ProductInfoExt prod;

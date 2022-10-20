@@ -27,6 +27,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -594,6 +596,21 @@ public final class TicketInfo implements SerializableRead, Externalizable {
 
     public List<TicketLineInfo> getLines() {
         return m_aLines;
+    }
+    
+    
+    public List<TicketLineInfo> getLinesByShow() {
+        List<TicketLineInfo> list = new ArrayList<>(m_aLines);
+        Collections.sort(list, new Comparator<TicketLineInfo>() {
+            @Override
+            public int compare(TicketLineInfo lhs, TicketLineInfo rhs) {
+                // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
+                String lhsText = lhs.getShowTheatreName() + lhs.getShowID();
+                String rhsText = rhs.getShowTheatreName() + rhs.getShowID();
+                return lhsText.compareTo(rhsText);
+            }
+        });
+        return list;
     }
 
     public void setLines(List<TicketLineInfo> l) {

@@ -28,7 +28,7 @@ report.setSentence("SELECT " +
                         "CLOSEDCASH.DATEEND, " +
                         "PRODUCTS.REFERENCE, " +
                         "PRODUCTS.NAME, " +
-                            "(PRODUCTS.PRICESELL+(PRODUCTS.PRICESELL*TAXES.RATE)) AS PRICE, " +
+                            "Sum(PRODUCTS.PRICESELL+(PRODUCTS.PRICESELL*TAXES.RATE)) AS PRICE, " +
                             "Sum(TICKETLINES.UNITS) AS UNITS, " +
                             "Sum((PRODUCTS.PRICESELL+PRODUCTS.PRICESELL*TAXES.RATE)*UNITS) AS VALUE, " +
                             "Sum((PRODUCTS.PRICESELL+PRODUCTS.PRICESELL*TAXES.RATE)*TICKETLINES.UNITS-(TICKETLINES.PRICE+(TICKETLINES.PRICE*TAXES.RATE))*TICKETLINES.UNITS) AS DISCOUNT, " +

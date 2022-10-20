@@ -75,7 +75,24 @@ public interface DataRead {
      */
     public java.util.Date getTimestamp(int columnIndex) throws BasicException;
 
+    /**
+     *
+     * @param columnIndex
+     * @return
+     * @throws BasicException
+     */
+    public java.util.Date getDate(int columnIndex) throws BasicException;
+
     //public java.io.InputStream getBinaryStream(int columnIndex) throws DataException;
+    
+    /**
+     *
+     * @param columnIndex
+     * @return
+     * @throws BasicException
+     */
+    public java.util.Date getTime(int columnIndex) throws BasicException;
+    
 
     /**
      *
