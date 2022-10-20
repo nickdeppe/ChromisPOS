@@ -77,7 +77,7 @@ public class ShowFeatureEditor extends javax.swing.JPanel implements EditorRecor
 //        );        
         
         
-        featureSentence = dlSales.getFeaturesList();
+        featureSentence = dlSales.getFeaturesNameList();
 
         String appFormatTime = AppConfig.getInstance().getProperty("format.time");
         String timeFormat = ( appFormatTime == null || appFormatTime.equals("") ) ? "hh:mm a" : appFormatTime ;

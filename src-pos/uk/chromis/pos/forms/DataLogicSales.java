@@ -2136,6 +2136,27 @@ public class DataLogicSales extends BeanFactoryDataSingle {
     }
     
 
+    
+    /**
+     *
+     * @return
+     */
+    public final SentenceList getFeaturesNameList() {
+        return new StaticSentence(
+                s,
+                "SELECT "
+                + "F.ID, "
+                + "F.NAME "
+                + "FROM FEATURES F "
+                + "WHERE F.ACTIVE = TRUE "
+                + "ORDER BY F.NAME",
+                null,
+                FeatureNameInfo.getSerializerRead()
+        );
+    }
+    
+    
+    
     /**
      *
      * @return
