@@ -45,6 +45,7 @@ public final class TheatresEditor extends javax.swing.JPanel implements EditorRe
         initComponents();
         
         m_jName.getDocument().addDocumentListener(dirty);
+        m_jExtraDescription.getDocument().addDocumentListener(dirty);
         m_jCapacity.addChangeListener(dirty);
         try {
             JFormattedTextField tf = ((JSpinner.DefaultEditor)m_jCapacity.getEditor()).getTextField();

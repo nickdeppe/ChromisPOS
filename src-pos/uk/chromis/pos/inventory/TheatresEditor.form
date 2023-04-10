@@ -36,10 +36,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="103" alignment="1" groupAlignment="0" attributes="0">
                           <Component id="m_jHardLimit" min="-2" max="-2" attributes="0"/>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="m_jCapacity" min="-2" pref="66" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="134" max="-2" attributes="0"/>
-                          </Group>
+                          <Component id="m_jCapacity" alignment="0" min="-2" pref="66" max="-2" attributes="0"/>
                           <Component id="m_jCapacityMode" min="-2" pref="200" max="-2" attributes="0"/>
                           <Component id="m_jActive" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
