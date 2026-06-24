@@ -6,6 +6,10 @@ This branch starts the runtime and touch-UI modernization work from
 ## Runtime targets
 
 - Java: move in stages from the current Java 8 baseline toward a current LTS JDK.
+- Java 8 remains pinned for existing production-support copies through their
+  startup scripts.
+- Java 17 currently builds and runs this modernization branch while still
+  compiling Java 8 source/bytecode.
 - Database: validate against MySQL 8.4 LTS before considering newer innovation
   releases.
 - Build: replace bundled, version-pinned jars with a dependency-managed build.
@@ -18,9 +22,31 @@ This branch starts the runtime and touch-UI modernization work from
   reflection instead of deprecated `Class.newInstance()`.
 - MySQL defaults now use Connector/J 8.4.0 and the Connector/J 8+ driver class:
   `com.mysql.cj.jdbc.Driver`.
+- The obsolete PayPoint `com.sun.net.ssl.internal.ssl.Provider` setup was
+  removed so the project compiles with Java 17.
+
+## Build scripts
+
+- `build-java8.bat` builds with the installed Java 8 JDK for legacy comparison.
+- `build-java17.bat` builds with the installed Temurin Java 17 JDK.
+- `run-java17.bat` launches `dist/ChromisPOS.jar` with Java 17.
+
+The scripts assume these local install paths:
+
+- `C:\Program Files\Java\jdk1.8.0_202`
+- `C:\Program Files\Eclipse Adoptium\jdk-17.0.19.10-hotspot`
+- `C:\Program Files\NetBeans 8.2`
+
+## Known Java 17 warnings
+
+- `java.applet.Applet` and `AudioClip` in ticket audio handling are deprecated
+  and marked for removal.
+- Many old boxed constructors such as `new Integer(...)` and `new Double(...)`
+  are deprecated and marked for removal.
+- The current Ant build still compiles with `source=1.8`/`target=1.8`, so JDK 17
+  reports the expected bootstrap class path warning.
 
 ## Immediate follow-up
 
-Run the application against a disposable MySQL 8.4 database and capture the next
-compatibility issue at the schema/query layer. The legacy
-`mysql-connector-java-5.1.36.jar` has been removed from `lib`.
+Replace the deprecated `java.applet` ticket audio path with a Java 17-friendly
+audio implementation, then continue reducing the Java 17 removal warnings.
