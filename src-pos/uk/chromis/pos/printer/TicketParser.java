@@ -18,10 +18,9 @@
 //    along with Chromis POS.  If not, see <http://www.gnu.org/licenses/>.
 package uk.chromis.pos.printer;
 
-import java.applet.Applet;
-import java.applet.AudioClip;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Reader;
 import java.io.StringReader;
 import java.text.DateFormat;
@@ -29,6 +28,10 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineEvent;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -306,12 +309,7 @@ public class TicketParser extends DefaultHandler {
         switch (m_iOutputType) {
             case OUTPUT_NONE:
                 if ("play".equals(qName)) {
-                    try {
-                        AudioClip oAudio = Applet.newAudioClip(getClass().getClassLoader().getResource(text.toString()));
-                        oAudio.play();
-                    } catch (Exception fnfe) {
-                        //throw new ResourceNotFoundException( fnfe.getMessage() );
-                    }
+                    playAudioResource(text.toString());
                     text = null;
                 }
                 break;
@@ -490,6 +488,28 @@ public class TicketParser extends DefaultHandler {
             return sDefault;
         } else {
             return sValue;
+        }
+    }
+
+    private void playAudioResource(String resourceName) {
+        try {
+            try (InputStream audio = getClass().getClassLoader().getResourceAsStream(resourceName)) {
+                if (audio == null) {
+                    return;
+                }
+                try (AudioInputStream audioInput = AudioSystem.getAudioInputStream(audio)) {
+                    Clip clip = AudioSystem.getClip();
+                    clip.addLineListener(event -> {
+                        if (event.getType() == LineEvent.Type.STOP) {
+                            event.getLine().close();
+                        }
+                    });
+                    clip.open(audioInput);
+                    clip.start();
+                }
+            }
+        } catch (Exception fnfe) {
+            // Missing or unsupported audio resources should not interrupt printing.
         }
     }
 
