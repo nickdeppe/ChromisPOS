@@ -68,11 +68,11 @@ public class DrawerOpenedGUID implements liquibase.change.custom.CustomTaskChang
 
         try {
             cloader = new URLClassLoader(new URL[]{new File(AppConfig.getInstance().getProperty("db.driverlib")).toURI().toURL()});
-            DriverManager.registerDriver(new DriverWrapper((Driver) Class.forName(AppConfig.getInstance().getProperty("db.driver"), true, cloader).newInstance()));
+            DriverManager.registerDriver(new DriverWrapper((Driver) Class.forName(AppConfig.getInstance().getProperty("db.driver"), true, cloader).getDeclaredConstructor().newInstance()));
             Session session = new Session(db_url, db_user, db_password);
             conn = session.getConnection();
 
-        } catch (MalformedURLException | SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
+        } catch (MalformedURLException | SQLException | ReflectiveOperationException ex) {
             Logger.getLogger(SiteGUID.class.getName()).log(Level.SEVERE, null, ex);
         }
         /*

@@ -14,6 +14,7 @@
     <target name="-pre-init">
         <property name="javac.source" value="17"/>
         <property name="javac.target" value="17"/>
+        <property name="javac.compilerargs" value="-Xlint:deprecation"/>
         <property name="file.reference.mysql-connector-java-5.1.36.jar" value="lib/mysql-connector-j-8.4.0.jar"/>
     </target>
 

@@ -215,7 +215,7 @@ public class JPanelConfigGeneral extends javax.swing.JPanel implements PanelConf
                 public void run() {
                     try {
                         String lafname = laf.getClassName();
-                        Object laf = Class.forName(lafname).newInstance();
+                        Object laf = Class.forName(lafname).getDeclaredConstructor().newInstance();
 
                         if (laf instanceof LookAndFeel) {
                             UIManager.setLookAndFeel((LookAndFeel) laf);
@@ -224,7 +224,7 @@ public class JPanelConfigGeneral extends javax.swing.JPanel implements PanelConf
                         }
 
                         SwingUtilities.updateComponentTreeUI(JPanelConfigGeneral.this.getTopLevelAncestor());
-                    } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
+                    } catch (ReflectiveOperationException | UnsupportedLookAndFeelException e) {
                     }
                 }
             });

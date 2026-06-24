@@ -195,7 +195,7 @@ public class JProcessingDlg extends JDialog {
         try {
             Connection con = DriverManager.getConnection(db_url, db_user, db_password);
             ClassLoader cloader = new URLClassLoader(new URL[]{new File(AppConfig.getInstance().getProperty("db.driverlib")).toURI().toURL()});
-            DriverManager.registerDriver(new DriverWrapper((Driver) Class.forName(AppConfig.getInstance().getProperty("db.driver"), true, cloader).newInstance()));
+            DriverManager.registerDriver(new DriverWrapper((Driver) Class.forName(AppConfig.getInstance().getProperty("db.driver"), true, cloader).getDeclaredConstructor().newInstance()));
 
             // lets check if the database has passed new database test
             try {
@@ -222,7 +222,7 @@ public class JProcessingDlg extends JDialog {
 
             DBFAILED = false;
 
-        } catch (DatabaseException | MalformedURLException | SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
+        } catch (DatabaseException | MalformedURLException | SQLException | ReflectiveOperationException ex) {
             Logger.getLogger(JProcessingDlg.class.getName()).log(Level.SEVERE, null, ex);
         } catch (LiquibaseException ex) {
             String txt = ex.getMessage();

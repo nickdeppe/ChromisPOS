@@ -57,7 +57,7 @@ public class AppViewConnection {
                 Class.forName(AppConfig.getInstance().getProperty("db.driver"), true, Thread.currentThread().getContextClassLoader());
             } else {
                 ClassLoader cloader = new URLClassLoader(new URL[] {new File(AppConfig.getInstance().getProperty("db.driverlib")).toURI().toURL()});
-                DriverManager.registerDriver(new DriverWrapper((Driver) Class.forName(AppConfig.getInstance().getProperty("db.driver"), true, cloader).newInstance()));
+                DriverManager.registerDriver(new DriverWrapper((Driver) Class.forName(AppConfig.getInstance().getProperty("db.driver"), true, cloader).getDeclaredConstructor().newInstance()));
             }
 
             String sDBUser = AppConfig.getInstance().getProperty("db.user");
@@ -69,7 +69,7 @@ public class AppViewConnection {
             }   
              return new Session(AppConfig.getInstance().getProperty("db.URL"), sDBUser,sDBPassword);     
 
-        } catch (InstantiationException | IllegalAccessException | MalformedURLException | ClassNotFoundException e) {
+        } catch (ReflectiveOperationException | MalformedURLException e) {
             throw new BasicException(AppLocal.getIntString("message.databasedrivererror"), e);
         } catch (SQLException eSQL) {
             throw new BasicException(AppLocal.getIntString("message.databaseconnectionerror"), eSQL);

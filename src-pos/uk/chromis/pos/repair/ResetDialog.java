@@ -354,13 +354,13 @@ public class ResetDialog extends javax.swing.JPanel {
             }
 
             ClassLoader cloader = new URLClassLoader(new URL[]{new File(AppConfig.getInstance().getProperty("db.driverlib")).toURI().toURL()});
-            DriverManager.registerDriver(new DriverWrapper((Driver) Class.forName(AppConfig.getInstance().getProperty("db.driver"), true, cloader).newInstance()));
+            DriverManager.registerDriver(new DriverWrapper((Driver) Class.forName(AppConfig.getInstance().getProperty("db.driver"), true, cloader).getDeclaredConstructor().newInstance()));
             Class.forName(AppConfig.getInstance().getProperty("db.driver"));
             Connection con = DriverManager.getConnection(db_url, db_user, db_password);
             con.setAutoCommit(true);
             return con;
 
-        } catch (MalformedURLException | SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
+        } catch (MalformedURLException | SQLException | ReflectiveOperationException ex) {
             Logger.getLogger(ResetDialog.class
                     .getName()).log(Level.SEVERE, null, ex);
         }

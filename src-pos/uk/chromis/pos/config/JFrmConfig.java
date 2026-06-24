@@ -109,13 +109,13 @@ public class JFrmConfig extends javax.swing.JFrame {
 // Set the look and feel.
                 try {
 
-                    Object laf = Class.forName(AppConfig.getInstance().getProperty("swing.defaultlaf")).newInstance();
+                    Object laf = Class.forName(AppConfig.getInstance().getProperty("swing.defaultlaf")).getDeclaredConstructor().newInstance();
                     if (laf instanceof LookAndFeel) {
                         UIManager.setLookAndFeel((LookAndFeel) laf);
                     } else if (laf instanceof SubstanceSkin) {
                         SubstanceLookAndFeel.setSkin((SubstanceSkin) laf);
                     }
-                } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
+                } catch (ReflectiveOperationException | UnsupportedLookAndFeelException e) {
              //       logger.log(Level.WARNING, "Cannot set Look and Feel", e);
                 }
                 

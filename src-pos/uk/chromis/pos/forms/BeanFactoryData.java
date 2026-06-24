@@ -45,9 +45,9 @@ public class BeanFactoryData implements BeanFactoryApp {
             if (sfactoryname.endsWith("Create")) {
                 sfactoryname = sfactoryname.substring(0, sfactoryname.length() - 6);
             }
-            bf = (BeanFactoryApp) Class.forName(sfactoryname + app.getSession().DB.getName()).newInstance();
+            bf = (BeanFactoryApp) Class.forName(sfactoryname + app.getSession().DB.getName()).getDeclaredConstructor().newInstance();
             bf.init(app);                     
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | BeanFactoryException ex) {
+        } catch (ReflectiveOperationException | BeanFactoryException ex) {
             throw new BeanFactoryException(ex);
         }
     }

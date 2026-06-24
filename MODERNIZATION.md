@@ -40,14 +40,15 @@ The scripts assume these local install paths:
 
 ## Known Java 17 warnings
 
-- `java.applet.Applet` and `AudioClip` in ticket audio handling are deprecated
-  and marked for removal.
-- Many old boxed constructors such as `new Integer(...)` and `new Double(...)`
-  are deprecated and marked for removal.
 - The tracked `build.xml` overrides ignored NetBeans metadata so Ant compiles
   with `source=17`/`target=17`.
+- The tracked `build.xml` now enables `-Xlint:deprecation` so Java 17
+  deprecation warnings are visible during the normal Ant build.
+- Remaining deprecation warnings are concentrated in maintenance database
+  screens, old `Date` field access, JavaPOS finalizers, and bundled
+  JasperReports viewer/printer compatibility classes.
 
 ## Immediate follow-up
 
-Replace the deprecated `java.applet` ticket audio path with a Java 17-friendly
-audio implementation, then continue reducing the Java 17 removal warnings.
+Continue reducing Java 17 deprecation warnings in focused batches, starting with
+the remaining maintenance database driver loading paths.

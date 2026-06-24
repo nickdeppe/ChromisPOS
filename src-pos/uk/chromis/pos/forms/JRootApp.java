@@ -175,7 +175,7 @@ public class JRootApp extends JPanel implements AppView {
 
         try {
             ClassLoader cloader = new URLClassLoader(new URL[]{new File(AppConfig.getInstance().getProperty("db.driverlib")).toURI().toURL()});
-            DriverManager.registerDriver(new DriverWrapper((Driver) Class.forName(AppConfig.getInstance().getProperty("db.driver"), true, cloader).newInstance()));
+            DriverManager.registerDriver(new DriverWrapper((Driver) Class.forName(AppConfig.getInstance().getProperty("db.driver"), true, cloader).getDeclaredConstructor().newInstance()));
             Class.forName(AppConfig.getInstance().getProperty("db.driver"));
             con = DriverManager.getConnection(db_url, db_user, db_password);
             stmt = (Statement) con.createStatement();
@@ -622,7 +622,7 @@ public class JRootApp extends JPanel implements AppView {
 
                     if (BeanFactory.class
                             .isAssignableFrom(bfclass)) {
-                        bf = (BeanFactory) bfclass.newInstance();
+                        bf = (BeanFactory) bfclass.getDeclaredConstructor().newInstance();
                     } else {
                         // the old construction for beans...
                         Constructor constMyView = bfclass.getConstructor(new Class[]{AppView.class
@@ -1081,7 +1081,7 @@ public class JRootApp extends JPanel implements AppView {
             user = m_dlSystem.getsuperuser();
             if (user == null) {
                 ClassLoader cloader = new URLClassLoader(new URL[]{new File(AppConfig.getInstance().getProperty("db.driverlib")).toURI().toURL()});
-                DriverManager.registerDriver(new DriverWrapper((Driver) Class.forName(AppConfig.getInstance().getProperty("db.driver"), true, cloader).newInstance()));
+                DriverManager.registerDriver(new DriverWrapper((Driver) Class.forName(AppConfig.getInstance().getProperty("db.driver"), true, cloader).getDeclaredConstructor().newInstance()));
                 Class.forName(AppConfig.getInstance().getProperty("db.driver"));
                 con = DriverManager.getConnection(db_url, db_user, db_password);
                 PreparedStatement stmt = con.prepareStatement("INSERT INTO PEOPLE (ID, NAME, ROLE, VISIBLE) VALUES ('99', 'SuperAdminUser', '0', true)");
@@ -1090,7 +1090,7 @@ public class JRootApp extends JPanel implements AppView {
 
             }
         } catch (BasicException e) {
-        } catch (SQLException | MalformedURLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
+        } catch (SQLException | MalformedURLException | ReflectiveOperationException ex) {
             Logger.getLogger(JRootApp.class
                     .getName()).log(Level.SEVERE, null, ex);
         }
