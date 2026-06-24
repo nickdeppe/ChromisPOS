@@ -23,5 +23,4 @@ This branch starts the runtime and touch-UI modernization work from
 
 Run the application against a disposable MySQL 8.4 database and capture the next
 compatibility issue at the schema/query layer. The legacy
-`mysql-connector-java-5.1.36.jar` remains in `lib` for now but is no longer on
-the NetBeans project classpath.
+`mysql-connector-java-5.1.36.jar` has been removed from `lib`.
