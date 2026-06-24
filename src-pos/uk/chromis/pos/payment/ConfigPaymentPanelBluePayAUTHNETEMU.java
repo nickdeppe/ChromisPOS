@@ -70,7 +70,7 @@ public class ConfigPaymentPanelBluePayAUTHNETEMU extends javax.swing.JPanel impl
      */
     @Override
     public void saveProperties() {
-        AppConfig.getInstance().setProperty("payment.BluePay.accountID", comboValue(jtxtAccountID.getText()));
+        AppConfig.getInstance().setProperty("payment.BluePay.accountID", comboValue(new String(jtxtAccountID.getPassword())));
         AppConfig.getInstance().setProperty("payment.BluePay.secretKey", comboValue(jtxtSecretKey.getText()));
         AppConfig.getInstance().setProperty("payment.BluePay.URL", comboValue(jtxtURL.getText()));
     }

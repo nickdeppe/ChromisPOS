@@ -1063,8 +1063,8 @@ public class JRootApp extends JPanel implements AppView {
 
     private void m_txtKeysKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_m_txtKeysKeyTyped
 
-        if (evt.getModifiers() != 0) {
-            String keys = evt.getKeyModifiersText(evt.getModifiers()) + "+" + evt.getKeyChar();
+        if (evt.getModifiersEx() != 0) {
+            String keys = java.awt.event.InputEvent.getModifiersExText(evt.getModifiersEx()) + "+" + evt.getKeyChar();
             if ((keys.equals("Alt+Shift+P")) || (keys.equals("Alt+Shift+p"))) {
                 superUserLogin();
             }
