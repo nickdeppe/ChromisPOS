@@ -1,21 +1,4 @@
 @echo off
-setlocal
-
-set "JAVA_HOME=C:\Program Files\Java\jdk1.8.0_202"
-set "NETBEANS_HOME=C:\Program Files\NetBeans 8.2"
-set "BUILD_PROPS=%TEMP%\chromispos-netbeans-build.properties"
-
-if not exist "%JAVA_HOME%\bin\java.exe" (
-    echo Java 8 was not found at "%JAVA_HOME%".
-    exit /b 1
-)
-
-if not exist "%NETBEANS_HOME%\extide\ant\bin\ant.bat" (
-    echo NetBeans Ant was not found at "%NETBEANS_HOME%\extide\ant\bin\ant.bat".
-    exit /b 1
-)
-
-> "%BUILD_PROPS%" echo libs.CopyLibs.classpath=%NETBEANS_HOME:\=/%/java/ant/extra/org-netbeans-modules-java-j2seproject-copylibstask.jar
-
-set "PATH=%JAVA_HOME%\bin;%NETBEANS_HOME%\extide\ant\bin;%PATH%"
-call "%NETBEANS_HOME%\extide\ant\bin\ant.bat" "-Duser.properties.file=%BUILD_PROPS%" clean jar
+echo ChromisPOS now targets Java 17 and cannot be built with Java 8.
+echo Use build-java17.bat for this modernization branch.
+exit /b 1
