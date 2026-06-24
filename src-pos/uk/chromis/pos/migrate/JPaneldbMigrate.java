@@ -135,12 +135,12 @@ public class JPaneldbMigrate extends JPanel implements JPanelView {
         try {
             Class.forName(jtxtDbDriver.getText());
             ClassLoader cloader = new URLClassLoader(new URL[]{new File(jtxtDbDriverLib.getText()).toURI().toURL()});
-            DriverManager.registerDriver(new DriverWrapper((Driver) Class.forName(jtxtDbDriver.getText(), true, cloader).newInstance()));
+            DriverManager.registerDriver(new DriverWrapper((Driver) Class.forName(jtxtDbDriver.getText(), true, cloader).getDeclaredConstructor().newInstance()));
             con2 = (Connection) DriverManager.getConnection(db_url2, db_user2, db_password2);
             Session session2 = new Session(db_url2, db_user2, db_password2);
             sdbmanager2 = con2.getMetaData().getDatabaseProductName();
             return (true);
-        } catch (ClassNotFoundException | MalformedURLException | InstantiationException | IllegalAccessException | SQLException e) {
+        } catch (ReflectiveOperationException | MalformedURLException | SQLException e) {
             JMessageDialog.showMessage(this, new MessageInf(MessageInf.SGN_DANGER, AppLocal.getIntString("database.UnableToConnect"), e));
             return (false);
         }
@@ -600,7 +600,7 @@ public class JPaneldbMigrate extends JPanel implements JPanelView {
 
                 try {
                     ClassLoader cloader = new URLClassLoader(new URL[]{new File(AppConfig.getInstance().getProperty("db.driverlib")).toURI().toURL()});
-                    DriverManager.registerDriver(new DriverWrapper((Driver) Class.forName(AppConfig.getInstance().getProperty("db.driver"), true, cloader).newInstance()));
+                    DriverManager.registerDriver(new DriverWrapper((Driver) Class.forName(AppConfig.getInstance().getProperty("db.driver"), true, cloader).getDeclaredConstructor().newInstance()));
                     Database database = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(new JdbcConnection(DriverManager.getConnection(db_url2, db_user2, db_password2)));
                     pb.setString("Adding Primary Keys ");
                     changelog = "uk/chromis/pos/liquibase/common/primarykeys.xml";
@@ -614,7 +614,7 @@ public class JPaneldbMigrate extends JPanel implements JPanelView {
                     Logger.getLogger(JRootApp.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (LiquibaseException ex) {
                     Logger.getLogger(JRootApp.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (MalformedURLException | SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
+                } catch (MalformedURLException | SQLException | ReflectiveOperationException ex) {
                     Logger.getLogger(JRootApp.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
@@ -714,7 +714,7 @@ public class JPaneldbMigrate extends JPanel implements JPanelView {
         }
         try {
             ClassLoader cloader = new URLClassLoader(new URL[]{new File(AppConfig.getInstance().getProperty("db.driverlib")).toURI().toURL()});
-            DriverManager.registerDriver(new DriverWrapper((Driver) Class.forName(AppConfig.getInstance().getProperty("db.driver"), true, cloader).newInstance()));
+            DriverManager.registerDriver(new DriverWrapper((Driver) Class.forName(AppConfig.getInstance().getProperty("db.driver"), true, cloader).getDeclaredConstructor().newInstance()));
             changelog = "uk/chromis/pos/liquibase/common/sequences.xml";
             Database database = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(new JdbcConnection(DriverManager.getConnection(db_url2, db_user2, db_password2)));
             liquibase = new Liquibase(changelog, new ClassLoaderResourceAccessor(), database);
@@ -726,7 +726,7 @@ public class JPaneldbMigrate extends JPanel implements JPanelView {
         } catch (LiquibaseException ex) {
             Logger.getLogger(JRootApp.class.getName()).log(Level.SEVERE, null, ex);
 
-        } catch (MalformedURLException | SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
+        } catch (MalformedURLException | SQLException | ReflectiveOperationException ex) {
             Logger.getLogger(JRootApp.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -977,7 +977,7 @@ public class JPaneldbMigrate extends JPanel implements JPanelView {
             String password = new String(jtxtDbPassword.getPassword());
 
             ClassLoader cloader = new URLClassLoader(new URL[]{new File(driverlib).toURI().toURL()});
-            DriverManager.registerDriver(new DriverWrapper((Driver) Class.forName(driver, true, cloader).newInstance()));
+            DriverManager.registerDriver(new DriverWrapper((Driver) Class.forName(driver, true, cloader).getDeclaredConstructor().newInstance()));
 
             Session session = new Session(url, user, password);
             Connection connection = session.getConnection();
@@ -988,7 +988,7 @@ public class JPaneldbMigrate extends JPanel implements JPanelView {
             } else {
                 JMessageDialog.showMessage(this, new MessageInf(MessageInf.SGN_WARNING, "Connection Error"));
             }
-        } catch (InstantiationException | IllegalAccessException | MalformedURLException | ClassNotFoundException e) {
+        } catch (ReflectiveOperationException | MalformedURLException e) {
             JMessageDialog.showMessage(this, new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.databasedrivererror"), e));
         } catch (SQLException e) {
             JMessageDialog.showMessage(this, new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.databaseconnectionerror"), e));
