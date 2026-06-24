@@ -351,9 +351,9 @@ public class JPanelConfigDatabase extends javax.swing.JPanel implements PanelCon
             jtxtDbPassword.setText("");            
             
         } else if ("MySQL".equals(jcboDBDriver.getSelectedItem())) {
-            jtxtDbDriverLib.setText(new File(new File(dirname), "lib/mysql-connector-java-5.1.26-bin.jar").getAbsolutePath());
-            jtxtDbDriver.setText("com.mysql.jdbc.Driver");
-            jtxtDbURL.setText("jdbc:mysql://localhost:3306/chromispos");
+            jtxtDbDriverLib.setText(new File(new File(dirname), "lib/mysql-connector-j-8.4.0.jar").getAbsolutePath());
+            jtxtDbDriver.setText("com.mysql.cj.jdbc.Driver");
+            jtxtDbURL.setText("jdbc:mysql://localhost:3306/chromispos?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC");
             
         } else if ("PostgreSQL".equals(jcboDBDriver.getSelectedItem())) {
             jtxtDbDriverLib.setText(new File(new File(dirname), "lib/postgresql-9.2-1003.jdbc4.jar").getAbsolutePath());
@@ -374,7 +374,7 @@ public class JPanelConfigDatabase extends javax.swing.JPanel implements PanelCon
             String password = new String(jtxtDbPassword.getPassword());
 
             ClassLoader cloader = new URLClassLoader(new URL[]{new File(driverlib).toURI().toURL()});
-            DriverManager.registerDriver(new DriverWrapper((Driver) Class.forName(driver, true, cloader).newInstance()));
+            DriverManager.registerDriver(new DriverWrapper((Driver) Class.forName(driver, true, cloader).getDeclaredConstructor().newInstance()));
 
             Session session =  new Session(url, user, password);
             Connection connection = session.getConnection();
@@ -386,7 +386,7 @@ public class JPanelConfigDatabase extends javax.swing.JPanel implements PanelCon
             } else {
                 JMessageDialog.showMessage(this, new MessageInf(MessageInf.SGN_WARNING, "Connection Error"));
             }
-        } catch (InstantiationException | IllegalAccessException | MalformedURLException | ClassNotFoundException e) {
+        } catch (ReflectiveOperationException | MalformedURLException e) {
             JMessageDialog.showMessage(this, new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.databasedrivererror"), e));
         } catch (SQLException e) {
             JMessageDialog.showMessage(this, new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.databaseconnectionerror"), e));

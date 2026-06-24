@@ -949,9 +949,9 @@ public class JPaneldbMigrate extends JPanel implements JPanelView {
 
     private void jNewdbTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jNewdbTypeActionPerformed
         if ("MySQL".equals(jNewdbType.getSelectedItem())) {
-            jtxtDbDriverLib.setText(System.getProperty("user.dir") + "/lib/mysql-connector-java-5.1.26-bin.jar");
-            jtxtDbDriver.setText("com.mysql.jdbc.Driver");
-            jtxtDbURL.setText("jdbc:mysql://localhost:3306/chromispos");
+            jtxtDbDriverLib.setText(System.getProperty("user.dir") + "/lib/mysql-connector-j-8.4.0.jar");
+            jtxtDbDriver.setText("com.mysql.cj.jdbc.Driver");
+            jtxtDbURL.setText("jdbc:mysql://localhost:3306/chromispos?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC");
             //jtxtDbURL.setText("jdbc:mysql://192.168.254.75:3306/kidsgrove");
             //jtxtDbUser.setText("eposuser");
             //jtxtDbPassword.setText("epos");

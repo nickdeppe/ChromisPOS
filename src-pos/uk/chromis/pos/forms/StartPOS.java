@@ -72,10 +72,7 @@ public class StartPOS {
      */
     public static void main(final String args[]) {
 
-        String sJavaVersion = System.getProperty("java.version");
-        double dJavaVersion = Double.parseDouble(sJavaVersion.substring(0, sJavaVersion.indexOf('.', sJavaVersion.indexOf('.') + 1)));
-
-        if (dJavaVersion < 1.8) {
+        if (getJavaMajorVersion() < 8) {
             StartupDialog dialog = new StartupDialog();
             JFrame frame = new JFrame("");
             JPanel dialogPanel = new JPanel();
@@ -150,13 +147,13 @@ public class StartPOS {
                 // Set the look and feel.
                 try {
 
-                    Object laf = Class.forName(AppConfig.getInstance().getProperty("swing.defaultlaf")).newInstance();
+                    Object laf = Class.forName(AppConfig.getInstance().getProperty("swing.defaultlaf")).getDeclaredConstructor().newInstance();
                     if (laf instanceof LookAndFeel) {
                         UIManager.setLookAndFeel((LookAndFeel) laf);
                     } else if (laf instanceof SubstanceSkin) {
                         SubstanceLookAndFeel.setSkin((SubstanceSkin) laf);
                     }
-                } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
+                } catch (ReflectiveOperationException | UnsupportedLookAndFeelException e) {
                     logger.log(Level.WARNING, "Cannot set Look and Feel", e);
                 }
                 String hostname = AppConfig.getInstance().getProperty("machine.hostname");
@@ -176,5 +173,22 @@ public class StartPOS {
                 }
             }
         });
+    }
+
+    private static int getJavaMajorVersion() {
+        String version = System.getProperty("java.specification.version", System.getProperty("java.version", "1.8"));
+        if (version.startsWith("1.")) {
+            version = version.substring(2);
+        }
+        int dot = version.indexOf('.');
+        if (dot >= 0) {
+            version = version.substring(0, dot);
+        }
+        try {
+            return Integer.parseInt(version);
+        } catch (NumberFormatException ex) {
+            logger.log(Level.WARNING, "Cannot parse Java version: {0}", version);
+            return 8;
+        }
     }
 }
