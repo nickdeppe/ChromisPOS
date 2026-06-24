@@ -44,11 +44,11 @@ The scripts assume these local install paths:
   with `source=17`/`target=17`.
 - The tracked `build.xml` now enables `-Xlint:deprecation` so Java 17
   deprecation warnings are visible during the normal Ant build.
-- Remaining deprecation warnings are concentrated in old `Date` field access,
-  key-event modifier text, JavaPOS finalizers, password field reads, and bundled
-  JasperReports viewer/printer compatibility classes.
+- Remaining deprecation warnings are concentrated in key-event modifier text,
+  password field reads, JavaPOS finalizers, and bundled JasperReports
+  viewer/printer compatibility classes.
 
 ## Immediate follow-up
 
 Continue reducing Java 17 deprecation warnings in focused batches, starting with
-the old `Date` field access and key-event modifier text.
+the key-event modifier text and password field reads.

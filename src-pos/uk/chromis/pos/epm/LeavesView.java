@@ -20,6 +20,7 @@
 package uk.chromis.pos.epm;
 
 import java.awt.Component;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -177,8 +178,6 @@ public final class LeavesView extends javax.swing.JPanel implements EditorRecord
         }
         return leaves;
     }
-// TODO - rewrite IsValidEndDate using Apache commons or Calendar 
-    
     private boolean IsValidEndDate(Date date) {
         Date systemDate = new Date();
         if (! m_jStartDate.getText().equals("")) {
@@ -186,20 +185,14 @@ public final class LeavesView extends javax.swing.JPanel implements EditorRecord
             try {
                 startdate = (Date) Formats.TIMESTAMP.parseValue(m_jStartDate.getText());
                 return (startdate.before(date) 
-                        || (startdate.getDate() == date.getDate() 
-                        && startdate.getMonth() == date.getMonth() 
-                        && startdate.getYear() == date.getYear()));
+                        || isSameDay(startdate, date));
                 
             } catch (BasicException ex) {
             }
         }
         return (systemDate.before(date) 
-                || (systemDate.getDate() == date.getDate() 
-                && systemDate.getMonth() == date.getMonth() 
-                && systemDate.getYear() == date.getYear()));
+                || isSameDay(systemDate, date));
     }
-
-// TODO - rewrite IsValidStartDate using Apache commons or Calendar 
 
     private boolean IsValidStartDate(Date date) {
         Date systemDate = new Date();
@@ -208,16 +201,21 @@ public final class LeavesView extends javax.swing.JPanel implements EditorRecord
             try {
                 Date enddate = (Date) Formats.TIMESTAMP.parseValue(m_jEndDate.getText());
                 validEndDate = (enddate.after(date) 
-                        || (enddate.getDate() == date.getDate() 
-                        && enddate.getMonth() == date.getMonth() 
-                        && enddate.getYear() == date.getYear()));
+                        || isSameDay(enddate, date));
             } catch (BasicException ex) {
             }
         }
         return validEndDate && (systemDate.before(date) 
-                || (systemDate.getDate() == date.getDate() 
-                && systemDate.getMonth() == date.getMonth() 
-                && systemDate.getYear() == date.getYear()));
+                || isSameDay(systemDate, date));
+    }
+
+    private boolean isSameDay(Date first, Date second) {
+        Calendar firstDay = Calendar.getInstance();
+        Calendar secondDay = Calendar.getInstance();
+        firstDay.setTime(first);
+        secondDay.setTime(second);
+        return firstDay.get(Calendar.YEAR) == secondDay.get(Calendar.YEAR)
+                && firstDay.get(Calendar.DAY_OF_YEAR) == secondDay.get(Calendar.DAY_OF_YEAR);
     }
     
     /** This method is called from within the constructor to
