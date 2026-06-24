@@ -7,7 +7,6 @@ import java.net.InetAddress;
 import java.net.URLDecoder;
 import java.net.UnknownHostException;
 import java.rmi.RemoteException;
-import java.security.Security;
 import java.util.Currency;
 import java.util.HashMap;
 import java.util.Locale;
@@ -42,10 +41,6 @@ public class PaymentGatewayPayPoint implements PaymentGateway {
      * @param props */
     public PaymentGatewayPayPoint(AppProperties props) {
         
-        // Propiedades del sistema
-        System.setProperty("java.protocol.handler.pkgs", "com.sun.net.ssl.internal.www.protocol" );
-        Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
-            
         // Configuracion del pago
         m_sCommerceID = AppConfig.getInstance().getProperty("payment.commerceid");
         
