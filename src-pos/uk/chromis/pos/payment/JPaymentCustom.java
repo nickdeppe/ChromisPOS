@@ -129,7 +129,7 @@ public class JPaymentCustom extends javax.swing.JPanel implements JPaymentInterf
             m_dTicket = value;
         }
 
-        m_jMoneyEuros.setText(Formats.CURRENCY.formatValue(new Double(m_dTicket)));
+        m_jMoneyEuros.setText(Formats.CURRENCY.formatValue(Double.valueOf(m_dTicket)));
 
         int iCompare = RoundUtils.compare(m_dTicket, m_dTotal);
 

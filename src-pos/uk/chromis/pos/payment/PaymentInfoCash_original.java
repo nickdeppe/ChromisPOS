@@ -116,7 +116,7 @@ public class PaymentInfoCash_original extends PaymentInfo {
      * @return
      */
     public String printPaid() {
-        return Formats.CURRENCY.formatValue(new Double(m_dPaid));
+        return Formats.CURRENCY.formatValue(Double.valueOf(m_dPaid));
     }   
 
     /**
@@ -124,7 +124,7 @@ public class PaymentInfoCash_original extends PaymentInfo {
      * @return
      */
     public String printChange() {
-        return Formats.CURRENCY.formatValue(new Double(m_dPaid - m_dTotal));
+        return Formats.CURRENCY.formatValue(Double.valueOf(m_dPaid - m_dTotal));
     }  
     
 }

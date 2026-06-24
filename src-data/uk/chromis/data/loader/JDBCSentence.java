@@ -76,7 +76,7 @@ public abstract class JDBCSentence extends BaseSentence {
         public Integer getInt(int columnIndex) throws BasicException {
             try {
                 int iValue = m_rs.getInt(columnIndex);
-                return m_rs.wasNull() ? null : new Integer(iValue);
+                return m_rs.wasNull() ? null : Integer.valueOf(iValue);
             } catch (SQLException eSQL) {
                 throw new BasicException(eSQL);
             }
@@ -105,7 +105,7 @@ public abstract class JDBCSentence extends BaseSentence {
         public Double getDouble(int columnIndex) throws BasicException {
             try {
                 double dValue = m_rs.getDouble(columnIndex);
-                return m_rs.wasNull() ? null : new Double(dValue);
+                return m_rs.wasNull() ? null : Double.valueOf(dValue);
             } catch (SQLException eSQL) {
                 throw new BasicException(eSQL);
             }
@@ -120,7 +120,7 @@ public abstract class JDBCSentence extends BaseSentence {
         public Boolean getBoolean(int columnIndex) throws BasicException {
             try {
                 boolean bValue = m_rs.getBoolean(columnIndex);
-                return m_rs.wasNull() ? null : new Boolean(bValue);
+                return m_rs.wasNull() ? null : Boolean.valueOf(bValue);
             } catch (SQLException eSQL) {
                 throw new BasicException(eSQL);
             }

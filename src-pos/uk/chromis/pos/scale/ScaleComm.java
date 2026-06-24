@@ -95,11 +95,11 @@ public class ScaleComm implements Scale, SerialPortEventListener {
                 // a value as been readed.
                 double dWeight = m_dWeightBuffer / 1000.0;
                 m_dWeightBuffer = 0.0;
-                return new Double(dWeight);
+                return Double.valueOf(dWeight);
             } else {
                 m_iStatusScale = SCALE_READY;
                 m_dWeightBuffer = 0.0;
-                return new Double(0.0);
+                return Double.valueOf(0.0);
             }
         }
     }

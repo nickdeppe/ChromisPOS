@@ -109,7 +109,7 @@ public class JPaymentCheque extends javax.swing.JPanel implements JPaymentInterf
             m_dPaid = value;
         } 
 
-        m_jMoneyEuros.setText(Formats.CURRENCY.formatValue(new Double(m_dPaid)));
+        m_jMoneyEuros.setText(Formats.CURRENCY.formatValue(Double.valueOf(m_dPaid)));
         
         int iCompare = RoundUtils.compare(m_dPaid, m_dTotal);
         

@@ -308,11 +308,11 @@ public class ProductInfoExt implements IKeyed {
     }
 
     public String printPriceSell() {
-        return Formats.CURRENCY.formatValue(new Double(getPriceSell()));
+        return Formats.CURRENCY.formatValue(Double.valueOf(getPriceSell()));
     }
 
     public String printPriceSellTax(TaxInfo tax) {
-        return Formats.CURRENCY.formatValue(new Double(getPriceSellTax(tax)));
+        return Formats.CURRENCY.formatValue(Double.valueOf(getPriceSellTax(tax)));
     }
 
     public BufferedImage getImage() {

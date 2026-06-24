@@ -248,7 +248,7 @@ public class JRPrinterAWT300 implements Printable
 			JRGraphics2DExporter exporter = new JRGraphics2DExporter();
 			exporter.setParameter(JRExporterParameter.JASPER_PRINT, this.jasperPrint);
 			exporter.setParameter(JRGraphics2DExporterParameter.GRAPHICS_2D, graphics);
-			exporter.setParameter(JRExporterParameter.PAGE_INDEX, new Integer(pageIndex));
+			exporter.setParameter(JRExporterParameter.PAGE_INDEX, Integer.valueOf(pageIndex));
 			exporter.exportReport();
 		}
 		catch (JRException e)
@@ -274,8 +274,8 @@ public class JRPrinterAWT300 implements Printable
 		JRGraphics2DExporter exporter = new JRGraphics2DExporter();
 		exporter.setParameter(JRExporterParameter.JASPER_PRINT, this.jasperPrint);
 		exporter.setParameter(JRGraphics2DExporterParameter.GRAPHICS_2D, pageImage.getGraphics());
-		exporter.setParameter(JRExporterParameter.PAGE_INDEX, new Integer(pageIndex));
-		exporter.setParameter(JRGraphics2DExporterParameter.ZOOM_RATIO, new Float(zoom));
+		exporter.setParameter(JRExporterParameter.PAGE_INDEX, Integer.valueOf(pageIndex));
+		exporter.setParameter(JRGraphics2DExporterParameter.ZOOM_RATIO, Float.valueOf(zoom));
 		exporter.exportReport();
 
 		return pageImage;

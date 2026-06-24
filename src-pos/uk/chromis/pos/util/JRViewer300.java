@@ -1458,7 +1458,7 @@ public final class JRViewer300 extends javax.swing.JPanel implements JRHyperlink
 				lblStatus.setText(
 					MessageFormat.format(
 						getBundleString("page"),
-						new Object[]{new Integer(pageIndex + 1), new Integer(jasperPrint.getPages().size())}
+						new Object[]{Integer.valueOf(pageIndex + 1), Integer.valueOf(jasperPrint.getPages().size())}
 						)
 					);
 			}
@@ -2131,10 +2131,10 @@ public final class JRViewer300 extends javax.swing.JPanel implements JRHyperlink
 
 			exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
 			exporter.setParameter(JRGraphics2DExporterParameter.GRAPHICS_2D, grx.create());
-			exporter.setParameter(JRExporterParameter.PAGE_INDEX, new Integer(pageIndex));
-			exporter.setParameter(JRGraphics2DExporterParameter.ZOOM_RATIO, new Float(realZoom));
-			exporter.setParameter(JRExporterParameter.OFFSET_X, new Integer(1)); //lblPage border
-			exporter.setParameter(JRExporterParameter.OFFSET_Y, new Integer(1));
+			exporter.setParameter(JRExporterParameter.PAGE_INDEX, Integer.valueOf(pageIndex));
+			exporter.setParameter(JRGraphics2DExporterParameter.ZOOM_RATIO, Float.valueOf(realZoom));
+			exporter.setParameter(JRExporterParameter.OFFSET_X, Integer.valueOf(1)); //lblPage border
+			exporter.setParameter(JRExporterParameter.OFFSET_Y, Integer.valueOf(1));
 			exporter.exportReport();
 		}
 		catch(Exception e)
