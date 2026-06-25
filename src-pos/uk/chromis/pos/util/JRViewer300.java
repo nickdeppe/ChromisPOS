@@ -120,6 +120,7 @@ import net.sf.jasperreports.view.save.JRPrintSaveContributor;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: JRViewer300.java 2160 2008-04-29 11:31:51Z lucianc $
  */
+@SuppressWarnings("deprecation")
 public final class JRViewer300 extends javax.swing.JPanel implements JRHyperlinkListener
 {
 	private static final long serialVersionUID = JRConstants.SERIAL_VERSION_UID;

@@ -59,6 +59,7 @@ import net.sf.jasperreports.engine.util.JRGraphEnvInitializer;
  * @author Teodor Danciu (teodord@users.sourceforge.net)
  * @version $Id: JRPrinterAWT.java 2123 2008-03-12 11:00:41Z teodord $
  */
+@SuppressWarnings("deprecation")
 public class JRPrinterAWT300 implements Printable
 {
 

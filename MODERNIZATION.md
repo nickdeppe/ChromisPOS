@@ -44,10 +44,12 @@ The scripts assume these local install paths:
   with `source=17`/`target=17`.
 - The tracked `build.xml` now enables `-Xlint:deprecation` so Java 17
   deprecation warnings are visible during the normal Ant build.
-- Remaining deprecation warnings are concentrated in bundled JasperReports
-  viewer/printer compatibility classes.
+- Java 17 deprecation warnings have been cleared from the normal Ant build.
+- Bundled JasperReports viewer/printer compatibility classes still use
+  deprecated JasperReports APIs internally, but those warnings are scoped to the
+  copied compatibility classes to avoid changing report rendering behavior.
 
 ## Immediate follow-up
 
-Continue reducing Java 17 deprecation warnings in focused batches, starting with
-the bundled JasperReports viewer/printer compatibility classes.
+Start the next modernization phase by reducing unchecked generic warnings or by
+planning the larger UI/touch modernization work.
