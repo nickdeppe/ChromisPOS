@@ -24,6 +24,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.lang.ref.Cleaner;
 import javax.swing.JComponent;
 import jpos.CashDrawer;
 import jpos.JposException;
@@ -38,6 +39,8 @@ import uk.chromis.pos.printer.TicketPrinterException;
  *   
  */
 public class DevicePrinterJavaPOS  implements DevicePrinter {
+
+    private static final Cleaner CLEANER = Cleaner.create();
     
     private static final String JPOS_SIZE0 = "\u001b|1C";
     private static final String JPOS_SIZE1 = "\u001b|2C";
@@ -52,6 +55,7 @@ public class DevicePrinterJavaPOS  implements DevicePrinter {
     
     private POSPrinter m_printer = null;
     private CashDrawer m_drawer = null;
+    private final Cleaner.Cleanable m_cleanable;
     
     private StringBuilder m_sline;
 
@@ -86,6 +90,7 @@ public class DevicePrinterJavaPOS  implements DevicePrinter {
             // can live without the drawer;
             m_drawer = null;
         }
+        m_cleanable = CLEANER.register(this, new PrinterCleanup(m_printer, m_drawer));
     }
    
     /**
@@ -262,21 +267,35 @@ public class DevicePrinterJavaPOS  implements DevicePrinter {
         }
     }
     
-    @Override
-    public void finalize() throws Throwable {
-       
-        m_printer.setDeviceEnabled(false);
-        m_printer.release();
-        m_printer.close();
-        
-        if (m_drawer != null) {
-            m_drawer.setDeviceEnabled(false);
-            m_drawer.release();
-            m_drawer.close();
-        }
-        
-        super.finalize();
-    }    
+    public void close() {
+        m_cleanable.clean();
+    }
 
+    private static class PrinterCleanup implements Runnable {
+
+        private final POSPrinter printer;
+        private final CashDrawer drawer;
+
+        private PrinterCleanup(POSPrinter printer, CashDrawer drawer) {
+            this.printer = printer;
+            this.drawer = drawer;
+        }
+
+        @Override
+        public void run() {
+            try {
+                printer.setDeviceEnabled(false);
+                printer.release();
+                printer.close();
+
+                if (drawer != null) {
+                    drawer.setDeviceEnabled(false);
+                    drawer.release();
+                    drawer.close();
+                }
+            } catch (JposException e) {
+            }
+        }
+    }
 
 }

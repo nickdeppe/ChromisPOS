@@ -19,6 +19,7 @@
 
 package uk.chromis.pos.printer.javapos;
 
+import java.lang.ref.Cleaner;
 import javax.swing.JComponent;
 import jpos.FiscalPrinter;
 import jpos.JposException;
@@ -31,10 +32,13 @@ import uk.chromis.pos.util.RoundUtils;
  *   
  */
 public class DeviceFiscalPrinterJavaPOS extends javax.swing.JPanel implements DeviceFiscalPrinter  {
+
+    private static final Cleaner CLEANER = Cleaner.create();
     
     private String m_sName;
     
     private FiscalPrinter m_fiscal;
+    private final Cleaner.Cleanable m_cleanable;
     
     /** Creates new form DeviceFiscalPrinterJavaPOSPanel
      * @param sDeviceFiscalPrinterName
@@ -56,6 +60,7 @@ public class DeviceFiscalPrinterJavaPOS extends javax.swing.JPanel implements De
             throw new TicketPrinterException(e.getMessage(), e);
         }
         
+        m_cleanable = CLEANER.register(this, new FiscalPrinterCleanup(m_fiscal));
         initComponents();
         
         
@@ -165,15 +170,28 @@ public class DeviceFiscalPrinterJavaPOS extends javax.swing.JPanel implements De
         }     
     }
     
-    @Override
-    public void finalize() throws Throwable {
-    
-        m_fiscal.setDeviceEnabled(false);
-        m_fiscal.release();
-        m_fiscal.close();
-        
-        super.finalize();       
-    } 
+    public void close() {
+        m_cleanable.clean();
+    }
+
+    private static class FiscalPrinterCleanup implements Runnable {
+
+        private final FiscalPrinter fiscalPrinter;
+
+        private FiscalPrinterCleanup(FiscalPrinter fiscalPrinter) {
+            this.fiscalPrinter = fiscalPrinter;
+        }
+
+        @Override
+        public void run() {
+            try {
+                fiscalPrinter.setDeviceEnabled(false);
+                fiscalPrinter.release();
+                fiscalPrinter.close();
+            } catch (JposException e) {
+            }
+        }
+    }
     
     private int roundFiscal(double value) {
         return (int) Math.floor(RoundUtils.round(value) * 10000.0 + 0.5);

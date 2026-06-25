@@ -19,6 +19,7 @@
 
 package uk.chromis.pos.printer.javapos;
 
+import java.lang.ref.Cleaner;
 import jpos.JposException;
 import jpos.LineDisplay;
 import jpos.LineDisplayConst;
@@ -32,9 +33,12 @@ import uk.chromis.pos.printer.TicketPrinterException;
  *   
  */
 public class DeviceDisplayJavaPOS implements DeviceDisplay, DeviceDisplayImpl {
+
+    private static final Cleaner CLEANER = Cleaner.create();
     
     private String m_sName;
     private LineDisplay m_ld;
+    private final Cleaner.Cleanable m_cleanable;
     
     private DeviceDisplayBase m_displaylines;
     
@@ -53,6 +57,7 @@ public class DeviceDisplayJavaPOS implements DeviceDisplay, DeviceDisplayImpl {
             throw new TicketPrinterException(e.getMessage(), e);
         }
 
+        m_cleanable = CLEANER.register(this, new DisplayCleanup(m_ld));
         m_displaylines = new DeviceDisplayBase(this);
    }
     
@@ -124,13 +129,26 @@ public class DeviceDisplayJavaPOS implements DeviceDisplay, DeviceDisplayImpl {
         }
     }
     
-    @Override
-    public void finalize() throws Throwable {
-   
-        m_ld.setDeviceEnabled(false);
-        m_ld.release();
-        m_ld.close();
-        
-        super.finalize();
+    public void close() {
+        m_cleanable.clean();
+    }
+
+    private static class DisplayCleanup implements Runnable {
+
+        private final LineDisplay display;
+
+        private DisplayCleanup(LineDisplay display) {
+            this.display = display;
+        }
+
+        @Override
+        public void run() {
+            try {
+                display.setDeviceEnabled(false);
+                display.release();
+                display.close();
+            } catch (JposException e) {
+            }
+        }
     }
 }
