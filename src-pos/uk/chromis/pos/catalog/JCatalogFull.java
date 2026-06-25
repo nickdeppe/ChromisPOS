@@ -106,7 +106,7 @@ public class JCatalogFull extends JPanel implements ListSelectionListener, Catal
         m_categoriesset.clear();
 
         // Load the taxes logic
-        taxeslogic = new TaxesLogic(m_dlSales.getTaxList().list());
+        taxeslogic = new TaxesLogic(m_dlSales.getTaxInfoList());
 
         buildProductPanel();
     }

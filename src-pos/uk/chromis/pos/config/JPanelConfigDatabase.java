@@ -142,7 +142,7 @@ public class JPanelConfigDatabase extends javax.swing.JPanel implements PanelCon
     private void initComponents() {
 
         jLabel6 = new javax.swing.JLabel();
-        jcboDBDriver = new javax.swing.JComboBox();
+        jcboDBDriver = new javax.swing.JComboBox<String>();
         jLabel18 = new javax.swing.JLabel();
         jtxtDbDriverLib = new javax.swing.JTextField();
         jbtnDbDriverLib = new javax.swing.JButton();
@@ -419,7 +419,7 @@ public class JPanelConfigDatabase extends javax.swing.JPanel implements PanelCon
     private javax.swing.JLabel jLabel6;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JButton jbtnDbDriverLib;
-    private javax.swing.JComboBox jcboDBDriver;
+    private javax.swing.JComboBox<String> jcboDBDriver;
     private javax.swing.JTextField jtxtDbDriver;
     private javax.swing.JTextField jtxtDbDriverLib;
     private javax.swing.JPasswordField jtxtDbPassword;

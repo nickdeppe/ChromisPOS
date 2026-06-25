@@ -152,10 +152,10 @@ public class JCatalog extends JPanel implements ListSelectionListener, CatalogSe
         showingcategory = null;
 
         // Load the taxes logic
-        taxeslogic = new TaxesLogic(m_dlSales.getTaxList().list());
+        taxeslogic = new TaxesLogic(m_dlSales.getTaxInfoList());
 
         // Load all categories.
-        List categories;
+        List<CategoryInfo> categories;
         if (AppConfig.getInstance().getBoolean("till.categoriesbynumberorder")) {
             categories = m_dlSales.getRootCategoriesByCatOrder();
             categories.addAll(m_dlSales.getRootCategoriesByName());
@@ -455,11 +455,11 @@ public class JCatalog extends JPanel implements ListSelectionListener, CatalogSe
         }
     }
 
-    private class CategoriesListModel extends AbstractListModel {
+    private class CategoriesListModel extends AbstractListModel<CategoryInfo> {
 
-        private final java.util.List m_aCategories;
+        private final java.util.List<CategoryInfo> m_aCategories;
 
-        public CategoriesListModel(java.util.List aCategories) {
+        public CategoriesListModel(java.util.List<CategoryInfo> aCategories) {
             m_aCategories = aCategories;
         }
 
@@ -469,7 +469,7 @@ public class JCatalog extends JPanel implements ListSelectionListener, CatalogSe
         }
 
         @Override
-        public Object getElementAt(int i) {
+        public CategoryInfo getElementAt(int i) {
             return m_aCategories.get(i);
         }
     }
@@ -477,7 +477,7 @@ public class JCatalog extends JPanel implements ListSelectionListener, CatalogSe
     private class SmallCategoryRenderer extends DefaultListCellRenderer {
 
         @Override
-        public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+        public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
             super.getListCellRendererComponent(list, null, index, isSelected, cellHasFocus);
             CategoryInfo cat = (CategoryInfo) value;
             setText(cat.getName());
@@ -497,7 +497,7 @@ public class JCatalog extends JPanel implements ListSelectionListener, CatalogSe
         m_jCategories = new javax.swing.JPanel();
         m_jRootCategories = new javax.swing.JPanel();
         m_jscrollcat = new javax.swing.JScrollPane();
-        m_jListCategories = new javax.swing.JList();
+        m_jListCategories = new javax.swing.JList<CategoryInfo>();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         m_jUp = new javax.swing.JButton();
@@ -676,7 +676,7 @@ public class JCatalog extends JPanel implements ListSelectionListener, CatalogSe
     private javax.swing.JButton m_btnBack1;
     private javax.swing.JPanel m_jCategories;
     private javax.swing.JButton m_jDown;
-    private javax.swing.JList m_jListCategories;
+    private javax.swing.JList<CategoryInfo> m_jListCategories;
     private javax.swing.JPanel m_jProducts;
     private javax.swing.JPanel m_jRootCategories;
     private javax.swing.JPanel m_jSubCategories;

@@ -958,6 +958,10 @@ public class DataLogicSales extends BeanFactoryDataSingle {
         });
     }
 
+    public final List<TaxInfo> getTaxInfoList() throws BasicException {
+        return typedList(getTaxList());
+    }
+
     /**
      *
      * @return

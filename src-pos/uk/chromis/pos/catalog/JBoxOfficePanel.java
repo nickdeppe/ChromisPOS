@@ -196,7 +196,7 @@ public final class JBoxOfficePanel extends JPanel implements ListSelectionListen
             int i = jShowList.getSelectedIndex();
             oldShowInfo = this.m_currentShow;
             if (i >= 0) {
-                showInfo = (ShowSalesInfo) m_showListModel.getElementAt(i);
+                showInfo = m_showListModel.getElementAt(i);
                 this.m_currentShow = showInfo;
                 this.firePropertyChange("Show", oldShowInfo, this.m_currentShow);        
             } else {
@@ -248,7 +248,7 @@ public final class JBoxOfficePanel extends JPanel implements ListSelectionListen
     private class ShowListCellRenderer extends DefaultListCellRenderer {
 
         @Override
-        public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+        public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
             super.getListCellRendererComponent(list, null, index, isSelected, cellHasFocus);
             ShowSalesInfo show = (ShowSalesInfo) value;
             setText(show.getButtonText());
@@ -259,7 +259,7 @@ public final class JBoxOfficePanel extends JPanel implements ListSelectionListen
     
     
     
-    private class ShowListModel extends AbstractListModel {
+    private class ShowListModel extends AbstractListModel<ShowSalesInfo> {
 
         private final List<ShowSalesInfo> m_showList;
 
@@ -277,7 +277,7 @@ public final class JBoxOfficePanel extends JPanel implements ListSelectionListen
         }
 
         @Override
-        public Object getElementAt(int i) {
+        public ShowSalesInfo getElementAt(int i) {
             return m_showList.get(i);
         }
     }
@@ -310,6 +310,6 @@ public final class JBoxOfficePanel extends JPanel implements ListSelectionListen
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private uk.chromis.beans.JDateSelectorPanel jDateSelectorPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JList<String> jShowList;
+    private javax.swing.JList<ShowSalesInfo> jShowList;
     // End of variables declaration//GEN-END:variables
 }

@@ -158,7 +158,7 @@ public class JCatalogBoxOffice extends JPanel implements ListSelectionListener, 
 //        m_categoriesset.clear();
 
         // Load the taxes logic
-        taxeslogic = new TaxesLogic(m_dlSales.getTaxList().list());
+        taxeslogic = new TaxesLogic(m_dlSales.getTaxInfoList());
         
         jBoxOfficePanel.activate();
         

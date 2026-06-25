@@ -54,12 +54,13 @@ The scripts assume these local install paths:
   listener, comparator, and loader helper collections.
 - The third unchecked cleanup batch started typed query result conversion in
   admin/system/sales data logic and typed several admin role/resource controls.
-- Remaining unchecked warnings are concentrated in raw serializer calls, older
-  Swing controls, catalog list controls, and configuration/peripheral combo
-  boxes.
+- The fourth unchecked cleanup batch typed catalog/box-office list models, tax
+  list access, and database/general configuration combo boxes.
+- Remaining unchecked warnings are concentrated in raw serializer calls,
+  customer finder lists, locale/payment configuration combo boxes, and
+  peripheral combo boxes.
 
 ## Immediate follow-up
 
 Continue reducing unchecked generic warnings in focused batches, starting with
-catalog list controls and raw Swing combo boxes in configuration/peripheral
-screens.
+customer finder lists and the remaining configuration/peripheral combo boxes.

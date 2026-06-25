@@ -128,7 +128,7 @@ public class JPanelConfigGeneral extends javax.swing.JPanel implements PanelConf
         String lafclass = AppConfig.getInstance().getProperty("swing.defaultlaf");
         jcboLAF.setSelectedItem(null);
         for (int i = 0; i < jcboLAF.getItemCount(); i++) {
-            LAFInfo lafinfo = (LAFInfo) jcboLAF.getItemAt(i);
+            LAFInfo lafinfo = jcboLAF.getItemAt(i);
             if (lafinfo.getClassName().equals(lafclass)) {
                 jcboLAF.setSelectedIndex(i);
                 break;
@@ -270,9 +270,9 @@ public class JPanelConfigGeneral extends javax.swing.JPanel implements PanelConf
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jtxtMachineHostname = new javax.swing.JTextField();
-        jcboLAF = new javax.swing.JComboBox();
-        jcboMachineScreenmode = new javax.swing.JComboBox();
-        jcboTicketsBag = new javax.swing.JComboBox();
+        jcboLAF = new javax.swing.JComboBox<LAFInfo>();
+        jcboMachineScreenmode = new javax.swing.JComboBox<String>();
+        jcboTicketsBag = new javax.swing.JComboBox<String>();
         jPanel1 = new javax.swing.JPanel();
         jLabel18 = new javax.swing.JLabel();
         jtxtStartupLogo = new javax.swing.JTextField();
@@ -585,9 +585,9 @@ public class JPanelConfigGeneral extends javax.swing.JPanel implements PanelConf
     private javax.swing.JRadioButton jRoyalBlue;
     private javax.swing.JButton jbtnLogoName;
     private javax.swing.JButton jbtnLogoText;
-    private javax.swing.JComboBox jcboLAF;
-    private javax.swing.JComboBox jcboMachineScreenmode;
-    private javax.swing.JComboBox jcboTicketsBag;
+    private javax.swing.JComboBox<LAFInfo> jcboLAF;
+    private javax.swing.JComboBox<String> jcboMachineScreenmode;
+    private javax.swing.JComboBox<String> jcboTicketsBag;
     private eu.hansolo.custom.SteelCheckBox jchkHideInfo;
     private javax.swing.JTextField jtxtMachineHostname;
     private javax.swing.JTextField jtxtStartupLogo;
