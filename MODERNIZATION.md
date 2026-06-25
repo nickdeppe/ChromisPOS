@@ -52,11 +52,14 @@ The scripts assume these local install paths:
   models and simple string/list dialogs.
 - The second unchecked cleanup batch modernized shared data browsing, dirty
   listener, comparator, and loader helper collections.
+- The third unchecked cleanup batch started typed query result conversion in
+  admin/system/sales data logic and typed several admin role/resource controls.
 - Remaining unchecked warnings are concentrated in raw serializer calls, older
-  Swing controls, and sales/admin typed-list conversions.
+  Swing controls, catalog list controls, and configuration/peripheral combo
+  boxes.
 
 ## Immediate follow-up
 
 Continue reducing unchecked generic warnings in focused batches, starting with
-typed query result conversion in `DataLogicAdmin` / `DataLogicSales`, then raw
-Swing controls in configuration and finder screens.
+catalog list controls and raw Swing combo boxes in configuration/peripheral
+screens.

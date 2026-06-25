@@ -151,7 +151,7 @@ public final class RolesViewTree extends javax.swing.JPanel implements EditorRec
         try {
 // Get list of all the permisions in the database
 // and the list of sections
-            dbPermissions = (List) m_dlAdmin.getAlldbPermissions();
+            dbPermissions = m_dlAdmin.getAlldbPermissions();
             branches = m_dlAdmin.getSectionsList();
         } catch (BasicException ex) {
             Logger.getLogger(RolesViewTree.class.getName()).log(Level.SEVERE, null, ex);
@@ -163,9 +163,9 @@ public final class RolesViewTree extends javax.swing.JPanel implements EditorRec
             root.add(new DefaultMutableTreeNode(section));
         }
 
-        classMap = new HashMap();
-        descriptionMap = new HashMap();
-        nodePaths = new HashMap();
+        classMap = new HashMap<>();
+        descriptionMap = new HashMap<>();
+        nodePaths = new HashMap<>();
 // Replace displayname, Section and Description 
 // from the database with the correct details from the permissions locale        
         for (DBPermissionsInfo Perm : dbPermissions) {
@@ -542,7 +542,7 @@ public final class RolesViewTree extends javax.swing.JPanel implements EditorRec
         if (RolesAddNewEntry.showDialog(this)) {
             try {
                 // lets reload the tree
-                dbPermissions = (List) m_dlAdmin.getAlldbPermissions();
+                dbPermissions = m_dlAdmin.getAlldbPermissions();
             } catch (BasicException ex) {
             }
 

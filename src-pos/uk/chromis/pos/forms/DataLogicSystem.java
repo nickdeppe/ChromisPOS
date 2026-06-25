@@ -102,6 +102,11 @@ public class DataLogicSystem extends BeanFactoryDataSingle {
     public DataLogicSystem() {
     }
 
+    @SuppressWarnings("unchecked")
+    private static <T> List<T> typedList(SentenceList sentence, Object params) throws BasicException {
+        return (List<T>) sentence.list(params);
+    }
+
     @Override
     public void init(Session s) {
         
@@ -306,7 +311,7 @@ public class DataLogicSystem extends BeanFactoryDataSingle {
     }
 
     public final List<String> getPermissions(String role) throws BasicException {
-        return m_permissionlist.list(role);
+        return typedList(m_permissionlist, role);
     }
 
     public final AppUser findPeopleByCard(String card) throws BasicException {

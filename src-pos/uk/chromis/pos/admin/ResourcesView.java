@@ -39,14 +39,14 @@ import uk.chromis.pos.util.Base64Encoder;
 public final class ResourcesView extends JPanel implements EditorRecord {
     
     private Object m_oId;
-    private ComboBoxValModel m_ResourceModel;
+    private ComboBoxValModel<ResourceType> m_ResourceModel;
             
     /** Creates new form ResourcesEditor
      * @param dirty */
     public ResourcesView(DirtyManager dirty) {
         initComponents();
         
-        m_ResourceModel = new ComboBoxValModel();
+        m_ResourceModel = new ComboBoxValModel<>();
         m_ResourceModel.add(ResourceType.TEXT);
         m_ResourceModel.add(ResourceType.IMAGE);
         m_ResourceModel.add(ResourceType.BINARY);
@@ -227,7 +227,7 @@ public final class ResourcesView extends JPanel implements EditorRecord {
         m_jImage = new uk.chromis.data.gui.JImageEditor();
         jLabel2 = new javax.swing.JLabel();
         m_jName = new javax.swing.JTextField();
-        m_jType = new javax.swing.JComboBox();
+        m_jType = new javax.swing.JComboBox<ResourceType>();
 
         jPanel3.setLayout(new java.awt.BorderLayout());
 
@@ -311,7 +311,7 @@ public final class ResourcesView extends JPanel implements EditorRecord {
     private uk.chromis.data.gui.JImageEditor m_jImage;
     private javax.swing.JTextField m_jName;
     private javax.swing.JTextArea m_jText;
-    private javax.swing.JComboBox m_jType;
+    private javax.swing.JComboBox<ResourceType> m_jType;
     // End of variables declaration//GEN-END:variables
     
 }

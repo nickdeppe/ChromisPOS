@@ -77,6 +77,16 @@ public class DataLogicSales extends BeanFactoryDataSingle {
 
     private SentenceExec m_updateRefund;
 
+    @SuppressWarnings("unchecked")
+    private static <T> List<T> typedList(SentenceList sentence) throws BasicException {
+        return (List<T>) sentence.list();
+    }
+
+    @SuppressWarnings("unchecked")
+    private static <T> List<T> typedList(SentenceList sentence, Object params) throws BasicException {
+        return (List<T>) sentence.list(params);
+    }
+
     // Use this INDEX_xxx instead of numbers to access arrays of product information
     public static int FIELD_COUNT = 0;
     public static int INDEX_ID = FIELD_COUNT++;
@@ -486,7 +496,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
      * @return @throws BasicException
      */
     public final List<CategoryInfo> getRootCategories() throws BasicException {
-        return new PreparedSentence(s, "SELECT "
+        return typedList(new PreparedSentence(s, "SELECT "
                 + "ID, "
                 + "NAME, "
                 + "IMAGE, "
@@ -496,7 +506,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 + "CATORDER "
                 + "FROM CATEGORIES "
                 + "WHERE PARENTID IS NULL AND CATSHOWNAME = " + s.DB.TRUE() + " "
-                + "ORDER BY NAME", null, CategoryInfo.getSerializerRead()).list();
+                + "ORDER BY NAME", null, CategoryInfo.getSerializerRead()));
     }
 
     /**
@@ -504,7 +514,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
      * @return @throws BasicException
      */
     public final List<CategoryInfo> getRootCategoriesByCatOrder() throws BasicException {
-        return new PreparedSentence(s, "SELECT "
+        return typedList(new PreparedSentence(s, "SELECT "
                 + "ID, "
                 + "NAME, "
                 + "IMAGE, "
@@ -514,11 +524,11 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 + "CATORDER "
                 + "FROM CATEGORIES "
                 + "WHERE PARENTID IS NULL AND CATSHOWNAME = " + s.DB.TRUE() + " AND CATORDER IS NOT NULL "
-                + "ORDER BY CATORDER", null, CategoryInfo.getSerializerRead()).list();
+                + "ORDER BY CATORDER", null, CategoryInfo.getSerializerRead()));
     }
 
     public final List<CategoryInfo> getRootCategoriesByName() throws BasicException {
-        return new PreparedSentence(s, "SELECT "
+        return typedList(new PreparedSentence(s, "SELECT "
                 + "ID, "
                 + "NAME, "
                 + "IMAGE, "
@@ -528,7 +538,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 + "CATORDER "
                 + "FROM CATEGORIES "
                 + "WHERE PARENTID IS NULL AND CATSHOWNAME = " + s.DB.TRUE() + " AND CATORDER IS NULL "
-                + "ORDER BY NAME", null, CategoryInfo.getSerializerRead()).list();
+                + "ORDER BY NAME", null, CategoryInfo.getSerializerRead()));
     }
 
     /**
@@ -538,7 +548,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
      * @throws BasicException
      */
     public final List<CategoryInfo> getSubcategories(String category) throws BasicException {
-        return new PreparedSentence(s, "SELECT "
+        return typedList(new PreparedSentence(s, "SELECT "
                 + "ID, "
                 + "NAME, "
                 + "IMAGE, "
@@ -546,11 +556,11 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 + "CATSHOWNAME, "
                 + "COLOUR, "
                 + "CATORDER "
-                + "FROM CATEGORIES WHERE PARENTID = ? ORDER BY NAME", SerializerWriteString.INSTANCE, CategoryInfo.getSerializerRead()).list(category);
+                + "FROM CATEGORIES WHERE PARENTID = ? ORDER BY NAME", SerializerWriteString.INSTANCE, CategoryInfo.getSerializerRead()), category);
     }
 
     public final List<CategoryInfo> getSubcategoriesByCatOrder(String category) throws BasicException {
-        return new PreparedSentence(s, "SELECT "
+        return typedList(new PreparedSentence(s, "SELECT "
                 + "ID, "
                 + "NAME, "
                 + "IMAGE, "
@@ -558,11 +568,11 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 + "CATSHOWNAME, "
                 + "COLOUR, "
                 + "CATORDER "
-                + "FROM CATEGORIES WHERE PARENTID = ? AND CATORDER IS NOT NULL ORDER BY CATORDER", SerializerWriteString.INSTANCE, CategoryInfo.getSerializerRead()).list(category);
+                + "FROM CATEGORIES WHERE PARENTID = ? AND CATORDER IS NOT NULL ORDER BY CATORDER", SerializerWriteString.INSTANCE, CategoryInfo.getSerializerRead()), category);
     }
 
     public final List<CategoryInfo> getSubcategoriesByName(String category) throws BasicException {
-        return new PreparedSentence(s, "SELECT "
+        return typedList(new PreparedSentence(s, "SELECT "
                 + "ID, "
                 + "NAME, "
                 + "IMAGE, "
@@ -570,7 +580,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 + "CATSHOWNAME, "
                 + "COLOUR, "
                 + "CATORDER "
-                + "FROM CATEGORIES WHERE PARENTID = ? AND CATORDER IS NULL ORDER BY NAME", SerializerWriteString.INSTANCE, CategoryInfo.getSerializerRead()).list(category);
+                + "FROM CATEGORIES WHERE PARENTID = ? AND CATORDER IS NULL ORDER BY NAME", SerializerWriteString.INSTANCE, CategoryInfo.getSerializerRead()), category);
     }
 
     /**
@@ -580,11 +590,11 @@ public class DataLogicSales extends BeanFactoryDataSingle {
      * @throws BasicException
      */
     public List<ProductInfoExt> getProductCatalog(String category) throws BasicException {
-        return new PreparedSentence(s, "SELECT "
+        return typedList(new PreparedSentence(s, "SELECT "
                 + getSelectFieldList()
                 + "FROM PRODUCTS P "
                 + "WHERE (P.ISCATALOG = " + s.DB.TRUE() + " AND P.CATEGORY = ?) OR (P.ALWAYSAVAILABLE = " + s.DB.TRUE() + ") "
-                + "ORDER BY P.CATORDER, P.NAME ", SerializerWriteString.INSTANCE, ProductInfoExt.getSerializerRead()).list(category);
+                + "ORDER BY P.CATORDER, P.NAME ", SerializerWriteString.INSTANCE, ProductInfoExt.getSerializerRead()), category);
     }
 
 
@@ -636,7 +646,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
      * @throws BasicException
      */
     public List<ProductInfoExt> getAllBoxOfficeProducts() throws BasicException {
-        return getAllBoxOfficeProductsSentence().list();
+        return typedList(getAllBoxOfficeProductsSentence());
     }
     
     /**
@@ -646,7 +656,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
      * @throws BasicException
      */
     public List<ProductInfoExt> getAllBoxOfficeProducts(String boxOfficeProductSetID) throws BasicException {
-        return getAllBoxOfficeProductsSentence(boxOfficeProductSetID).list();
+        return typedList(getAllBoxOfficeProductsSentence(boxOfficeProductSetID));
     }
     
     
@@ -658,7 +668,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
      * @throws BasicException
      */
     public List<ProductInfoExt> getAllNonBoxOfficeProducts() throws BasicException {
-        return new PreparedSentence(
+        return typedList(new PreparedSentence(
                 s, 
                 "SELECT "
                 + getSelectFieldList()
@@ -666,7 +676,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 + "WHERE P.ISCATALOG = " + s.DB.TRUE() + " AND P.ISBOXOFFICE = " + s.DB.FALSE() + " "
                 + "ORDER BY P.CATORDER, P.NAME ", 
                 null, 
-                ProductInfoExt.getSerializerRead()).list();
+                ProductInfoExt.getSerializerRead()));
     }
     
     
@@ -678,19 +688,19 @@ public class DataLogicSales extends BeanFactoryDataSingle {
      * @throws BasicException
      */
     public List<ProductInfoExt> getAllProductCatalogByCatOrder() throws BasicException {
-        return new PreparedSentence(s, "SELECT "
+        return typedList(new PreparedSentence(s, "SELECT "
                 + getSelectFieldList()
                 + "FROM PRODUCTS P "
                 + "WHERE P.ISCATALOG = " + s.DB.TRUE() + " "
-                + "ORDER BY P.CATORDER, P.NAME ", null, ProductInfoExt.getSerializerRead()).list();
+                + "ORDER BY P.CATORDER, P.NAME ", null, ProductInfoExt.getSerializerRead()));
     }
 
     public List<ProductInfoExt> getAllNonProductCatalog() throws BasicException {
-        return new PreparedSentence(s, "SELECT "
+        return typedList(new PreparedSentence(s, "SELECT "
                 + getSelectFieldList()
                 + "FROM PRODUCTS P "
                 + "WHERE P.ISCATALOG = " + s.DB.FALSE() + " "
-                + "ORDER BY P.CATEGORY, P.NAME ", null, ProductInfoExt.getSerializerRead()).list();
+                + "ORDER BY P.CATEGORY, P.NAME ", null, ProductInfoExt.getSerializerRead()));
     }
 
     /**
@@ -700,11 +710,11 @@ public class DataLogicSales extends BeanFactoryDataSingle {
      * @throws BasicException
      */
     public List<ProductInfoExt> getAllProductCatalog() throws BasicException {
-        return new PreparedSentence(s, "SELECT "
+        return typedList(new PreparedSentence(s, "SELECT "
                 + getSelectFieldList()
                 + "FROM PRODUCTS P "
                 + "WHERE P.ISCATALOG = " + s.DB.TRUE() + " "
-                + "ORDER BY P.CATEGORY, P.NAME ", null, ProductInfoExt.getSerializerRead()).list();
+                + "ORDER BY P.CATEGORY, P.NAME ", null, ProductInfoExt.getSerializerRead()));
     }
 
     /**
@@ -714,23 +724,23 @@ public class DataLogicSales extends BeanFactoryDataSingle {
      * @throws BasicException
      */
     public List<ProductInfoExt> getProductCatalogAlways() throws BasicException {
-        return new PreparedSentence(s, "SELECT "
+        return typedList(new PreparedSentence(s, "SELECT "
                 + getSelectFieldList()
                 + "FROM CATEGORIES C INNER JOIN PRODUCTS P ON (P.CATEGORY = C.ID) "
                 + "WHERE P.ALWAYSAVAILABLE = " + s.DB.TRUE() + " "
                 + "ORDER BY  C.NAME, P.NAME",
                 null,
-                ProductInfoExt.getSerializerRead()).list();
+                ProductInfoExt.getSerializerRead()));
 
     }
 
     public List<ProductInfoExt> getProductNonCatalog(String category) throws BasicException {
-        return new PreparedSentence(s, "SELECT "
+        return typedList(new PreparedSentence(s, "SELECT "
                 + getSelectFieldList()
                 + "FROM PRODUCTS P "
                 + "WHERE P.ISCATALOG = " + s.DB.FALSE() + " "
                 + "AND P.CATEGORY = ? "
-                + "ORDER BY P.NAME ", SerializerWriteString.INSTANCE, ProductInfoExt.getSerializerRead()).list(category);
+                + "ORDER BY P.NAME ", SerializerWriteString.INSTANCE, ProductInfoExt.getSerializerRead()), category);
     }
 
     /**
@@ -740,13 +750,13 @@ public class DataLogicSales extends BeanFactoryDataSingle {
      * @throws BasicException
      */
     public List<ProductInfoExt> getProductComments(String id) throws BasicException {
-        return new PreparedSentence(s, "SELECT "
+        return typedList(new PreparedSentence(s, "SELECT "
                 + getSelectFieldList()
                 + "FROM PRODUCTS P, PRODUCTS_COM M "
                 + "WHERE P.ISCATALOG = " + s.DB.TRUE() + " "
                 + "AND P.ID = M.PRODUCT2 AND M.PRODUCT = ? "
                 + "AND P.ISCOM = " + s.DB.TRUE() + " "
-                + "ORDER BY P.CATORDER, P.NAME", SerializerWriteString.INSTANCE, ProductInfoExt.getSerializerRead()).list(id);
+                + "ORDER BY P.CATORDER, P.NAME", SerializerWriteString.INSTANCE, ProductInfoExt.getSerializerRead()), id);
     }
 
     /**
@@ -1046,12 +1056,12 @@ public class DataLogicSales extends BeanFactoryDataSingle {
      * @throws BasicException
      */
     public final List<ProductsRecipeInfo> getProductsKit(String productId) throws BasicException {
-        return new PreparedSentence(s, "SELECT "
+        return typedList(new PreparedSentence(s, "SELECT "
                 + "ID, "
                 + "PRODUCT, "
                 + "PRODUCT_KIT, "
                 + "QUANTITY "
-                + "FROM PRODUCTS_KIT WHERE PRODUCT = ? ", SerializerWriteString.INSTANCE, ProductsRecipeInfo.getSerializerRead()).list(productId);
+                + "FROM PRODUCTS_KIT WHERE PRODUCT = ? ", SerializerWriteString.INSTANCE, ProductsRecipeInfo.getSerializerRead()), productId);
     }
 
     /**
@@ -1252,8 +1262,8 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                     : loadCustomerExt(customerid));
 
             ticket.setLines(getLines(ticket.getId()));
-            ticket.setPayments(new PreparedSentence(s //                    , "SELECT PAYMENT, TOTAL, TRANSID TENDERED FROM PAYMENTS WHERE RECEIPT = ?" 
-                    , "SELECT PAYMENT, TOTAL, TRANSID, TENDERED, CARDNAME FROM PAYMENTS WHERE RECEIPT = ?", SerializerWriteString.INSTANCE, new SerializerReadClass(PaymentInfoTicket.class)).list(ticket.getId()));
+            ticket.setPayments(typedList(new PreparedSentence(s //                    , "SELECT PAYMENT, TOTAL, TRANSID TENDERED FROM PAYMENTS WHERE RECEIPT = ?" 
+                    , "SELECT PAYMENT, TOTAL, TRANSID, TENDERED, CARDNAME FROM PAYMENTS WHERE RECEIPT = ?", SerializerWriteString.INSTANCE, new SerializerReadClass(PaymentInfoTicket.class)), ticket.getId()));
         }
         return ticket;
     }
@@ -1261,7 +1271,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
     
     public final List<TicketLineInfo> getLines(final String ticketID) throws BasicException {
         
-        List<TicketLineInfo> lines = new PreparedSentence(
+        List<TicketLineInfo> lines = typedList(new PreparedSentence(
             s, 
             "SELECT "
                     + "L.TICKET, "
@@ -1290,7 +1300,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
             + "ORDER BY "
                     + "L.LINE", 
             SerializerWriteString.INSTANCE, 
-            new SerializerReadClass(TicketLineInfo.class)).list(ticketID);
+            new SerializerReadClass(TicketLineInfo.class)), ticketID);
         
         for (int i = 0; i < lines.size(); i++) {
             TicketLineInfo line = lines.get(i);
@@ -1839,7 +1849,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
         
         String dateFormat = dbDateFormat.format(forDate);
         
-        List<ShowSalesInfo> oShows = new PreparedSentence(
+        List<ShowSalesInfo> oShows = typedList(new PreparedSentence(
                 s, 
                 "SELECT "
                         + " S.ID, "
@@ -1861,7 +1871,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                         + " S.STARTDATE", 
                 null, 
                 ShowSalesInfo.getSerializerRead()
-        ).list(dateFormat, dateFormat);
+        ), new Object[] {dateFormat, dateFormat});
         
         
         for (int i = 0; i < oShows.size(); i++ ) {
@@ -1881,7 +1891,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
      * @return @throws BasicException
      */
     public final List<ShowFeaturesInfo> getFeaturesForShow(String showID) throws BasicException {
-        return new PreparedSentence(
+        return typedList(new PreparedSentence(
                 s, 
                 "SELECT "
                         + " SF.ID, "
@@ -1908,7 +1918,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                         + "ORDER BY SF.SEQUENCE, SF.STARTTIME", 
                 SerializerWriteString.INSTANCE, 
                 ShowFeaturesInfo.getSerializerRead()
-        ).list(showID);
+        ), showID);
     }
     
 
@@ -1919,7 +1929,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
      * @return @throws BasicException
      */
     public final List<ShowFeaturesInfo> getFeaturesForBoxOfficeReport(String showID) throws BasicException {
-        return new PreparedSentence(
+        return typedList(new PreparedSentence(
                 s, 
                 "SELECT "
                         + " SF.ID, "
@@ -1947,7 +1957,7 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                         + "ORDER BY SF.SEQUENCE, SF.STARTTIME", 
                 SerializerWriteString.INSTANCE, 
                 ShowFeaturesInfo.getSerializerRead()
-        ).list(showID);
+        ), showID);
     }
 
 

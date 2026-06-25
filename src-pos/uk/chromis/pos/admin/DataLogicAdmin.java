@@ -64,6 +64,16 @@ public class DataLogicAdmin extends BeanFactoryDataSingle {
     /** Creates a new instance of DataLogicAdmin */
     public DataLogicAdmin() {
     }
+
+    @SuppressWarnings("unchecked")
+    private static <T> List<T> typedList(SentenceList sentence) throws BasicException {
+        return (List<T>) sentence.list();
+    }
+
+    @SuppressWarnings("unchecked")
+    private static <T> List<T> typedList(SentenceList sentence, Object params) throws BasicException {
+        return (List<T>) sentence.list(params);
+    }
     
     /**
      *
@@ -188,10 +198,10 @@ public class DataLogicAdmin extends BeanFactoryDataSingle {
      * @return
      */
      public final List<DBPermissionsInfo> getAlldbPermissions() throws BasicException  {
-	return new PreparedSentence(s
+	return typedList(new PreparedSentence(s
 		, "SELECT CLASSNAME, SECTION, DISPLAYNAME, DESCRIPTION FROM DBPERMISSIONS ORDER BY DISPLAYNAME"
 		, null               
-		, DBPermissionsInfo.getSerializerRead()).list();
+		, DBPermissionsInfo.getSerializerRead()));
     }  
            
      /*
@@ -243,11 +253,11 @@ public class DataLogicAdmin extends BeanFactoryDataSingle {
     }
     
     public final List<String> getSectionsList() throws BasicException {
-        return m_sectionList.list();    
+        return typedList(m_sectionList);
 }
       
     public final List<String> getDisplayList(String section) throws BasicException {
-        return m_displayList.list(section);    
+        return typedList(m_displayList, section);
     }
      
     public final String getDescription(String className) throws BasicException {
@@ -255,11 +265,11 @@ public class DataLogicAdmin extends BeanFactoryDataSingle {
     }
   
     public final List<String> getRoles() throws BasicException {
-        return m_rolesList.list();
+        return typedList(m_rolesList);
     }        
         
     public final List<String> getClassNames() throws BasicException {
-        return m_permissionClassList.list();
+        return typedList(m_permissionClassList);
     }     
 
     public final String getRoleID(String roleName) throws BasicException {

@@ -20,6 +20,7 @@ package uk.chromis.pos.admin;
 
 import java.awt.Component;
 import java.awt.image.BufferedImage;
+import java.util.List;
 import java.util.UUID;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -46,7 +47,7 @@ public class PeopleView extends JPanel implements EditorRecord {
     private final DirtyManager m_Dirty;
 
     private SentenceList m_sentrole;
-    private ComboBoxValModel m_RoleModel;
+    private ComboBoxValModel<RoleInfo> m_RoleModel;
     private final AppView m_appview;
     private DataLogicAdmin m_dlAdmin;
     private Object[] originalUser;
@@ -64,7 +65,7 @@ public class PeopleView extends JPanel implements EditorRecord {
 
         m_dlAdmin = dlAdmin;
         m_appview = app;
-        m_RoleModel = new ComboBoxValModel();
+        m_RoleModel = new ComboBoxValModel<>();
 
         m_Dirty = dirty;
         m_jName.getDocument().addDocumentListener(dirty);
@@ -219,8 +220,13 @@ public class PeopleView extends JPanel implements EditorRecord {
 
         //String userLevel =(Integer.toString((Integer.parseInt(m_dlAdmin.getRightsLevelByID(m_appview.getAppUserView().getUser().getRole())))-1));
         //m_sentrole = m_dlAdmin.getRolesList( m_dlAdmin.getRightsLevelByID(userLevel));
-        m_RoleModel = new ComboBoxValModel(m_sentrole.list());
+        m_RoleModel = new ComboBoxValModel<>(typedList(m_sentrole));
         m_jRole.setModel(m_RoleModel);
+    }
+
+    @SuppressWarnings("unchecked")
+    private static <T> List<T> typedList(SentenceList sentence) throws BasicException {
+        return (List<T>) sentence.list();
     }
 
     /**
@@ -245,7 +251,7 @@ public class PeopleView extends JPanel implements EditorRecord {
         jLabel4 = new javax.swing.JLabel();
         m_jImage = new uk.chromis.data.gui.JImageEditor();
         jButton1 = new javax.swing.JButton();
-        m_jRole = new javax.swing.JComboBox();
+        m_jRole = new javax.swing.JComboBox<RoleInfo>();
         jLabel2 = new javax.swing.JLabel();
         jcard = new javax.swing.JTextField();
         jButton2 = new javax.swing.JButton();
@@ -418,7 +424,7 @@ public class PeopleView extends JPanel implements EditorRecord {
     private javax.swing.JTextField jcard;
     private uk.chromis.data.gui.JImageEditor m_jImage;
     private javax.swing.JTextField m_jName;
-    private javax.swing.JComboBox m_jRole;
+    private javax.swing.JComboBox<RoleInfo> m_jRole;
     private eu.hansolo.custom.SteelCheckBox m_jVisible;
     // End of variables declaration//GEN-END:variables
 
