@@ -56,11 +56,12 @@ The scripts assume these local install paths:
   admin/system/sales data logic and typed several admin role/resource controls.
 - The fourth unchecked cleanup batch typed catalog/box-office list models, tax
   list access, and database/general configuration combo boxes.
+- The fifth unchecked cleanup batch typed customer and employee finder list
+  models.
 - Remaining unchecked warnings are concentrated in raw serializer calls,
-  customer finder lists, locale/payment configuration combo boxes, and
-  peripheral combo boxes.
+  locale/payment configuration combo boxes, and peripheral combo boxes.
 
 ## Immediate follow-up
 
 Continue reducing unchecked generic warnings in focused batches, starting with
-customer finder lists and the remaining configuration/peripheral combo boxes.
+the remaining locale/payment/peripheral configuration combo boxes.

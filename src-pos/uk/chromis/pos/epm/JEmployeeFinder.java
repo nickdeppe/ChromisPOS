@@ -25,6 +25,7 @@ import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.Window;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JFrame;
 import uk.chromis.basic.BasicException;
 import uk.chromis.data.loader.QBFCompareEnum;
@@ -105,7 +106,7 @@ public class JEmployeeFinder extends javax.swing.JDialog implements EditorCreato
     }
     
     private void cleanSearch() {
-        jListEmployees.setModel(new MyListData(new ArrayList()));
+        jListEmployees.setModel(new MyListData(new ArrayList<EmployeeInfo>()));
     }
     
     /**
@@ -113,7 +114,7 @@ public class JEmployeeFinder extends javax.swing.JDialog implements EditorCreato
      */
     public void executeSearch() {
         try {
-            jListEmployees.setModel(new MyListData(lpr.loadData()));
+            jListEmployees.setModel(new MyListData(loadEmployees()));
             if (jListEmployees.getModel().getSize() > 0) {
                 jListEmployees.setSelectedIndex(0);
             }
@@ -150,14 +151,19 @@ public class JEmployeeFinder extends javax.swing.JDialog implements EditorCreato
         }
     }
     
-    private static class MyListData extends javax.swing.AbstractListModel {
-        private java.util.List m_data;
-        public MyListData(java.util.List data) {
+    @SuppressWarnings("unchecked")
+    private List<EmployeeInfo> loadEmployees() throws BasicException {
+        return (List<EmployeeInfo>) (List<?>) lpr.loadData();
+    }
+
+    private static class MyListData extends javax.swing.AbstractListModel<EmployeeInfo> {
+        private final List<EmployeeInfo> m_data;
+        public MyListData(List<EmployeeInfo> data) {
             m_data = data;
         }
         
         @Override
-        public Object getElementAt(int index) {
+        public EmployeeInfo getElementAt(int index) {
             return m_data.get(index);
         }
         
@@ -187,7 +193,7 @@ public class JEmployeeFinder extends javax.swing.JDialog implements EditorCreato
         jButton3 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jListEmployees = new javax.swing.JList();
+        jListEmployees = new javax.swing.JList<EmployeeInfo>();
         jPanel8 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jcmdOK = new javax.swing.JButton();
@@ -324,7 +330,7 @@ public class JEmployeeFinder extends javax.swing.JDialog implements EditorCreato
     }// </editor-fold>//GEN-END:initComponents
     private void jcmdOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcmdOKActionPerformed
 
-        selectedEmployee = (EmployeeInfo) jListEmployees.getSelectedValue();
+        selectedEmployee = jListEmployees.getSelectedValue();
         dispose();
         
     }//GEN-LAST:event_jcmdOKActionPerformed
@@ -350,7 +356,7 @@ public class JEmployeeFinder extends javax.swing.JDialog implements EditorCreato
     private void jListEmployeesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jListEmployeesMouseClicked
         
         if (evt.getClickCount() == 2) {
-            selectedEmployee = (EmployeeInfo) jListEmployees.getSelectedValue();
+            selectedEmployee = jListEmployees.getSelectedValue();
             dispose();
         }
         
@@ -366,7 +372,7 @@ private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JList jListEmployees;
+    private javax.swing.JList<EmployeeInfo> jListEmployees;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

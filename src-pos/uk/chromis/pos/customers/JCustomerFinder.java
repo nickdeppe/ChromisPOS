@@ -25,6 +25,7 @@ import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.Window;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JFrame;
 import uk.chromis.basic.BasicException;
 import uk.chromis.data.loader.QBFCompareEnum;
@@ -148,7 +149,7 @@ public class JCustomerFinder extends javax.swing.JDialog implements EditorCreato
     }
 
     private void cleanSearch() {
-        jListCustomers.setModel(new MyListData(new ArrayList()));
+        jListCustomers.setModel(new MyListData(new ArrayList<CustomerInfo>()));
     }
 
     /**
@@ -156,7 +157,7 @@ public class JCustomerFinder extends javax.swing.JDialog implements EditorCreato
      */
     public void executeSearch() {
         try {
-            jListCustomers.setModel(new MyListData(lpr.loadData()));
+            jListCustomers.setModel(new MyListData(loadCustomers()));
             if (jListCustomers.getModel().getSize() > 0) {
                 jListCustomers.setSelectedIndex(0);
                 }
@@ -241,16 +242,21 @@ public class JCustomerFinder extends javax.swing.JDialog implements EditorCreato
         }
     }
 
-    private static class MyListData extends javax.swing.AbstractListModel {
+    @SuppressWarnings("unchecked")
+    private List<CustomerInfo> loadCustomers() throws BasicException {
+        return (List<CustomerInfo>) (List<?>) lpr.loadData();
+    }
 
-        private final java.util.List m_data;
+    private static class MyListData extends javax.swing.AbstractListModel<CustomerInfo> {
 
-        public MyListData(java.util.List data) {
+        private final List<CustomerInfo> m_data;
+
+        public MyListData(List<CustomerInfo> data) {
             m_data = data;
         }
 
         @Override
-        public Object getElementAt(int index) {
+        public CustomerInfo getElementAt(int index) {
             return m_data.get(index);
         }
 
@@ -290,7 +296,7 @@ public class JCustomerFinder extends javax.swing.JDialog implements EditorCreato
         jcmdExecute = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jListCustomers = new javax.swing.JList();
+        jListCustomers = new javax.swing.JList<CustomerInfo>();
         jPanel8 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jcmdCancel = new javax.swing.JButton();
@@ -526,7 +532,7 @@ public class JCustomerFinder extends javax.swing.JDialog implements EditorCreato
     }// </editor-fold>//GEN-END:initComponents
     private void jcmdOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcmdOKActionPerformed
 
-        selectedCustomer = (CustomerInfo) jListCustomers.getSelectedValue();
+        selectedCustomer = jListCustomers.getSelectedValue();
         dispose();
 
     }//GEN-LAST:event_jcmdOKActionPerformed
@@ -552,7 +558,7 @@ public class JCustomerFinder extends javax.swing.JDialog implements EditorCreato
     private void jListCustomersMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jListCustomersMouseClicked
 
         if (evt.getClickCount() == 2) {
-            selectedCustomer = (CustomerInfo) jListCustomers.getSelectedValue();
+            selectedCustomer = jListCustomers.getSelectedValue();
             dispose();
         }
 
@@ -579,7 +585,7 @@ private void jcmdResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
     private javax.swing.JLabel jLblPostal;
     private javax.swing.JLabel jLblSearchKey;
     private javax.swing.JLabel jLblTaxID;
-    private javax.swing.JList jListCustomers;
+    private javax.swing.JList<CustomerInfo> jListCustomers;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
