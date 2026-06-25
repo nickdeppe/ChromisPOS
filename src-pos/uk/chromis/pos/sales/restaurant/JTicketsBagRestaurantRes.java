@@ -309,7 +309,7 @@ public class JTicketsBagRestaurantRes extends javax.swing.JPanel implements Edit
         return this;
     }  
     
-    private static class CompareReservations implements Comparator {
+    private static class CompareReservations implements Comparator<Object> {
         @Override
         public int compare(Object o1, Object o2) {
             Object[] a1 = (Object[]) o1;

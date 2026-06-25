@@ -330,8 +330,8 @@ public class Row {
         }   
         
         @Override
-        public Comparator createComparator(final int[] orderby) {
-            return new Comparator() {
+        public Comparator<Object> createComparator(final int[] orderby) {
+            return new Comparator<Object>() {
                 @Override
                 public int compare(Object o1, Object o2) {
                     if (o1 == null) {

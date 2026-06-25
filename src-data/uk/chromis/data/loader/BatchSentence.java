@@ -73,14 +73,14 @@ public abstract class BatchSentence extends BaseSentence {
      */
     public class ExceptionsResultSet implements DataResultSet {
         
-        List l;
+        List<BasicException> l;
         int m_iIndex;
         
         /**
          *
          * @param l
          */
-        public ExceptionsResultSet(List l) {
+        public ExceptionsResultSet(List<BasicException> l) {
             this.l = l;
             m_iIndex = -1;
         }
@@ -277,7 +277,7 @@ public abstract class BatchSentence extends BaseSentence {
 
         String sLine;
         StringBuffer sSentence = new StringBuffer();
-        List aExceptions = new ArrayList();
+        List<BasicException> aExceptions = new ArrayList<>();
 
         try {
             while ((sLine = br.readLine()) != null) {
@@ -291,7 +291,7 @@ public abstract class BatchSentence extends BaseSentence {
                         // File parameters
                         Pattern pattern = Pattern.compile("\\$(\\w+)\\{([^}]*)\\}");
                         Matcher matcher = pattern.matcher(sSentence.toString());
-                        List paramlist = new ArrayList();
+                        List<Object> paramlist = new ArrayList<>();
 
                         // Replace all occurrences of pattern in input
                         StringBuffer buf = new StringBuffer();
@@ -349,9 +349,9 @@ public abstract class BatchSentence extends BaseSentence {
        
     private static class VarParams implements SerializableWrite {
         
-        private List l;
+        private List<Object> l;
         
-        public VarParams(List l) {
+        public VarParams(List<Object> l) {
             this.l = l;
         }
         

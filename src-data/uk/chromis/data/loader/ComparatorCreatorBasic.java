@@ -75,14 +75,14 @@ public class ComparatorCreatorBasic implements ComparatorCreator {
      * @param aiOrderBy
      * @return
      */
-    public Comparator createComparator(int[] aiOrderBy) {
+    public Comparator<Object> createComparator(int[] aiOrderBy) {
         return new ComparatorBasic(aiOrderBy);
     }
     
     /**
      *
      */
-    public class ComparatorBasic implements Comparator {
+    public class ComparatorBasic implements Comparator<Object> {
 
         private int[] m_aiOrderBy;
 

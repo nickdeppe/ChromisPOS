@@ -70,13 +70,13 @@ public class MetaSentence extends JDBCSentence {
 
     private static class MetaParameter implements DataWrite {
 
-        private ArrayList m_aParams;
+        private ArrayList<String> m_aParams;
 
         /**
          * Creates a new instance of MetaParameter
          */
         public MetaParameter() {
-            m_aParams = new ArrayList();
+            m_aParams = new ArrayList<>();
         }
 
         public void setDouble(int paramIndex, Double dValue) throws BasicException {

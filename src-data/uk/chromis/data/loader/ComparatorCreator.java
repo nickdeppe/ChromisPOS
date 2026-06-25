@@ -38,5 +38,5 @@ public interface ComparatorCreator {
      * @param index
      * @return
      */
-    public Comparator createComparator(int[] index);
+    public Comparator<Object> createComparator(int[] index);
 }

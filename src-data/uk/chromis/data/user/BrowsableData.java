@@ -35,7 +35,7 @@ import uk.chromis.data.loader.LocalRes;
  *
  *   
  */
-public class BrowsableData implements ListModel {
+public class BrowsableData implements ListModel<Object> {
     
     /**
      *
@@ -46,21 +46,21 @@ public class BrowsableData implements ListModel {
     private ListProvider m_dataprov;      
     private SaveProvider m_saveprov;  
     
-    private List m_aData; // List<Object>
+    private List<Object> m_aData;
     
-    private Comparator m_comparer;
+    private Comparator<Object> m_comparer;
     
     /** Creates a new instance of BrowsableData
      * @param dataprov
      * @param saveprov
      * @param c */
-    public BrowsableData(ListProvider dataprov, SaveProvider saveprov, Comparator c) {
+    public BrowsableData(ListProvider dataprov, SaveProvider saveprov, Comparator<Object> c) {
         m_dataprov = dataprov;
         m_saveprov = saveprov;
         m_comparer = c;
         m_bIsAdjusting = false;
         
-        m_aData = new ArrayList();
+        m_aData = new ArrayList<>();
     }
 
     /**
@@ -192,7 +192,7 @@ public class BrowsableData implements ListModel {
      *
      * @param l
      */
-    public void loadList(List l) {
+    public void loadList(List<Object> l) {
         putNewData(l);
     }
     
@@ -201,7 +201,7 @@ public class BrowsableData implements ListModel {
      * @param c
      * @throws BasicException
      */
-    public void sort(Comparator c) throws BasicException {
+    public void sort(Comparator<Object> c) throws BasicException {
         
         Collections.sort(m_aData, c);
         putNewData(m_aData);
@@ -374,10 +374,10 @@ public class BrowsableData implements ListModel {
         }       
     }
     
-    private void putNewData(List aData) {
+    private void putNewData(List<Object> aData) {
         
         int oldSize = m_aData.size();        
-        m_aData = (aData == null) ? new ArrayList() : aData;
+        m_aData = (aData == null) ? new ArrayList<>() : aData;
         int newSize = m_aData.size();
         
         // Ordeno si es un Browsabledata ordenado

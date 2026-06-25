@@ -95,7 +95,7 @@ public class ListProviderCreator implements ListProvider {
      * @throws BasicException
      */
     @Override
-    public List loadData() throws BasicException {       
+    public List<Object> loadData() throws BasicException {
         params = (prov == null) ? null : prov.createValue();
         return refreshData();
     }
@@ -106,7 +106,8 @@ public class ListProviderCreator implements ListProvider {
      * @throws BasicException
      */
     @Override
-    public List refreshData() throws BasicException {
-        return sent.list(params);
+    @SuppressWarnings("unchecked")
+    public List<Object> refreshData() throws BasicException {
+        return (List<Object>) sent.list(params);
     }    
 }

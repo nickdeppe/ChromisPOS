@@ -50,10 +50,13 @@ The scripts assume these local install paths:
   copied compatibility classes to avoid changing report rendering behavior.
 - The first unchecked cleanup batch modernized shared `src-data` Swing value
   models and simple string/list dialogs.
-- Remaining unchecked warnings are concentrated in older data loader/user
-  generics plus sales/admin typed-list conversions.
+- The second unchecked cleanup batch modernized shared data browsing, dirty
+  listener, comparator, and loader helper collections.
+- Remaining unchecked warnings are concentrated in raw serializer calls, older
+  Swing controls, and sales/admin typed-list conversions.
 
 ## Immediate follow-up
 
 Continue reducing unchecked generic warnings in focused batches, starting with
-the data loader/user collection classes.
+typed query result conversion in `DataLogicAdmin` / `DataLogicSales`, then raw
+Swing controls in configuration and finder screens.

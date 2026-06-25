@@ -37,7 +37,7 @@ import uk.chromis.data.loader.LocalRes;
 public class JSort extends JDialog {
     
     private ComparatorCreator m_cc;
-    private Comparator m_Comparator;
+    private Comparator<Object> m_Comparator;
         
     private JSort(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -47,7 +47,7 @@ public class JSort extends JDialog {
         super(parent, modal);
     }
     
-    private Comparator init(ComparatorCreator cc) throws BasicException {
+    private Comparator<Object> init(ComparatorCreator cc) throws BasicException {
         
         initComponents();
 
@@ -100,7 +100,7 @@ public class JSort extends JDialog {
      * @return
      * @throws BasicException
      */
-    public static Comparator showMessage(Component parent, ComparatorCreator cc) throws BasicException {
+    public static Comparator<Object> showMessage(Component parent, ComparatorCreator cc) throws BasicException {
          
         Window window = getWindow(parent);      
         

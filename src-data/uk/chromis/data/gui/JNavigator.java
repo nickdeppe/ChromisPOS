@@ -267,7 +267,7 @@ public class JNavigator extends javax.swing.JPanel implements BrowseListener, St
     
     private void jbtnSortActionPerformed(java.awt.event.ActionEvent evt) {                                         
         try {
-            Comparator c = JSort.showMessage(this, m_cc);
+            Comparator<Object> c = JSort.showMessage(this, m_cc);
             if (c != null) {
                 m_bd.sort(c);
             }

@@ -124,7 +124,7 @@ public abstract class BaseSentence implements SentenceList, SentenceFind, Senten
     public final List list(Object params) throws BasicException {
     // En caso de error o lanza un pepinazo en forma de DataException 
         DataResultSet SRS = openExec(params);
-        List aSO = fetchAll(SRS);    
+        List<Object> aSO = fetchAll(SRS);
         SRS.close();
         closeExec();       
         return aSO;
@@ -154,7 +154,7 @@ public abstract class BaseSentence implements SentenceList, SentenceFind, Senten
     public final List listPage(Object params, int offset, int length) throws BasicException {
     // En caso de error o lanza un pepinazo en forma de DataException         
         DataResultSet SRS = openExec(params);
-        List aSO = fetchPage(SRS, offset, length);    
+        List<Object> aSO = fetchPage(SRS, offset, length);
         SRS.close();
         closeExec();       
         return aSO;
@@ -205,12 +205,12 @@ public abstract class BaseSentence implements SentenceList, SentenceFind, Senten
      * @return
      * @throws BasicException
      */
-        public final List fetchAll(DataResultSet SRS) throws BasicException {
+        public final List<Object> fetchAll(DataResultSet SRS) throws BasicException {
         if (SRS == null) {
             throw new BasicException(LocalRes.getIntString("exception.nodataset"));
         }
         
-        List aSO = new ArrayList();
+        List<Object> aSO = new ArrayList<>();
         while (SRS.next()) {
             aSO.add(SRS.getCurrent());
         }     
@@ -227,7 +227,7 @@ public abstract class BaseSentence implements SentenceList, SentenceFind, Senten
      * @return
      * @throws BasicException
      */
-        public final List fetchPage(DataResultSet SRS, int offset, int length) throws BasicException {
+        public final List<Object> fetchPage(DataResultSet SRS, int offset, int length) throws BasicException {
         
         if (SRS == null) {
             throw new BasicException(LocalRes.getIntString("exception.nodataset"));
@@ -243,7 +243,7 @@ public abstract class BaseSentence implements SentenceList, SentenceFind, Senten
         }
         
         // me traigo tantos como me han dicho
-        List aSO = new ArrayList();
+        List<Object> aSO = new ArrayList<>();
         if (offset == 0) {
             while (length > 0 && SRS.next()) {
                 length--;

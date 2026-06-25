@@ -33,12 +33,12 @@ public interface ListProvider {
      * @return
      * @throws BasicException
      */
-    public List loadData() throws BasicException;    
+    public List<Object> loadData() throws BasicException;
 
     /**
      *
      * @return
      * @throws BasicException
      */
-    public List refreshData() throws BasicException; 
+    public List<Object> refreshData() throws BasicException;
 }

@@ -55,13 +55,13 @@ public abstract class VectorerBuilder implements Vectorer {
 
     private static class SerializableToArray implements DataWrite {
 
-        private ArrayList m_aParams;
+        private ArrayList<String> m_aParams;
 
         /**
          * Creates a new instance of MetaParameter
          */
         public SerializableToArray() {
-            m_aParams = new ArrayList();
+            m_aParams = new ArrayList<>();
         }
 
         public void setBigDecimal(int paramIndex, BigDecimal bdValue) throws BasicException {
@@ -129,7 +129,7 @@ public abstract class VectorerBuilder implements Vectorer {
         }
 
         public String[] getValues() {
-            return (String[]) m_aParams.toArray(new String[m_aParams.size()]);
+            return m_aParams.toArray(new String[m_aParams.size()]);
         }
     }
 }

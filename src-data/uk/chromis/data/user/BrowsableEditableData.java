@@ -81,7 +81,7 @@ public class BrowsableEditableData {
      * @param ed
      * @param dirty
      */
-    public BrowsableEditableData(ListProvider dataprov, SaveProvider saveprov, Comparator c, EditorRecord ed, DirtyManager dirty) {
+    public BrowsableEditableData(ListProvider dataprov, SaveProvider saveprov, Comparator<Object> c, EditorRecord ed, DirtyManager dirty) {
         this(new BrowsableData(dataprov, saveprov, c), ed, dirty);
     }
 
@@ -100,7 +100,7 @@ public class BrowsableEditableData {
      * Ticket data for list
      * @return
      */
-    public final ListModel getListModel() {
+    public final ListModel<Object> getListModel() {
         return m_bd;
     }
 
@@ -308,7 +308,7 @@ public class BrowsableEditableData {
      * @param c
      * @throws BasicException
      */
-    public void sort(Comparator c) throws BasicException {
+    public void sort(Comparator<Object> c) throws BasicException {
         saveData();
         m_bd.sort(c);
         baseMoveTo(0);
