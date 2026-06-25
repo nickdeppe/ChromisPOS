@@ -31,16 +31,16 @@ import uk.chromis.data.loader.KeyGetterBuilder;
  *
  * @author  adrian
  */
-public class ComboBoxValModel extends AbstractListModel implements ComboBoxModel {  
+public class ComboBoxValModel<E> extends AbstractListModel<E> implements ComboBoxModel<E> {  
    
-    private List m_aData;
+    private List<E> m_aData;
     private IKeyGetter m_keygetter;
-    private Object m_selected;
+    private E m_selected;
     
     /** Creates a new instance of ComboBoxValModel
      * @param aData
      * @param keygetter */
-    public ComboBoxValModel(List aData, IKeyGetter keygetter) {
+    public ComboBoxValModel(List<E> aData, IKeyGetter keygetter) {
         m_aData = aData;
         m_keygetter = keygetter;
         m_selected = null;
@@ -50,7 +50,7 @@ public class ComboBoxValModel extends AbstractListModel implements ComboBoxModel
      *
      * @param aData
      */
-    public ComboBoxValModel(List aData) {
+    public ComboBoxValModel(List<E> aData) {
         this(aData, KeyGetterBuilder.INSTANCE);
     }
 
@@ -59,21 +59,21 @@ public class ComboBoxValModel extends AbstractListModel implements ComboBoxModel
      * @param keygetter
      */
     public ComboBoxValModel(IKeyGetter keygetter) {
-        this(new ArrayList(), keygetter);
+        this(new ArrayList<E>(), keygetter);
     }
 
     /**
      *
      */
     public ComboBoxValModel() {
-        this(new ArrayList(), KeyGetterBuilder.INSTANCE);
+        this(new ArrayList<E>(), KeyGetterBuilder.INSTANCE);
     }
     
     /**
      *
      * @param c
      */
-    public void add(Object c) {
+    public void add(E c) {
         m_aData.add(c);
     }
 
@@ -81,7 +81,7 @@ public class ComboBoxValModel extends AbstractListModel implements ComboBoxModel
      *
      * @param c
      */
-    public void del(Object c) {
+    public void del(E c) {
         m_aData.remove(c);
     }
 
@@ -90,7 +90,7 @@ public class ComboBoxValModel extends AbstractListModel implements ComboBoxModel
      * @param index
      * @param c
      */
-    public void add(int index, Object c) {
+    public void add(int index, E c) {
         m_aData.add(index, c);
     }
     
@@ -98,7 +98,7 @@ public class ComboBoxValModel extends AbstractListModel implements ComboBoxModel
      *
      * @param aData
      */
-    public void refresh(List aData) {
+    public void refresh(List<E> aData) {
         m_aData = aData;
         m_selected = null;
     }
@@ -149,9 +149,9 @@ public class ComboBoxValModel extends AbstractListModel implements ComboBoxModel
      */
     public Object getElementByKey(Object aKey) {
         if (aKey != null) {
-            Iterator it = m_aData.iterator();
+            Iterator<E> it = m_aData.iterator();
             while (it.hasNext()) {
-                Object value = it.next();
+                E value = it.next();
                 if (aKey.equals(m_keygetter.getKey(value))) {
                     return value;
                 }
@@ -161,12 +161,12 @@ public class ComboBoxValModel extends AbstractListModel implements ComboBoxModel
     }
     
     @Override
-    public Object getElementAt(int index) {
+    public E getElementAt(int index) {
         return m_aData.get(index);
     }
     
     @Override
-    public Object getSelectedItem() {
+    public E getSelectedItem() {
         return m_selected;
     }
     
@@ -176,10 +176,11 @@ public class ComboBoxValModel extends AbstractListModel implements ComboBoxModel
     }
     
     @Override
+    @SuppressWarnings("unchecked")
     public void setSelectedItem(Object anItem) {
         
         if ((m_selected != null && !m_selected.equals(anItem)) || m_selected == null && anItem != null) {
-            m_selected = anItem;
+            m_selected = (E) anItem;
             fireContentsChanged(this, -1, -1);
         }
     }

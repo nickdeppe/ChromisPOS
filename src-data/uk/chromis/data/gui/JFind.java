@@ -123,9 +123,9 @@ public class JFind extends JDialog {
         jLabel1 = new javax.swing.JLabel();
         m_jFind = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        m_jWhere = new javax.swing.JComboBox();
+        m_jWhere = new javax.swing.JComboBox<String>();
         jLabel3 = new javax.swing.JLabel();
-        m_jMatch = new javax.swing.JComboBox();
+        m_jMatch = new javax.swing.JComboBox<String>();
         m_jMatchCase = new eu.hansolo.custom.SteelCheckBox();
         jPanel2 = new javax.swing.JPanel();
         jcmdOK = new javax.swing.JButton();
@@ -252,9 +252,9 @@ public class JFind extends JDialog {
     private javax.swing.JButton jcmdCancel;
     private javax.swing.JButton jcmdOK;
     private javax.swing.JTextField m_jFind;
-    private javax.swing.JComboBox m_jMatch;
+    private javax.swing.JComboBox<String> m_jMatch;
     private eu.hansolo.custom.SteelCheckBox m_jMatchCase;
-    private javax.swing.JComboBox m_jWhere;
+    private javax.swing.JComboBox<String> m_jWhere;
     // End of variables declaration//GEN-END:variables
     
 }

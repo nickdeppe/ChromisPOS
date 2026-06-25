@@ -65,7 +65,7 @@ public class JListNavigator extends javax.swing.JPanel implements BrowseListener
 
 
         m_jlist.addListSelectionListener(this);        
-        m_jlist.setModel(m_bd.getListModel());
+        setBrowseModel();
         
         m_bd.addBrowseListener(this);
     }
@@ -74,6 +74,12 @@ public class JListNavigator extends javax.swing.JPanel implements BrowseListener
      *
      * @param cellRenderer
      */
+    @SuppressWarnings("unchecked")
+    private void setBrowseModel() {
+        m_jlist.setModel(m_bd.getListModel());
+    }
+
+    @SuppressWarnings("unchecked")
     public void setCellRenderer(ListCellRenderer cellRenderer) {
         m_jlist.setCellRenderer(cellRenderer);
     }
@@ -124,7 +130,7 @@ public class JListNavigator extends javax.swing.JPanel implements BrowseListener
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        m_jlist = new javax.swing.JList();
+        m_jlist = new javax.swing.JList<Object>();
 
         setPreferredSize(new java.awt.Dimension(200, 2));
         setLayout(new java.awt.BorderLayout());
@@ -141,7 +147,7 @@ public class JListNavigator extends javax.swing.JPanel implements BrowseListener
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JList m_jlist;
+    private javax.swing.JList<Object> m_jlist;
     // End of variables declaration//GEN-END:variables
     
 }

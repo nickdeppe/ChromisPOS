@@ -43,7 +43,7 @@ public class JListData extends javax.swing.JDialog {
      * @param data
      * @return
      */
-    public Object showList(List data) {
+    public Object showList(List<Object> data) {
         
         return showList(new MyListData(data));       
     }
@@ -53,7 +53,7 @@ public class JListData extends javax.swing.JDialog {
      * @param model
      * @return
      */
-    public Object showList(javax.swing.ListModel model) {
+    public Object showList(javax.swing.ListModel<Object> model) {
         
         m_jData.setModel(model);
         
@@ -65,11 +65,11 @@ public class JListData extends javax.swing.JDialog {
         return m_selected;        
     }
     
-    private static class MyListData extends javax.swing.AbstractListModel {
+    private static class MyListData extends javax.swing.AbstractListModel<Object> {
         
-        private List m_data;
+        private List<Object> m_data;
         
-        public MyListData(List data) {
+        public MyListData(List<Object> data) {
             m_data = data;
         }
         
@@ -96,7 +96,7 @@ public class JListData extends javax.swing.JDialog {
         m_jOK = new javax.swing.JButton();
         m_jCancel = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        m_jData = new javax.swing.JList();
+        m_jData = new javax.swing.JList<Object>();
         jToolBar1 = new javax.swing.JToolBar();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
@@ -169,7 +169,7 @@ public class JListData extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JButton m_jCancel;
-    private javax.swing.JList m_jData;
+    private javax.swing.JList<Object> m_jData;
     private javax.swing.JButton m_jOK;
     // End of variables declaration//GEN-END:variables
     

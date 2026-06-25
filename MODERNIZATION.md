@@ -42,14 +42,18 @@ The scripts assume these local install paths:
 
 - The tracked `build.xml` overrides ignored NetBeans metadata so Ant compiles
   with `source=17`/`target=17`.
-- The tracked `build.xml` now enables `-Xlint:deprecation` so Java 17
-  deprecation warnings are visible during the normal Ant build.
+- The tracked `build.xml` now enables `-Xlint:deprecation -Xlint:unchecked` so
+  Java 17 warning details are visible during the normal Ant build.
 - Java 17 deprecation warnings have been cleared from the normal Ant build.
 - Bundled JasperReports viewer/printer compatibility classes still use
   deprecated JasperReports APIs internally, but those warnings are scoped to the
   copied compatibility classes to avoid changing report rendering behavior.
+- The first unchecked cleanup batch modernized shared `src-data` Swing value
+  models and simple string/list dialogs.
+- Remaining unchecked warnings are concentrated in older data loader/user
+  generics plus sales/admin typed-list conversions.
 
 ## Immediate follow-up
 
-Start the next modernization phase by reducing unchecked generic warnings or by
-planning the larger UI/touch modernization work.
+Continue reducing unchecked generic warnings in focused batches, starting with
+the data loader/user collection classes.

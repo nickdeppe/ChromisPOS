@@ -31,15 +31,15 @@ import uk.chromis.data.loader.KeyGetterBuilder;
  *
  * @author  adrian
  */
-public class ListValModel extends AbstractListModel implements ListModel {  
+public class ListValModel<E> extends AbstractListModel<E> implements ListModel<E> {  
    
-    private List m_aData;
+    private List<E> m_aData;
     private IKeyGetter m_keygetter;
     
     /** Creates a new instance of ComboBoxValModel
      * @param aData
      * @param keygetter */
-    public ListValModel(List aData, IKeyGetter keygetter) {
+    public ListValModel(List<E> aData, IKeyGetter keygetter) {
         m_aData = aData;
         m_keygetter = keygetter;
     }
@@ -48,7 +48,7 @@ public class ListValModel extends AbstractListModel implements ListModel {
      *
      * @param aData
      */
-    public ListValModel(List aData) {
+    public ListValModel(List<E> aData) {
         this(aData, KeyGetterBuilder.INSTANCE);
     }
 
@@ -57,21 +57,21 @@ public class ListValModel extends AbstractListModel implements ListModel {
      * @param keygetter
      */
     public ListValModel(IKeyGetter keygetter) {
-        this(new ArrayList(), keygetter);
+        this(new ArrayList<E>(), keygetter);
     }
 
     /**
      *
      */
     public ListValModel() {
-        this(new ArrayList(), KeyGetterBuilder.INSTANCE);
+        this(new ArrayList<E>(), KeyGetterBuilder.INSTANCE);
     }
     
     /**
      *
      * @param c
      */
-    public void add(Object c) {
+    public void add(E c) {
         m_aData.add(c);
     }
 
@@ -79,7 +79,7 @@ public class ListValModel extends AbstractListModel implements ListModel {
      *
      * @param c
      */
-    public void del(Object c) {
+    public void del(E c) {
         m_aData.remove(c);
     }
 
@@ -88,7 +88,7 @@ public class ListValModel extends AbstractListModel implements ListModel {
      * @param index
      * @param c
      */
-    public void add(int index, Object c) {
+    public void add(int index, E c) {
         m_aData.add(index, c);
     }
     
@@ -96,7 +96,7 @@ public class ListValModel extends AbstractListModel implements ListModel {
      *
      * @param aData
      */
-    public void refresh(List aData) {
+    public void refresh(List<E> aData) {
         m_aData = aData;
     }
   
@@ -107,9 +107,9 @@ public class ListValModel extends AbstractListModel implements ListModel {
      */
     public Object getElementByKey(Object aKey) {
         if (aKey != null) {
-            Iterator it = m_aData.iterator();
+            Iterator<E> it = m_aData.iterator();
             while (it.hasNext()) {
-                Object value = it.next();
+                E value = it.next();
                 if (aKey.equals(m_keygetter.getKey(value))) {
                     return value;
                 }
@@ -119,7 +119,7 @@ public class ListValModel extends AbstractListModel implements ListModel {
     }
     
     @Override
-    public Object getElementAt(int index) {
+    public E getElementAt(int index) {
         return m_aData.get(index);
     }
     

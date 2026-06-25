@@ -123,11 +123,11 @@ public class JSort extends JDialog {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        m_jSort1 = new javax.swing.JComboBox();
+        m_jSort1 = new javax.swing.JComboBox<String>();
         jLabel3 = new javax.swing.JLabel();
-        m_jSort2 = new javax.swing.JComboBox();
+        m_jSort2 = new javax.swing.JComboBox<String>();
         jLabel4 = new javax.swing.JLabel();
-        m_jSort3 = new javax.swing.JComboBox();
+        m_jSort3 = new javax.swing.JComboBox<String>();
         jPanel2 = new javax.swing.JPanel();
         jcmdOK = new javax.swing.JButton();
         jcmdCancel = new javax.swing.JButton();
@@ -233,9 +233,9 @@ public class JSort extends JDialog {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JButton jcmdCancel;
     private javax.swing.JButton jcmdOK;
-    private javax.swing.JComboBox m_jSort1;
-    private javax.swing.JComboBox m_jSort2;
-    private javax.swing.JComboBox m_jSort3;
+    private javax.swing.JComboBox<String> m_jSort1;
+    private javax.swing.JComboBox<String> m_jSort2;
+    private javax.swing.JComboBox<String> m_jSort3;
     // End of variables declaration//GEN-END:variables
     
 }
