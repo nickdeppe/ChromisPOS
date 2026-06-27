@@ -60,10 +60,12 @@ The scripts assume these local install paths:
   models.
 - The sixth unchecked cleanup batch typed locale and payment configuration combo
   boxes.
-- Remaining unchecked warnings are concentrated in raw serializer calls,
-  peripheral configuration combo boxes, and a few older raw collection helpers.
+- The seventh unchecked cleanup batch typed peripheral configuration combo
+  boxes and printer-list helpers.
+- Remaining unchecked warnings are concentrated in raw serializer calls and a
+  few older raw collection and configuration helpers.
 
 ## Immediate follow-up
 
 Continue reducing unchecked generic warnings in focused batches, starting with
-the remaining peripheral configuration combo boxes.
+the remaining standalone raw collection and configuration helpers.

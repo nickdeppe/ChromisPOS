@@ -736,7 +736,7 @@ public class JPanelConfigPeripheral extends javax.swing.JPanel implements PanelC
         return value == null ? "" : value.toString();
     }
 
-    private void buildPrinterList(javax.swing.JComboBox comboBox) {
+    private void buildPrinterList(javax.swing.JComboBox<String> comboBox) {
 
         comboBox.addItem("COM1");
         comboBox.addItem("COM2");
@@ -760,7 +760,7 @@ public class JPanelConfigPeripheral extends javax.swing.JPanel implements PanelC
         comboBox.addItem("/dev/ttyS5");
     }
 
-    private void addRegisteredPrinters(javax.swing.JComboBox comboBox) {
+    private void addRegisteredPrinters(javax.swing.JComboBox<String> comboBox) {
         for (PrintService printer : printServices) {
             comboBox.addItem(printer.getName());
         }
@@ -785,24 +785,24 @@ public class JPanelConfigPeripheral extends javax.swing.JPanel implements PanelC
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
-        jcboMachineDisplay = new javax.swing.JComboBox();
-        jcboMachinePrinter1 = new javax.swing.JComboBox();
-        jcboMachinePrinter2 = new javax.swing.JComboBox();
-        jcboMachinePrinter3 = new javax.swing.JComboBox();
-        jcboMachinePrinter4 = new javax.swing.JComboBox();
-        jcboMachinePrinter5 = new javax.swing.JComboBox();
-        jcboMachinePrinter6 = new javax.swing.JComboBox();
-        jcboMachineScale = new javax.swing.JComboBox();
-        jcboMachineScanner = new javax.swing.JComboBox();
-        cboPrinters = new javax.swing.JComboBox();
+        jcboMachineDisplay = new javax.swing.JComboBox<String>();
+        jcboMachinePrinter1 = new javax.swing.JComboBox<String>();
+        jcboMachinePrinter2 = new javax.swing.JComboBox<String>();
+        jcboMachinePrinter3 = new javax.swing.JComboBox<String>();
+        jcboMachinePrinter4 = new javax.swing.JComboBox<String>();
+        jcboMachinePrinter5 = new javax.swing.JComboBox<String>();
+        jcboMachinePrinter6 = new javax.swing.JComboBox<String>();
+        jcboMachineScale = new javax.swing.JComboBox<String>();
+        jcboMachineScanner = new javax.swing.JComboBox<String>();
+        cboPrinters = new javax.swing.JComboBox<String>();
         m_jDisplayParams = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jCustomerScreen = new eu.hansolo.custom.SteelCheckBox();
         jPanel1 = new javax.swing.JPanel();
         jlblConnDisplay = new javax.swing.JLabel();
-        jcboConnDisplay = new javax.swing.JComboBox();
+        jcboConnDisplay = new javax.swing.JComboBox<String>();
         jlblDisplayPort = new javax.swing.JLabel();
-        jcboSerialDisplay = new javax.swing.JComboBox();
+        jcboSerialDisplay = new javax.swing.JComboBox<String>();
         jPanel3 = new javax.swing.JPanel();
         jLabel20 = new javax.swing.JLabel();
         m_jtxtJPOSName = new javax.swing.JTextField();
@@ -810,9 +810,9 @@ public class JPanelConfigPeripheral extends javax.swing.JPanel implements PanelC
         jPanel5 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         jlblConnPrinter1 = new javax.swing.JLabel();
-        jcboConnPrinter1 = new javax.swing.JComboBox();
+        jcboConnPrinter1 = new javax.swing.JComboBox<String>();
         jlblPrinterPort1 = new javax.swing.JLabel();
-        jcboSerialPrinter1 = new javax.swing.JComboBox();
+        jcboSerialPrinter1 = new javax.swing.JComboBox<String>();
         jPanel4 = new javax.swing.JPanel();
         jLabel21 = new javax.swing.JLabel();
         m_jtxtJPOSPrinter1 = new javax.swing.JTextField();
@@ -822,9 +822,9 @@ public class JPanelConfigPeripheral extends javax.swing.JPanel implements PanelC
         jPanel7 = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
         jlblConnPrinter2 = new javax.swing.JLabel();
-        jcboConnPrinter2 = new javax.swing.JComboBox();
+        jcboConnPrinter2 = new javax.swing.JComboBox<String>();
         jlblPrinterPort2 = new javax.swing.JLabel();
-        jcboSerialPrinter2 = new javax.swing.JComboBox();
+        jcboSerialPrinter2 = new javax.swing.JComboBox<String>();
         jPanel11 = new javax.swing.JPanel();
         m_jtxtJPOSPrinter2 = new javax.swing.JTextField();
         m_jtxtJPOSDrawer2 = new javax.swing.JTextField();
@@ -834,9 +834,9 @@ public class JPanelConfigPeripheral extends javax.swing.JPanel implements PanelC
         jPanel9 = new javax.swing.JPanel();
         jPanel10 = new javax.swing.JPanel();
         jlblConnPrinter3 = new javax.swing.JLabel();
-        jcboConnPrinter3 = new javax.swing.JComboBox();
+        jcboConnPrinter3 = new javax.swing.JComboBox<String>();
         jlblPrinterPort3 = new javax.swing.JLabel();
-        jcboSerialPrinter3 = new javax.swing.JComboBox();
+        jcboSerialPrinter3 = new javax.swing.JComboBox<String>();
         jPanel12 = new javax.swing.JPanel();
         m_jtxtJPOSPrinter3 = new javax.swing.JTextField();
         m_jtxtJPOSDrawer3 = new javax.swing.JTextField();
@@ -846,9 +846,9 @@ public class JPanelConfigPeripheral extends javax.swing.JPanel implements PanelC
         jPanel14 = new javax.swing.JPanel();
         jPanel15 = new javax.swing.JPanel();
         jlblConnPrinter4 = new javax.swing.JLabel();
-        jcboConnPrinter4 = new javax.swing.JComboBox();
+        jcboConnPrinter4 = new javax.swing.JComboBox<String>();
         jlblPrinterPort4 = new javax.swing.JLabel();
-        jcboSerialPrinter4 = new javax.swing.JComboBox();
+        jcboSerialPrinter4 = new javax.swing.JComboBox<String>();
         jPanel18 = new javax.swing.JPanel();
         m_jtxtJPOSPrinter4 = new javax.swing.JTextField();
         m_jtxtJPOSDrawer4 = new javax.swing.JTextField();
@@ -858,9 +858,9 @@ public class JPanelConfigPeripheral extends javax.swing.JPanel implements PanelC
         jPanel20 = new javax.swing.JPanel();
         jPanel21 = new javax.swing.JPanel();
         jlblConnPrinter5 = new javax.swing.JLabel();
-        jcboConnPrinter5 = new javax.swing.JComboBox();
+        jcboConnPrinter5 = new javax.swing.JComboBox<String>();
         jlblPrinterPort5 = new javax.swing.JLabel();
-        jcboSerialPrinter5 = new javax.swing.JComboBox();
+        jcboSerialPrinter5 = new javax.swing.JComboBox<String>();
         jPanel22 = new javax.swing.JPanel();
         m_jtxtJPOSPrinter5 = new javax.swing.JTextField();
         m_jtxtJPOSDrawer5 = new javax.swing.JTextField();
@@ -870,9 +870,9 @@ public class JPanelConfigPeripheral extends javax.swing.JPanel implements PanelC
         jPanel23 = new javax.swing.JPanel();
         jPanel25 = new javax.swing.JPanel();
         jlblConnPrinter6 = new javax.swing.JLabel();
-        jcboConnPrinter6 = new javax.swing.JComboBox();
+        jcboConnPrinter6 = new javax.swing.JComboBox<String>();
         jlblPrinterPort6 = new javax.swing.JLabel();
-        jcboSerialPrinter6 = new javax.swing.JComboBox();
+        jcboSerialPrinter6 = new javax.swing.JComboBox<String>();
         jPanel26 = new javax.swing.JPanel();
         m_jtxtJPOSPrinter6 = new javax.swing.JTextField();
         m_jtxtJPOSDrawer6 = new javax.swing.JTextField();
@@ -882,12 +882,12 @@ public class JPanelConfigPeripheral extends javax.swing.JPanel implements PanelC
         jPanel16 = new javax.swing.JPanel();
         jPanel17 = new javax.swing.JPanel();
         jlblScalePort = new javax.swing.JLabel();
-        jcboSerialScale = new javax.swing.JComboBox();
+        jcboSerialScale = new javax.swing.JComboBox<String>();
         m_jScannerParams = new javax.swing.JPanel();
         jPanel24 = new javax.swing.JPanel();
         jPanel19 = new javax.swing.JPanel();
         jlblScannerPort = new javax.swing.JLabel();
-        jcboSerialScanner = new javax.swing.JComboBox();
+        jcboSerialScanner = new javax.swing.JComboBox<String>();
 
         setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         setPreferredSize(new java.awt.Dimension(700, 500));
@@ -2095,7 +2095,7 @@ public class JPanelConfigPeripheral extends javax.swing.JPanel implements PanelC
     }//GEN-LAST:event_jcboConnPrinter6ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox cboPrinters;
+    private javax.swing.JComboBox<String> cboPrinters;
     private eu.hansolo.custom.SteelCheckBox jCustomerScreen;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -2146,31 +2146,31 @@ public class JPanelConfigPeripheral extends javax.swing.JPanel implements PanelC
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
-    private javax.swing.JComboBox jcboConnDisplay;
-    private javax.swing.JComboBox jcboConnPrinter1;
-    private javax.swing.JComboBox jcboConnPrinter2;
-    private javax.swing.JComboBox jcboConnPrinter3;
-    private javax.swing.JComboBox jcboConnPrinter4;
-    private javax.swing.JComboBox jcboConnPrinter5;
-    private javax.swing.JComboBox jcboConnPrinter6;
-    private javax.swing.JComboBox jcboMachineDisplay;
-    private javax.swing.JComboBox jcboMachinePrinter1;
-    private javax.swing.JComboBox jcboMachinePrinter2;
-    private javax.swing.JComboBox jcboMachinePrinter3;
-    private javax.swing.JComboBox jcboMachinePrinter4;
-    private javax.swing.JComboBox jcboMachinePrinter5;
-    private javax.swing.JComboBox jcboMachinePrinter6;
-    private javax.swing.JComboBox jcboMachineScale;
-    private javax.swing.JComboBox jcboMachineScanner;
-    private javax.swing.JComboBox jcboSerialDisplay;
-    private javax.swing.JComboBox jcboSerialPrinter1;
-    private javax.swing.JComboBox jcboSerialPrinter2;
-    private javax.swing.JComboBox jcboSerialPrinter3;
-    private javax.swing.JComboBox jcboSerialPrinter4;
-    private javax.swing.JComboBox jcboSerialPrinter5;
-    private javax.swing.JComboBox jcboSerialPrinter6;
-    private javax.swing.JComboBox jcboSerialScale;
-    private javax.swing.JComboBox jcboSerialScanner;
+    private javax.swing.JComboBox<String> jcboConnDisplay;
+    private javax.swing.JComboBox<String> jcboConnPrinter1;
+    private javax.swing.JComboBox<String> jcboConnPrinter2;
+    private javax.swing.JComboBox<String> jcboConnPrinter3;
+    private javax.swing.JComboBox<String> jcboConnPrinter4;
+    private javax.swing.JComboBox<String> jcboConnPrinter5;
+    private javax.swing.JComboBox<String> jcboConnPrinter6;
+    private javax.swing.JComboBox<String> jcboMachineDisplay;
+    private javax.swing.JComboBox<String> jcboMachinePrinter1;
+    private javax.swing.JComboBox<String> jcboMachinePrinter2;
+    private javax.swing.JComboBox<String> jcboMachinePrinter3;
+    private javax.swing.JComboBox<String> jcboMachinePrinter4;
+    private javax.swing.JComboBox<String> jcboMachinePrinter5;
+    private javax.swing.JComboBox<String> jcboMachinePrinter6;
+    private javax.swing.JComboBox<String> jcboMachineScale;
+    private javax.swing.JComboBox<String> jcboMachineScanner;
+    private javax.swing.JComboBox<String> jcboSerialDisplay;
+    private javax.swing.JComboBox<String> jcboSerialPrinter1;
+    private javax.swing.JComboBox<String> jcboSerialPrinter2;
+    private javax.swing.JComboBox<String> jcboSerialPrinter3;
+    private javax.swing.JComboBox<String> jcboSerialPrinter4;
+    private javax.swing.JComboBox<String> jcboSerialPrinter5;
+    private javax.swing.JComboBox<String> jcboSerialPrinter6;
+    private javax.swing.JComboBox<String> jcboSerialScale;
+    private javax.swing.JComboBox<String> jcboSerialScanner;
     private javax.swing.JLabel jlblConnDisplay;
     private javax.swing.JLabel jlblConnPrinter1;
     private javax.swing.JLabel jlblConnPrinter2;
