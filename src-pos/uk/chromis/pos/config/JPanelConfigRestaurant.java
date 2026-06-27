@@ -122,11 +122,11 @@ public class JPanelConfigRestaurant extends javax.swing.JPanel implements PanelC
 
         jPanel3 = new javax.swing.JPanel();
         jLabelCustomerTextColour = new javax.swing.JLabel();
-        jCustomerColour = new javax.swing.JComboBox();
+        jCustomerColour = new javax.swing.JComboBox<String>();
         jLabelServerTextColour = new javax.swing.JLabel();
-        jWaiterColour = new javax.swing.JComboBox();
+        jWaiterColour = new javax.swing.JComboBox<String>();
         jLabelTableNameTextColour = new javax.swing.JLabel();
-        jTableNameColour = new javax.swing.JComboBox();
+        jTableNameColour = new javax.swing.JComboBox<String>();
         jPanel1 = new javax.swing.JPanel();
         jchkShowCustomerDetails = new eu.hansolo.custom.SteelCheckBox();
         jchkShowWaiterDetails = new eu.hansolo.custom.SteelCheckBox();
@@ -151,7 +151,7 @@ public class JPanelConfigRestaurant extends javax.swing.JPanel implements PanelC
         jLabelCustomerTextColour.setBounds(240, 20, 130, 25);
 
         jCustomerColour.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jCustomerColour.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "black", "blue", "grey", "green", "orange", "red", "white", "yellow" }));
+        jCustomerColour.setModel(new javax.swing.DefaultComboBoxModel<String>(new String[] { "black", "blue", "grey", "green", "orange", "red", "white", "yellow" }));
         jCustomerColour.setMaximumSize(new java.awt.Dimension(0, 25));
         jCustomerColour.setMinimumSize(new java.awt.Dimension(0, 0));
         jCustomerColour.setPreferredSize(new java.awt.Dimension(0, 25));
@@ -169,7 +169,7 @@ public class JPanelConfigRestaurant extends javax.swing.JPanel implements PanelC
         jLabelServerTextColour.setBounds(240, 60, 130, 25);
 
         jWaiterColour.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jWaiterColour.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "black", "blue", "grey", "green", "orange", "red", "white", "yellow" }));
+        jWaiterColour.setModel(new javax.swing.DefaultComboBoxModel<String>(new String[] { "black", "blue", "grey", "green", "orange", "red", "white", "yellow" }));
         jWaiterColour.setMaximumSize(new java.awt.Dimension(0, 25));
         jWaiterColour.setMinimumSize(new java.awt.Dimension(0, 0));
         jWaiterColour.setPreferredSize(new java.awt.Dimension(0, 25));
@@ -186,7 +186,7 @@ public class JPanelConfigRestaurant extends javax.swing.JPanel implements PanelC
         jLabelTableNameTextColour.setBounds(230, 100, 140, 30);
 
         jTableNameColour.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jTableNameColour.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "black", "blue", "grey", "green", "orange", "red", "white", "yellow" }));
+        jTableNameColour.setModel(new javax.swing.DefaultComboBoxModel<String>(new String[] { "black", "blue", "grey", "green", "orange", "red", "white", "yellow" }));
         jTableNameColour.setMaximumSize(new java.awt.Dimension(0, 25));
         jTableNameColour.setMinimumSize(new java.awt.Dimension(0, 0));
         jTableNameColour.setPreferredSize(new java.awt.Dimension(0, 25));
@@ -238,7 +238,7 @@ public class JPanelConfigRestaurant extends javax.swing.JPanel implements PanelC
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private eu.hansolo.custom.SteelCheckBox jAutoRefresh;
-    private javax.swing.JComboBox jCustomerColour;
+    private javax.swing.JComboBox<String> jCustomerColour;
     private javax.swing.JLabel jLabelCustomerTextColour;
     private javax.swing.JLabel jLabelServerTextColour;
     private javax.swing.JLabel jLabelTableNameTextColour;
@@ -246,8 +246,8 @@ public class JPanelConfigRestaurant extends javax.swing.JPanel implements PanelC
     private javax.swing.JPanel jPanel3;
     private eu.hansolo.custom.SteelCheckBox jTableButtons;
     private eu.hansolo.custom.SteelCheckBox jTableDesign;
-    private javax.swing.JComboBox jTableNameColour;
-    private javax.swing.JComboBox jWaiterColour;
+    private javax.swing.JComboBox<String> jTableNameColour;
+    private javax.swing.JComboBox<String> jWaiterColour;
     private eu.hansolo.custom.SteelCheckBox jchkShowCustomerDetails;
     private eu.hansolo.custom.SteelCheckBox jchkShowWaiterDetails;
     // End of variables declaration//GEN-END:variables

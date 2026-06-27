@@ -62,10 +62,13 @@ The scripts assume these local install paths:
   boxes.
 - The seventh unchecked cleanup batch typed peripheral configuration combo
   boxes and printer-list helpers.
+- The eighth unchecked cleanup batch typed the Restaurant Setup color controls
+  and the nested printer parameter control. All Configuration tabs have now
+  been reviewed for unchecked collection warnings.
 - Remaining unchecked warnings are concentrated in raw serializer calls and a
-  few older raw collection and configuration helpers.
+  few older standalone collection helpers outside the Configuration panel.
 
 ## Immediate follow-up
 
 Continue reducing unchecked generic warnings in focused batches, starting with
-the remaining standalone raw collection and configuration helpers.
+the remaining standalone raw collection helpers.
