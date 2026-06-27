@@ -58,10 +58,12 @@ The scripts assume these local install paths:
   list access, and database/general configuration combo boxes.
 - The fifth unchecked cleanup batch typed customer and employee finder list
   models.
+- The sixth unchecked cleanup batch typed locale and payment configuration combo
+  boxes.
 - Remaining unchecked warnings are concentrated in raw serializer calls,
-  locale/payment configuration combo boxes, and peripheral combo boxes.
+  peripheral configuration combo boxes, and a few older raw collection helpers.
 
 ## Immediate follow-up
 
 Continue reducing unchecked generic warnings in focused batches, starting with
-the remaining locale/payment/peripheral configuration combo boxes.
+the remaining peripheral configuration combo boxes.

@@ -139,9 +139,9 @@ public class JPanelConfigPayment extends javax.swing.JPanel implements PanelConf
 
         jPanel2 = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
-        jcboPaymentGateway = new javax.swing.JComboBox();
+        jcboPaymentGateway = new javax.swing.JComboBox<String>();
         jLabel11 = new javax.swing.JLabel();
-        jcboCardReader = new javax.swing.JComboBox();
+        jcboCardReader = new javax.swing.JComboBox<String>();
         jchkPaymentTest = new eu.hansolo.custom.SteelCheckBox();
         jPanel1 = new javax.swing.JPanel();
 
@@ -247,8 +247,8 @@ private void jcboPaymentGatewayActionPerformed(java.awt.event.ActionEvent evt) {
     private javax.swing.JLabel jLabel13;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JComboBox jcboCardReader;
-    private javax.swing.JComboBox jcboPaymentGateway;
+    private javax.swing.JComboBox<String> jcboCardReader;
+    private javax.swing.JComboBox<String> jcboPaymentGateway;
     private eu.hansolo.custom.SteelCheckBox jchkPaymentTest;
     // End of variables declaration//GEN-END:variables
     

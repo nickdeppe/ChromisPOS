@@ -92,24 +92,24 @@ public class JPanelConfigLocale extends javax.swing.JPanel implements PanelConfi
 
         String[] dateStrings = {"dd.MM.yy", "dd.MM.yyyy", "MM.dd.yy", "MM.dd.yyyy", "EEE, MMM d, yy", "EEE, MMM d, yyyy",
             "EEE, MMMM d, yy", "EEE, MMMM d, yyyy", "EEEE, MMMM d, yy", "EEEE, MMMM d, yyyy"};
-        ComboBoxValModel dateListModel;
+        ComboBoxValModel<String> dateListModel;
 
-        dateListModel = new ComboBoxValModel(new ArrayList<>(Arrays.asList(dateStrings)));
+        dateListModel = new ComboBoxValModel<String>(new ArrayList<String>(Arrays.asList(dateStrings)));
         jcboDate.setModel(dateListModel);
 
         String[] timeStrings = {"h:mm", "h:mm:ss", "h:mm a", "h:mm:ss a", "H:mm", "H:mm:ss", "H:mm a", "H:mm:ss a"};
-        ComboBoxValModel timeListModel;
+        ComboBoxValModel<String> timeListModel;
 
-        timeListModel = new ComboBoxValModel(new ArrayList<>(Arrays.asList(timeStrings)));
+        timeListModel = new ComboBoxValModel<String>(new ArrayList<String>(Arrays.asList(timeStrings)));
         jcboTime.setModel(timeListModel);
 
         String[] timeDateStrings = {"dd.MM.yy, H:mm", "dd.MM.yy, H:mm", "MM.dd.yy, H:mm", "MM.dd.yy, H:mm",
             "dd.MM.yyyy, H:mm", "dd.MM.yyyy, H:mm", "MM.dd.yyyy, H:mm", "MM.dd.yyyy, H:mm",
             "EEE, MMMM d yyyy, H:mm", "EEEE, MMMM d yyyy, H:mm"
         };
-        ComboBoxValModel timeDateListModel;
+        ComboBoxValModel<String> timeDateListModel;
 
-        timeDateListModel = new ComboBoxValModel(new ArrayList<>(Arrays.asList(timeDateStrings)));
+        timeDateListModel = new ComboBoxValModel<String>(new ArrayList<String>(Arrays.asList(timeDateStrings)));
         jcboDatetime.setModel(timeDateListModel);
 
     }
@@ -120,27 +120,31 @@ public class JPanelConfigLocale extends javax.swing.JPanel implements PanelConfi
         }
     }
 
-    class MyComboBoxModel extends AbstractListModel implements ComboBoxModel {
+    class MyComboBoxModel extends AbstractListModel<String> implements ComboBoxModel<String> {
 
         String[] ComputerComps = {"Monitor", "Key Board", "Mouse", "Joy Stick", "Modem", "CD ROM",
             "RAM Chip", "Diskette"};
 
         String selection = null;
 
-        public Object getElementAt(int index) {
+        @Override
+        public String getElementAt(int index) {
             return ComputerComps[index];
         }
 
+        @Override
         public int getSize() {
             return ComputerComps.length;
         }
 
+        @Override
         public void setSelectedItem(Object anItem) {
             selection = (String) anItem; // to select and register an
         } // item from the pull-down list
 
         // Methods implemented from the interface ComboBoxModel
-        public Object getSelectedItem() {
+        @Override
+        public String getSelectedItem() {
             return selection; // to add the selection to the combo box
         }
     }
@@ -174,7 +178,7 @@ public class JPanelConfigLocale extends javax.swing.JPanel implements PanelConfi
         if (slang != null && !slang.equals("") && scountry != null && svariant != null) {
             Locale currentlocale = new Locale(slang, scountry, svariant);
             for (int i = 0; i < jcboLocale.getItemCount(); i++) {
-                LocaleInfo l = (LocaleInfo) jcboLocale.getItemAt(i);
+                LocaleInfo l = jcboLocale.getItemAt(i);
                 if (currentlocale.equals(l.getLocale())) {
                     jcboLocale.setSelectedIndex(i);
                     break;
@@ -201,7 +205,7 @@ public class JPanelConfigLocale extends javax.swing.JPanel implements PanelConfi
      */
     public void saveProperties() {
 
-        Locale l = ((LocaleInfo) jcboLocale.getSelectedItem()).getLocale();
+        Locale l = jcboLocale.getItemAt(jcboLocale.getSelectedIndex()).getLocale();
         if (l == null) {
             AppConfig.getInstance().setProperty("user.language", "");
             AppConfig.getInstance().setProperty("user.country", "");
@@ -231,7 +235,7 @@ public class JPanelConfigLocale extends javax.swing.JPanel implements PanelConfi
         }
     }
 
-    private Object writeWithDefault(String value) {
+    private String writeWithDefault(String value) {
         if (value == null || value.equals("") || value.equals(DEFAULT_VALUE)) {
             return DEFAULT_VALUE;
         } else {
@@ -269,21 +273,21 @@ public class JPanelConfigLocale extends javax.swing.JPanel implements PanelConfi
 
         jPanel1 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
-        jcboLocale = new javax.swing.JComboBox();
+        jcboLocale = new javax.swing.JComboBox<LocaleInfo>();
         jLabel1 = new javax.swing.JLabel();
-        jcboInteger = new javax.swing.JComboBox();
+        jcboInteger = new javax.swing.JComboBox<String>();
         jLabel2 = new javax.swing.JLabel();
-        jcboDouble = new javax.swing.JComboBox();
+        jcboDouble = new javax.swing.JComboBox<String>();
         jLabel3 = new javax.swing.JLabel();
-        jcboCurrency = new javax.swing.JComboBox();
+        jcboCurrency = new javax.swing.JComboBox<String>();
         jLabel4 = new javax.swing.JLabel();
-        jcboPercent = new javax.swing.JComboBox();
+        jcboPercent = new javax.swing.JComboBox<String>();
         jLabel6 = new javax.swing.JLabel();
-        jcboDate = new javax.swing.JComboBox();
+        jcboDate = new javax.swing.JComboBox<String>();
         jLabel7 = new javax.swing.JLabel();
-        jcboTime = new javax.swing.JComboBox();
+        jcboTime = new javax.swing.JComboBox<String>();
         jLabel8 = new javax.swing.JLabel();
-        jcboDatetime = new javax.swing.JComboBox();
+        jcboDatetime = new javax.swing.JComboBox<String>();
         jtxtDate = new javax.swing.JTextField();
         jtxtTime = new javax.swing.JTextField();
         jtxtDateTime = new javax.swing.JTextField();
@@ -538,14 +542,14 @@ public class JPanelConfigLocale extends javax.swing.JPanel implements PanelConfi
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JComboBox jcboCurrency;
-    private javax.swing.JComboBox jcboDate;
-    private javax.swing.JComboBox jcboDatetime;
-    private javax.swing.JComboBox jcboDouble;
-    private javax.swing.JComboBox jcboInteger;
-    private javax.swing.JComboBox jcboLocale;
-    private javax.swing.JComboBox jcboPercent;
-    private javax.swing.JComboBox jcboTime;
+    private javax.swing.JComboBox<String> jcboCurrency;
+    private javax.swing.JComboBox<String> jcboDate;
+    private javax.swing.JComboBox<String> jcboDatetime;
+    private javax.swing.JComboBox<String> jcboDouble;
+    private javax.swing.JComboBox<String> jcboInteger;
+    private javax.swing.JComboBox<LocaleInfo> jcboLocale;
+    private javax.swing.JComboBox<String> jcboPercent;
+    private javax.swing.JComboBox<String> jcboTime;
     private javax.swing.JTextField jtxtDate;
     private javax.swing.JTextField jtxtDateTime;
     private javax.swing.JTextField jtxtTime;
