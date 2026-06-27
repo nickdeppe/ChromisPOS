@@ -30,13 +30,13 @@ public class MenuDefinition {
     
     private String m_sKey;
     
-    private ArrayList m_aMenuElements;
+    private final ArrayList<MenuElement> m_aMenuElements;
     
     /** Creates a new instance of MenuDefinition
      * @param skey */
     public MenuDefinition(String skey) {
         m_sKey = skey;
-        m_aMenuElements = new ArrayList();
+        m_aMenuElements = new ArrayList<MenuElement>();
     }
     
     /**
@@ -80,7 +80,7 @@ public class MenuDefinition {
      * @return
      */
     public MenuElement getMenuElement(int i) {
-        return (MenuElement) m_aMenuElements.get(i);
+        return m_aMenuElements.get(i);
     }
 
     /**

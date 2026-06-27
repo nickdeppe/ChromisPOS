@@ -12,18 +12,18 @@ import java.util.HashMap;
 public class Payments {
     private Double amount;
     private Double tendered;
-    private HashMap paymentPaid;
-    private HashMap paymentTendered;
-    private HashMap rtnMessage;
+    private HashMap<String, Double> paymentPaid;
+    private HashMap<String, Double> paymentTendered;
+    private HashMap<String, String> rtnMessage;
     private String name;
 
     /**
      *
      */
     public Payments() {
-    paymentPaid =  new HashMap();
-    paymentTendered =  new HashMap();
-    rtnMessage = new HashMap();
+    paymentPaid = new HashMap<String, Double>();
+    paymentTendered = new HashMap<String, Double>();
+    rtnMessage = new HashMap<String, String>();
      
     }
 

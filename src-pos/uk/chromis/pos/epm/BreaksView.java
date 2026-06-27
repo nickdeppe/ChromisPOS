@@ -55,7 +55,7 @@ public final class BreaksView extends javax.swing.JPanel implements EditorRecord
     }
 
     void activate() throws BasicException {
-        List a = m_sentcat.list();
+        List<?> a = m_sentcat.list();
         a.add(0, null);
     }
 

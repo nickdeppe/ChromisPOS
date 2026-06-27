@@ -65,10 +65,13 @@ The scripts assume these local install paths:
 - The eighth unchecked cleanup batch typed the Restaurant Setup color controls
   and the nested printer parameter control. All Configuration tabs have now
   been reviewed for unchecked collection warnings.
-- Remaining unchecked warnings are concentrated in raw serializer calls and a
-  few older standalone collection helpers outside the Configuration panel.
+- The ninth unchecked cleanup batch typed number-key listeners, employee
+  break/leave query lists, menu elements, payment maps, and the database cleanup
+  selector.
+- Remaining unchecked warnings are concentrated in raw serializer and
+  deserialization calls, reflection helpers, and the CSV import screen.
 
 ## Immediate follow-up
 
 Continue reducing unchecked generic warnings in focused batches, starting with
-the remaining standalone raw collection helpers.
+the CSV import screen before changing shared serializer internals.
