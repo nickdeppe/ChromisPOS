@@ -40,7 +40,7 @@ public class PreparedSentence extends JDBCSentence {
     /**
      *
      */
-    protected SerializerWrite m_SerWrite = null;
+    protected SerializerWrite<?> m_SerWrite = null;
 
     /**
      *
@@ -57,7 +57,7 @@ public class PreparedSentence extends JDBCSentence {
      * @param serwrite
      * @param serread
      */
-    public PreparedSentence(Session s, String sentence, SerializerWrite serwrite, SerializerRead serread) {
+    public PreparedSentence(Session s, String sentence, SerializerWrite<?> serwrite, SerializerRead serread) {
         super(s);
         m_sentence = sentence;
         m_SerWrite = serwrite;
@@ -71,7 +71,7 @@ public class PreparedSentence extends JDBCSentence {
      * @param sentence
      * @param serwrite
      */
-    public PreparedSentence(Session s, String sentence, SerializerWrite serwrite) {
+    public PreparedSentence(Session s, String sentence, SerializerWrite<?> serwrite) {
         this(s, sentence, serwrite, null);
     }
 
@@ -222,7 +222,7 @@ public class PreparedSentence extends JDBCSentence {
 
             if (m_SerWrite != null) {
                 // si m_SerWrite fuera null deberiamos cascar.
-                m_SerWrite.writeValues(new PreparedSentencePars(m_Stmt), params);
+                SerializerWrite.writeObject(m_SerWrite, new PreparedSentencePars(m_Stmt), params);
             }
 
             if (m_Stmt.execute()) {

@@ -42,7 +42,7 @@ public class SimpleBuilder implements ISQLBuilderStatic {
      * @return
      * @throws BasicException
      */
-    public String getSQL(SerializerWrite sw, Object params) throws BasicException {
+    public String getSQL(SerializerWrite<?> sw, Object params) throws BasicException {
         return m_sSentence;
     }
     

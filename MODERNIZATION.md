@@ -99,14 +99,16 @@ The scripts assume these local install paths:
 - The sixteenth unchecked cleanup batch typed product, feature, product-list,
   and stock-change import models. Shared typed list accessors now keep their
   database query casts at the `DataLogicSales` boundary.
-- Remaining unchecked warnings are concentrated in raw serializer and
-  deserialization calls, reflection helpers, and a smaller set of unrelated
-  legacy UI models.
+- The seventeenth unchecked cleanup batch typed the shared `SerializerWrite`
+  pipeline. Legacy sentence parameters now cross one documented compatibility
+  boundary instead of generating raw calls in every SQL execution path.
+- Remaining unchecked warnings are concentrated in deserialization and
+  reflection helpers, plus a smaller set of unrelated legacy UI models.
 
 ## Immediate follow-up
 
 Continue reducing unchecked generic warnings in focused batches, starting with
-shared serializer internals.
+reflection-backed deserialization.
 
 ## Deferred features
 

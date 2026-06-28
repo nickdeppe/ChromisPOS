@@ -41,7 +41,7 @@ public class MetaSentence extends JDBCSentence {
     /**
      *
      */
-    protected SerializerWrite m_SerWrite = null;
+    protected SerializerWrite<?> m_SerWrite = null;
 
     /**
      * Creates a new instance of MetaDataSentence
@@ -51,7 +51,7 @@ public class MetaSentence extends JDBCSentence {
      * @param serwrite
      * @param serread
      */
-    public MetaSentence(Session s, String sSentence, SerializerWrite serwrite, SerializerRead serread) {
+    public MetaSentence(Session s, String sSentence, SerializerWrite<?> serwrite, SerializerRead serread) {
         super(s);
         m_sSentence = sSentence;
         m_SerWrite = serwrite;
@@ -153,7 +153,7 @@ public class MetaSentence extends JDBCSentence {
             MetaParameter mp = new MetaParameter();
             if (params != null) {
                 // si m_SerWrite fuera null deberiamos cascar
-                m_SerWrite.writeValues(mp, params);
+                SerializerWrite.writeObject(m_SerWrite, mp, params);
             }
 
             // Catalogs Has Schemas Has Objects

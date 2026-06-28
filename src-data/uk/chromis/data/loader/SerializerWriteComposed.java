@@ -28,9 +28,9 @@ import java.math.*;
  *
  *
  */
-public class SerializerWriteComposed implements SerializerWrite {
+public class SerializerWriteComposed implements SerializerWrite<Object[]> {
 
-    private List<SerializerWrite> serwrites = new ArrayList<SerializerWrite>();
+    private final List<SerializerWrite<?>> serwrites = new ArrayList<>();
 
     /**
      * Creates a new instance of SerializerWriteComposed
@@ -42,25 +42,24 @@ public class SerializerWriteComposed implements SerializerWrite {
      *
      * @param sw
      */
-    public void add(SerializerWrite sw) {
+    public void add(SerializerWrite<?> sw) {
         serwrites.add(sw);
     }
 
     /**
      *
      * @param dp
-     * @param obj
+     * @param values
      * @throws BasicException
      */
-    public void writeValues(DataWrite dp, Object obj) throws BasicException {
-
-        Object[] a = (Object[]) obj;
+    @Override
+    public void writeValues(DataWrite dp, Object[] values) throws BasicException {
         DataWriteComposed dpc = new DataWriteComposed(dp);
 
         int i = 0;
-        for (SerializerWrite sw : serwrites) {
+        for (SerializerWrite<?> sw : serwrites) {
             dpc.next();
-            sw.writeValues(dpc, a[i++]);
+            SerializerWrite.writeObject(sw, dpc, values[i++]);
         }
     }
 

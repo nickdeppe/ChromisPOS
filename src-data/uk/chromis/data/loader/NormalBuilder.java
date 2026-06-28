@@ -47,11 +47,11 @@ public class NormalBuilder implements ISQLBuilderStatic {
      * @throws BasicException
      */
     @Override
-    public String getSQL(SerializerWrite sw, Object params) throws BasicException {
+    public String getSQL(SerializerWrite<?> sw, Object params) throws BasicException {
 
         NormalParameter mydw = new NormalParameter(m_sSentence);
         if (sw != null) {
-            sw.writeValues(mydw, params);
+            SerializerWrite.writeObject(sw, mydw, params);
         }
         return mydw.getSentence();
     }

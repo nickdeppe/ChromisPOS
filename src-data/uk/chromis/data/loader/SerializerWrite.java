@@ -35,4 +35,13 @@ public interface SerializerWrite<T> {
      * @throws BasicException
      */
     public void writeValues(DataWrite dp, T obj) throws BasicException;   
+
+    /**
+     * Invokes a typed serializer from the legacy sentence API, which exposes
+     * parameters as Object.
+     */
+    @SuppressWarnings("unchecked")
+    public static void writeObject(SerializerWrite<?> serializer, DataWrite dp, Object obj) throws BasicException {
+        ((SerializerWrite<Object>) serializer).writeValues(dp, obj);
+    }
 }

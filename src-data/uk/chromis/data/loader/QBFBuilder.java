@@ -93,13 +93,13 @@ public class QBFBuilder implements ISQLBuilderStatic {
      * @throws BasicException
      */
     @Override
-    public String getSQL(SerializerWrite sw, Object params) throws BasicException {
+    public String getSQL(SerializerWrite<?> sw, Object params) throws BasicException {
 
         QBFParameter mydw = new QBFParameter(m_asFindFields);
         if (sw == null || params == null) {
             return m_sSentNullFilter;
         } else {
-            sw.writeValues(mydw, params);
+            SerializerWrite.writeObject(sw, mydw, params);
             String sFilter = mydw.getFilter();
             if (sFilter.length() == 0) {
                 return m_sSentNullFilter; // no hay filtro
