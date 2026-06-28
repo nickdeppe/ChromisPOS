@@ -89,7 +89,7 @@
         <!-- Add the following lines only for 2.30 Attributes -->
         #if ($ticketline.productAttSetInstId)
         <line>
-            <text align ="left" length="42">    ${ticketline.productAttSetInstDesc}</text>
+            <text align ="left" length="42">    ${ticketline.printProductAttSetInstDesc()}</text>
         </line>
         <line></line>
         #end

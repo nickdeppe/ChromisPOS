@@ -110,7 +110,7 @@
         </line>
         #if ($ticketline.productAttSetInstId)
             <line>
-              <text align ="left" length="42">${ticketline.productAttSetInstDesc}</text>
+              <text align ="left" length="42">${ticketline.printProductAttSetInstDesc()}</text>
             </line>
         #end
     #end

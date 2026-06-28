@@ -421,6 +421,14 @@ public class TicketLineInfo implements SerializableWrite, SerializableRead, Seri
         return attributes.getProperty(key, defaultvalue);
     }
 
+    public String printProperty(String key) {
+        return StringUtils.encodeXML(getProperty(key));
+    }
+
+    public String printProperty(String key, String defaultvalue) {
+        return StringUtils.encodeXML(getProperty(key, defaultvalue));
+    }
+
     public void setProperty(String key, String value) {
         attributes.setProperty(key, value);
     }
@@ -467,6 +475,10 @@ public class TicketLineInfo implements SerializableWrite, SerializableRead, Seri
 
     public String printName() {
         return StringUtils.encodeXML(attributes.getProperty("product.name"));
+    }
+
+    public String printProductAttSetInstDesc() {
+        return StringUtils.encodeXML(getProductAttSetInstDesc());
     }
 
     public String printBarcode() {
