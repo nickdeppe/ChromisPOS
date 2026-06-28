@@ -23,15 +23,12 @@ import java.awt.Component;
 import java.util.UUID;
 import uk.chromis.basic.BasicException;
 import uk.chromis.data.gui.ComboBoxValModel;
-import uk.chromis.data.loader.DataRead;
-import uk.chromis.data.loader.SentenceList;
-import uk.chromis.data.loader.SerializerRead;
-import uk.chromis.data.loader.StaticSentence;
 import uk.chromis.data.user.DirtyManager;
 import uk.chromis.data.user.EditorRecord;
 import uk.chromis.format.Formats;
 import uk.chromis.pos.forms.AppLocal;
 import uk.chromis.pos.forms.AppView;
+import uk.chromis.pos.forms.DataLogicSales;
 
 /**
  *
@@ -39,8 +36,8 @@ import uk.chromis.pos.forms.AppView;
  */
 public class AttributeUseEditor extends javax.swing.JPanel implements EditorRecord {
 
-    private SentenceList attributesent;
-    private ComboBoxValModel attributemodel;
+    private final DataLogicSales m_dlSales;
+    private ComboBoxValModel<AttributeInfo> attributemodel;
 
     private Object id;
     private Object attuseid;
@@ -52,15 +49,8 @@ public class AttributeUseEditor extends javax.swing.JPanel implements EditorReco
      * @param dirty */
     public AttributeUseEditor(AppView app, DirtyManager dirty) {
 
-        attributesent = new StaticSentence(app.getSession()
-            , "SELECT ID, NAME FROM ATTRIBUTE ORDER BY NAME"
-            , null
-            , new SerializerRead() {@Override
- public Object readValues(DataRead dr) throws BasicException {
-                return new AttributeInfo(dr.getString(1), dr.getString(2));
-            }}
-        );
-        attributemodel = new ComboBoxValModel();
+        m_dlSales = (DataLogicSales) app.getBean("uk.chromis.pos.forms.DataLogicSales");
+        attributemodel = new ComboBoxValModel<AttributeInfo>();
 
         initComponents();
 
@@ -83,7 +73,7 @@ public class AttributeUseEditor extends javax.swing.JPanel implements EditorReco
      */
     public void activate() throws BasicException {
 
-        attributemodel = new ComboBoxValModel(attributesent.list());
+        attributemodel = new ComboBoxValModel<AttributeInfo>(m_dlSales.getAttributes());
         jAttribute.setModel(attributemodel);
     }
 
@@ -199,7 +189,7 @@ public class AttributeUseEditor extends javax.swing.JPanel implements EditorReco
         jLabel3 = new javax.swing.JLabel();
         jLineno = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jAttribute = new javax.swing.JComboBox();
+        jAttribute = new javax.swing.JComboBox<AttributeInfo>();
 
         setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
 
@@ -247,7 +237,7 @@ public class AttributeUseEditor extends javax.swing.JPanel implements EditorReco
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox jAttribute;
+    private javax.swing.JComboBox<AttributeInfo> jAttribute;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JTextField jLineno;

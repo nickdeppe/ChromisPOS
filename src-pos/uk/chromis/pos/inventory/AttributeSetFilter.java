@@ -21,17 +21,13 @@ package uk.chromis.pos.inventory;
 
 import java.awt.Component;
 import java.awt.event.ActionListener;
-import java.util.List;
 import uk.chromis.basic.BasicException;
 import uk.chromis.data.gui.ComboBoxValModel;
-import uk.chromis.data.loader.DataRead;
-import uk.chromis.data.loader.SentenceList;
-import uk.chromis.data.loader.SerializerRead;
 import uk.chromis.data.loader.SerializerWrite;
 import uk.chromis.data.loader.SerializerWriteString;
-import uk.chromis.data.loader.StaticSentence;
 import uk.chromis.pos.forms.AppLocal;
 import uk.chromis.pos.forms.AppView;
+import uk.chromis.pos.forms.DataLogicSales;
 import uk.chromis.pos.reports.ReportEditorCreator;
 
 /**
@@ -40,8 +36,8 @@ import uk.chromis.pos.reports.ReportEditorCreator;
  */
 public class AttributeSetFilter extends javax.swing.JPanel implements ReportEditorCreator {
 
-    private SentenceList attusesent;
-    private ComboBoxValModel attusemodel;
+    private DataLogicSales m_dlSales;
+    private ComboBoxValModel<AttributeSetInfo> attusemodel;
 
     /** Creates new form AttributeUseFilter */
     public AttributeSetFilter() {
@@ -55,14 +51,8 @@ public class AttributeSetFilter extends javax.swing.JPanel implements ReportEdit
     @Override
     public void init(AppView app) {
 
-        attusesent = new StaticSentence(app.getSession()
-            , "SELECT ID, NAME FROM ATTRIBUTESET ORDER BY NAME"
-            , null
-            , new SerializerRead() {@Override
- public Object readValues(DataRead dr) throws BasicException {
-                return new AttributeSetInfo(dr.getString(1), dr.getString(2));
-            }});
-        attusemodel = new ComboBoxValModel();
+        m_dlSales = (DataLogicSales) app.getBean("uk.chromis.pos.forms.DataLogicSales");
+        attusemodel = new ComboBoxValModel<AttributeSetInfo>();
     }
 
     /**
@@ -71,8 +61,7 @@ public class AttributeSetFilter extends javax.swing.JPanel implements ReportEdit
      */
     @Override
     public void activate() throws BasicException {
-        List a = attusesent.list();
-        attusemodel = new ComboBoxValModel(a);
+        attusemodel = new ComboBoxValModel<AttributeSetInfo>(m_dlSales.getAttributeSets());
         attusemodel.setSelectedFirst();
         jAttrSet.setModel(attusemodel); 
     }
@@ -118,7 +107,7 @@ public class AttributeSetFilter extends javax.swing.JPanel implements ReportEdit
      */
     @Override
     public Object createValue() throws BasicException {
-        AttributeSetInfo attset = (AttributeSetInfo) attusemodel.getSelectedItem();
+        AttributeSetInfo attset = attusemodel.getSelectedItem();
 
         return attset == null ? null : attset.getId();
     }
@@ -133,7 +122,7 @@ public class AttributeSetFilter extends javax.swing.JPanel implements ReportEdit
     private void initComponents() {
 
         jLabel8 = new javax.swing.JLabel();
-        jAttrSet = new javax.swing.JComboBox();
+        jAttrSet = new javax.swing.JComboBox<AttributeSetInfo>();
 
         setPreferredSize(new java.awt.Dimension(354, 61));
 
@@ -167,7 +156,7 @@ public class AttributeSetFilter extends javax.swing.JPanel implements ReportEdit
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox jAttrSet;
+    private javax.swing.JComboBox<AttributeSetInfo> jAttrSet;
     private javax.swing.JLabel jLabel8;
     // End of variables declaration//GEN-END:variables
 

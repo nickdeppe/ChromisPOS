@@ -90,6 +90,9 @@ The scripts assume these local install paths:
 - The thirteenth unchecked cleanup batch typed Stock Management and Stock Diary
   warehouse and movement-reason controls. Both screens now use the shared typed
   location accessor in `DataLogicSales` and no longer emit raw combo warnings.
+- The fourteenth unchecked cleanup batch typed attribute, attribute-set, and
+  attribute-use controls. Their duplicated UI queries now use shared typed
+  attribute accessors in `DataLogicSales`.
 - Remaining unchecked warnings are concentrated in inventory combo models,
   raw serializer and deserialization calls, and reflection helpers.
 

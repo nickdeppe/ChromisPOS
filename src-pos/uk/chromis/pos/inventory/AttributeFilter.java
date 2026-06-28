@@ -21,17 +21,13 @@ package uk.chromis.pos.inventory;
 
 import java.awt.Component;
 import java.awt.event.ActionListener;
-import java.util.List;
 import uk.chromis.basic.BasicException;
 import uk.chromis.data.gui.ComboBoxValModel;
-import uk.chromis.data.loader.DataRead;
-import uk.chromis.data.loader.SentenceList;
-import uk.chromis.data.loader.SerializerRead;
 import uk.chromis.data.loader.SerializerWrite;
 import uk.chromis.data.loader.SerializerWriteString;
-import uk.chromis.data.loader.StaticSentence;
 import uk.chromis.pos.forms.AppLocal;
 import uk.chromis.pos.forms.AppView;
+import uk.chromis.pos.forms.DataLogicSales;
 import uk.chromis.pos.reports.ReportEditorCreator;
 
 /**
@@ -40,8 +36,8 @@ import uk.chromis.pos.reports.ReportEditorCreator;
  */
 public class AttributeFilter extends javax.swing.JPanel implements ReportEditorCreator {
 
-    private SentenceList attsent;
-    private ComboBoxValModel attmodel;
+    private DataLogicSales m_dlSales;
+    private ComboBoxValModel<AttributeInfo> attmodel;
 
     /** Creates new form AttributeUseFilter */
     public AttributeFilter() {
@@ -55,14 +51,8 @@ public class AttributeFilter extends javax.swing.JPanel implements ReportEditorC
     @Override
     public void init(AppView app) {
 
-        attsent = new StaticSentence(app.getSession()
-            , "SELECT ID, NAME FROM ATTRIBUTE ORDER BY NAME"
-            , null
-            , new SerializerRead() {@Override
- public Object readValues(DataRead dr) throws BasicException {
-                return new AttributeInfo(dr.getString(1), dr.getString(2));
-            }});
-        attmodel = new ComboBoxValModel();
+        m_dlSales = (DataLogicSales) app.getBean("uk.chromis.pos.forms.DataLogicSales");
+        attmodel = new ComboBoxValModel<AttributeInfo>();
     }
 
     /**
@@ -71,8 +61,7 @@ public class AttributeFilter extends javax.swing.JPanel implements ReportEditorC
      */
     @Override
     public void activate() throws BasicException {
-        List a = attsent.list();
-        attmodel = new ComboBoxValModel(a);
+        attmodel = new ComboBoxValModel<AttributeInfo>(m_dlSales.getAttributes());
         attmodel.setSelectedFirst();
         jAttr.setModel(attmodel);
     }
@@ -118,7 +107,7 @@ public class AttributeFilter extends javax.swing.JPanel implements ReportEditorC
      */
     @Override
     public Object createValue() throws BasicException {
-        AttributeInfo att = (AttributeInfo) attmodel.getSelectedItem();
+        AttributeInfo att = attmodel.getSelectedItem();
 
         return att == null ? null : att.getId();
     }
@@ -133,7 +122,7 @@ public class AttributeFilter extends javax.swing.JPanel implements ReportEditorC
     private void initComponents() {
 
         jLabel8 = new javax.swing.JLabel();
-        jAttr = new javax.swing.JComboBox();
+        jAttr = new javax.swing.JComboBox<AttributeInfo>();
 
         jLabel8.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel8.setText(AppLocal.getIntString("label.attribute")); // NOI18N
@@ -164,7 +153,7 @@ public class AttributeFilter extends javax.swing.JPanel implements ReportEditorC
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox jAttr;
+    private javax.swing.JComboBox<AttributeInfo> jAttr;
     private javax.swing.JLabel jLabel8;
     // End of variables declaration//GEN-END:variables
 

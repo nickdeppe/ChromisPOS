@@ -1102,6 +1102,24 @@ public class DataLogicSales extends BeanFactoryDataSingle {
         });
     }
 
+    public final List<AttributeSetInfo> getAttributeSets() throws BasicException {
+        return typedList(getAttributeSetList());
+    }
+
+    public final SentenceList getAttributeList() {
+        return new StaticSentence(s, "SELECT ID, NAME FROM ATTRIBUTE ORDER BY NAME",
+                null, new SerializerRead() {
+            @Override
+            public Object readValues(DataRead dr) throws BasicException {
+                return new AttributeInfo(dr.getString(1), dr.getString(2));
+            }
+        });
+    }
+
+    public final List<AttributeInfo> getAttributes() throws BasicException {
+        return typedList(getAttributeList());
+    }
+
     /**
      *
      * @return
