@@ -198,51 +198,53 @@ public final class ProductsEditor extends JPanel implements EditorRecord {
                 ProductInfoExt info = m_dlSales.getProductInfo(productID);
 
                 Object[] myprod = new Object[DataLogicSales.FIELD_COUNT];
+                reportlock = true;
+                try {
+                    m_id = productID;
+                    m_jRef.setText(info.getReference());
+                    m_jCode.setText(info.getCode());
+                    m_jName.setText(info.getName());
+                    m_jComment.setSelected(info.isCom());
+                    m_jScale.setSelected(info.isScale());
+                    m_jPriceBuy.setText(Formats.CURRENCY.formatValue(info.getPriceBuy()));
+                    setPriceSell(info.getPriceSell());
+                    m_CategoryModel.setSelectedKey(info.getCategoryID());
+                    jComboBoxPromotion.setEnabled(true);
 
-                m_id = productID;
-                m_jRef.setText(info.getReference());
-                m_jCode.setText(info.getCode());
-                m_jName.setText(info.getName());
-                m_jComment.setSelected(info.isCom());
-                m_jScale.setSelected(info.isScale());
-                m_jPriceBuy.setText(Formats.CURRENCY.formatValue(info.getPriceBuy()));
-                m_jPriceSell.setText(Formats.CURRENCY.formatValue(info.getPriceSell()));
-                setPriceSell(info.getPriceSell());
-                m_CategoryModel.setSelectedKey(info.getCategoryID());
-                jComboBoxPromotion.setEnabled(true);
+                    String promID = info.getPromotionID();
+                    jCheckBoxPromotion.setSelected(promID != null && !promID.isEmpty());
+                    m_PromotionModel.setSelectedKey(promID);
 
-                String promID = info.getPromotionID();
-                if (promID != null && !promID.isEmpty()) {
-                    jCheckBoxPromotion.setSelected(true);
-                } else {
-                    jCheckBoxPromotion.setSelected(false);
+                    taxcatmodel.setSelectedKey(info.getTaxCategoryID());
+                    attmodel.setSelectedKey(info.getAttributeSetID());
+                    m_jImage.setImage(info.getImage());
+                    m_jstockcost.setText(Formats.CURRENCY.formatValue(info.getStockCost()));
+                    m_jstockvolume.setText(Formats.DOUBLE.formatValue(info.getStockVolume()));
+                    m_jInCatalog.setSelected(info.getInCatalog());
+                    m_jCatalogOrder.setText(Formats.INT.formatValue(info.getCatOrder()));
+                    m_jKitchen.setSelected(info.isKitchen());
+                    m_jService.setSelected(info.isService());
+                    m_jDisplay.setText(info.getDisplay());
+                    m_jVprice.setSelected(info.isVprice());
+                    m_jVerpatrib.setSelected(info.isVerpatrib());
+                    m_jTextTip.setText(info.getTextTip());
+                    m_jCheckWarrantyReceipt.setSelected(info.getWarranty());
+                    m_jStockUnits.setText(Formats.DOUBLE.formatValue(info.getStockUnits()));
+                    m_jAlias.setText(info.getAlias());
+                    m_jAlwaysAvailable.setSelected(info.getAlwaysAvailable());
+                    m_jDiscounted.setSelected(info.getCanDiscount());
+                    m_jManageStock.setSelected(info.getManageStock());
+                    m_jBoxOffice.setSelected(Boolean.TRUE.equals(info.getIsBoxOffice()));
+                    m_jBoxOfficeReported.setSelected(Boolean.TRUE.equals(info.getIsBoxOfficeReported()));
+                    m_jIsPack.setSelected(info.getIsPack());
+                    m_jPackQuantity.setText(Formats.DOUBLE.formatValue(info.getPackQuantity()));
+                    packproductmodel.setSelectedKey(info.getPromotionID());
+                } finally {
+                    reportlock = false;
                 }
-                m_PromotionModel.setSelectedKey(promID);
-
-                m_PromotionModel.setSelectedKey(info.getPromotionID());
-                taxcatmodel.setSelectedKey(info.getTaxCategoryID());
-                attmodel.setSelectedKey(info.getAttributeSetID());
-                m_jImage.setImage(info.getImage());
-                m_jstockcost.setText(Formats.CURRENCY.formatValue(info.getStockCost()));
-                m_jstockvolume.setText(Formats.DOUBLE.formatValue(info.getStockVolume()));
-                m_jInCatalog.setSelected(info.getInCatalog());
-                m_jCatalogOrder.setText(Formats.INT.formatValue(info.getCatOrder()));
-                m_jKitchen.setSelected(info.isKitchen());
-                m_jService.setSelected(info.isService());
-                m_jDisplay.setText(info.getDisplay());
-                m_jVprice.setSelected(info.isVprice());
-                m_jVerpatrib.setSelected(info.isVerpatrib());
-                m_jTextTip.setText(info.getTextTip());
-                m_jCheckWarrantyReceipt.setSelected(info.getWarranty());
-                m_jStockUnits.setText(Formats.DOUBLE.formatValue(info.getStockUnits()));
-                m_jAlias.setText(info.getAlias());
-                m_jAlwaysAvailable.setSelected(info.getAlwaysAvailable());
-                m_jDiscounted.setSelected(info.getCanDiscount());
-                m_jManageStock.setSelected( info.getManageStock() );
-                m_jBoxOffice.setSelected( info.getIsBoxOffice() );
-                m_jIsPack.setSelected(info.getIsPack());
-                m_jPackQuantity.setText(Formats.DOUBLE.formatValue(info.getPackQuantity()));
-                packproductmodel.setSelectedKey(info.getPromotionID());
+                calculateMargin();
+                calculatePriceSellTax();
+                calculateGP();
             } else if (barcode != null) {
                 m_jRef.setText(barcode);
                 m_jCode.setText(barcode);
@@ -500,8 +502,8 @@ public final class ProductsEditor extends JPanel implements EditorRecord {
         m_jPackQuantity.setText(Formats.DOUBLE.formatValue(myprod[DataLogicSales.INDEX_PACKQUANTITY]));
         packproductmodel.setSelectedKey(myprod[DataLogicSales.INDEX_PACKPRODUCT]);
 	m_jManageStock.setSelected( ((Boolean) myprod[DataLogicSales.INDEX_MANAGESTOCK]) ); 
-        m_jBoxOffice.setSelected( ((Boolean) myprod[DataLogicSales.INDEX_ISBOXOFFICE]) );
-        m_jBoxOfficeReported.setSelected( ((Boolean) myprod[DataLogicSales.INDEX_ISBOXOFFICEREPORTED]) );
+        m_jBoxOffice.setSelected(Boolean.TRUE.equals(myprod[DataLogicSales.INDEX_ISBOXOFFICE]));
+        m_jBoxOfficeReported.setSelected(Boolean.TRUE.equals(myprod[DataLogicSales.INDEX_ISBOXOFFICEREPORTED]));
     }
 
     /**
@@ -576,11 +578,13 @@ public final class ProductsEditor extends JPanel implements EditorRecord {
     public void writeValueEdit(Object value) {
 
         reportlock = true;
-        Object[] myprod = (Object[]) value;
-        extractValues(myprod);
-
-        txtAttributes.setCaretPosition(0);
-        reportlock = false;
+        try {
+            Object[] myprod = (Object[]) value;
+            extractValues(myprod);
+            txtAttributes.setCaretPosition(0);
+        } finally {
+            reportlock = false;
+        }
 
         // Los habilitados
         m_jRef.setEnabled(true);
@@ -796,11 +800,14 @@ public final class ProductsEditor extends JPanel implements EditorRecord {
         if (!reportlock) {
             reportlock = true;
 
-            Double dPriceSell = (Double) pricesell;
+            Double dPriceSell = pricesell instanceof Number
+                    ? Double.valueOf(((Number) pricesell).doubleValue())
+                    : readCurrency(m_jPriceSell.getText());
 
             if (dPriceSell == null) {
                 m_jPriceSellTax.setText(null);
             } else {
+                pricesell = dPriceSell;
                 double dTaxRate = taxeslogic.getTaxRate((TaxCategoryInfo) taxcatmodel.getSelectedItem());
                 m_jPriceSellTax.setText(Formats.CURRENCY.formatValue(dPriceSell * (1.0 + dTaxRate)));
             }

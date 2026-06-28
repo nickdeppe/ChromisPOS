@@ -21,14 +21,17 @@
 package uk.chromis.pos.imports;
 
 import com.csvreader.CsvReader;
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -61,6 +64,7 @@ import uk.chromis.pos.forms.DataLogicSystem;
 import uk.chromis.pos.forms.JPanelView;
 import uk.chromis.pos.inventory.TaxCategoryInfo;
 import uk.chromis.pos.sales.TaxesLogic;
+import uk.chromis.pos.ticket.CategoryInfo;
 import uk.chromis.pos.ticket.ProductInfoExt;
 import uk.chromis.pos.util.BarcodeValidator;
 
@@ -106,18 +110,20 @@ public class JPanelCSVImport extends JPanel implements JPanelView {
     private String Category;
     private Double productBuyPrice;
     private Double productSellPrice;
+    private String importTaxCategoryId;
+    private double importTaxRate;
+    private boolean importSellPriceIncludesTax;
     private Double stockSecurity;
     private Double stockMaximum;
     private String stockLocation;
     private SentenceList m_sentcat;
-    private ComboBoxValModel m_CategoryModel;
+    private ComboBoxValModel<Object> m_CategoryModel;
     private SentenceList taxcatsent;
-    private ComboBoxValModel taxcatmodel;
-    private SentenceList taxsent;
+    private ComboBoxValModel<TaxCategoryInfo> taxcatmodel;
     private TaxesLogic taxeslogic;
     private DocumentListener documentListener;
-    private HashMap cat_list = new HashMap();
-    private ArrayList badCategories = new ArrayList();
+    private HashMap<String, String> cat_list = new HashMap<String, String>();
+    private ArrayList<String> badCategories = new ArrayList<String>();
     private ProductInfoExt prodInfo;
     private String recordType = null;
     private int newRecords = 0;
@@ -191,6 +197,15 @@ public class JPanelCSVImport extends JPanel implements JPanelView {
 
     }
 
+    private InputStreamReader openUtf8Csv(String fileName) throws IOException {
+        BufferedInputStream input = new BufferedInputStream(new FileInputStream(fileName));
+        input.mark(3);
+        if (input.read() != 0xEF || input.read() != 0xBB || input.read() != 0xBF) {
+            input.reset();
+        }
+        return new InputStreamReader(input, StandardCharsets.UTF_8);
+    }
+
     /**
      * Reads the headers from the CSV file and initializes subsequent form
      * fields. This function first reads the headers from the CSVFileName file,
@@ -211,7 +226,7 @@ public class JPanelCSVImport extends JPanel implements JPanelView {
         File f = new File(CSVFileName);
         if (f.exists()) {
             //products = new CsvReader(CSVFileName);
-            products = new CsvReader(new InputStreamReader(new FileInputStream(CSVFileName), "UTF-8"));
+            products = new CsvReader(openUtf8Csv(CSVFileName));
             products.setDelimiter(((String) jComboSeparator.getSelectedItem()).charAt(0));
             products.readHeaders();
             // We need a minimum of 5 columns to map all required fields                            
@@ -363,7 +378,7 @@ public class JPanelCSVImport extends JPanel implements JPanelView {
 
                 // Read file
                 //products = new CsvReader(CSVFileName);
-                products = new CsvReader(new InputStreamReader(new FileInputStream(CSVFileName), "UTF-8"));
+                products = new CsvReader(openUtf8Csv(CSVFileName));
                 products.setDelimiter(((String) jComboSeparator.getSelectedItem()).charAt(0));
                 products.readHeaders();
 
@@ -553,8 +568,8 @@ public class JPanelCSVImport extends JPanel implements JPanelView {
 
                 try {
                     m_dlSales.insertCategory(newcat);
-                    cat_list = new HashMap<>();
-                    for (Object category : m_sentcat.list()) {
+                    cat_list = new HashMap<String, String>();
+                    for (CategoryInfo category : JPanelCSVImport.<CategoryInfo>loadList(m_sentcat)) {
                         m_CategoryModel.setSelectedItem(category);
                         cat_list.put(category.toString(), m_CategoryModel.getSelectedKey().toString());
                     }
@@ -582,12 +597,13 @@ public class JPanelCSVImport extends JPanel implements JPanelView {
      */
     private Double getSellPrice(String pSellPrice) {
         // Check if the selling price icludes taxes 
-        dTaxRate = taxeslogic.getTaxRate((TaxCategoryInfo) taxcatmodel.getSelectedItem());
-        if (jCheckSellIncTax.isSelected()) {
-            return ((Double.parseDouble(pSellPrice)) / (1 + dTaxRate));
-        } else {
-            return (Double.parseDouble(pSellPrice));
-        }
+        dTaxRate = importTaxRate;
+        double enteredPrice = Double.parseDouble(pSellPrice);
+        return importSellPriceIncludesTax ? enteredPrice / (1 + dTaxRate) : enteredPrice;
+    }
+
+    private String getImportTaxCategoryId() {
+        return importTaxCategoryId;
     }
 
     /**
@@ -607,7 +623,11 @@ public class JPanelCSVImport extends JPanel implements JPanelView {
             oldBuyPrice = prodInfo.getPriceBuy();
             oldSellPrice = prodInfo.getPriceSell();
             //  productSellPrice *= (1 + dOriginalRate);
-            if ((oldBuyPrice != productBuyPrice) || (oldSellPrice != productSellPrice)) {
+            if ((oldBuyPrice != productBuyPrice)
+                    || (oldSellPrice != productSellPrice)
+                    || !Objects.equals(prodInfo.getTaxCategoryID(), getImportTaxCategoryId())
+                    || prodInfo.getIsBoxOffice() == null
+                    || prodInfo.getIsBoxOfficeReported() == null) {
                 //   createCSVEntry("Updated Price Details", oldBuyPrice, oldSellPrice * (1 + dOriginalRate));
                 createCSVEntry("Updated Price Details", oldBuyPrice, (jCheckSellIncTax.isSelected()) ? oldSellPrice * (1 + dOriginalRate) : oldSellPrice);
                 createProduct("update");
@@ -640,6 +660,20 @@ public class JPanelCSVImport extends JPanel implements JPanelView {
         return this;
     }
 
+    @SuppressWarnings("unchecked")
+    private static <T> List<T> loadList(SentenceList sentence) throws BasicException {
+        return (List<T>) (List<?>) sentence.list();
+    }
+
+    private ComboBoxValModel<Object> createCategoryModel(boolean includeRejectOption) throws BasicException {
+        List<CategoryInfo> categories = loadList(m_sentcat);
+        List<Object> values = new ArrayList<Object>(categories);
+        if (includeRejectOption) {
+            values.add(reject_bad_categories_text);
+        }
+        return new ComboBoxValModel<Object>(values);
+    }
+
     /**
      * Loads Location, Tax and category data into their combo boxes.
      *
@@ -648,21 +682,19 @@ public class JPanelCSVImport extends JPanel implements JPanelView {
     @Override
     public void activate() throws BasicException {
         // Get tax details and logic
-        taxsent = m_dlSales.getTaxList();  //get details taxes table
-        taxeslogic = new TaxesLogic(taxsent.list());
+        taxeslogic = new TaxesLogic(m_dlSales.getTaxInfoList());
         taxcatsent = m_dlSales.getTaxCategoriesList();
-        taxcatmodel = new ComboBoxValModel(taxcatsent.list());
+        taxcatmodel = new ComboBoxValModel<TaxCategoryInfo>(loadList(taxcatsent));
         jComboTax.setModel(taxcatmodel);
 
         // Get categories list
         m_sentcat = m_dlSales.getCategoriesList();
-        m_CategoryModel = new ComboBoxValModel(m_sentcat.list());
-        m_CategoryModel.add(reject_bad_categories_text);
+        m_CategoryModel = createCategoryModel(true);
         jComboDefaultCategory.setModel(m_CategoryModel);
 
         // Build the cat_list for later use
-        cat_list = new HashMap<>();
-        for (Object category : m_sentcat.list()) {
+        cat_list = new HashMap<String, String>();
+        for (CategoryInfo category : JPanelCSVImport.<CategoryInfo>loadList(m_sentcat)) {
             m_CategoryModel.setSelectedItem(category);
             cat_list.put(category.toString(), m_CategoryModel.getSelectedKey().toString());
         }
@@ -914,7 +946,7 @@ public class JPanelCSVImport extends JPanel implements JPanelView {
         myprod[DataLogicSales.INDEX_PRICEBUY] = productBuyPrice;                                            // Buy price double
         myprod[DataLogicSales.INDEX_PRICESELL] = productSellPrice;                                           // Sell price double
         myprod[DataLogicSales.INDEX_CATEGORY] = dCategory;                                                  // Category string
-        myprod[DataLogicSales.INDEX_TAXCAT] = taxcatmodel.getSelectedKey();                               // Tax string
+        myprod[DataLogicSales.INDEX_TAXCAT] = getImportTaxCategoryId();                               // Tax string
         myprod[DataLogicSales.INDEX_ATTRIBUTESET_ID] = null;                                                      // Attributeset string
         myprod[DataLogicSales.INDEX_IMAGE] = null;                                                      // Image
         myprod[DataLogicSales.INDEX_STOCKCOST] = (double) 0;                                                // Stock cost double
@@ -939,6 +971,10 @@ public class JPanelCSVImport extends JPanel implements JPanelView {
         myprod[DataLogicSales.INDEX_PACKPRODUCT] = (packOf.equals("") ? null : packOf);                                                    // Pack Product
         myprod[DataLogicSales.INDEX_PROMOTIONID] = null;
         myprod[DataLogicSales.INDEX_MANAGESTOCK] = true;
+        myprod[DataLogicSales.INDEX_ISBOXOFFICE] = "new".equals(pType)
+                ? false : Boolean.TRUE.equals(prodInfo.getIsBoxOffice());
+        myprod[DataLogicSales.INDEX_ISBOXOFFICEREPORTED] = "new".equals(pType)
+                ? false : Boolean.TRUE.equals(prodInfo.getIsBoxOfficeReported());
 
         try {
             if ("new".equals(pType)) {
@@ -1014,28 +1050,31 @@ public class JPanelCSVImport extends JPanel implements JPanelView {
      * @param entry
      * @return
      */
-    public boolean isEntryInUse(String entry) {
+    private boolean isEntryInUse(String entry, JComboBox<String> currentCombo) {
+        return isSelectedInOtherCombo(entry, jComboCategory, currentCombo)
+                || isSelectedInOtherCombo(entry, jComboReference, currentCombo)
+                || isSelectedInOtherCombo(entry, jComboName, currentCombo)
+                || isSelectedInOtherCombo(entry, jComboBuy, currentCombo)
+                || isSelectedInOtherCombo(entry, jComboSell, currentCombo)
+                || isSelectedInOtherCombo(entry, jComboMaximum, currentCombo)
+                || isSelectedInOtherCombo(entry, jComboSecurity, currentCombo)
+                || isSelectedInOtherCombo(entry, jComboBarcode, currentCombo)
+                || isSelectedInOtherCombo(entry, jComboBoxButtonText, currentCombo)
+                || isSelectedInOtherCombo(entry, jComboBoxRemotePrint, currentCombo)
+                || isSelectedInOtherCombo(entry, jComboBoxService, currentCombo)
+                || isSelectedInOtherCombo(entry, jComboBoxVarPrice, currentCombo)
+                || isSelectedInOtherCombo(entry, jComboBoxWarranty, currentCombo)
+                || isSelectedInOtherCombo(entry, jComboBoxTextTip, currentCombo)
+                || isSelectedInOtherCombo(entry, jComboBoxProp, currentCombo)
+                || isSelectedInOtherCombo(entry, jComboBoxAux, currentCombo)
+                || isSelectedInOtherCombo(entry, jComboBoxShortName, currentCombo)
+                || isSelectedInOtherCombo(entry, jComboBoxIspack, currentCombo)
+                || isSelectedInOtherCombo(entry, jComboBoxPackSize, currentCombo)
+                || isSelectedInOtherCombo(entry, jComboBoxPackOf, currentCombo);
+    }
 
-        return ((entry == jComboCategory.getSelectedItem())
-                | (entry == jComboReference.getSelectedItem())
-                | (entry == jComboName.getSelectedItem())
-                | (entry == jComboBuy.getSelectedItem())
-                | (entry == jComboSell.getSelectedItem())
-                | (entry == jComboMaximum.getSelectedItem())
-                | (entry == jComboSecurity.getSelectedItem())
-                | (entry == jComboBarcode.getSelectedItem())
-                | (entry == jComboBoxButtonText.getSelectedItem())
-                | (entry == jComboBoxRemotePrint.getSelectedItem())
-                | (entry == jComboBoxService.getSelectedItem())
-                | (entry == jComboBoxVarPrice.getSelectedItem())
-                | (entry == jComboBoxWarranty.getSelectedItem())
-                | (entry == jComboBoxTextTip.getSelectedItem())
-                | (entry == jComboBoxProp.getSelectedItem())
-                | (entry == jComboBoxAux.getSelectedItem())
-                | (entry == jComboBoxShortName.getSelectedItem())
-                | (entry == jComboBoxIspack.getSelectedItem())
-                | (entry == jComboBoxPackSize.getSelectedItem())
-                | (entry == jComboBoxPackOf.getSelectedItem()));
+    private boolean isSelectedInOtherCombo(String entry, JComboBox<String> combo, JComboBox<String> currentCombo) {
+        return combo != currentCombo && entry.equals(combo.getSelectedItem());
 
     }
 
@@ -1048,7 +1087,7 @@ public class JPanelCSVImport extends JPanel implements JPanelView {
     private void initComponents() {
 
         jHeader = new javax.swing.JPanel();
-        jComboSeparator = new javax.swing.JComboBox();
+        jComboSeparator = new javax.swing.JComboBox<String>();
         jLabel17 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
         jFileChooserPanel = new javax.swing.JPanel();
@@ -1059,29 +1098,29 @@ public class JPanelCSVImport extends JPanel implements JPanelView {
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel4 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
-        jComboReference = new javax.swing.JComboBox();
-        jComboBarcode = new javax.swing.JComboBox();
-        jComboName = new javax.swing.JComboBox();
-        jComboBuy = new javax.swing.JComboBox();
-        jComboSell = new javax.swing.JComboBox();
+        jComboReference = new javax.swing.JComboBox<String>();
+        jComboBarcode = new javax.swing.JComboBox<String>();
+        jComboName = new javax.swing.JComboBox<String>();
+        jComboBuy = new javax.swing.JComboBox<String>();
+        jComboSell = new javax.swing.JComboBox<String>();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
         jLabel22 = new javax.swing.JLabel();
-        jComboSecurity = new javax.swing.JComboBox();
-        jComboBoxShortName = new javax.swing.JComboBox();
+        jComboSecurity = new javax.swing.JComboBox<String>();
+        jComboBoxShortName = new javax.swing.JComboBox<String>();
         jLabelShortName = new javax.swing.JLabel();
-        jComboMaximum = new javax.swing.JComboBox();
+        jComboMaximum = new javax.swing.JComboBox<String>();
         jLabel23 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jComboCategory = new javax.swing.JComboBox();
-        jComboDefaultCategory = new javax.swing.JComboBox();
-        jComboTax = new javax.swing.JComboBox();
+        jComboCategory = new javax.swing.JComboBox<String>();
+        jComboDefaultCategory = new javax.swing.JComboBox<Object>();
+        jComboTax = new javax.swing.JComboBox<TaxCategoryInfo>();
         jCheckAddStockLevels = new eu.hansolo.custom.SteelCheckBox();
         jCheckInCatalogue = new eu.hansolo.custom.SteelCheckBox();
         jCheckSellIncTax = new eu.hansolo.custom.SteelCheckBox();
@@ -1089,28 +1128,28 @@ public class JPanelCSVImport extends JPanel implements JPanelView {
         jCustom = new javax.swing.JPanel();
         jCustom1 = new javax.swing.JPanel();
         jLabelButtonText = new javax.swing.JLabel();
-        jComboBoxButtonText = new javax.swing.JComboBox();
+        jComboBoxButtonText = new javax.swing.JComboBox<String>();
         jLabelWarranty = new javax.swing.JLabel();
-        jComboBoxWarranty = new javax.swing.JComboBox();
+        jComboBoxWarranty = new javax.swing.JComboBox<String>();
         jLabelProp = new javax.swing.JLabel();
-        jComboBoxProp = new javax.swing.JComboBox();
+        jComboBoxProp = new javax.swing.JComboBox<String>();
         jLabelVarPrice = new javax.swing.JLabel();
-        jComboBoxVarPrice = new javax.swing.JComboBox();
-        jComboBoxIspack = new javax.swing.JComboBox();
+        jComboBoxVarPrice = new javax.swing.JComboBox<String>();
+        jComboBoxIspack = new javax.swing.JComboBox<String>();
         jLabelProp1 = new javax.swing.JLabel();
-        jComboBoxPackOf = new javax.swing.JComboBox();
+        jComboBoxPackOf = new javax.swing.JComboBox<String>();
         jLabelProp2 = new javax.swing.JLabel();
         jCustom3 = new javax.swing.JPanel();
         jCustom2 = new javax.swing.JPanel();
         jLabelService = new javax.swing.JLabel();
-        jComboBoxService = new javax.swing.JComboBox();
+        jComboBoxService = new javax.swing.JComboBox<String>();
         jLabelAux = new javax.swing.JLabel();
-        jComboBoxAux = new javax.swing.JComboBox();
+        jComboBoxAux = new javax.swing.JComboBox<String>();
         jLabelRemotePrint = new javax.swing.JLabel();
-        jComboBoxRemotePrint = new javax.swing.JComboBox();
+        jComboBoxRemotePrint = new javax.swing.JComboBox<String>();
         jLabelTextTip = new javax.swing.JLabel();
-        jComboBoxTextTip = new javax.swing.JComboBox();
-        jComboBoxPackSize = new javax.swing.JComboBox();
+        jComboBoxTextTip = new javax.swing.JComboBox<String>();
+        jComboBoxPackSize = new javax.swing.JComboBox<String>();
         jLabelTextTip1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
@@ -1288,7 +1327,7 @@ public class JPanelCSVImport extends JPanel implements JPanelView {
 
         jComboBuy.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jComboBuy.setMaximumRowCount(12);
-        jComboBuy.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "" }));
+        jComboBuy.setModel(new javax.swing.DefaultComboBoxModel<String>(new String[] { "" }));
         jComboBuy.setSelectedIndex(-1);
         jComboBuy.setEnabled(false);
         jComboBuy.setMinimumSize(new java.awt.Dimension(32, 25));
@@ -1348,7 +1387,7 @@ public class JPanelCSVImport extends JPanel implements JPanelView {
         jComboSecurity.setEnabled(false);
 
         jComboBoxShortName.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jComboBoxShortName.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBoxShortName.setModel(new javax.swing.DefaultComboBoxModel<String>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBoxShortName.setSelectedIndex(-1);
         jComboBoxShortName.setEnabled(false);
         jComboBoxShortName.setPreferredSize(new java.awt.Dimension(100, 30));
@@ -1565,7 +1604,7 @@ public class JPanelCSVImport extends JPanel implements JPanelView {
         jCustom1.add(jLabelButtonText, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 73, -1, -1));
 
         jComboBoxButtonText.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jComboBoxButtonText.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBoxButtonText.setModel(new javax.swing.DefaultComboBoxModel<String>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBoxButtonText.setSelectedIndex(-1);
         jComboBoxButtonText.setEnabled(false);
         jComboBoxButtonText.setLightWeightPopupEnabled(false);
@@ -1582,7 +1621,7 @@ public class JPanelCSVImport extends JPanel implements JPanelView {
         jCustom1.add(jLabelWarranty, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 15, 61, -1));
 
         jComboBoxWarranty.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jComboBoxWarranty.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBoxWarranty.setModel(new javax.swing.DefaultComboBoxModel<String>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBoxWarranty.setSelectedIndex(-1);
         jComboBoxWarranty.setEnabled(false);
         jComboBoxWarranty.setMaximumSize(new java.awt.Dimension(200, 23));
@@ -1599,7 +1638,7 @@ public class JPanelCSVImport extends JPanel implements JPanelView {
         jCustom1.add(jLabelProp, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 102, 90, -1));
 
         jComboBoxProp.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jComboBoxProp.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBoxProp.setModel(new javax.swing.DefaultComboBoxModel<String>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBoxProp.setSelectedIndex(-1);
         jComboBoxProp.setEnabled(false);
         jComboBoxProp.setMaximumSize(new java.awt.Dimension(66, 23));
@@ -1615,7 +1654,7 @@ public class JPanelCSVImport extends JPanel implements JPanelView {
         jCustom1.add(jLabelVarPrice, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 44, -1, -1));
 
         jComboBoxVarPrice.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jComboBoxVarPrice.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBoxVarPrice.setModel(new javax.swing.DefaultComboBoxModel<String>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBoxVarPrice.setSelectedIndex(-1);
         jComboBoxVarPrice.setEnabled(false);
         jComboBoxVarPrice.setMaximumSize(new java.awt.Dimension(66, 23));
@@ -1627,7 +1666,7 @@ public class JPanelCSVImport extends JPanel implements JPanelView {
         jCustom1.add(jComboBoxVarPrice, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 40, 200, -1));
 
         jComboBoxIspack.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jComboBoxIspack.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBoxIspack.setModel(new javax.swing.DefaultComboBoxModel<String>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBoxIspack.setSelectedIndex(-1);
         jComboBoxIspack.setEnabled(false);
         jComboBoxIspack.setMaximumSize(new java.awt.Dimension(66, 23));
@@ -1643,7 +1682,7 @@ public class JPanelCSVImport extends JPanel implements JPanelView {
         jCustom1.add(jLabelProp1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 127, 90, 23));
 
         jComboBoxPackOf.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jComboBoxPackOf.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBoxPackOf.setModel(new javax.swing.DefaultComboBoxModel<String>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBoxPackOf.setSelectedIndex(-1);
         jComboBoxPackOf.setEnabled(false);
         jComboBoxPackOf.setMaximumSize(new java.awt.Dimension(66, 23));
@@ -1681,7 +1720,7 @@ public class JPanelCSVImport extends JPanel implements JPanelView {
         jCustom2.add(jLabelService, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 15, -1, -1));
 
         jComboBoxService.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jComboBoxService.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBoxService.setModel(new javax.swing.DefaultComboBoxModel<String>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBoxService.setSelectedIndex(-1);
         jComboBoxService.setEnabled(false);
         jComboBoxService.setMaximumSize(new java.awt.Dimension(66, 23));
@@ -1697,7 +1736,7 @@ public class JPanelCSVImport extends JPanel implements JPanelView {
         jCustom2.add(jLabelAux, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 44, -1, -1));
 
         jComboBoxAux.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jComboBoxAux.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBoxAux.setModel(new javax.swing.DefaultComboBoxModel<String>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBoxAux.setSelectedIndex(-1);
         jComboBoxAux.setEnabled(false);
         jComboBoxAux.setMaximumSize(new java.awt.Dimension(66, 23));
@@ -1713,7 +1752,7 @@ public class JPanelCSVImport extends JPanel implements JPanelView {
         jCustom2.add(jLabelRemotePrint, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 73, -1, -1));
 
         jComboBoxRemotePrint.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jComboBoxRemotePrint.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBoxRemotePrint.setModel(new javax.swing.DefaultComboBoxModel<String>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBoxRemotePrint.setSelectedIndex(-1);
         jComboBoxRemotePrint.setEnabled(false);
         jComboBoxRemotePrint.setMaximumSize(new java.awt.Dimension(66, 23));
@@ -1729,7 +1768,7 @@ public class JPanelCSVImport extends JPanel implements JPanelView {
         jCustom2.add(jLabelTextTip, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 102, -1, -1));
 
         jComboBoxTextTip.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jComboBoxTextTip.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBoxTextTip.setModel(new javax.swing.DefaultComboBoxModel<String>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBoxTextTip.setSelectedIndex(-1);
         jComboBoxTextTip.setEnabled(false);
         jComboBoxTextTip.setMaximumSize(new java.awt.Dimension(66, 23));
@@ -1741,7 +1780,7 @@ public class JPanelCSVImport extends JPanel implements JPanelView {
         jCustom2.add(jComboBoxTextTip, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 98, 200, -1));
 
         jComboBoxPackSize.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jComboBoxPackSize.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBoxPackSize.setModel(new javax.swing.DefaultComboBoxModel<String>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBoxPackSize.setSelectedIndex(-1);
         jComboBoxPackSize.setEnabled(false);
         jComboBoxPackSize.setMaximumSize(new java.awt.Dimension(66, 23));
@@ -2014,6 +2053,16 @@ public class JPanelCSVImport extends JPanel implements JPanelView {
     private void jImportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jImportActionPerformed
 // prevent any more key presses
         jImport.setEnabled(false);
+        int selectedTaxIndex = jComboTax.getSelectedIndex();
+        if (selectedTaxIndex < 0) {
+            JOptionPane.showMessageDialog(this, "Select a tax category before importing.", "Missing Tax Category", JOptionPane.WARNING_MESSAGE);
+            jImport.setEnabled(true);
+            return;
+        }
+        TaxCategoryInfo selectedTaxCategory = jComboTax.getItemAt(selectedTaxIndex);
+        importTaxCategoryId = selectedTaxCategory.getID();
+        importTaxRate = taxeslogic.getTaxRate(selectedTaxCategory);
+        importSellPriceIncludesTax = jCheckSellIncTax.isSelected();
 
         workProcess work = new workProcess();
         Thread thread2 = new Thread(work);
@@ -2066,12 +2115,11 @@ public class JPanelCSVImport extends JPanel implements JPanelView {
     private void jComboCategoryItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboCategoryItemStateChanged
         // if we have not selected [ USE DEFAULT CATEGORY ] allow the [ REJECT ITEMS WITH BAD CATEGORIES ] to be used in default category combo box
         try {
-            if (jComboCategory.getSelectedItem() == "[ USE DEFAULT CATEGORY ]") {
-                m_CategoryModel = new ComboBoxValModel(m_sentcat.list());
+            if (category_disable_text.equals(jComboCategory.getSelectedItem())) {
+                m_CategoryModel = createCategoryModel(false);
                 jComboDefaultCategory.setModel(m_CategoryModel);
             } else {
-                m_CategoryModel = new ComboBoxValModel(m_sentcat.list());
-                m_CategoryModel.add(reject_bad_categories_text);
+                m_CategoryModel = createCategoryModel(true);
                 jComboDefaultCategory.setModel(m_CategoryModel);
             }
         } catch (BasicException ex) {
@@ -2082,17 +2130,23 @@ public class JPanelCSVImport extends JPanel implements JPanelView {
     }//GEN-LAST:event_jComboCategoryItemStateChanged
 
     private void jComboBoxFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jComboBoxFocusGained
-        JComboBox myJComboBox = ((javax.swing.JComboBox) (evt.getComponent()));
+        @SuppressWarnings("unchecked")
+        JComboBox<String> myJComboBox = (JComboBox<String>) evt.getComponent();
+        String selectedHeader = (String) myJComboBox.getSelectedItem();
         myJComboBox.removeAllItems();
         int i = 1;
         myJComboBox.addItem("");
         while (i < Headers.size()) {
-            if (!isEntryInUse(Headers.get(i))) {
+            String header = Headers.get(i);
+            if (header.equals(selectedHeader) || !isEntryInUse(header, myJComboBox)) {
                 myJComboBox.addItem(Headers.get(i));
             }
             ++i;
         }
-        jComboCategory.addItem(category_disable_text);
+        if (myJComboBox == jComboCategory) {
+            jComboCategory.addItem(category_disable_text);
+        }
+        myJComboBox.setSelectedItem(selectedHeader);
     }//GEN-LAST:event_jComboBoxFocusGained
 
     private void jComboItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboItemStateChanged
@@ -2103,29 +2157,29 @@ public class JPanelCSVImport extends JPanel implements JPanelView {
     private eu.hansolo.custom.SteelCheckBox jCheckAddStockLevels;
     private eu.hansolo.custom.SteelCheckBox jCheckInCatalogue;
     private eu.hansolo.custom.SteelCheckBox jCheckSellIncTax;
-    private javax.swing.JComboBox jComboBarcode;
-    private javax.swing.JComboBox jComboBoxAux;
-    private javax.swing.JComboBox jComboBoxButtonText;
-    private javax.swing.JComboBox jComboBoxIspack;
-    private javax.swing.JComboBox jComboBoxPackOf;
-    private javax.swing.JComboBox jComboBoxPackSize;
-    private javax.swing.JComboBox jComboBoxProp;
-    private javax.swing.JComboBox jComboBoxRemotePrint;
-    private javax.swing.JComboBox jComboBoxService;
-    private javax.swing.JComboBox jComboBoxShortName;
-    private javax.swing.JComboBox jComboBoxTextTip;
-    private javax.swing.JComboBox jComboBoxVarPrice;
-    private javax.swing.JComboBox jComboBoxWarranty;
-    private javax.swing.JComboBox jComboBuy;
-    private javax.swing.JComboBox jComboCategory;
-    private javax.swing.JComboBox jComboDefaultCategory;
-    private javax.swing.JComboBox jComboMaximum;
-    private javax.swing.JComboBox jComboName;
-    private javax.swing.JComboBox jComboReference;
-    private javax.swing.JComboBox jComboSecurity;
-    private javax.swing.JComboBox jComboSell;
-    private javax.swing.JComboBox jComboSeparator;
-    private javax.swing.JComboBox jComboTax;
+    private javax.swing.JComboBox<String> jComboBarcode;
+    private javax.swing.JComboBox<String> jComboBoxAux;
+    private javax.swing.JComboBox<String> jComboBoxButtonText;
+    private javax.swing.JComboBox<String> jComboBoxIspack;
+    private javax.swing.JComboBox<String> jComboBoxPackOf;
+    private javax.swing.JComboBox<String> jComboBoxPackSize;
+    private javax.swing.JComboBox<String> jComboBoxProp;
+    private javax.swing.JComboBox<String> jComboBoxRemotePrint;
+    private javax.swing.JComboBox<String> jComboBoxService;
+    private javax.swing.JComboBox<String> jComboBoxShortName;
+    private javax.swing.JComboBox<String> jComboBoxTextTip;
+    private javax.swing.JComboBox<String> jComboBoxVarPrice;
+    private javax.swing.JComboBox<String> jComboBoxWarranty;
+    private javax.swing.JComboBox<String> jComboBuy;
+    private javax.swing.JComboBox<String> jComboCategory;
+    private javax.swing.JComboBox<Object> jComboDefaultCategory;
+    private javax.swing.JComboBox<String> jComboMaximum;
+    private javax.swing.JComboBox<String> jComboName;
+    private javax.swing.JComboBox<String> jComboReference;
+    private javax.swing.JComboBox<String> jComboSecurity;
+    private javax.swing.JComboBox<String> jComboSell;
+    private javax.swing.JComboBox<String> jComboSeparator;
+    private javax.swing.JComboBox<TaxCategoryInfo> jComboTax;
     private eu.hansolo.custom.SteelCheckBox jCreateCat;
     private javax.swing.JPanel jCustom;
     private javax.swing.JPanel jCustom1;

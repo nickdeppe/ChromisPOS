@@ -68,10 +68,19 @@ The scripts assume these local install paths:
 - The ninth unchecked cleanup batch typed number-key listeners, employee
   break/leave query lists, menu elements, payment maps, and the database cleanup
   selector.
-- Remaining unchecked warnings are concentrated in raw serializer and
-  deserialization calls, reflection helpers, and the CSV import screen.
+- The tenth unchecked cleanup batch typed CSV column mapping controls,
+  category/tax models, and category tracking collections. CSV input now strips
+  an optional UTF-8 BOM and preserves selected headers when mapping controls
+  refresh. Imports also snapshot the selected tax category and inclusive-price
+  option so net price conversion and the saved tax category remain consistent.
+  The product editor now refreshes its derived tax-inclusive price after every
+  record load, including tax-exempt products. CSV imports now also initialize
+  both Box Office flags to `false`; missing values previously left imported
+  products half-loaded in the editor and excluded them from normal sales.
+- Remaining unchecked warnings are concentrated in inventory/report combo
+  models, raw serializer and deserialization calls, and reflection helpers.
 
 ## Immediate follow-up
 
 Continue reducing unchecked generic warnings in focused batches, starting with
-the CSV import screen before changing shared serializer internals.
+inventory/report combo models before changing shared serializer internals.
