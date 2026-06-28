@@ -34,7 +34,6 @@ import uk.chromis.data.gui.ComboBoxValModel;
 import uk.chromis.data.gui.JMessageDialog;
 import uk.chromis.data.gui.MessageInf;
 import uk.chromis.data.loader.SentenceExec;
-import uk.chromis.data.loader.SentenceList;
 import uk.chromis.data.user.DirtyManager;
 import uk.chromis.data.user.EditorRecord;
 import uk.chromis.format.Formats;
@@ -42,6 +41,7 @@ import uk.chromis.pos.forms.AppConfig;
 import uk.chromis.pos.forms.AppLocal;
 import uk.chromis.pos.forms.AppView;
 import uk.chromis.pos.forms.DataLogicSales;
+import uk.chromis.pos.ticket.CategoryInfo;
 
 /**
  *
@@ -49,8 +49,8 @@ import uk.chromis.pos.forms.DataLogicSales;
  */
 public final class CategoriesEditor extends JPanel implements EditorRecord {
 
-    private SentenceList m_sentcat;
-    private ComboBoxValModel m_CategoryModel;
+    private final DataLogicSales m_dlSales;
+    private ComboBoxValModel<CategoryInfo> m_CategoryModel;
 
     private SentenceExec m_sentadd;
     private SentenceExec m_sentdel;
@@ -65,15 +65,14 @@ public final class CategoriesEditor extends JPanel implements EditorRecord {
      */
     public CategoriesEditor(AppView app, DirtyManager dirty) {
 
-        DataLogicSales dlSales = (DataLogicSales) app.getBean("uk.chromis.pos.forms.DataLogicSales");
+        m_dlSales = (DataLogicSales) app.getBean("uk.chromis.pos.forms.DataLogicSales");
 
         initComponents();
 
         // El modelo de categorias
-        m_sentcat = dlSales.getCategoriesList();
-        m_CategoryModel = new ComboBoxValModel();
-        m_sentadd = dlSales.getCatalogCategoryAdd();
-        m_sentdel = dlSales.getCatalogCategoryDel();
+        m_CategoryModel = new ComboBoxValModel<CategoryInfo>();
+        m_sentadd = m_dlSales.getCatalogCategoryAdd();
+        m_sentdel = m_dlSales.getCatalogCategoryDel();
         m_jCatalogOrder.getDocument().addDocumentListener(dirty);
         m_jName.getDocument().addDocumentListener(dirty);
         m_jCategory.addActionListener(dirty);
@@ -92,18 +91,18 @@ public final class CategoriesEditor extends JPanel implements EditorRecord {
     @Override
     public void refresh() {
 
-        List a;
+        List<CategoryInfo> categories;
 
         try {
-            a = m_sentcat.list();
+            categories = m_dlSales.getCategories();
         } catch (BasicException eD) {
             MessageInf msg = new MessageInf(MessageInf.SGN_NOTICE, AppLocal.getIntString("message.cannotloadlists"), eD);
             msg.show(this);
-            a = new ArrayList();
+            categories = new ArrayList<CategoryInfo>();
         }
 
-        a.add(0, null); // The null item
-        m_CategoryModel = new ComboBoxValModel(a);
+        categories.add(0, null); // The null item
+        m_CategoryModel = new ComboBoxValModel<CategoryInfo>(categories);
         m_jCategory.setModel(m_CategoryModel);
 
         if ("".equals(m_jbtnColour.getText())) {
@@ -268,7 +267,7 @@ public final class CategoriesEditor extends JPanel implements EditorRecord {
         m_jCatalogAdd = new javax.swing.JButton();
         m_jCatalogDelete = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
-        m_jCategory = new javax.swing.JComboBox();
+        m_jCategory = new javax.swing.JComboBox<CategoryInfo>();
         jLabel4 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         m_jTextTip = new javax.swing.JTextField();
@@ -462,7 +461,7 @@ public final class CategoriesEditor extends JPanel implements EditorRecord {
     private javax.swing.JButton m_jCatalogAdd;
     private javax.swing.JButton m_jCatalogDelete;
     private javax.swing.JTextField m_jCatalogOrder;
-    private javax.swing.JComboBox m_jCategory;
+    private javax.swing.JComboBox<CategoryInfo> m_jCategory;
     private uk.chromis.data.gui.JImageEditor m_jImage;
     private javax.swing.JTextField m_jName;
     private javax.swing.JTextField m_jTextTip;

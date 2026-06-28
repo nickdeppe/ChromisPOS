@@ -992,6 +992,10 @@ public class DataLogicSales extends BeanFactoryDataSingle {
         }
     }
 
+    public final List<CategoryInfo> getCategories() throws BasicException {
+        return typedList(getCategoriesList());
+    }
+
     /**
      *
      * @return
@@ -1028,6 +1032,10 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 return new TaxCustCategoryInfo(dr.getString(1), dr.getString(2));
             }
         });
+    }
+
+    public final List<TaxCustCategoryInfo> getTaxCustCategories() throws BasicException {
+        return typedList(getTaxCustCategoriesList());
     }
 
     /**
@@ -1083,6 +1091,10 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 return new TaxCategoryInfo(dr.getString(1), dr.getString(2));
             }
         });
+    }
+
+    public final List<TaxCategoryInfo> getTaxCategories() throws BasicException {
+        return typedList(getTaxCategoriesList());
     }
 
     /**

@@ -27,13 +27,13 @@ import javax.swing.JPanel;
 import uk.chromis.basic.BasicException;
 import uk.chromis.data.gui.ComboBoxValModel;
 import uk.chromis.data.gui.MessageInf;
-import uk.chromis.data.loader.SentenceList;
 import uk.chromis.data.user.DirtyManager;
 import uk.chromis.data.user.EditorRecord;
 import uk.chromis.format.Formats;
 import uk.chromis.pos.forms.AppLocal;
 import uk.chromis.pos.forms.AppView;
 import uk.chromis.pos.forms.DataLogicSales;
+import uk.chromis.pos.ticket.TaxInfo;
 
 /**
  *
@@ -43,32 +43,23 @@ public class TaxEditor extends JPanel implements EditorRecord {
     
     private Object m_oId;
     
-    private SentenceList taxcatsent;
-    private ComboBoxValModel taxcatmodel;    
-    
-    private SentenceList taxcustcatsent;
-    private ComboBoxValModel taxcustcatmodel;   
-    
-    private SentenceList taxparentsent;
-    private ComboBoxValModel taxparentmodel;    
+    private final DataLogicSales m_dlSales;
+    private ComboBoxValModel<TaxCategoryInfo> taxcatmodel;
+    private ComboBoxValModel<TaxCustCategoryInfo> taxcustcatmodel;
+    private ComboBoxValModel<TaxInfo> taxparentmodel;
     
     /** Creates new form taxEditor
      * @param app
      * @param dirty */
     public TaxEditor(AppView app, DirtyManager dirty) {
         
-        DataLogicSales dlSales = (DataLogicSales) app.getBean("uk.chromis.pos.forms.DataLogicSales");
+        m_dlSales = (DataLogicSales) app.getBean("uk.chromis.pos.forms.DataLogicSales");
         
         initComponents();
         
-        taxcatsent = dlSales.getTaxCategoriesList();
-        taxcatmodel = new ComboBoxValModel();        
-        
-        taxcustcatsent = dlSales.getTaxCustCategoriesList();
-        taxcustcatmodel = new ComboBoxValModel();    
-        
-        taxparentsent = dlSales.getTaxList();
-        taxparentmodel = new ComboBoxValModel();    
+        taxcatmodel = new ComboBoxValModel<TaxCategoryInfo>();
+        taxcustcatmodel = new ComboBoxValModel<TaxCustCategoryInfo>();
+        taxparentmodel = new ComboBoxValModel<TaxInfo>();
 
         m_jName.getDocument().addDocumentListener(dirty);
         m_jTaxCategory.addActionListener(dirty);
@@ -87,13 +78,12 @@ public class TaxEditor extends JPanel implements EditorRecord {
      */
     public void activate() throws BasicException {
         
-        List a = taxcatsent.list();
-        taxcatmodel = new ComboBoxValModel(a);
+        taxcatmodel = new ComboBoxValModel<TaxCategoryInfo>(m_dlSales.getTaxCategories());
         m_jTaxCategory.setModel(taxcatmodel);
         
-        a = taxcustcatsent.list();
-        a.add(0, null); // The null item
-        taxcustcatmodel = new ComboBoxValModel(a);
+        List<TaxCustCategoryInfo> customerCategories = m_dlSales.getTaxCustCategories();
+        customerCategories.add(0, null); // The null item
+        taxcustcatmodel = new ComboBoxValModel<TaxCustCategoryInfo>(customerCategories);
         m_jCustTaxCategory.setModel(taxcustcatmodel);    
         
        
@@ -105,18 +95,18 @@ public class TaxEditor extends JPanel implements EditorRecord {
     @Override
     public void refresh() {
         
-        List a;
+        List<TaxInfo> taxes;
         
         try {
-            a = taxparentsent.list();
+            taxes = m_dlSales.getTaxInfoList();
         } catch (BasicException eD) {
             MessageInf msg = new MessageInf(MessageInf.SGN_NOTICE, AppLocal.getIntString("message.cannotloadlists"), eD);
             msg.show(this);
-            a = new ArrayList();
+            taxes = new ArrayList<TaxInfo>();
         }
         
-        a.add(0, null); // The null item
-        taxparentmodel = new ComboBoxValModel(a);
+        taxes.add(0, null); // The null item
+        taxparentmodel = new ComboBoxValModel<TaxInfo>(taxes);
         m_jTaxParent.setModel(taxparentmodel);    
     }
     
@@ -264,9 +254,9 @@ public class TaxEditor extends JPanel implements EditorRecord {
         jLabel1 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        m_jTaxCategory = new javax.swing.JComboBox();
-        m_jTaxParent = new javax.swing.JComboBox();
-        m_jCustTaxCategory = new javax.swing.JComboBox();
+        m_jTaxCategory = new javax.swing.JComboBox<TaxCategoryInfo>();
+        m_jTaxParent = new javax.swing.JComboBox<TaxInfo>();
+        m_jCustTaxCategory = new javax.swing.JComboBox<TaxCustCategoryInfo>();
         jLabel6 = new javax.swing.JLabel();
         jOrder = new javax.swing.JTextField();
         jCascade = new eu.hansolo.custom.SteelCheckBox();
@@ -343,11 +333,11 @@ public class TaxEditor extends JPanel implements EditorRecord {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JTextField jOrder;
-    private javax.swing.JComboBox m_jCustTaxCategory;
+    private javax.swing.JComboBox<TaxCustCategoryInfo> m_jCustTaxCategory;
     private javax.swing.JTextField m_jName;
     private javax.swing.JTextField m_jRate;
-    private javax.swing.JComboBox m_jTaxCategory;
-    private javax.swing.JComboBox m_jTaxParent;
+    private javax.swing.JComboBox<TaxCategoryInfo> m_jTaxCategory;
+    private javax.swing.JComboBox<TaxInfo> m_jTaxParent;
     // End of variables declaration//GEN-END:variables
     
 }
