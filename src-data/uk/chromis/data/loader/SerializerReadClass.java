@@ -27,11 +27,11 @@ import uk.chromis.basic.BasicException;
  */
 public class SerializerReadClass implements SerializerRead {
 
-    private final Class m_clazz;
+    private final Class<? extends SerializableRead> m_clazz;
     
     /** Creates a new instance of DefaultSerializerRead
      * @param clazz */
-    public SerializerReadClass(Class clazz) {
+    public SerializerReadClass(Class<? extends SerializableRead> clazz) {
         m_clazz = clazz;
     }
     
@@ -44,10 +44,10 @@ public class SerializerReadClass implements SerializerRead {
     @Override
     public Object readValues(DataRead dr) throws BasicException {
         try {
-            SerializableRead sr = (SerializableRead) m_clazz.getDeclaredConstructor().newInstance();
+            SerializableRead sr = m_clazz.getDeclaredConstructor().newInstance();
             sr.readValues(dr);
             return sr;
-        } catch (ReflectiveOperationException | ClassCastException eIns) {
+        } catch (ReflectiveOperationException eIns) {
             return null;
         }
     }

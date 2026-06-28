@@ -102,13 +102,17 @@ The scripts assume these local install paths:
 - The seventeenth unchecked cleanup batch typed the shared `SerializerWrite`
   pipeline. Legacy sentence parameters now cross one documented compatibility
   boundary instead of generating raw calls in every SQL execution path.
+- The eighteenth unchecked cleanup batch constrained reflection-backed row
+  deserialization to `SerializableRead` classes, removing its raw class and
+  constructor call without changing failed-instantiation behavior.
 - Remaining unchecked warnings are concentrated in deserialization and
-  reflection helpers, plus a smaller set of unrelated legacy UI models.
+  application reflection helpers, plus a smaller set of unrelated legacy UI
+  models.
 
 ## Immediate follow-up
 
 Continue reducing unchecked generic warnings in focused batches, starting with
-reflection-backed deserialization.
+application bean reflection.
 
 ## Deferred features
 
