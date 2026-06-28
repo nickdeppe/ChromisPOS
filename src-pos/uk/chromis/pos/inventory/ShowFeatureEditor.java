@@ -25,13 +25,13 @@ import java.util.Date;
 import javax.swing.JSpinner;
 import uk.chromis.basic.BasicException;
 import uk.chromis.data.gui.ComboBoxValModel;
-import uk.chromis.data.loader.SentenceList;
 import uk.chromis.data.user.DirtyManager;
 import uk.chromis.data.user.EditorRecord;
 import uk.chromis.format.Formats;
 import uk.chromis.pos.forms.AppConfig;
 import uk.chromis.pos.forms.AppLocal;
 import uk.chromis.pos.forms.DataLogicSales;
+import uk.chromis.pos.ticket.FeatureNameInfo;
 
 /**
  *
@@ -40,8 +40,7 @@ import uk.chromis.pos.forms.DataLogicSales;
 public class ShowFeatureEditor extends javax.swing.JPanel implements EditorRecord {
     
     private Object showfeatureid;
-    private final SentenceList featureSentence;
-    private ComboBoxValModel featureModel;
+    private ComboBoxValModel<FeatureNameInfo> featureModel;
     private Object featureKey;
     private Object showKey;
     private final ShowFeatureFilter showFeatureFilter;
@@ -77,8 +76,6 @@ public class ShowFeatureEditor extends javax.swing.JPanel implements EditorRecor
 //        );        
         
         
-        featureSentence = dlSales.getFeaturesNameList();
-
         String appFormatTime = AppConfig.getInstance().getProperty("format.time");
         String timeFormat = ( appFormatTime == null || appFormatTime.equals("") ) ? "hh:mm a" : appFormatTime ;
         JSpinner.DateEditor timeEditor = new JSpinner.DateEditor(m_jStartTime, timeFormat );        
@@ -106,7 +103,7 @@ public class ShowFeatureEditor extends javax.swing.JPanel implements EditorRecor
 
     public void activate() throws BasicException {
 
-        featureModel = new ComboBoxValModel(featureSentence.list());
+        featureModel = new ComboBoxValModel<FeatureNameInfo>(m_dlSales.getFeatureNames());
         m_jFeature.setModel(featureModel);
 
     }
@@ -339,7 +336,7 @@ public class ShowFeatureEditor extends javax.swing.JPanel implements EditorRecor
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JComboBox<String> m_jFeature;
+    private javax.swing.JComboBox<FeatureNameInfo> m_jFeature;
     private javax.swing.JSpinner m_jSequence;
     private javax.swing.JSpinner m_jStartTime;
     private eu.hansolo.custom.SteelCheckBox m_jchkPrintReport;

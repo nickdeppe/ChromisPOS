@@ -26,12 +26,13 @@ import java.util.List;
 import uk.chromis.basic.BasicException;
 import uk.chromis.beans.JCalendarDialog;
 import uk.chromis.data.gui.ComboBoxValModel;
-import uk.chromis.data.loader.SentenceList;
 import uk.chromis.data.user.DirtyManager;
 import uk.chromis.data.user.EditorRecord;
 import uk.chromis.format.Formats;
 import uk.chromis.pos.forms.AppLocal;
 import uk.chromis.pos.forms.DataLogicSales;
+import uk.chromis.pos.ticket.BoxOfficeProductSetInfo;
+import uk.chromis.pos.ticket.TheatreInfo;
 
 /**
  *
@@ -41,11 +42,9 @@ public class ShowsEditor extends javax.swing.JPanel implements EditorRecord {
     
     private Object showid;
     
-    private final SentenceList theatreSentence;
-    private final SentenceList boxOfficeProductSetSentence;
-
-    private ComboBoxValModel theatreModel;
-    private ComboBoxValModel boxOfficeProductSetModel;
+    private final DataLogicSales m_dlSales;
+    private ComboBoxValModel<TheatreInfo> theatreModel;
+    private ComboBoxValModel<BoxOfficeProductSetInfo> boxOfficeProductSetModel;
 
     private enum RecordStatus {
         EOF,
@@ -66,6 +65,7 @@ public class ShowsEditor extends javax.swing.JPanel implements EditorRecord {
     public ShowsEditor(DataLogicSales dlSales, DirtyManager dirty, ShowsFilter filter) throws BasicException {
         
         initComponents();
+        m_dlSales = dlSales;
 
         this.showsFilter = filter;
         
@@ -76,9 +76,6 @@ public class ShowsEditor extends javax.swing.JPanel implements EditorRecord {
         m_jReportEndDate.getDocument().addDocumentListener(dirty);
         m_jBoxOfficeProductSet.addActionListener(dirty);
         
-        theatreSentence = dlSales.getTheatresList();
-        boxOfficeProductSetSentence = dlSales.getBoxOfficeProductSetsList();
-
     }
     
     
@@ -103,14 +100,14 @@ public class ShowsEditor extends javax.swing.JPanel implements EditorRecord {
 
         
         
-        theatreModel = new ComboBoxValModel(theatreSentence.list());
+        theatreModel = new ComboBoxValModel<TheatreInfo>(m_dlSales.getTheatres());
         m_jTheatre.setModel(theatreModel);
 
         
 
-        List b = boxOfficeProductSetSentence.list();
+        List<BoxOfficeProductSetInfo> b = m_dlSales.getBoxOfficeProductSets();
         b.add(0, null);
-        boxOfficeProductSetModel = new ComboBoxValModel(b);
+        boxOfficeProductSetModel = new ComboBoxValModel<BoxOfficeProductSetInfo>(b);
         m_jBoxOfficeProductSet.setModel(boxOfficeProductSetModel);
 
     }
@@ -522,12 +519,12 @@ public class ShowsEditor extends javax.swing.JPanel implements EditorRecord {
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JComboBox<String> m_jBoxOfficeProductSet;
+    private javax.swing.JComboBox<BoxOfficeProductSetInfo> m_jBoxOfficeProductSet;
     private javax.swing.JTextField m_jEndDate;
     private javax.swing.JTextField m_jReportEndDate;
     private javax.swing.JTextField m_jReportStartDate;
     private javax.swing.JTextField m_jStartDate;
-    private javax.swing.JComboBox<String> m_jTheatre;
+    private javax.swing.JComboBox<TheatreInfo> m_jTheatre;
     private javax.swing.JButton m_jbtnEndDate;
     private javax.swing.JButton m_jbtnReportStartDate;
     private javax.swing.JButton m_jbtnStartDate;

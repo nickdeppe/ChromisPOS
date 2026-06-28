@@ -21,16 +21,15 @@ package uk.chromis.pos.inventory;
 
 import java.awt.Component;
 import java.awt.event.ActionListener;
-import java.util.List;
 import uk.chromis.basic.BasicException;
 import uk.chromis.data.gui.ComboBoxValModel;
-import uk.chromis.data.loader.SentenceList;
 import uk.chromis.data.loader.SerializerWrite;
 import uk.chromis.data.loader.SerializerWriteString;
 import uk.chromis.pos.forms.AppLocal;
 import uk.chromis.pos.forms.AppView;
 import uk.chromis.pos.forms.DataLogicSales;
 import uk.chromis.pos.reports.ReportEditorCreator;
+import uk.chromis.pos.ticket.ShowTheatreInfo;
 
 /**
  *
@@ -38,9 +37,8 @@ import uk.chromis.pos.reports.ReportEditorCreator;
  */
 public class ShowFeatureFilter extends javax.swing.JPanel implements ReportEditorCreator {
 
-    private SentenceList showSentence;
-    private ComboBoxValModel showModel;
-    private DataLogicSales m_dlSales;
+    private ComboBoxValModel<ShowTheatreInfo> showModel;
+    private final DataLogicSales m_dlSales;
 
     /** Creates new form AttributeUseFilter */
     public ShowFeatureFilter(DataLogicSales dlSales) {
@@ -54,9 +52,6 @@ public class ShowFeatureFilter extends javax.swing.JPanel implements ReportEdito
      */
     @Override
     public void init(AppView app) {
-
-        showSentence = m_dlSales.getShowsTheatresList();
-
     }
 
     /**
@@ -66,8 +61,7 @@ public class ShowFeatureFilter extends javax.swing.JPanel implements ReportEdito
     @Override
     public void activate() throws BasicException {
 
-        List b = showSentence.list();
-        showModel = new ComboBoxValModel(b);
+        showModel = new ComboBoxValModel<ShowTheatreInfo>(m_dlSales.getShowsTheatres());
         showModel.setSelectedFirst();
         m_jShow.setModel(showModel);
         
@@ -152,7 +146,7 @@ public class ShowFeatureFilter extends javax.swing.JPanel implements ReportEdito
     private void initComponents() {
 
         jLabel8 = new javax.swing.JLabel();
-        m_jShow = new javax.swing.JComboBox();
+        m_jShow = new javax.swing.JComboBox<ShowTheatreInfo>();
 
         jLabel8.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel8.setText(AppLocal.getIntString("label.show")); // NOI18N
@@ -186,7 +180,7 @@ public class ShowFeatureFilter extends javax.swing.JPanel implements ReportEdito
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JComboBox m_jShow;
+    private javax.swing.JComboBox<ShowTheatreInfo> m_jShow;
     // End of variables declaration//GEN-END:variables
 
 }

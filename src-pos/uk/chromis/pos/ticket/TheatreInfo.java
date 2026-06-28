@@ -18,6 +18,7 @@
 //    along with Chromis POS.  If not, see <http://www.gnu.org/licenses/>.
 package uk.chromis.pos.ticket;
 
+import java.io.Serializable;
 import uk.chromis.basic.BasicException;
 import uk.chromis.data.loader.DataRead;
 import uk.chromis.data.loader.IKeyed;
@@ -30,7 +31,9 @@ import uk.chromis.pos.util.StringUtils;
  * @author Adrian
  * @version
  */
-public class TheatreInfo implements IKeyed {
+public class TheatreInfo implements IKeyed, Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private String m_sID;
     private String m_sName;

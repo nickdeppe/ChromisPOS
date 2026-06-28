@@ -2168,6 +2168,10 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 FeatureNameInfo.getSerializerRead()
         );
     }
+
+    public final List<FeatureNameInfo> getFeatureNames() throws BasicException {
+        return typedList(getFeaturesNameList());
+    }
     
     
     
@@ -2270,6 +2274,10 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 null,
                 ShowTheatreInfo.getSerializerRead()
         );
+    }
+
+    public final List<ShowTheatreInfo> getShowsTheatres() throws BasicException {
+        return typedList(getShowsTheatresList());
     }
     
     
@@ -2416,6 +2424,10 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 TheatreInfo.getSerializerRead()
         );
     }
+
+    public final List<TheatreInfo> getTheatres() throws BasicException {
+        return typedList(getTheatresList());
+    }
     
     
     public final TheatreInfo getTheatre(String theatreID) throws BasicException {
@@ -2457,6 +2469,10 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 null,
                 BoxOfficeProductSetInfo.getSerializerRead()
         );
+    }
+
+    public final List<BoxOfficeProductSetInfo> getBoxOfficeProductSets() throws BasicException {
+        return typedList(getBoxOfficeProductSetsList());
     }
     
     

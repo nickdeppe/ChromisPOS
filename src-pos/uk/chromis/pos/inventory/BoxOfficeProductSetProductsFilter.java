@@ -21,16 +21,15 @@ package uk.chromis.pos.inventory;
 
 import java.awt.Component;
 import java.awt.event.ActionListener;
-import java.util.List;
 import uk.chromis.basic.BasicException;
 import uk.chromis.data.gui.ComboBoxValModel;
-import uk.chromis.data.loader.SentenceList;
 import uk.chromis.data.loader.SerializerWrite;
 import uk.chromis.data.loader.SerializerWriteString;
 import uk.chromis.pos.forms.AppLocal;
 import uk.chromis.pos.forms.AppView;
 import uk.chromis.pos.forms.DataLogicSales;
 import uk.chromis.pos.reports.ReportEditorCreator;
+import uk.chromis.pos.ticket.BoxOfficeProductSetInfo;
 
 /**
  *
@@ -38,9 +37,8 @@ import uk.chromis.pos.reports.ReportEditorCreator;
  */
 public class BoxOfficeProductSetProductsFilter extends javax.swing.JPanel implements ReportEditorCreator {
 
-    private SentenceList boxOfficeProductSetSentence;
-    private ComboBoxValModel boxOfficeProductSetModel;
-    private DataLogicSales m_dlSales;
+    private ComboBoxValModel<BoxOfficeProductSetInfo> boxOfficeProductSetModel;
+    private final DataLogicSales m_dlSales;
 
     /** Creates new form AttributeUseFilter */
     public BoxOfficeProductSetProductsFilter(DataLogicSales dlSales) {
@@ -54,9 +52,6 @@ public class BoxOfficeProductSetProductsFilter extends javax.swing.JPanel implem
      */
     @Override
     public void init(AppView app) {
-
-        boxOfficeProductSetSentence = m_dlSales.getBoxOfficeProductSetsList();
-
     }
 
     /**
@@ -66,8 +61,7 @@ public class BoxOfficeProductSetProductsFilter extends javax.swing.JPanel implem
     @Override
     public void activate() throws BasicException {
 
-        List b = boxOfficeProductSetSentence.list();
-        boxOfficeProductSetModel = new ComboBoxValModel(b);
+        boxOfficeProductSetModel = new ComboBoxValModel<BoxOfficeProductSetInfo>(m_dlSales.getBoxOfficeProductSets());
         boxOfficeProductSetModel.setSelectedFirst();
         m_jBoxOfficeProductSet.setModel(boxOfficeProductSetModel);
         
@@ -152,7 +146,7 @@ public class BoxOfficeProductSetProductsFilter extends javax.swing.JPanel implem
     private void initComponents() {
 
         jLabel8 = new javax.swing.JLabel();
-        m_jBoxOfficeProductSet = new javax.swing.JComboBox();
+        m_jBoxOfficeProductSet = new javax.swing.JComboBox<BoxOfficeProductSetInfo>();
 
         jLabel8.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel8.setText(AppLocal.getIntString("label.show")); // NOI18N
@@ -186,7 +180,7 @@ public class BoxOfficeProductSetProductsFilter extends javax.swing.JPanel implem
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JComboBox m_jBoxOfficeProductSet;
+    private javax.swing.JComboBox<BoxOfficeProductSetInfo> m_jBoxOfficeProductSet;
     // End of variables declaration//GEN-END:variables
 
 }

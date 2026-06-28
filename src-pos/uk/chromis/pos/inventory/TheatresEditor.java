@@ -37,7 +37,7 @@ public final class TheatresEditor extends javax.swing.JPanel implements EditorRe
 
     private Object id;
 
-	 private ComboBoxValModel capacityModeModel;
+    private ComboBoxValModel<CapacityType> capacityModeModel;
         
     /** Creates new form AttributesEditor
      * @param dirty */
@@ -58,7 +58,7 @@ public final class TheatresEditor extends javax.swing.JPanel implements EditorRe
         m_jHardLimit.addActionListener(dirty);
         m_jActive.addActionListener(dirty);
 
-        capacityModeModel = new ComboBoxValModel();
+        capacityModeModel = new ComboBoxValModel<CapacityType>();
         capacityModeModel.add(CapacityType.BY_TICKETS);
         capacityModeModel.add(CapacityType.BY_TRANSACTIONS);
 
@@ -305,7 +305,7 @@ public final class TheatresEditor extends javax.swing.JPanel implements EditorRe
     private javax.swing.JLabel jLabel5;
     private eu.hansolo.custom.SteelCheckBox m_jActive;
     private javax.swing.JSpinner m_jCapacity;
-    private javax.swing.JComboBox<String> m_jCapacityMode;
+    private javax.swing.JComboBox<CapacityType> m_jCapacityMode;
     private javax.swing.JTextField m_jExtraDescription;
     private eu.hansolo.custom.SteelCheckBox m_jHardLimit;
     private javax.swing.JTextField m_jName;

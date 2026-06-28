@@ -27,13 +27,13 @@ import java.util.logging.Logger;
 import javax.swing.JSpinner;
 import uk.chromis.basic.BasicException;
 import uk.chromis.data.gui.ComboBoxValModel;
-import uk.chromis.data.loader.SentenceList;
 import uk.chromis.data.user.DirtyManager;
 import uk.chromis.data.user.EditorRecord;
 import uk.chromis.format.Formats;
 import uk.chromis.pos.forms.AppConfig;
 import uk.chromis.pos.forms.AppLocal;
 import uk.chromis.pos.forms.DataLogicSales;
+import uk.chromis.pos.ticket.ProductInfoExt;
 
 /**
  *
@@ -43,8 +43,7 @@ public class BoxOfficeProductSetProductsEditor extends javax.swing.JPanel implem
     
     private Object boxofficeproductsetid;
     private Object boxofficeproductsetproductid;
-    private final SentenceList productSentence;
-    private ComboBoxValModel productModel;
+    private ComboBoxValModel<ProductInfoExt> productModel;
     private Object productKey;
     private Object boxOfficeProductSetKey;
     private final BoxOfficeProductSetProductsFilter boxOfficeProductSetProductsFilter;
@@ -63,8 +62,6 @@ public class BoxOfficeProductSetProductsEditor extends javax.swing.JPanel implem
         m_jProduct.addActionListener(dirty);
         m_jSequence.addChangeListener(dirty);
         
-        productSentence = dlSales.getAllBoxOfficeProductsSentence();
-
         this.boxOfficeProductSetProductsFilter = filter;
         
     }
@@ -87,7 +84,7 @@ public class BoxOfficeProductSetProductsEditor extends javax.swing.JPanel implem
 
     public void activate() throws BasicException {
 
-        productModel = new ComboBoxValModel(productSentence.list());
+        productModel = new ComboBoxValModel<ProductInfoExt>(m_dlSales.getAllBoxOfficeProducts());
         m_jProduct.setModel(productModel);
 
     }
@@ -263,7 +260,7 @@ public class BoxOfficeProductSetProductsEditor extends javax.swing.JPanel implem
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JComboBox<String> m_jProduct;
+    private javax.swing.JComboBox<ProductInfoExt> m_jProduct;
     private javax.swing.JSpinner m_jSequence;
     // End of variables declaration//GEN-END:variables
 

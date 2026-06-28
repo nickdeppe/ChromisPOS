@@ -19,6 +19,7 @@
 package uk.chromis.pos.ticket;
 
 import java.awt.image.BufferedImage;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import uk.chromis.basic.BasicException;
@@ -33,7 +34,9 @@ import uk.chromis.pos.util.StringUtils;
  * @author adrianromero Created on 21 de marzo de 2007, 21:28
  *
  */
-public class ShowSalesInfo implements IKeyed, Cloneable {
+public class ShowSalesInfo implements IKeyed, Cloneable, Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     protected String m_ID;
     protected String m_sTheatreID;

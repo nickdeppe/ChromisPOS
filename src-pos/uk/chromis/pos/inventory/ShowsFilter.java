@@ -25,13 +25,13 @@ import java.util.List;
 import uk.chromis.basic.BasicException;
 import uk.chromis.data.gui.ComboBoxValModel;
 import uk.chromis.data.loader.QBFCompareEnum;
-import uk.chromis.data.loader.SentenceList;
 import uk.chromis.data.loader.SerializerWrite;
 import uk.chromis.data.loader.SerializerWriteString;
 import uk.chromis.pos.forms.AppLocal;
 import uk.chromis.pos.forms.AppView;
 import uk.chromis.pos.forms.DataLogicSales;
 import uk.chromis.pos.reports.ReportEditorCreator;
+import uk.chromis.pos.ticket.TheatreInfo;
 
 /**
  *
@@ -39,8 +39,8 @@ import uk.chromis.pos.reports.ReportEditorCreator;
  */
 public class ShowsFilter extends javax.swing.JPanel implements ReportEditorCreator {
 
-    private SentenceList theatreSentence;
-    private ComboBoxValModel theatreModel;
+    private ComboBoxValModel<TheatreInfo> theatreModel;
+    private DataLogicSales m_dlSales;
 
     /** Creates new form AttributeUseFilter */
     public ShowsFilter() {
@@ -54,9 +54,7 @@ public class ShowsFilter extends javax.swing.JPanel implements ReportEditorCreat
     @Override
     public void init(AppView app) {
 
-        DataLogicSales dlSales = (DataLogicSales) app.getBean("uk.chromis.pos.forms.DataLogicSales");
-
-        theatreSentence = dlSales.getTheatresList();
+        m_dlSales = (DataLogicSales) app.getBean("uk.chromis.pos.forms.DataLogicSales");
 
     }
 
@@ -73,9 +71,9 @@ public class ShowsFilter extends javax.swing.JPanel implements ReportEditorCreat
     @Override
     public void activate() throws BasicException {
 
-        List b = theatreSentence.list();
+        List<TheatreInfo> b = m_dlSales.getTheatres();
         b.add(0,null);
-        theatreModel = new ComboBoxValModel(b);
+        theatreModel = new ComboBoxValModel<TheatreInfo>(b);
         theatreModel.setSelectedFirst();
         m_jTheatre.setModel(theatreModel);
         
@@ -156,7 +154,7 @@ public class ShowsFilter extends javax.swing.JPanel implements ReportEditorCreat
     private void initComponents() {
 
         jLabel8 = new javax.swing.JLabel();
-        m_jTheatre = new javax.swing.JComboBox();
+        m_jTheatre = new javax.swing.JComboBox<TheatreInfo>();
         m_jShowDates = new eu.hansolo.custom.SteelCheckBox();
 
         jLabel8.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
@@ -200,7 +198,7 @@ public class ShowsFilter extends javax.swing.JPanel implements ReportEditorCreat
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel8;
     private eu.hansolo.custom.SteelCheckBox m_jShowDates;
-    private javax.swing.JComboBox m_jTheatre;
+    private javax.swing.JComboBox<TheatreInfo> m_jTheatre;
     // End of variables declaration//GEN-END:variables
 
 }

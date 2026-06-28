@@ -72,6 +72,17 @@ public class DataLogicReceipts extends BeanFactoryDataSingle {
         }
     }
 
+    public final boolean sharedTicketExists(String id) throws BasicException {
+        if (id == null) {
+            return false;
+        }
+        Object[] record = (Object[]) new StaticSentence(s,
+                "SELECT ID FROM SHAREDTICKETS WHERE ID = ?",
+                SerializerWriteString.INSTANCE,
+                new SerializerReadBasic(new Datas[]{Datas.STRING})).find(id);
+        return record != null;
+    }
+
     /**
      *
      * @return @throws BasicException
@@ -102,9 +113,19 @@ public class DataLogicReceipts extends BeanFactoryDataSingle {
      */
     public final void updateSharedTicket(final String id, final TicketInfo ticket, int pickupid) throws BasicException {
 
+        updateSharedTicket(id, ticket.getName(), ticket, pickupid);
+    }
+
+    public final void updateSharedTicketUsingPickUpID(final String id, final TicketInfo ticket, int pickupid) throws BasicException {
+
+        updateSharedTicket(id, "Pickup Id: " + getPickupString(pickupid), ticket, pickupid);
+    }
+
+    private void updateSharedTicket(final String id, final String name, final TicketInfo ticket, int pickupid) throws BasicException {
+
         Object[] values = new Object[]{
             id,
-            ticket.getName(),
+            name,
             ticket,
             pickupid
         };

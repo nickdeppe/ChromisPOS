@@ -81,6 +81,12 @@ The scripts assume these local install paths:
   and stock-reason parameter controls. Legacy location query casts are now
   isolated at the `SentenceList` boundary, and the report package no longer
   emits unchecked combo-model warnings.
+- The twelfth unchecked cleanup batch typed Box Office product-set, show,
+  theatre, feature, and capacity-mode controls. Typed list accessors in
+  `DataLogicSales` now keep the legacy query cast boundary out of these screens.
+  Box Office show details are now serializable so pending transactions can be
+  saved during shutdown; shared-ticket saves also update existing IDs and reject
+  incomplete serialized records safely.
 - Remaining unchecked warnings are concentrated in inventory combo models,
   raw serializer and deserialization calls, and reflection helpers.
 

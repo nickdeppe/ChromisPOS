@@ -133,26 +133,34 @@ public class JTicketsBagShared extends JTicketsBag {
     private void saveCurrentTicket() {
         if (m_sCurrentTicket != null) {
             try {
+                TicketInfo activeTicket = m_panelticket.getActiveTicket();
+                boolean ticketExists = dlReceipts.sharedTicketExists(m_sCurrentTicket);
+                activeTicket.setSharedTicket(Boolean.TRUE);
+
                 if (AppConfig.getInstance().getBoolean("till.usepickupforlayaway")) {
-                    // test if ticket as pickupid
-                    if (m_panelticket.getActiveTicket().getPickupId() == 0) {
-                        m_panelticket.getActiveTicket().setSharedTicket(Boolean.TRUE);
-                        // Only assign a pickupid if ticket has an article count
-                        if (m_panelticket.getActiveTicket().getArticlesCount() > 0) {
-                            dlReceipts.insertSharedTicketUsingPickUpID(m_sCurrentTicket, m_panelticket.getActiveTicket(), dlSales.getNextPickupIndex());
-                        } else {
-                            dlReceipts.insertSharedTicketUsingPickUpID(m_sCurrentTicket, m_panelticket.getActiveTicket(), 0);
-                        }
+                    int pickupId = activeTicket.getPickupId();
+                    if (pickupId == 0 && activeTicket.getArticlesCount() > 0) {
+                        pickupId = dlSales.getNextPickupIndex();
+                    }
+                    activeTicket.setPickupId(pickupId);
+
+                    if (ticketExists) {
+                        dlReceipts.updateSharedTicketUsingPickUpID(m_sCurrentTicket, activeTicket, pickupId);
                     } else {
-                        m_panelticket.getActiveTicket().setSharedTicket(Boolean.TRUE);
-                        dlReceipts.insertSharedTicketUsingPickUpID(m_sCurrentTicket, m_panelticket.getActiveTicket(), m_panelticket.getActiveTicket().getPickupId());
+                        dlReceipts.insertSharedTicketUsingPickUpID(m_sCurrentTicket, activeTicket, pickupId);
                     }
                 } else {
-                    m_panelticket.getActiveTicket().setSharedTicket(Boolean.TRUE);
-                    dlReceipts.insertSharedTicket(m_sCurrentTicket, m_panelticket.getActiveTicket(), m_panelticket.getActiveTicket().getPickupId());
+                    if (ticketExists) {
+                        dlReceipts.updateSharedTicket(m_sCurrentTicket, activeTicket, activeTicket.getPickupId());
+                    } else {
+                        dlReceipts.insertSharedTicket(m_sCurrentTicket, activeTicket, activeTicket.getPickupId());
+                    }
                 }
                 TicketInfo l = dlReceipts.getSharedTicket(m_sCurrentTicket);
-                if (l.getLinesCount() == 0) {
+                if (l == null) {
+                    dlReceipts.deleteSharedTicket(m_sCurrentTicket);
+                    throw new BasicException(AppLocal.getIntString("message.nosaveticket"));
+                } else if (l.getLinesCount() == 0) {
                     dlReceipts.deleteSharedTicket(m_sCurrentTicket);
                 }
                 checkLayaways();
