@@ -26,7 +26,6 @@ import uk.chromis.data.gui.ComboBoxValModel;
 import uk.chromis.data.gui.MessageInf;
 import uk.chromis.data.loader.LocalRes;
 import uk.chromis.data.loader.SentenceExec;
-import uk.chromis.data.loader.SentenceList;
 import uk.chromis.format.Formats;
 import uk.chromis.pos.catalog.CatalogSelector;
 import uk.chromis.pos.catalog.JCatalog;
@@ -46,6 +45,7 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
@@ -63,11 +63,9 @@ public class StockManagement extends JPanel implements JPanelView {
     private final TicketParser m_TTP;
 
     private final CatalogSelector m_cat;
-    private final ComboBoxValModel m_ReasonModel;
-    
-    private final SentenceList m_sentlocations;
-    private ComboBoxValModel m_LocationsModel;   
-    private ComboBoxValModel m_LocationsModelDes;     
+    private final ComboBoxValModel<MovementReason> m_ReasonModel;
+    private ComboBoxValModel<LocationInfo> m_LocationsModel;
+    private ComboBoxValModel<LocationInfo> m_LocationsModelDes;
     
     private final JInventoryLines m_invlines;
     
@@ -93,12 +91,10 @@ public class StockManagement extends JPanel implements JPanelView {
         user = m_App.getAppUserView().getUser().getName();
         btnDownloadProducts.setEnabled(m_App.getDeviceScanner() != null);
         
-        // El modelo de locales
-        m_sentlocations = m_dlSales.getLocationsList();
-        m_LocationsModel =  new ComboBoxValModel();        
-        m_LocationsModelDes = new ComboBoxValModel();
+        m_LocationsModel = new ComboBoxValModel<LocationInfo>();
+        m_LocationsModelDes = new ComboBoxValModel<LocationInfo>();
         
-        m_ReasonModel = new ComboBoxValModel();
+        m_ReasonModel = new ComboBoxValModel<MovementReason>();
         m_ReasonModel.add(MovementReason.IN_PURCHASE);
         m_ReasonModel.add(MovementReason.IN_REFUND);
         m_ReasonModel.add(MovementReason.IN_MOVEMENT);
@@ -152,10 +148,10 @@ public class StockManagement extends JPanel implements JPanelView {
     public void activate() throws BasicException {
         m_cat.loadCatalog();
         
-        java.util.List l = m_sentlocations.list();
-        m_LocationsModel = new ComboBoxValModel(l);
+        List<LocationInfo> locations = m_dlSales.getLocations();
+        m_LocationsModel = new ComboBoxValModel<LocationInfo>(locations);
         m_jLocation.setModel(m_LocationsModel); // para que lo refresque
-        m_LocationsModelDes = new ComboBoxValModel(l);
+        m_LocationsModelDes = new ComboBoxValModel<LocationInfo>(locations);
         m_jLocationDes.setModel(m_LocationsModelDes); // para que lo refresque
         
         stateToInsert();
@@ -214,7 +210,7 @@ public class StockManagement extends JPanel implements JPanelView {
     private void incProduct(ProductInfoExt product, double units) {
         // precondicion: prod != null
 
-        MovementReason reason = (MovementReason) m_ReasonModel.getSelectedItem();
+        MovementReason reason = m_ReasonModel.getSelectedItem();
         addLine(product, units, reason.isInput() 
                 ? product.getPriceBuy()
                 : product.getPriceSell());
@@ -324,19 +320,19 @@ public class StockManagement extends JPanel implements JPanelView {
         try {
 
             Date d = (Date) Formats.TIMESTAMP.parseValue(m_jdate.getText());
-            MovementReason reason = (MovementReason) m_ReasonModel.getSelectedItem();
+            MovementReason reason = m_ReasonModel.getSelectedItem();
 
             if (reason == MovementReason.OUT_CROSSING) {
                 // Es una doble entrada
                 saveData(new InventoryRecord(
                         d, MovementReason.OUT_MOVEMENT,
-                        (LocationInfo) m_LocationsModel.getSelectedItem(),
+                        m_LocationsModel.getSelectedItem(),
                         m_App.getAppUserView().getUser().getName(),
                         m_invlines.getLines()
                     ));
                 saveData(new InventoryRecord(
                         d, MovementReason.IN_MOVEMENT,
-                        (LocationInfo) m_LocationsModelDes.getSelectedItem(),
+                        m_LocationsModelDes.getSelectedItem(),
                         m_App.getAppUserView().getUser().getName(),
                         m_invlines.getLines()
                     ));                
@@ -344,7 +340,7 @@ public class StockManagement extends JPanel implements JPanelView {
                 // Es un movimiento
                 saveData(new InventoryRecord(
                         d, reason,
-                        (LocationInfo) m_LocationsModel.getSelectedItem(),
+                        m_LocationsModel.getSelectedItem(),
                         m_App.getAppUserView().getUser().getName(),
                         m_invlines.getLines()
                     ));
@@ -429,10 +425,10 @@ public class StockManagement extends JPanel implements JPanelView {
         m_jdate = new javax.swing.JTextField();
         m_jbtndate = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
-        m_jreason = new javax.swing.JComboBox();
+        m_jreason = new javax.swing.JComboBox<MovementReason>();
         jLabel8 = new javax.swing.JLabel();
-        m_jLocationDes = new javax.swing.JComboBox();
-        m_jLocation = new javax.swing.JComboBox();
+        m_jLocationDes = new javax.swing.JComboBox<LocationInfo>();
+        m_jLocation = new javax.swing.JComboBox<LocationInfo>();
         jPanel5 = new javax.swing.JPanel();
         m_jUp = new javax.swing.JButton();
         m_jDown = new javax.swing.JButton();
@@ -826,13 +822,13 @@ public class StockManagement extends JPanel implements JPanelView {
     private javax.swing.JButton m_jDelete;
     private javax.swing.JButton m_jDown;
     private javax.swing.JButton m_jEnter;
-    private javax.swing.JComboBox m_jLocation;
-    private javax.swing.JComboBox m_jLocationDes;
+    private javax.swing.JComboBox<LocationInfo> m_jLocation;
+    private javax.swing.JComboBox<LocationInfo> m_jLocationDes;
     private javax.swing.JButton m_jUp;
     private javax.swing.JButton m_jbtndate;
     private javax.swing.JLabel m_jcodebar;
     private javax.swing.JTextField m_jdate;
-    private javax.swing.JComboBox m_jreason;
+    private javax.swing.JComboBox<MovementReason> m_jreason;
     // End of variables declaration//GEN-END:variables
     
 }

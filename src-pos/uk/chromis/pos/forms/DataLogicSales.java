@@ -1114,6 +1114,10 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 + "ORDER BY NAME", null, new SerializerReadClass(LocationInfo.class));
     }
 
+    public final List<LocationInfo> getLocations() throws BasicException {
+        return typedList(getLocationsList());
+    }
+
     public final SentenceList getProductListList() {
         return new StaticSentence(s, "SELECT DISTINCT "
                 + "LISTNAME FROM PRODUCTLISTS "

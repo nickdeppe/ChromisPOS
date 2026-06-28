@@ -23,7 +23,6 @@ import uk.chromis.beans.DateUtils;
 import uk.chromis.beans.JCalendarDialog;
 import uk.chromis.data.gui.ComboBoxValModel;
 import uk.chromis.data.gui.MessageInf;
-import uk.chromis.data.loader.SentenceList;
 import uk.chromis.data.user.DirtyManager;
 import uk.chromis.data.user.EditorRecord;
 import uk.chromis.format.Formats;
@@ -75,10 +74,8 @@ public final class StockDiaryEditor extends javax.swing.JPanel
     private String attsetinstdesc;
     private String sAppUser;
 
-    private final ComboBoxValModel m_ReasonModel;
-
-    private final SentenceList m_sentlocations;
-    private ComboBoxValModel m_LocationsModel;
+    private final ComboBoxValModel<MovementReason> m_ReasonModel;
+    private ComboBoxValModel<LocationInfo> m_LocationsModel;
 
     private final AppView m_App;
     private final DataLogicSales m_dlSales;
@@ -97,11 +94,9 @@ public final class StockDiaryEditor extends javax.swing.JPanel
         
         initComponents();      
 
-        // El modelo de locales
-        m_sentlocations = m_dlSales.getLocationsList();
-        m_LocationsModel = new ComboBoxValModel();
+        m_LocationsModel = new ComboBoxValModel<LocationInfo>();
 
-        m_ReasonModel = new ComboBoxValModel();
+        m_ReasonModel = new ComboBoxValModel<MovementReason>();
         m_ReasonModel.add(MovementReason.IN_PURCHASE);
         m_ReasonModel.add(MovementReason.OUT_SALE);
         m_ReasonModel.add(MovementReason.IN_STOCKCHANGE);        
@@ -141,7 +136,7 @@ public final class StockDiaryEditor extends javax.swing.JPanel
     public void activate() throws BasicException {
         m_cat.loadCatalog();
 
-        m_LocationsModel = new ComboBoxValModel(m_sentlocations.list());
+        m_LocationsModel = new ComboBoxValModel<LocationInfo>(m_dlSales.getLocations());
         m_jLocation.setModel(m_LocationsModel); // para que lo refresque   
     }
 
@@ -510,7 +505,7 @@ public final class StockDiaryEditor extends javax.swing.JPanel
                 m_EditProduct.setEnabled(true);
 
                 // calculo el precio sugerido para la entrada.
-                MovementReason reason = (MovementReason) m_ReasonModel.getSelectedItem();
+                MovementReason reason = m_ReasonModel.getSelectedItem();
                 Double dPrice = reason.getPrice(prod.getPriceBuy(), prod.getPriceSell());
                 m_jprice.setText(Formats.CURRENCY.formatValue(dPrice));
             }
@@ -642,12 +637,12 @@ public final class StockDiaryEditor extends javax.swing.JPanel
         m_jdate = new javax.swing.JTextField();
         m_jbtndate = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
-        m_jreason = new javax.swing.JComboBox();
+        m_jreason = new javax.swing.JComboBox<MovementReason>();
         jLabel8 = new javax.swing.JLabel();
         jproduct = new javax.swing.JTextField();
         m_FindProduct = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
-        m_jLocation = new javax.swing.JComboBox();
+        m_jLocation = new javax.swing.JComboBox<LocationInfo>();
         jLabel7 = new javax.swing.JLabel();
         m_jcodebar = new javax.swing.JTextField();
         m_jEnter = new javax.swing.JButton();
@@ -1004,7 +999,7 @@ public final class StockDiaryEditor extends javax.swing.JPanel
     private javax.swing.JButton m_EditProduct;
     private javax.swing.JButton m_FindProduct;
     private javax.swing.JButton m_jEnter;
-    private javax.swing.JComboBox m_jLocation;
+    private javax.swing.JComboBox<LocationInfo> m_jLocation;
     private javax.swing.JButton m_jbtndate;
     private javax.swing.JTextField m_jbuyprice;
     private javax.swing.JTextField m_jcodebar;
@@ -1012,7 +1007,7 @@ public final class StockDiaryEditor extends javax.swing.JPanel
     private javax.swing.JTextField m_jmaximum;
     private javax.swing.JTextField m_jminimum;
     private javax.swing.JTextField m_jprice;
-    private javax.swing.JComboBox m_jreason;
+    private javax.swing.JComboBox<MovementReason> m_jreason;
     private javax.swing.JTextField m_jreference;
     private javax.swing.JTextField m_jsellprice;
     private javax.swing.JTextField m_junits;
