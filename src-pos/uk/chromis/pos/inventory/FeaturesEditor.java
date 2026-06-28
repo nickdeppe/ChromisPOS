@@ -25,12 +25,13 @@ import java.util.UUID;
 import javax.swing.JPanel;
 import uk.chromis.basic.BasicException;
 import uk.chromis.data.gui.ComboBoxValModel;
-import uk.chromis.data.loader.SentenceList;
 import uk.chromis.data.user.DirtyManager;
 import uk.chromis.data.user.EditorRecord;
 import uk.chromis.format.Formats;
 import uk.chromis.pos.forms.AppLocal;
 import uk.chromis.pos.forms.DataLogicSales;
+import uk.chromis.pos.ticket.ExchangeInfo;
+import uk.chromis.pos.ticket.RatingInfo;
 
 /**
  *
@@ -39,10 +40,9 @@ import uk.chromis.pos.forms.DataLogicSales;
 public final class FeaturesEditor extends JPanel implements EditorRecord {
 
     private Object m_id;
-    private final SentenceList ratingSentence;
-    private final SentenceList exchangesSentence;
-    private ComboBoxValModel ratingsModel;
-    private ComboBoxValModel exchangesModel;
+    private final DataLogicSales dlSales;
+    private ComboBoxValModel<RatingInfo> ratingsModel;
+    private ComboBoxValModel<ExchangeInfo> exchangesModel;
 
 
     /**
@@ -61,8 +61,7 @@ public final class FeaturesEditor extends JPanel implements EditorRecord {
         m_jRating.addActionListener(dirty);
         m_jExchange.addActionListener(dirty);
         
-        ratingSentence = dlSales.getRatingsList();
-        exchangesSentence = dlSales.getExchangesList();
+        this.dlSales = dlSales;
 		
         writeValueEOF();
     }
@@ -73,8 +72,8 @@ public final class FeaturesEditor extends JPanel implements EditorRecord {
      */
     public void activate() throws BasicException {
 
-        ratingsModel = new ComboBoxValModel(ratingSentence.list());
-        exchangesModel = new ComboBoxValModel(exchangesSentence.list());
+        ratingsModel = new ComboBoxValModel<RatingInfo>(dlSales.getRatings());
+        exchangesModel = new ComboBoxValModel<ExchangeInfo>(dlSales.getExchanges());
         m_jRating.setModel(ratingsModel);
         m_jExchange.setModel(exchangesModel);
 
@@ -339,10 +338,10 @@ public final class FeaturesEditor extends JPanel implements EditorRecord {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JTabbedPane jTabbedPane1;
     private eu.hansolo.custom.SteelCheckBox m_jActive;
-    private javax.swing.JComboBox<String> m_jExchange;
+    private javax.swing.JComboBox<ExchangeInfo> m_jExchange;
     private javax.swing.JSpinner m_jFeatureRuntime;
     private javax.swing.JTextField m_jName;
-    private javax.swing.JComboBox<String> m_jRating;
+    private javax.swing.JComboBox<RatingInfo> m_jRating;
     private javax.swing.ButtonGroup m_jScheduleMode;
     private javax.swing.JPanel m_jTabGeneral;
     private uk.chromis.data.gui.JImageEditor m_jTabImage;

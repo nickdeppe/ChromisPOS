@@ -36,15 +36,16 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import uk.chromis.basic.BasicException;
 import uk.chromis.data.gui.ComboBoxValModel;
-import uk.chromis.data.loader.SentenceList;
 import uk.chromis.data.user.DirtyManager;
 import uk.chromis.data.user.EditorRecord;
 import uk.chromis.format.Formats;
 import uk.chromis.pos.forms.AppLocal;
 import uk.chromis.pos.forms.DataLogicSales;
+import uk.chromis.pos.promotion.PromotionInfo;
 import uk.chromis.pos.sales.TaxesLogic;
 import uk.chromis.pos.util.BarcodeValidator;
 import uk.chromis.pos.ticket.ProductInfoExt;
+import uk.chromis.pos.ticket.CategoryInfo;
 import uk.chromis.pos.util.AutoCompleteComboBox;
 
 /**
@@ -53,19 +54,13 @@ import uk.chromis.pos.util.AutoCompleteComboBox;
  */
 public final class ProductsEditor extends JPanel implements EditorRecord {
 
-    private final SentenceList m_sentcat;
-    private ComboBoxValModel m_CategoryModel;
-    private final SentenceList m_sentpromotion;
-    private ComboBoxValModel m_PromotionModel;
-    private final SentenceList taxcatsent;
-    private ComboBoxValModel taxcatmodel;
-    private final SentenceList attsent;
-    private ComboBoxValModel attmodel;
-    private final SentenceList taxsent;
+    private ComboBoxValModel<CategoryInfo> m_CategoryModel;
+    private ComboBoxValModel<PromotionInfo> m_PromotionModel;
+    private ComboBoxValModel<TaxCategoryInfo> taxcatmodel;
+    private ComboBoxValModel<AttributeSetInfo> attmodel;
     private TaxesLogic taxeslogic;
-    private final ComboBoxValModel m_CodetypeModel;
-    private final SentenceList packproductsent;
-    private ComboBoxValModel packproductmodel;
+    private final ComboBoxValModel<CodeType> m_CodetypeModel;
+    private ComboBoxValModel<PackProductInfo> packproductmodel;
     private Object m_id;
     private Object pricesell;
     private boolean priceselllock = false;
@@ -84,36 +79,19 @@ public final class ProductsEditor extends JPanel implements EditorRecord {
 
         m_dlSales = dlSales;
 
-        // Taxes sentence
-        taxsent = dlSales.getTaxList();
+        m_CategoryModel = new ComboBoxValModel<CategoryInfo>();
+        m_PromotionModel = new ComboBoxValModel<PromotionInfo>();
+        taxcatmodel = new ComboBoxValModel<TaxCategoryInfo>();
+        attmodel = new ComboBoxValModel<AttributeSetInfo>();
 
-        // Categories model
-        m_sentcat = dlSales.getCategoriesList();
-
-        m_CategoryModel = new ComboBoxValModel();
-
-        // Promotions model
-        m_sentpromotion = dlSales.getPromotionsList();
-        m_PromotionModel = new ComboBoxValModel();
-
-        // Taxes model
-        taxcatsent = dlSales.getTaxCategoriesList();
-        taxcatmodel = new ComboBoxValModel();
-
-        // Attributes model
-        attsent = dlSales.getAttributeSetList();
-        attmodel = new ComboBoxValModel();
-
-        m_CodetypeModel = new ComboBoxValModel();
+        m_CodetypeModel = new ComboBoxValModel<CodeType>();
         m_CodetypeModel.add(null);
         m_CodetypeModel.add(CodeType.EAN13);
         m_CodetypeModel.add(CodeType.CODE128);
         m_jCodetype.setModel(m_CodetypeModel);
         m_jCodetype.setVisible(false);
 
-        // Pack Product model
-        packproductsent = dlSales.getPackProductList();
-        packproductmodel = new ComboBoxValModel();
+        packproductmodel = new ComboBoxValModel<PackProductInfo>();
 
         m_jRef.getDocument().addDocumentListener(dirty);
         m_jCode.getDocument().addDocumentListener(dirty);
@@ -170,22 +148,22 @@ public final class ProductsEditor extends JPanel implements EditorRecord {
     public void activate() throws BasicException {
 
         // Load the taxes logic
-        taxeslogic = new TaxesLogic(taxsent.list());
+        taxeslogic = new TaxesLogic(m_dlSales.getTaxInfoList());
 
-        m_CategoryModel = new ComboBoxValModel(m_sentcat.list());
+        m_CategoryModel = new ComboBoxValModel<CategoryInfo>(m_dlSales.getCategories());
         m_jCategory.setModel(m_CategoryModel);
 
-        m_PromotionModel = new ComboBoxValModel(m_sentpromotion.list());
+        m_PromotionModel = new ComboBoxValModel<PromotionInfo>(m_dlSales.getPromotions());
         jComboBoxPromotion.setModel(m_PromotionModel);
 
-        taxcatmodel = new ComboBoxValModel(taxcatsent.list());
+        taxcatmodel = new ComboBoxValModel<TaxCategoryInfo>(m_dlSales.getTaxCategories());
         m_jTax.setModel(taxcatmodel);
 
-        attmodel = new ComboBoxValModel(attsent.list());
+        attmodel = new ComboBoxValModel<AttributeSetInfo>(m_dlSales.getAttributeSets());
         attmodel.add(0, null);
         m_jAtt.setModel(attmodel);
 
-        packproductmodel = new ComboBoxValModel(packproductsent.list());
+        packproductmodel = new ComboBoxValModel<PackProductInfo>(m_dlSales.getPackProducts());
         m_jPackProduct.setModel(packproductmodel);
 
         AutoCompleteComboBox.enable(m_jPackProduct);
@@ -1031,15 +1009,15 @@ public final class ProductsEditor extends JPanel implements EditorRecord {
         m_jRef = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         m_jCode = new javax.swing.JTextField();
-        m_jCodetype = new javax.swing.JComboBox();
+        m_jCodetype = new javax.swing.JComboBox<>();
         jLabel34 = new javax.swing.JLabel();
         m_jName = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        m_jCategory = new javax.swing.JComboBox();
+        m_jCategory = new javax.swing.JComboBox<>();
         jLabel13 = new javax.swing.JLabel();
-        m_jAtt = new javax.swing.JComboBox();
+        m_jAtt = new javax.swing.JComboBox<>();
         jLabel7 = new javax.swing.JLabel();
-        m_jTax = new javax.swing.JComboBox();
+        m_jTax = new javax.swing.JComboBox<>();
         jLabel16 = new javax.swing.JLabel();
         m_jPriceSellTax = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
@@ -1057,7 +1035,7 @@ public final class ProductsEditor extends JPanel implements EditorRecord {
         m_jVerpatrib = new eu.hansolo.custom.SteelCheckBox();
         m_jCheckWarrantyReceipt = new eu.hansolo.custom.SteelCheckBox();
         jLabel36 = new javax.swing.JLabel();
-        jComboBoxPromotion = new javax.swing.JComboBox();
+        jComboBoxPromotion = new javax.swing.JComboBox<>();
         jCheckBoxPromotion = new eu.hansolo.custom.SteelCheckBox();
         jPanel2 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
@@ -1069,7 +1047,7 @@ public final class ProductsEditor extends JPanel implements EditorRecord {
         jLabel23 = new javax.swing.JLabel();
         m_jStockUnits = new javax.swing.JTextField();
         m_jPackQuantity = new javax.swing.JTextField();
-        m_jPackProduct = new javax.swing.JComboBox();
+        m_jPackProduct = new javax.swing.JComboBox<>();
         jLabelPackQuantity = new javax.swing.JLabel();
         jLabelPackProduct = new javax.swing.JLabel();
         m_jInCatalog = new eu.hansolo.custom.SteelCheckBox();
@@ -1621,7 +1599,7 @@ public final class ProductsEditor extends JPanel implements EditorRecord {
         Object selectItem = m_jPackProduct.getSelectedItem();
         Object selectIndex = m_jPackProduct.getSelectedItem();
         try {
-            packproductmodel = new ComboBoxValModel(packproductsent.list());
+            packproductmodel = new ComboBoxValModel<PackProductInfo>(m_dlSales.getPackProducts());
         } catch (BasicException ex) {
             Logger.getLogger(ProductsEditor.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -1644,7 +1622,7 @@ public final class ProductsEditor extends JPanel implements EditorRecord {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonHTML;
     private eu.hansolo.custom.SteelCheckBox jCheckBoxPromotion;
-    private javax.swing.JComboBox jComboBoxPromotion;
+    private javax.swing.JComboBox<PromotionInfo> jComboBoxPromotion;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel13;
@@ -1686,14 +1664,14 @@ public final class ProductsEditor extends JPanel implements EditorRecord {
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextField m_jAlias;
     private eu.hansolo.custom.SteelCheckBox m_jAlwaysAvailable;
-    private javax.swing.JComboBox m_jAtt;
+    private javax.swing.JComboBox<AttributeSetInfo> m_jAtt;
     private eu.hansolo.custom.SteelCheckBox m_jBoxOffice;
     private eu.hansolo.custom.SteelCheckBox m_jBoxOfficeReported;
     private javax.swing.JTextField m_jCatalogOrder;
-    private javax.swing.JComboBox m_jCategory;
+    private javax.swing.JComboBox<CategoryInfo> m_jCategory;
     private eu.hansolo.custom.SteelCheckBox m_jCheckWarrantyReceipt;
     private javax.swing.JTextField m_jCode;
-    private javax.swing.JComboBox m_jCodetype;
+    private javax.swing.JComboBox<CodeType> m_jCodetype;
     private eu.hansolo.custom.SteelCheckBox m_jComment;
     private eu.hansolo.custom.SteelCheckBox m_jDiscounted;
     private javax.swing.JTextPane m_jDisplay;
@@ -1704,7 +1682,7 @@ public final class ProductsEditor extends JPanel implements EditorRecord {
     private eu.hansolo.custom.SteelCheckBox m_jKitchen;
     private eu.hansolo.custom.SteelCheckBox m_jManageStock;
     private javax.swing.JTextField m_jName;
-    private javax.swing.JComboBox m_jPackProduct;
+    private javax.swing.JComboBox<PackProductInfo> m_jPackProduct;
     private javax.swing.JTextField m_jPackQuantity;
     private javax.swing.JTextField m_jPriceBuy;
     private javax.swing.JTextField m_jPriceSell;
@@ -1713,7 +1691,7 @@ public final class ProductsEditor extends JPanel implements EditorRecord {
     private eu.hansolo.custom.SteelCheckBox m_jScale;
     private eu.hansolo.custom.SteelCheckBox m_jService;
     private javax.swing.JTextField m_jStockUnits;
-    private javax.swing.JComboBox m_jTax;
+    private javax.swing.JComboBox<TaxCategoryInfo> m_jTax;
     private javax.swing.JTextField m_jTextTip;
     private javax.swing.JLabel m_jTitle;
     private eu.hansolo.custom.SteelCheckBox m_jVerpatrib;

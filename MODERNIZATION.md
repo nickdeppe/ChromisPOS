@@ -96,15 +96,29 @@ The scripts assume these local install paths:
 - The fifteenth unchecked cleanup batch typed category-parent, tax-category,
   customer-tax-category, and parent-tax controls. Shared typed accessors now
   preserve their optional null selections without raw models.
-- Remaining unchecked warnings are concentrated in inventory combo models,
-  raw serializer and deserialization calls, and reflection helpers.
+- The sixteenth unchecked cleanup batch typed product, feature, product-list,
+  and stock-change import models. Shared typed list accessors now keep their
+  database query casts at the `DataLogicSales` boundary.
+- Remaining unchecked warnings are concentrated in raw serializer and
+  deserialization calls, reflection helpers, and a smaller set of unrelated
+  legacy UI models.
 
 ## Immediate follow-up
 
 Continue reducing unchecked generic warnings in focused batches, starting with
-inventory combo models before changing shared serializer internals.
+shared serializer internals.
 
 ## Deferred features
 
 - Exclude Box Office products from Stock Management and Stock Diary product
   selection because admission tickets do not carry physical stock.
+
+## Post-modernization roadmap
+
+Begin these projects after the runtime modernization and touch UI phase is
+complete:
+
+1. Shift4 Universal Transaction Gateway integration.
+2. New kitchen display integration.
+3. Online ticket sales integration.
+4. XML and Java syntax highlighting in the Resources editor.

@@ -1034,6 +1034,10 @@ public class DataLogicSales extends BeanFactoryDataSingle {
         });
     }
 
+    public final List<PromotionInfo> getPromotions() throws BasicException {
+        return typedList(getPromotionsList());
+    }
+
     public final List<TaxCustCategoryInfo> getTaxCustCategories() throws BasicException {
         return typedList(getTaxCustCategoriesList());
     }
@@ -1154,6 +1158,10 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 + "ORDER BY LISTNAME", null, new SerializerReadClass(ProductListInfo.class));
     }
 
+    public final List<ProductListInfo> getProductLists() throws BasicException {
+        return typedList(getProductListList());
+    }
+
     public final SentenceList getProductListItems(String listName) {
         return new StaticSentence(s, "SELECT "
                 + "L.PRODUCT, P.REFERENCE, P.NAME FROM PRODUCTLISTS L LEFT JOIN PRODUCTS P "
@@ -1161,6 +1169,10 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 + "WHERE L.LISTNAME = '" + listName + "' "
                 + "ORDER BY P.REFERENCE ",
                 null, new SerializerReadClass(ProductListItem.class));
+    }
+
+    public final List<ProductListItem> getProductListEntries(String listName) throws BasicException {
+        return typedList(getProductListItems(listName));
     }
 
     /**
@@ -1705,6 +1717,10 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 return new PackProductInfo(dr.getString(1), dr.getString(2));
             }
         });
+    }
+
+    public final List<PackProductInfo> getPackProducts() throws BasicException {
+        return typedList(getPackProductList());
     }
 
     /**
@@ -2577,6 +2593,10 @@ public class DataLogicSales extends BeanFactoryDataSingle {
         );
     }
 
+    public final List<RatingInfo> getRatings() throws BasicException {
+        return typedList(getRatingsList());
+    }
+
 
 
     /**
@@ -2594,6 +2614,10 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 null,
                 ExchangeInfo.getSerializerRead()
         );
+    }
+
+    public final List<ExchangeInfo> getExchanges() throws BasicException {
+        return typedList(getExchangesList());
     }
 
     

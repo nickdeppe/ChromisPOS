@@ -21,7 +21,6 @@ package uk.chromis.pos.inventory;
 import uk.chromis.basic.BasicException;
 import uk.chromis.data.gui.ComboBoxValModel;
 import uk.chromis.data.gui.MessageInf;
-import uk.chromis.data.loader.SentenceList;
 import uk.chromis.pos.catalog.CatalogSelector;
 import uk.chromis.pos.catalog.JCatalog;
 import uk.chromis.pos.forms.AppLocal;
@@ -58,11 +57,8 @@ public final class ProductListsPanel extends JPanel implements JPanelView, BeanF
     private String productref;
     private String productname;
 
-    private ComboBoxValModel m_NameListModel;
-    private SentenceList m_sentNameLists;
-
-    private ListValModel m_ProductsListModel;
-    private SentenceList m_sentProductsList;
+    private ComboBoxValModel<ProductListInfo> m_NameListModel;
+    private ListValModel<ProductListItem> m_ProductsListModel;
     
     private AppView m_App;
     private DataLogicSales m_dlSales;
@@ -82,8 +78,7 @@ public final class ProductListsPanel extends JPanel implements JPanelView, BeanF
         m_App = app;
         m_dlSales = (DataLogicSales) m_App.getBean("uk.chromis.pos.forms.DataLogicSales");
         
-        m_sentNameLists = m_dlSales.getProductListList();
-        m_NameListModel = new ComboBoxValModel();
+        m_NameListModel = new ComboBoxValModel<ProductListInfo>();
         m_jList.setModel(m_NameListModel);
         
         m_cat = new JCatalog(m_dlSales);
@@ -162,7 +157,7 @@ public final class ProductListsPanel extends JPanel implements JPanelView, BeanF
     public void activate() throws BasicException {
         m_cat.loadCatalog();
 
-        m_NameListModel = new ComboBoxValModel(m_sentNameLists.list());
+        m_NameListModel = new ComboBoxValModel<ProductListInfo>(m_dlSales.getProductLists());
         m_jList.setModel(m_NameListModel);  
         
         setControls();
@@ -251,19 +246,18 @@ public final class ProductListsPanel extends JPanel implements JPanelView, BeanF
         if( info != null ) {
             String name = info.getName();
             if( name != null && !name.isEmpty() ) {
-                m_sentProductsList = m_dlSales.getProductListItems( name );
                 try {
-                    m_ProductsListModel = new ListValModel( m_sentProductsList.list() );
+                    m_ProductsListModel = new ListValModel<ProductListItem>(m_dlSales.getProductListEntries(name));
                 } catch (BasicException ex) {
                     MessageInf msg = new MessageInf(ex);
                     msg.show(this);                   
-                    m_ProductsListModel = new ListValModel();
+                    m_ProductsListModel = new ListValModel<ProductListItem>();
                 }
             } else {
-                m_ProductsListModel = new ListValModel();
+                m_ProductsListModel = new ListValModel<ProductListItem>();
             }
         } else {
-            m_ProductsListModel = new ListValModel();
+            m_ProductsListModel = new ListValModel<ProductListItem>();
         }
         jListProducts.setModel( m_ProductsListModel );
     }
@@ -332,7 +326,7 @@ public final class ProductListsPanel extends JPanel implements JPanelView, BeanF
         m_FindProduct = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         m_jreference = new javax.swing.JTextField();
-        m_jList = new javax.swing.JComboBox();
+        m_jList = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         jListProducts = new javax.swing.JList<>();
         jButtonRemoveProduct = new javax.swing.JButton();
@@ -642,13 +636,13 @@ public final class ProductListsPanel extends JPanel implements JPanelView, BeanF
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JList<String> jListProducts;
+    private javax.swing.JList<ProductListItem> jListProducts;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jproduct;
     private javax.swing.JButton m_FindProduct;
     private javax.swing.JButton m_jEnter1;
-    private javax.swing.JComboBox m_jList;
+    private javax.swing.JComboBox<ProductListInfo> m_jList;
     private javax.swing.JTextField m_jbarcode;
     private javax.swing.JTextField m_jreference;
     // End of variables declaration//GEN-END:variables

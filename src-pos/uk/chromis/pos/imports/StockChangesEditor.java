@@ -23,7 +23,6 @@ import uk.chromis.basic.BasicException;
 import uk.chromis.data.gui.ComboBoxValModel;
 import uk.chromis.data.gui.JMessageDialog;
 import uk.chromis.data.gui.MessageInf;
-import uk.chromis.data.loader.SentenceList;
 import uk.chromis.data.user.DirtyManager;
 import uk.chromis.data.user.EditorRecord;
 import uk.chromis.format.Formats;
@@ -32,6 +31,8 @@ import uk.chromis.pos.forms.AppLocal;
 import uk.chromis.pos.forms.DataLogicSales;
 import uk.chromis.pos.forms.DataLogicStockChanges;
 import uk.chromis.pos.forms.DataLogicSystem;
+import uk.chromis.pos.inventory.TaxCategoryInfo;
+import uk.chromis.pos.ticket.CategoryInfo;
 
 /**
  *
@@ -44,10 +45,8 @@ public class StockChangesEditor extends javax.swing.JPanel implements EditorReco
     private DataLogicSales m_dlSales;
     private static DataLogicSystem m_dlSystem;
 
-    private final SentenceList m_sentcat;
-    private ComboBoxValModel m_CategoryModel;
-    private final SentenceList m_taxcatsent;
-    private ComboBoxValModel m_taxcatmodel;
+    private ComboBoxValModel<CategoryInfo> m_CategoryModel;
+    private ComboBoxValModel<TaxCategoryInfo> m_taxcatmodel;
 
     private String m_Location;
     private String m_ProductName;
@@ -68,13 +67,8 @@ public class StockChangesEditor extends javax.swing.JPanel implements EditorReco
 
         initComponents();
 
-        // Categories model
-        m_sentcat = dlSales.getCategoriesList();
-        m_CategoryModel = new ComboBoxValModel();
-
-        // Taxes model
-        m_taxcatsent = dlSales.getTaxCategoriesList();
-        m_taxcatmodel = new ComboBoxValModel();
+        m_CategoryModel = new ComboBoxValModel<CategoryInfo>();
+        m_taxcatmodel = new ComboBoxValModel<TaxCategoryInfo>();
 
         m_jCategory.addActionListener(dirty);
         m_jTax.addActionListener(dirty);
@@ -94,10 +88,10 @@ public class StockChangesEditor extends javax.swing.JPanel implements EditorReco
      */
     public void activate() throws BasicException {
 
-        m_CategoryModel = new ComboBoxValModel(m_sentcat.list());
+        m_CategoryModel = new ComboBoxValModel<CategoryInfo>(m_dlSales.getCategories());
         m_jCategory.setModel(m_CategoryModel);
 
-        m_taxcatmodel = new ComboBoxValModel(m_taxcatsent.list());
+        m_taxcatmodel = new ComboBoxValModel<TaxCategoryInfo>(m_dlSales.getTaxCategories());
         m_jTax.setModel(m_taxcatmodel);
 
     }
@@ -187,7 +181,7 @@ public class StockChangesEditor extends javax.swing.JPanel implements EditorReco
         setValueControl(null);
     }
 
-    public static void setSelectedValue(JComboBox comboBox, String value) {
+    public static void setSelectedValue(JComboBox<String> comboBox, String value) {
         String item;
         for (int i = 0; i < comboBox.getItemCount(); i++) {
             item = (String) comboBox.getItemAt(i);
@@ -400,17 +394,17 @@ public class StockChangesEditor extends javax.swing.JPanel implements EditorReco
         jLabel3 = new javax.swing.JLabel();
         jTextProduct = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jComboChangeType = new javax.swing.JComboBox();
+        jComboChangeType = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
-        jComboField = new javax.swing.JComboBox();
+        jComboField = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jComboAction = new javax.swing.JComboBox();
+        jComboAction = new javax.swing.JComboBox<>();
         jSeparator1 = new javax.swing.JSeparator();
         jTextValue = new javax.swing.JTextField();
         m_jImage = new uk.chromis.data.gui.JImageEditor();
-        m_jTax = new javax.swing.JComboBox();
-        m_jCategory = new javax.swing.JComboBox();
+        m_jTax = new javax.swing.JComboBox<>();
+        m_jCategory = new javax.swing.JComboBox<>();
         jButtonProcess = new javax.swing.JButton();
 
         m_jTitle.setFont(new java.awt.Font("SansSerif", 3, 18)); // NOI18N
@@ -559,9 +553,9 @@ public class StockChangesEditor extends javax.swing.JPanel implements EditorReco
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonProcess;
-    private javax.swing.JComboBox jComboAction;
-    private javax.swing.JComboBox jComboChangeType;
-    private javax.swing.JComboBox jComboField;
+    private javax.swing.JComboBox<String> jComboAction;
+    private javax.swing.JComboBox<String> jComboChangeType;
+    private javax.swing.JComboBox<String> jComboField;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -574,9 +568,9 @@ public class StockChangesEditor extends javax.swing.JPanel implements EditorReco
     private javax.swing.JTextField jTextUploadTime;
     private javax.swing.JTextField jTextUser;
     private javax.swing.JTextField jTextValue;
-    private javax.swing.JComboBox m_jCategory;
+    private javax.swing.JComboBox<CategoryInfo> m_jCategory;
     private uk.chromis.data.gui.JImageEditor m_jImage;
-    private javax.swing.JComboBox m_jTax;
+    private javax.swing.JComboBox<TaxCategoryInfo> m_jTax;
     private javax.swing.JLabel m_jTitle;
     // End of variables declaration//GEN-END:variables
 }
