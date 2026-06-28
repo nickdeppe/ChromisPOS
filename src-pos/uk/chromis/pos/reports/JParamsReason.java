@@ -36,13 +36,13 @@ import uk.chromis.pos.inventory.MovementReason;
  */
 public class JParamsReason extends javax.swing.JPanel implements ReportEditorCreator {
     
-    private ComboBoxValModel m_ReasonModel;
+    private ComboBoxValModel<MovementReason> m_ReasonModel;
     
     /** Creates new form JParamsReason */
     public JParamsReason() {
         initComponents();
         
-        m_ReasonModel = new ComboBoxValModel();
+        m_ReasonModel = new ComboBoxValModel<MovementReason>();
         m_ReasonModel.add(null);
         m_ReasonModel.add(MovementReason.IN_PURCHASE);
         m_ReasonModel.add(MovementReason.IN_REFUND);
@@ -116,7 +116,7 @@ public class JParamsReason extends javax.swing.JPanel implements ReportEditorCre
     private void initComponents() {
 
         jLabel2 = new javax.swing.JLabel();
-        m_jreason = new javax.swing.JComboBox();
+        m_jreason = new javax.swing.JComboBox<MovementReason>();
 
         setBorder(javax.swing.BorderFactory.createTitledBorder(null, AppLocal.getIntString("label.byreason"), javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 0, 12))); // NOI18N
         setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
@@ -150,7 +150,7 @@ public class JParamsReason extends javax.swing.JPanel implements ReportEditorCre
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JComboBox m_jreason;
+    private javax.swing.JComboBox<MovementReason> m_jreason;
     // End of variables declaration//GEN-END:variables
     
 }

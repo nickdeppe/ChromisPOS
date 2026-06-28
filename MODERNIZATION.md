@@ -77,10 +77,14 @@ The scripts assume these local install paths:
   record load, including tax-exempt products. CSV imports now also initialize
   both Box Office flags to `false`; missing values previously left imported
   products half-loaded in the editor and excluded them from normal sales.
-- Remaining unchecked warnings are concentrated in inventory/report combo
-  models, raw serializer and deserialization calls, and reflection helpers.
+- The eleventh unchecked cleanup batch typed report warehouse, stock-level,
+  and stock-reason parameter controls. Legacy location query casts are now
+  isolated at the `SentenceList` boundary, and the report package no longer
+  emits unchecked combo-model warnings.
+- Remaining unchecked warnings are concentrated in inventory combo models,
+  raw serializer and deserialization calls, and reflection helpers.
 
 ## Immediate follow-up
 
 Continue reducing unchecked generic warnings in focused batches, starting with
-inventory/report combo models before changing shared serializer internals.
+inventory combo models before changing shared serializer internals.

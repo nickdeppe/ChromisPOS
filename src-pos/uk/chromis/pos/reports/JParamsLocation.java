@@ -32,6 +32,7 @@ import uk.chromis.data.loader.SerializerWriteBasic;
 import uk.chromis.pos.forms.AppLocal;
 import uk.chromis.pos.forms.AppView;
 import uk.chromis.pos.forms.DataLogicSales;
+import uk.chromis.pos.inventory.LocationInfo;
 
 /**
  *
@@ -40,7 +41,7 @@ import uk.chromis.pos.forms.DataLogicSales;
 public class JParamsLocation extends javax.swing.JPanel implements ReportEditorCreator {
     
     private SentenceList m_sentlocations;
-    private ComboBoxValModel m_LocationsModel;    
+    private ComboBoxValModel<LocationInfo> m_LocationsModel;
     
     /** Creates new form JParamsLocation */
     public JParamsLocation() {
@@ -58,7 +59,7 @@ public class JParamsLocation extends javax.swing.JPanel implements ReportEditorC
         
         // El modelo de locales
         m_sentlocations = dlSales.getLocationsList();
-        m_LocationsModel = new ComboBoxValModel();   
+        m_LocationsModel = new ComboBoxValModel<LocationInfo>();
     }
         
     /**
@@ -67,9 +68,9 @@ public class JParamsLocation extends javax.swing.JPanel implements ReportEditorC
      */
     @Override
     public void activate() throws BasicException {
-        List a = m_sentlocations.list();
+        List<LocationInfo> a = loadLocations();
         addFirst(a);
-        m_LocationsModel = new ComboBoxValModel(a);
+        m_LocationsModel = new ComboBoxValModel<LocationInfo>(a);
         m_LocationsModel.setSelectedFirst();
         m_jLocation.setModel(m_LocationsModel); // refresh model   
     }
@@ -96,8 +97,13 @@ public class JParamsLocation extends javax.swing.JPanel implements ReportEditorC
      *
      * @param a
      */
-    protected void addFirst(List a) {
+    protected void addFirst(List<LocationInfo> a) {
         // do nothing
+    }
+
+    @SuppressWarnings("unchecked")
+    private List<LocationInfo> loadLocations() throws BasicException {
+        return (List<LocationInfo>) (List<?>) m_sentlocations.list();
     }
     
     /**
@@ -137,7 +143,7 @@ public class JParamsLocation extends javax.swing.JPanel implements ReportEditorC
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        m_jLocation = new javax.swing.JComboBox();
+        m_jLocation = new javax.swing.JComboBox<LocationInfo>();
         jLabel8 = new javax.swing.JLabel();
 
         setBorder(javax.swing.BorderFactory.createTitledBorder(null, AppLocal.getIntString("label.bywarehouse"), javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 0, 12))); // NOI18N
@@ -173,7 +179,7 @@ public class JParamsLocation extends javax.swing.JPanel implements ReportEditorC
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JComboBox m_jLocation;
+    private javax.swing.JComboBox<LocationInfo> m_jLocation;
     // End of variables declaration//GEN-END:variables
     
 }

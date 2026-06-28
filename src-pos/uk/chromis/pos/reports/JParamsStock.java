@@ -21,7 +21,6 @@ package uk.chromis.pos.reports;
 import java.awt.Component;
 import uk.chromis.basic.BasicException;
 import uk.chromis.data.gui.ComboBoxValModel;
-import uk.chromis.data.gui.ListQBFModelNumber;
 import uk.chromis.data.loader.Datas;
 import uk.chromis.data.loader.QBFCompareEnum;
 import uk.chromis.data.loader.SerializerWrite;
@@ -29,7 +28,6 @@ import uk.chromis.data.loader.SerializerWriteBasic;
 import uk.chromis.format.Formats;
 import uk.chromis.pos.forms.AppLocal;
 import uk.chromis.pos.forms.AppView;
-import uk.chromis.pos.inventory.MovementReason;
 
 /**
  *
@@ -37,7 +35,7 @@ import uk.chromis.pos.inventory.MovementReason;
  */
 public class JParamsStock extends javax.swing.JPanel implements ReportEditorCreator {
 
-    private ComboBoxValModel m_StockLevelModel;
+    private ComboBoxValModel<QBFCompareEnum> m_StockLevelModel;
 
     /**
      * Creates new form JParamsReason
@@ -45,7 +43,7 @@ public class JParamsStock extends javax.swing.JPanel implements ReportEditorCrea
     public JParamsStock() {
         initComponents();
 
-        m_StockLevelModel = new ComboBoxValModel();
+        m_StockLevelModel = new ComboBoxValModel<QBFCompareEnum>();
         m_StockLevelModel.add(null);
         m_StockLevelModel.add(QBFCompareEnum.COMP_EQUALS);
         m_StockLevelModel.add(QBFCompareEnum.COMP_GREATER);
@@ -112,7 +110,7 @@ public class JParamsStock extends javax.swing.JPanel implements ReportEditorCrea
     private void initComponents() {
 
         jLabel2 = new javax.swing.JLabel();
-        m_jstock = new javax.swing.JComboBox();
+        m_jstock = new javax.swing.JComboBox<QBFCompareEnum>();
         jStockLevel = new javax.swing.JTextField();
 
         setBorder(javax.swing.BorderFactory.createTitledBorder(null, AppLocal.getIntString("label.bystock"), javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 0, 12))); // NOI18N
@@ -164,7 +162,7 @@ public class JParamsStock extends javax.swing.JPanel implements ReportEditorCrea
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel2;
     private javax.swing.JTextField jStockLevel;
-    private javax.swing.JComboBox m_jstock;
+    private javax.swing.JComboBox<QBFCompareEnum> m_jstock;
     // End of variables declaration//GEN-END:variables
 
 }

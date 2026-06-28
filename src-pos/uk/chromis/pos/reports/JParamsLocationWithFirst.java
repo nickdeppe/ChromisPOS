@@ -20,6 +20,7 @@
 package uk.chromis.pos.reports;
 
 import java.util.List;
+import uk.chromis.pos.inventory.LocationInfo;
 
 /**
  *
@@ -37,7 +38,7 @@ public class JParamsLocationWithFirst extends JParamsLocation {
      * @param a
      */
     @Override
-    protected void addFirst(List a) {
+    protected void addFirst(List<LocationInfo> a) {
         a.add(0, null);
     }    
 }

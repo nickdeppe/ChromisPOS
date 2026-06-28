@@ -41,6 +41,7 @@ import uk.chromis.format.Formats;
 import uk.chromis.pos.forms.AppLocal;
 import uk.chromis.pos.forms.AppView;
 import uk.chromis.pos.forms.DataLogicSales;
+import uk.chromis.pos.inventory.LocationInfo;
 
 public class JParamsLocationWithStockLevel extends javax.swing.JPanel implements ReportEditorCreator {
 
@@ -48,14 +49,14 @@ public class JParamsLocationWithStockLevel extends javax.swing.JPanel implements
     private final JLabel jLabel1;
     private final JLabel jLabel2;
 
-    private final JComboBox m_jLocation = new JComboBox();
-    private final JComboBox m_jstock = new JComboBox();
+    private final JComboBox<LocationInfo> m_jLocation = new JComboBox<LocationInfo>();
+    private final JComboBox<QBFCompareEnum> m_jstock = new JComboBox<QBFCompareEnum>();
 
     private final JTextField jStockLevel = new JTextField();
 
     private SentenceList m_sentlocations;
-    private ComboBoxValModel m_LocationsModel;
-    private ComboBoxValModel m_StockLevelModel;
+    private ComboBoxValModel<LocationInfo> m_LocationsModel;
+    private ComboBoxValModel<QBFCompareEnum> m_StockLevelModel;
 
     /**
      * Creates new form JParamsLocation
@@ -112,7 +113,7 @@ public class JParamsLocationWithStockLevel extends javax.swing.JPanel implements
 
         // El modelo de locales
         m_sentlocations = dlSales.getLocationsList();
-        m_LocationsModel = new ComboBoxValModel();
+        m_LocationsModel = new ComboBoxValModel<LocationInfo>();
     }
 
     /**
@@ -121,13 +122,13 @@ public class JParamsLocationWithStockLevel extends javax.swing.JPanel implements
      */
     @Override
     public void activate() throws BasicException {
-        List a = m_sentlocations.list();
+        List<LocationInfo> a = loadLocations();
         a.add(0, null);
-        m_LocationsModel = new ComboBoxValModel(a);
+        m_LocationsModel = new ComboBoxValModel<LocationInfo>(a);
         m_LocationsModel.setSelectedFirst();
         m_jLocation.setModel(m_LocationsModel);
 
-        m_StockLevelModel = new ComboBoxValModel();
+        m_StockLevelModel = new ComboBoxValModel<QBFCompareEnum>();
         m_StockLevelModel.add(null);
         m_StockLevelModel.add(QBFCompareEnum.COMP_EQUALS);
         m_StockLevelModel.add(QBFCompareEnum.COMP_GREATER);
@@ -153,12 +154,9 @@ public class JParamsLocationWithStockLevel extends javax.swing.JPanel implements
         return this;
     }
 
-    /**
-     *
-     * @param a
-     */
-    protected void addFirst(List a) {
-        // do nothing
+    @SuppressWarnings("unchecked")
+    private List<LocationInfo> loadLocations() throws BasicException {
+        return (List<LocationInfo>) (List<?>) m_sentlocations.list();
     }
 
     /**
