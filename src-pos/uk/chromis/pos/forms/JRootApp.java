@@ -618,16 +618,16 @@ public class JRootApp extends JPanel implements AppView {
                 bf = new BeanFactoryScript(beanfactory);
             } else {
                 try {
-                    Class bfclass = Class.forName(beanfactory);
+                    Class<?> beanClass = Class.forName(beanfactory);
 
                     if (BeanFactory.class
-                            .isAssignableFrom(bfclass)) {
-                        bf = (BeanFactory) bfclass.getDeclaredConstructor().newInstance();
+                            .isAssignableFrom(beanClass)) {
+                        Class<? extends BeanFactory> factoryClass = beanClass.asSubclass(BeanFactory.class);
+                        bf = factoryClass.getDeclaredConstructor().newInstance();
                     } else {
                         // the old construction for beans...
-                        Constructor constMyView = bfclass.getConstructor(new Class[]{AppView.class
-                        });
-                        Object bean = constMyView.newInstance(new Object[]{this});
+                        Constructor<?> viewConstructor = beanClass.getConstructor(AppView.class);
+                        Object bean = viewConstructor.newInstance(this);
                         bf = new BeanFactoryObj(bean);
                     }
                 } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | NoSuchMethodException | SecurityException | IllegalArgumentException | InvocationTargetException e) {

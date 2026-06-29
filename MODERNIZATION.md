@@ -105,14 +105,16 @@ The scripts assume these local install paths:
 - The eighteenth unchecked cleanup batch constrained reflection-backed row
   deserialization to `SerializableRead` classes, removing its raw class and
   constructor call without changing failed-instantiation behavior.
+- The nineteenth unchecked cleanup batch typed application bean reflection.
+  Both modern `BeanFactory` classes and legacy `AppView` constructors retain
+  their existing loading paths without raw `Class` or `Constructor` calls.
 - Remaining unchecked warnings are concentrated in deserialization and
-  application reflection helpers, plus a smaller set of unrelated legacy UI
-  models.
+  legacy collection models, plus a smaller set of unrelated UI controls.
 
 ## Immediate follow-up
 
 Continue reducing unchecked generic warnings in focused batches, starting with
-application bean reflection.
+ticket and payment deserialization.
 
 ## Deferred features
 
