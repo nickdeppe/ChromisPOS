@@ -219,8 +219,8 @@ public final class JRViewer300 extends javax.swing.JPanel implements JRHyperlink
 	private int downX = 0;
 	private int downY = 0;
 
-	private java.util.List hyperlinkListeners = new ArrayList();
-	private Map linksMap = new HashMap();
+	private List<JRHyperlinkListener> hyperlinkListeners = new ArrayList<>();
+	private Map<JPanel, JRPrintElement> linksMap = new HashMap<>();
 	private MouseListener mouseListener =
 		new java.awt.event.MouseAdapter()
 		{
@@ -254,7 +254,7 @@ public final class JRViewer300 extends javax.swing.JPanel implements JRHyperlink
     /**
      *
      */
-    protected List saveContributors = new ArrayList();
+    protected List<JRSaveContributor> saveContributors = new ArrayList<>();
 
     /**
      *
@@ -463,7 +463,7 @@ public final class JRViewer300 extends javax.swing.JPanel implements JRHyperlink
 	 */
 	public JRSaveContributor[] getSaveContributors()
 	{
-		return (JRSaveContributor[])saveContributors.toArray(new JRSaveContributor[saveContributors.size()]);
+		return saveContributors.toArray(new JRSaveContributor[saveContributors.size()]);
 	}
 
 
@@ -473,7 +473,7 @@ public final class JRViewer300 extends javax.swing.JPanel implements JRHyperlink
 	 */
 	public void setSaveContributors(JRSaveContributor[] saveContributors)
 	{
-		this.saveContributors = new ArrayList();
+		this.saveContributors = new ArrayList<>();
 		if (saveContributors != null)
 		{
 			this.saveContributors.addAll(Arrays.asList(saveContributors));
@@ -508,7 +508,7 @@ public final class JRViewer300 extends javax.swing.JPanel implements JRHyperlink
 	 */
 	public JRHyperlinkListener[] getHyperlinkListeners()
 	{
-		return (JRHyperlinkListener[])hyperlinkListeners.toArray(new JRHyperlinkListener[hyperlinkListeners.size()]);
+		return hyperlinkListeners.toArray(new JRHyperlinkListener[hyperlinkListeners.size()]);
 	}
 
 
@@ -575,8 +575,8 @@ public final class JRViewer300 extends javax.swing.JPanel implements JRHyperlink
 		{
 			try
 			{
-				Class saveContribClass = JRClassLoader.loadClassForName(defaultContributors[i]);
-				Constructor constructor = saveContribClass.getConstructor(new Class[]{Locale.class, ResourceBundle.class});
+				Class<?> saveContribClass = JRClassLoader.loadClassForName(defaultContributors[i]);
+				Constructor<?> constructor = saveContribClass.getConstructor(new Class<?>[]{Locale.class, ResourceBundle.class});
 				JRSaveContributor saveContrib = (JRSaveContributor)constructor.newInstance(new Object[]{getLocale(), resourceBundle});
 				saveContributors.add(saveContrib);
 			}
@@ -767,8 +767,8 @@ public final class JRViewer300 extends javax.swing.JPanel implements JRHyperlink
         btnFitWidth = new javax.swing.JToggleButton();
         jSeparator2 = new javax.swing.JToolBar.Separator();
         btnZoomIn = new javax.swing.JButton();
-        cmbZoom = new javax.swing.JComboBox();
-        DefaultComboBoxModel model = new DefaultComboBoxModel();
+        cmbZoom = new javax.swing.JComboBox<String>();
+        DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
         for(int i = 0; i < zooms.length; i++)
         {
             model.addElement("" + zooms[i] + "%");
@@ -1135,7 +1135,7 @@ public final class JRViewer300 extends javax.swing.JPanel implements JRHyperlink
 		fileChooser.updateUI();
 		for(int i = 0; i < saveContributors.size(); i++)
 		{
-			fileChooser.addChoosableFileFilter((JRSaveContributor)saveContributors.get(i));
+			fileChooser.addChoosableFileFilter(saveContributors.get(i));
 		}
 
 		if (saveContributors.contains(lastSaveContributor))
@@ -1144,7 +1144,7 @@ public final class JRViewer300 extends javax.swing.JPanel implements JRHyperlink
 		}
 		else if (saveContributors.size() > 0)
 		{
-			fileChooser.setFileFilter((JRSaveContributor)saveContributors.get(0));
+			fileChooser.setFileFilter(saveContributors.get(0));
 		}
 		
 		if (lastFolder != null)
@@ -1171,7 +1171,7 @@ public final class JRViewer300 extends javax.swing.JPanel implements JRHyperlink
 				int i = 0;
 				while(contributor == null && i < saveContributors.size())
 				{
-					contributor = (JRSaveContributor)saveContributors.get(i++);
+					contributor = saveContributors.get(i++);
 					if (!contributor.accept(file))
 					{
 						contributor = null;
@@ -1415,7 +1415,7 @@ public final class JRViewer300 extends javax.swing.JPanel implements JRHyperlink
 			JRHyperlinkListener listener = null;
 			for(int i = 0; i < hyperlinkListeners.size(); i++)
 			{
-				listener = (JRHyperlinkListener)hyperlinkListeners.get(i);
+				listener = hyperlinkListeners.get(i);
 				listener.gotoHyperlink(hyperlink);
 			}
 		}
@@ -1606,7 +1606,7 @@ public final class JRViewer300 extends javax.swing.JPanel implements JRHyperlink
 		}
 
 		pnlLinks.removeAll();
-		linksMap = new HashMap();
+		linksMap = new HashMap<>();
 
 		createHyperlinks();
 
@@ -2318,7 +2318,7 @@ public final class JRViewer300 extends javax.swing.JPanel implements JRHyperlink
     protected javax.swing.JButton btnSave;
     protected javax.swing.JButton btnZoomIn;
     protected javax.swing.JButton btnZoomOut;
-    protected javax.swing.JComboBox cmbZoom;
+    protected javax.swing.JComboBox<String> cmbZoom;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;

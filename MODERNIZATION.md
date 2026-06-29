@@ -146,6 +146,9 @@ The scripts assume these local install paths:
   retain the promotion ID needed for recalculation and removal.
 - The thirty-fifth unchecked cleanup batch loads report tax logic through the
   shared typed sales-data accessor instead of retaining a raw tax sentence.
+- The thirty-sixth unchecked cleanup batch types Jasper viewer save
+  contributors, hyperlink listeners and links, reflective constructors, and
+  zoom choices.
 - Remaining unchecked warnings are concentrated in deserialization and
   legacy UI controls, payment gateway maps, and utility collections.
 
