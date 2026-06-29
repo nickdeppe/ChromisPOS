@@ -28,15 +28,15 @@ import uk.chromis.pos.forms.AppLocal;
  *   
  */
 public class ReportFieldsArray implements ReportFields {
-    
-    private Map m_keys = null;
+
+    private Map<String, Integer> m_keys = null;
     
     /** Creates a new instance of ReportFieldsArray
      * @param afields */
     public ReportFieldsArray(String[] afields) {
                
         // Creo el mapa de claves
-        m_keys = new HashMap();
+        m_keys = new HashMap<>();
         for (int i = 0; i < afields.length; i++) {
             m_keys.put(afields[i], Integer.valueOf(i));
         }
@@ -51,7 +51,7 @@ public class ReportFieldsArray implements ReportFields {
      */
     public Object getField(Object record, String field) throws ReportException {
         
-        Integer i = (Integer) m_keys.get(field);
+        Integer i = m_keys.get(field);
         if (i == null) {
             throw new ReportException(AppLocal.getIntString("exception.unavailablefield", new Object[] {field}));
         } else {

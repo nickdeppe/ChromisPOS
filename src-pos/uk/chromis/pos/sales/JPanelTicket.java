@@ -50,7 +50,6 @@ import uk.chromis.basic.BasicException;
 import uk.chromis.data.gui.ComboBoxValModel;
 import uk.chromis.data.gui.ListKeyed;
 import uk.chromis.data.gui.MessageInf;
-import uk.chromis.data.loader.SentenceList;
 import uk.chromis.pos.customers.CustomerInfoExt;
 import uk.chromis.pos.customers.DataLogicCustomers;
 import uk.chromis.pos.customers.JCustomerFinder;
@@ -134,11 +133,9 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
     private TicketParser m_TTP;
     private StringBuffer m_sBarcode;
     private JTicketsBag m_ticketsbag;
-    private SentenceList senttax;
-    private ListKeyed taxcollection;
-    private SentenceList senttaxcategories;
-    private ListKeyed taxcategoriescollection;
-    private ComboBoxValModel taxcategoriesmodel;
+    private ListKeyed<TaxInfo> taxcollection;
+    private ListKeyed<TaxCategoryInfo> taxcategoriescollection;
+    private ComboBoxValModel<TaxCategoryInfo> taxcategoriesmodel;
     private TaxesLogic taxeslogic;
     private JPaymentSelect paymentdialogreceipt;
     private JPaymentSelect paymentdialogrefund;
@@ -221,10 +218,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 
         catcontainer.add(getSouthComponent(), BorderLayout.CENTER);
 
-        senttax = dlSales.getTaxList();
-        senttaxcategories = dlSales.getTaxCategoriesList();
-
-        taxcategoriesmodel = new ComboBoxValModel();
+        taxcategoriesmodel = new ComboBoxValModel<>();
 
         stateToZero();
 
@@ -360,12 +354,12 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         // impuestos incluidos seleccionado ?
         m_jaddtax.setSelected("true".equals(m_jbtnconfig.getProperty("taxesincluded")));
 
-        java.util.List<TaxInfo> taxlist = senttax.list();
+        java.util.List<TaxInfo> taxlist = dlSales.getTaxInfoList();
         taxcollection = new ListKeyed<>(taxlist);
-        java.util.List<TaxCategoryInfo> taxcategorieslist = senttaxcategories.list();
+        java.util.List<TaxCategoryInfo> taxcategorieslist = dlSales.getTaxCategories();
         taxcategoriescollection = new ListKeyed<>(taxcategorieslist);
 
-        taxcategoriesmodel = new ComboBoxValModel(taxcategorieslist);
+        taxcategoriesmodel = new ComboBoxValModel<>(taxcategorieslist);
         m_jTax.setModel(taxcategoriesmodel);
 
         String taxesid = m_jbtnconfig.getProperty("taxcategoryid");
@@ -928,7 +922,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         oProduct.setID("xxx999_999xxx_x9x9x9");
         oProduct.setReference(null);
         oProduct.setCode(null);
-        oProduct.setTaxCategoryID(((TaxCategoryInfo) taxcategoriesmodel.getSelectedItem()).getID());
+        oProduct.setTaxCategoryID(taxcategoriesmodel.getSelectedItem().getID());
         oProduct.setPriceSell(includeTaxes(oProduct.getTaxCategoryID(), getInputValue()));
         return oProduct;
     }
@@ -1161,7 +1155,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
                                 oProduct.setCode("05V");
                                 oProduct.setName(oProduct.getName());
                                 oProduct.setProperty("vCode", sCode);
-                                oProduct.setTaxCategoryID(((TaxCategoryInfo) taxcategoriesmodel.getSelectedItem()).getID());
+                                oProduct.setTaxCategoryID(taxcategoriesmodel.getSelectedItem().getID());
                                 addTicketLine(oProduct, 1.0, includeTaxes(oProduct.getTaxCategoryID(), oProduct.getPriceSell()));
                             } else {
                                 if (AppConfig.getInstance().getBoolean("till.customsounds")) {
@@ -1194,7 +1188,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
                                 oProduct.setCode("10V");
                                 oProduct.setName(oProduct.getName());
                                 oProduct.setProperty("vCode", sCode);
-                                oProduct.setTaxCategoryID(((TaxCategoryInfo) taxcategoriesmodel.getSelectedItem()).getID());
+                                oProduct.setTaxCategoryID(taxcategoriesmodel.getSelectedItem().getID());
                                 addTicketLine(oProduct, 1.0, includeTaxes(oProduct.getTaxCategoryID(), oProduct.getPriceSell()));
                             } else {
                                 if (AppConfig.getInstance().getBoolean("till.customsounds")) {
@@ -1227,7 +1221,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
                                 oProduct.setProperty("vCode", sCode);
                                 oProduct.setCode("20V");
                                 oProduct.setName(oProduct.getName());
-                                oProduct.setTaxCategoryID(((TaxCategoryInfo) taxcategoriesmodel.getSelectedItem()).getID());
+                                oProduct.setTaxCategoryID(taxcategoriesmodel.getSelectedItem().getID());
                                 addTicketLine(oProduct, 1.0, includeTaxes(oProduct.getTaxCategoryID(), oProduct.getPriceSell()));
                             } else {
                                 if (AppConfig.getInstance().getBoolean("till.customsounds")) {
@@ -1909,7 +1903,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
                 }
             }
             // Construyo el mapa de los parametros.
-            Map reportparams = new HashMap();
+            Map<String, Object> reportparams = new HashMap<>();
             // reportparams.put("ARG", params);
             try {
                 reportparams.put("REPORT_RESOURCE_BUNDLE", ResourceBundle.getBundle(resourcefile + ".properties"));
@@ -1917,7 +1911,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
             }
             reportparams.put("TAXESLOGIC", taxeslogic);
 
-            Map reportfields = new HashMap();
+            Map<String, Object> reportfields = new HashMap<>();
             reportfields.put("TICKET", ticket);
             reportfields.put("PLACE", ticketext);
 
@@ -2358,7 +2352,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         m_jPrice = new javax.swing.JLabel();
         m_jPor = new javax.swing.JLabel();
         m_jEnter = new javax.swing.JButton();
-        m_jTax = new javax.swing.JComboBox();
+        m_jTax = new javax.swing.JComboBox<TaxCategoryInfo>();
         m_jaddtax = new javax.swing.JToggleButton();
         m_jKeyFactory = new javax.swing.JTextField();
         catcontainer = new javax.swing.JPanel();
@@ -3222,7 +3216,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
     private javax.swing.JLabel m_jPor;
     private javax.swing.JLabel m_jPrice;
     private javax.swing.JLabel m_jSubtotalEuros;
-    private javax.swing.JComboBox m_jTax;
+    private javax.swing.JComboBox<TaxCategoryInfo> m_jTax;
     private javax.swing.JLabel m_jTaxesEuros;
     private javax.swing.JLabel m_jTicketId;
     private javax.swing.JLabel m_jTotalEuros;

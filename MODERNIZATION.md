@@ -149,6 +149,8 @@ The scripts assume these local install paths:
 - The thirty-sixth unchecked cleanup batch types Jasper viewer save
   contributors, hyperlink listeners and links, reflective constructors, and
   zoom choices.
+- The thirty-seventh unchecked cleanup batch types report-field indexes plus
+  the main sales panel's tax lists, tax selector, and receipt-report maps.
 - Remaining unchecked warnings are concentrated in deserialization and
   legacy UI controls, payment gateway maps, and utility collections.
 
