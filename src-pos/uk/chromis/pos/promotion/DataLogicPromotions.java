@@ -45,6 +45,11 @@ import uk.chromis.pos.forms.DataLogicSales;
 import uk.chromis.pos.ticket.CouponLine;
 
 public class DataLogicPromotions extends BeanFactoryDataSingle {
+
+    @SuppressWarnings("unchecked")
+    private static <T> List<T> typedList(SentenceList sentence) throws BasicException {
+        return (List<T>) sentence.list();
+    }
     
     protected Session m_session;
     
@@ -165,6 +170,10 @@ public class DataLogicPromotions extends BeanFactoryDataSingle {
                 , SerializerReadString.INSTANCE);          
              
     }
+
+    public final List<String> getResourceScripts() throws BasicException {
+        return typedList(getResourceScriptListSentence());
+    }
     
     public final PreparedSentence getListSentence() {
  	return new PreparedSentence(m_session,
@@ -202,6 +211,10 @@ public class DataLogicPromotions extends BeanFactoryDataSingle {
  	return new PreparedSentence(m_session, sql, null,
             m_ProductRow.getSerializerRead()
         );
+    }
+
+    public final List<Object[]> getPromotedProducts(String promotionID, String sqlWhere) throws BasicException {
+        return typedList(getPromotedProductsSentence(promotionID, sqlWhere));
     }
 
     /**
@@ -309,12 +322,12 @@ public class DataLogicPromotions extends BeanFactoryDataSingle {
 
     // Get the promotion IDs for all enabled promotions that act on all products
     public List<PromotionInfo> getAllProductPromotions() throws BasicException {
-        return new PreparedSentence( m_session,
+        return typedList(new PreparedSentence( m_session,
                 "SELECT ID, NAME, CRITERIA, SCRIPT, ISENABLED, ALLPRODUCTS FROM PROMOTIONS "
                 + "WHERE ISENABLED = " + m_session.DB.TRUE()
                 + " AND ALLPRODUCTS = " + m_session.DB.TRUE(),
                 null,
-                getPromotionsSerializerRead() ).list();
+                getPromotionsSerializerRead()));
     }
        
     /**

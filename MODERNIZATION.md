@@ -138,6 +138,8 @@ The scripts assume these local install paths:
   and XML-defined column metadata without changing rendering or selection.
 - The thirty-second unchecked cleanup batch types the raw ESC/POS printer byte
   queue while preserving its existing FIFO behavior and print submission.
+- The thirty-third unchecked cleanup batch types promotion query boundaries,
+  resource controls, product rows, selection lists, and product rendering.
 - Remaining unchecked warnings are concentrated in deserialization and
   legacy UI controls, payment gateway maps, and utility collections.
 

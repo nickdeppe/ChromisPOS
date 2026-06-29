@@ -31,7 +31,6 @@ import uk.chromis.data.gui.ListValModel;
 import uk.chromis.data.gui.MessageInf;
 import uk.chromis.data.loader.Datas;
 import uk.chromis.data.loader.LocalRes;
-import uk.chromis.data.loader.SentenceList;
 import uk.chromis.data.user.DirtyManager;
 import uk.chromis.data.user.EditorRecord;
 import uk.chromis.pos.admin.DataLogicAdmin;
@@ -62,15 +61,12 @@ public class PromotionEditor extends javax.swing.JPanel
     private final int m_IndexEnabled;
     private final int m_IndexAllProducts;
     
-    private SentenceList m_SentenceProducts;
-    private ListValModel m_ModelProducts;
-    
-    private SentenceList m_SentenceResource;
-    private ComboBoxValModel m_ModelResource;
+    private ListValModel<Object[]> m_ModelProducts;
+    private ComboBoxValModel<String> m_ModelResource;
 
     
     class ProductsListCellRenderer extends JComponent
-        implements ListCellRenderer {
+        implements ListCellRenderer<Object[]> {
          Color listForeground, listBackground,  
              listSelectionForeground,  
              listSelectionBackground;  
@@ -93,11 +89,10 @@ public class PromotionEditor extends javax.swing.JPanel
              listSelectionBackground =  uid.getColor ("List.selectionBackground"); 
         }  
         
-        public Component getListCellRendererComponent(JList list, Object value, int index,
+        public Component getListCellRendererComponent(JList<? extends Object[]> list, Object[] value, int index,
             boolean isSelected, boolean cellHasFocus) {
-            Object [] avalues = (Object []) value;
-            String name = (String) avalues[DataLogicPromotions.INDEX_PROMOTEDPRODUCT_NAME];
-            String ref = (String) avalues[DataLogicPromotions.INDEX_PROMOTEDPRODUCT_REFERENCE];
+            String name = (String) value[DataLogicPromotions.INDEX_PROMOTEDPRODUCT_NAME];
+            String ref = (String) value[DataLogicPromotions.INDEX_PROMOTEDPRODUCT_REFERENCE];
             String product = ref + "-" + name;
 
             m_defaultRenderer.getListCellRendererComponent(list, product, index,
@@ -137,10 +132,10 @@ public class PromotionEditor extends javax.swing.JPanel
         m_IndexEnabled = m_dlPromotions.getIndexOf("ISENABLED");       
         m_IndexAllProducts = m_dlPromotions.getIndexOf("ALLPRODUCTS"); 
         
-        m_ModelResource = new ComboBoxValModel();
+        m_ModelResource = new ComboBoxValModel<>();
         jComboBoxResources.setModel(m_ModelResource);
 
-        ListCellRenderer renderer = new ProductsListCellRenderer();
+        ListCellRenderer<Object[]> renderer = new ProductsListCellRenderer();
         jListProducts.setCellRenderer(renderer);
         jListProducts.addListSelectionListener( this );
         jListProducts.setSelectionModel(new DefaultListSelectionModel() {
@@ -167,7 +162,7 @@ public class PromotionEditor extends javax.swing.JPanel
 
         });
 
-        m_ModelProducts = new ListValModel();
+        m_ModelProducts = new ListValModel<>();
         jListProducts.setModel(m_ModelProducts);
         
         m_jName.getDocument().addDocumentListener(m_Dirty);
@@ -184,8 +179,7 @@ public class PromotionEditor extends javax.swing.JPanel
      */
     public void activate() throws BasicException {
         
-        m_SentenceResource = m_dlPromotions.getResourceScriptListSentence();
-        m_ModelResource = new ComboBoxValModel( m_SentenceResource.list());
+        m_ModelResource = new ComboBoxValModel<>(m_dlPromotions.getResourceScripts());
         jComboBoxResources.setModel(m_ModelResource);
     }
 
@@ -205,11 +199,10 @@ public class PromotionEditor extends javax.swing.JPanel
         
         if( m_ID != null ) {
             // Set Promotionid in the selected products
-            List<Object> selected = jListProducts.getSelectedValuesList();
-            List<String> aProducts = new ArrayList<String>();
+            List<Object[]> selected = jListProducts.getSelectedValuesList();
+            List<String> aProducts = new ArrayList<>();
 
-            for(Object item : selected) {
-                Object [] values = (Object []) item;
+            for (Object[] values : selected) {
                 aProducts.add( Datas.STRING.toString( values[ DataLogicPromotions.INDEX_PROMOTEDPRODUCT_ID ] ) );
             }
 
@@ -285,12 +278,11 @@ public class PromotionEditor extends javax.swing.JPanel
         boolean bDirtyFlag = m_Dirty.isDirty();
         
         if( m_ID == null ) {
-            m_ModelProducts = new ListValModel();
+            m_ModelProducts = new ListValModel<>();
             jListProducts.setModel(m_ModelProducts);
         } else {
-            m_SentenceProducts = m_dlPromotions.getPromotedProductsSentence(m_ID, m_criteria );
             try {
-                m_ModelProducts = new ListValModel(m_SentenceProducts.list());
+                m_ModelProducts = new ListValModel<>(m_dlPromotions.getPromotedProducts(m_ID, m_criteria));
             } catch (BasicException ex) {
                 JMessageDialog.showMessage(this, new MessageInf(MessageInf.SGN_WARNING, AppLocal.getIntString("message.cannotexecute"), ex));
             }
@@ -300,7 +292,7 @@ public class PromotionEditor extends javax.swing.JPanel
             List<Integer> aIndexes = new ArrayList<Integer>();
             
             for( int i = 0; i < count; ++i ) {
-                Object [] avalues = (Object [] ) m_ModelProducts.getElementAt(i);
+                Object[] avalues = m_ModelProducts.getElementAt(i);
                 String pid = (String) avalues[DataLogicPromotions.INDEX_PROMOTEDPRODUCT_PROMOTIONID];
                 if( pid != null && pid.contentEquals( m_ID )) {
                     aIndexes.add(i);
@@ -445,11 +437,11 @@ public class PromotionEditor extends javax.swing.JPanel
         jButtonSelect = new javax.swing.JButton();
         jButtonDeselect = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jListProducts = new javax.swing.JList();
+        jListProducts = new javax.swing.JList<Object[]>();
         jPanelScript = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jComboBoxResources = new javax.swing.JComboBox();
+        jComboBoxResources = new javax.swing.JComboBox<String>();
         jScrollPaneScript = new javax.swing.JScrollPane();
         m_jTextScript = new javax.swing.JTextArea();
         jButtonScript = new javax.swing.JButton();
@@ -743,13 +735,13 @@ public class PromotionEditor extends javax.swing.JPanel
     private javax.swing.JButton jButtonTest;
     private eu.hansolo.custom.SteelCheckBox jCheckBoxAllProducts;
     private eu.hansolo.custom.SteelCheckBox jCheckBoxEnabled;
-    private javax.swing.JComboBox jComboBoxResources;
+    private javax.swing.JComboBox<String> jComboBoxResources;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JList jListProducts;
+    private javax.swing.JList<Object[]> jListProducts;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanelProducts;
     private javax.swing.JPanel jPanelScript;
