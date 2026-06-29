@@ -138,21 +138,21 @@ public final class PrinterWritterRaw extends PrinterWritter {
 
     private class PrinterBuffer {
 
-        private final LinkedList m_list;
+        private final LinkedList<byte[]> m_list;
 
         /**
          * Creates a new instance of PrinterBuffer
          */
         public PrinterBuffer() {
-            m_list = new LinkedList();
+            m_list = new LinkedList<>();
         }
 
-        public synchronized void putData(Object data) {
+        public synchronized void putData(byte[] data) {
             m_list.addFirst(data);
             notifyAll();
         }
 
-        public synchronized Object getData() {
+        public synchronized byte[] getData() {
             while (m_list.isEmpty()) {
                 try {
                     wait();

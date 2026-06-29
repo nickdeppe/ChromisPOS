@@ -136,6 +136,8 @@ The scripts assume these local install paths:
   Authorize URL-encoded response maps, including their nullable values.
 - The thirty-first unchecked cleanup batch types live sale ticket display rows
   and XML-defined column metadata without changing rendering or selection.
+- The thirty-second unchecked cleanup batch types the raw ESC/POS printer byte
+  queue while preserving its existing FIFO behavior and print submission.
 - Remaining unchecked warnings are concentrated in deserialization and
   legacy UI controls, payment gateway maps, and utility collections.
 
