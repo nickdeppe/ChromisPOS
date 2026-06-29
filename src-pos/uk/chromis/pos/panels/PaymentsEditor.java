@@ -36,8 +36,8 @@ import uk.chromis.pos.forms.AppView;
  * @author adrianromero
  */
 public final class PaymentsEditor extends javax.swing.JPanel implements EditorRecord {
-    
-    private ComboBoxValModel m_ReasonModel;
+
+    private ComboBoxValModel<PaymentReason> m_ReasonModel;
     
     private String m_sId;
     private String m_sPaymentId;
@@ -55,7 +55,7 @@ public final class PaymentsEditor extends javax.swing.JPanel implements EditorRe
         
         initComponents();
        
-        m_ReasonModel = new ComboBoxValModel();
+        m_ReasonModel = new ComboBoxValModel<>();
         m_ReasonModel.add(new PaymentReasonPositive("cashin", AppLocal.getIntString("transpayment.cashin")));
         m_ReasonModel.add(new PaymentReasonNegative("cashout", AppLocal.getIntString("transpayment.cashout")));              
         m_jreason.setModel(m_ReasonModel);
@@ -152,7 +152,7 @@ public final class PaymentsEditor extends javax.swing.JPanel implements EditorRe
         payment[2] = datenew == null ? new Date() : datenew;
         payment[3] = m_sPaymentId == null ? UUID.randomUUID().toString() : m_sPaymentId;
         payment[4] = m_ReasonModel.getSelectedKey();
-        PaymentReason reason = (PaymentReason) m_ReasonModel.getSelectedItem();
+        PaymentReason reason = m_ReasonModel.getSelectedItem();
         Double dtotal = jTotal.getDoubleValue();
         payment[5] = reason == null ? dtotal : reason.addSignum(dtotal);
         String snotes = "";
@@ -181,7 +181,7 @@ public final class PaymentsEditor extends javax.swing.JPanel implements EditorRe
         
         m_ReasonModel.setSelectedKey(reasonfield);
              
-        PaymentReason reason = (PaymentReason) m_ReasonModel.getSelectedItem();     
+        PaymentReason reason = m_ReasonModel.getSelectedItem();
         
         if (reason == null) {
             jTotal.setDoubleValue((Double) totalfield);
@@ -259,7 +259,7 @@ public final class PaymentsEditor extends javax.swing.JPanel implements EditorRe
 
         jPanel3 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
-        m_jreason = new javax.swing.JComboBox();
+        m_jreason = new javax.swing.JComboBox<PaymentReason>();
         jLabel3 = new javax.swing.JLabel();
         jTotal = new uk.chromis.editor.JEditorCurrency();
         m_jNotes = new uk.chromis.editor.JEditorString();
@@ -340,7 +340,7 @@ public final class PaymentsEditor extends javax.swing.JPanel implements EditorRe
     private uk.chromis.editor.JEditorCurrency jTotal;
     private uk.chromis.editor.JEditorKeys m_jKeys;
     private uk.chromis.editor.JEditorString m_jNotes;
-    private javax.swing.JComboBox m_jreason;
+    private javax.swing.JComboBox<PaymentReason> m_jreason;
     // End of variables declaration//GEN-END:variables
     
 }

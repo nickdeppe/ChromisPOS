@@ -1187,6 +1187,10 @@ public class DataLogicSales extends BeanFactoryDataSingle {
         return new StaticSentence(s, "SELECT ID, NAME FROM FLOORS ORDER BY NAME", null, new SerializerReadClass(FloorsInfo.class));
     }
 
+    public final List<FloorsInfo> getFloors() throws BasicException {
+        return typedList(getFloorsList());
+    }
+
     /**
      *
      * @param card

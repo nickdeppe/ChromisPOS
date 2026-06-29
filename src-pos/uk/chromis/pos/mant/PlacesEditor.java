@@ -24,7 +24,6 @@ import java.util.UUID;
 import javax.swing.JPanel;
 import uk.chromis.basic.BasicException;
 import uk.chromis.data.gui.ComboBoxValModel;
-import uk.chromis.data.loader.SentenceList;
 import uk.chromis.data.user.DirtyManager;
 import uk.chromis.data.user.EditorRecord;
 import uk.chromis.format.Formats;
@@ -36,9 +35,9 @@ import uk.chromis.pos.forms.DataLogicSales;
  * @author adrianromero
  */
 public final class PlacesEditor extends JPanel implements EditorRecord {
-    
-    private SentenceList m_sentfloor;
-    private ComboBoxValModel m_FloorModel;
+
+    private final DataLogicSales m_dlSales;
+    private ComboBoxValModel<FloorsInfo> m_FloorModel;
     
     private String m_sID;
     
@@ -46,10 +45,10 @@ public final class PlacesEditor extends JPanel implements EditorRecord {
      * @param dlSales
      * @param dirty */
     public PlacesEditor(DataLogicSales dlSales, DirtyManager dirty) {
+        m_dlSales = dlSales;
         initComponents();
-        
-        m_sentfloor = dlSales.getFloorsList();
-        m_FloorModel = new ComboBoxValModel();
+
+        m_FloorModel = new ComboBoxValModel<>();
         
         m_jName.getDocument().addDocumentListener(dirty);
         m_jFloor.addActionListener(dirty);
@@ -64,8 +63,7 @@ public final class PlacesEditor extends JPanel implements EditorRecord {
      * @throws BasicException
      */
     public void activate() throws BasicException {
-        
-        m_FloorModel = new ComboBoxValModel(m_sentfloor.list());
+        m_FloorModel = new ComboBoxValModel<>(m_dlSales.getFloors());
         m_jFloor.setModel(m_FloorModel);
     }
     
@@ -193,7 +191,7 @@ public final class PlacesEditor extends JPanel implements EditorRecord {
         m_jX = new javax.swing.JTextField();
         m_jY = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
-        m_jFloor = new javax.swing.JComboBox();
+        m_jFloor = new javax.swing.JComboBox<FloorsInfo>();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
@@ -288,7 +286,7 @@ public final class PlacesEditor extends JPanel implements EditorRecord {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JComboBox m_jFloor;
+    private javax.swing.JComboBox<FloorsInfo> m_jFloor;
     private javax.swing.JTextField m_jName;
     private javax.swing.JTextField m_jX;
     private javax.swing.JTextField m_jY;
