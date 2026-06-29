@@ -80,7 +80,7 @@ public class JTicketsBagTicket extends JTicketsBag {
         m_jPanelTicket.add(m_TP.getDevicePrinter("1").getPrinterComponent(), BorderLayout.CENTER);
 
         try {
-            taxeslogic = new TaxesLogic(m_dlSales.getTaxList().list());
+            taxeslogic = new TaxesLogic(m_dlSales.getTaxInfoList());
         } catch (BasicException ex) {
         }
     }

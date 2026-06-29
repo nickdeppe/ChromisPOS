@@ -27,6 +27,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -65,6 +66,11 @@ import uk.chromis.pos.util.AutoRefresh;
  *
  */
 public class JTicketsBagRestaurantMap extends JTicketsBag {
+
+    @SuppressWarnings("unchecked")
+    private static <T> List<T> typedList(SentenceList sentence) throws BasicException {
+        return (List<T>) sentence.list();
+    }
 
     /**
      *
@@ -138,7 +144,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
                     "SELECT ID, NAME, IMAGE FROM FLOORS ORDER BY NAME",
                     null,
                     new SerializerReadClass(Floor.class));
-            m_afloors = sent.list();
+            m_afloors = typedList(sent);
 
         } catch (BasicException eD) {
             m_afloors = new ArrayList<>();
@@ -149,7 +155,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
                     "SELECT ID, NAME, X, Y, FLOOR, CUSTOMER, WAITER, TICKETID, TABLEMOVED FROM PLACES ORDER BY FLOOR",
                     null,
                     new SerializerReadClass(Place.class));
-            m_aplaces = sent.list();
+            m_aplaces = typedList(sent);
         } catch (BasicException eD) {
             m_aplaces = new ArrayList<>();
         }

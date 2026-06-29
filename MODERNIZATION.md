@@ -155,6 +155,8 @@ The scripts assume these local install paths:
   receipt loading through the catalog switcher and refund controls.
 - The thirty-ninth unchecked cleanup batch types product attribute query
   results and the attribute value selector.
+- The fortieth unchecked cleanup batch types ticket tax loading and restaurant
+  floor and place query results.
 - Remaining unchecked warnings are concentrated in deserialization and
   legacy UI controls, payment gateway maps, and utility collections.
 
