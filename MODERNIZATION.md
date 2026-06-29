@@ -151,6 +151,8 @@ The scripts assume these local install paths:
   zoom choices.
 - The thirty-seventh unchecked cleanup batch types report-field indexes plus
   the main sales panel's tax lists, tax selector, and receipt-report maps.
+- The thirty-eighth unchecked cleanup batch types refund ticket lines from
+  receipt loading through the catalog switcher and refund controls.
 - Remaining unchecked warnings are concentrated in deserialization and
   legacy UI controls, payment gateway maps, and utility collections.
 
@@ -163,6 +165,8 @@ remaining operational UI models.
 
 - Exclude Box Office products from Stock Management and Stock Diary product
   selection because admission tickets do not carry physical stock.
+- Move Box Office Maintenance items out of the Stock menu and into a dedicated
+  Box Office menu.
 
 ## Post-modernization roadmap
 
@@ -173,3 +177,5 @@ complete:
 2. New kitchen display integration.
 3. Online ticket sales integration.
 4. XML and Java syntax highlighting in the Resources editor.
+5. Evaluate rebranding the application now that the original Chromis POS
+   project is inactive and this modernization significantly changes the product.

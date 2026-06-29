@@ -27,6 +27,7 @@ import java.awt.event.ActionListener;
 import java.util.List;
 import uk.chromis.basic.BasicException;
 import uk.chromis.pos.ticket.ProductInfoExt;
+import uk.chromis.pos.ticket.TicketLineInfo;
 
 /**
  *
@@ -75,7 +76,7 @@ public class JPanelTicketEdits extends JPanelTicket {
      *
      * @param aRefundLines
      */
-    public void showRefundLines(List aRefundLines) {
+    public void showRefundLines(List<TicketLineInfo> aRefundLines) {
         // anado las lineas de refund
         // m_reflines.setLines(aRefundLines);
         m_jbtnconfig.setVisible(false);

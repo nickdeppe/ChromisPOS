@@ -36,7 +36,7 @@ import uk.chromis.pos.ticket.TicketLineInfo;
 public class JRefundLines extends javax.swing.JPanel {
 
     private final JTicketLines ticketlines;
-    private static List m_aLines;
+    private static List<TicketLineInfo> m_aLines;
     private static DataLogicSales dlSales;
     private final JPanelTicketEdits m_jTicketEdit;
     private static TicketLineInfo tmpTicketInfo;
@@ -61,20 +61,20 @@ public class JRefundLines extends javax.swing.JPanel {
      *
      * @param aRefundLines
      */
-    public void setLines(List aRefundLines) {
+    public void setLines(List<TicketLineInfo> aRefundLines) {
         m_aLines = aRefundLines;
         ticketlines.clearTicketLines();
         if (m_aLines != null) {
-            for (Object m_aLine : m_aLines) {
-                ticketlines.addTicketLine((TicketLineInfo) m_aLine);
+            for (TicketLineInfo m_aLine : m_aLines) {
+                ticketlines.addTicketLine(m_aLine);
             }
         }
     }
 
     public static void addBackLine(String name, Double qty, Double price, String line) {
         int i = 0;
-        for (Object m_aLine : m_aLines) {
-            tmpTicketInfo = ((TicketLineInfo) m_aLine);
+        for (TicketLineInfo m_aLine : m_aLines) {
+            tmpTicketInfo = m_aLine;
             if (line.equals(tmpTicketInfo.getProperty("orgLine"))) {
                 tmpTicketInfo.setRefundQty(tmpTicketInfo.getRefundQty() + (qty));
                 tmpTicketInfo.setMultiply(tmpTicketInfo.getMultiply() + (qty * -1));
@@ -86,8 +86,8 @@ public class JRefundLines extends javax.swing.JPanel {
 
     public static void updateRefunds() throws BasicException {
         if (m_aLines != null) {
-            for (Object m_aLine : m_aLines) {
-                tmpTicketInfo = ((TicketLineInfo) m_aLine);
+            for (TicketLineInfo m_aLine : m_aLines) {
+                tmpTicketInfo = m_aLine;
                 dlSales.updateRefundQty(tmpTicketInfo.getRefundQty(), tmpTicketInfo.getTicket(), tmpTicketInfo.getTicketLine());
             }
         }
@@ -170,8 +170,8 @@ public class JRefundLines extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void m_jbtnAddAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_jbtnAddAllActionPerformed
-        for (Object m_aLine : m_aLines) {
-            TicketLineInfo oLine = (TicketLineInfo) m_aLine;
+        for (TicketLineInfo m_aLine : m_aLines) {
+            TicketLineInfo oLine = m_aLine;
             if (oLine.getMultiply() > 0.0) {
                 oLine.setProperty("orgLine", String.valueOf(oLine.getTicketLine()));
                 TicketLineInfo oNewLine = new TicketLineInfo(oLine);
@@ -189,7 +189,7 @@ public class JRefundLines extends javax.swing.JPanel {
     private void m_jbtnAddOneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_jbtnAddOneActionPerformed
         int index = ticketlines.getSelectedIndex();
         if (index >= 0) {
-            TicketLineInfo oLine = (TicketLineInfo) m_aLines.get(index);
+            TicketLineInfo oLine = m_aLines.get(index);
             if (oLine.isProductCom()) {
                 Toolkit.getDefaultToolkit().beep();
                 JOptionPane.showMessageDialog(null,
@@ -205,7 +205,7 @@ public class JRefundLines extends javax.swing.JPanel {
                 m_jTicketEdit.addTicketLine(oNewLine);
 
                 if (index < m_aLines.size() - 1) {
-                    oLine = (TicketLineInfo) m_aLines.get(++index);
+                    oLine = m_aLines.get(++index);
                     while (index < m_aLines.size() && oLine.isProductCom()) {
                         oLine.setProperty("orgLine", String.valueOf(index));
                         oLine.setRefundQty(oLine.getRefundQty() + 1.0);
@@ -215,7 +215,7 @@ public class JRefundLines extends javax.swing.JPanel {
                         oNewLine.setMultiply(-1.0);
                         m_jTicketEdit.addTicketLine(oNewLine);
                         try {
-                            oLine = (TicketLineInfo) m_aLines.get(++index);
+                            oLine = m_aLines.get(++index);
                         } catch (Exception ex) {
                             break;
                         }
@@ -229,7 +229,7 @@ public class JRefundLines extends javax.swing.JPanel {
     private void m_jbtnAddLineActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_jbtnAddLineActionPerformed
         int index = ticketlines.getSelectedIndex();
         if (index >= 0) {
-            TicketLineInfo oLine = (TicketLineInfo) m_aLines.get(index);
+            TicketLineInfo oLine = m_aLines.get(index);
             if (oLine.isProductCom()) {
                 Toolkit.getDefaultToolkit().beep();
                 JOptionPane.showMessageDialog(null,
@@ -245,7 +245,7 @@ public class JRefundLines extends javax.swing.JPanel {
                 m_jTicketEdit.addTicketLine(oNewLine);
                 m_jTicketEdit.updatePromotions("promotion.refund", index, null);
                 if (index < m_aLines.size() - 1) {
-                    oLine = (TicketLineInfo) m_aLines.get(++index);
+                    oLine = m_aLines.get(++index);
                     while (index < m_aLines.size() && oLine.isProductCom()) {
                         oLine.setProperty("orgLine", String.valueOf(index));
                         oNewLine = new TicketLineInfo(oLine);
@@ -255,7 +255,7 @@ public class JRefundLines extends javax.swing.JPanel {
                         m_aLines.set(index, oLine);
                         m_jTicketEdit.addTicketLine(oNewLine);
                         try {
-                            oLine = (TicketLineInfo) m_aLines.get(++index);
+                            oLine = m_aLines.get(++index);
                         } catch (Exception ex) {
                             break;
                         }

@@ -457,7 +457,7 @@ public class JTicketsBagTicket extends JTicketsBag {
     }//GEN-LAST:event_m_jPrintActionPerformed
 
     private void m_jRefundActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_jRefundActionPerformed
-        java.util.List aRefundLines = new ArrayList();
+        java.util.List<TicketLineInfo> aRefundLines = new ArrayList<>();
 
         for (int i = 0; i < m_ticket.getLinesCount(); i++) {
             TicketLineInfo newline = new TicketLineInfo(m_ticket.getLine(i));

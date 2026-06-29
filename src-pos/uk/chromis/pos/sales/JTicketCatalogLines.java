@@ -29,6 +29,7 @@ import uk.chromis.pos.catalog.JCatalog;
 import uk.chromis.pos.forms.AppView;
 import uk.chromis.pos.forms.DataLogicSales;
 import uk.chromis.pos.forms.DataLogicSystem;
+import uk.chromis.pos.ticket.TicketLineInfo;
 
 /**
  *
@@ -99,7 +100,7 @@ public class JTicketCatalogLines extends javax.swing.JPanel {
      *
      * @param aRefundLines
      */
-    public void showRefundLines(List aRefundLines) {
+    public void showRefundLines(List<TicketLineInfo> aRefundLines) {
         m_reflines.setLines(aRefundLines);
         showView("reflines");
     }   
