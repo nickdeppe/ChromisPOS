@@ -113,6 +113,18 @@ public class CouponSet implements SerializableWrite, SerializableRead, Serializa
 
     @Override
     public void readValues(DataRead dr) throws BasicException {
-        lines = (Set<CouponLine>) dr.getObject(1);
+        Object serializedLines = dr.getObject(1);
+        if (!(serializedLines instanceof Set<?>)) {
+            throw new BasicException("Serialized coupon lines are not a set");
+        }
+
+        Set<CouponLine> couponLines = new TreeSet<>();
+        for (Object line : (Set<?>) serializedLines) {
+            if (!(line instanceof CouponLine)) {
+                throw new BasicException("Serialized coupon set contains an invalid line");
+            }
+            couponLines.add((CouponLine) line);
+        }
+        lines = couponLines;
     }
 }

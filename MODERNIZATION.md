@@ -108,13 +108,16 @@ The scripts assume these local install paths:
 - The nineteenth unchecked cleanup batch typed application bean reflection.
   Both modern `BeanFactory` classes and legacy `AppView` constructors retain
   their existing loading paths without raw `Class` or `Constructor` calls.
+- The twentieth unchecked cleanup batch validates serialized ticket and coupon
+  line collections, uses typed payment-list copies, and isolates shared-ticket
+  query casts at the data-access boundary.
 - Remaining unchecked warnings are concentrated in deserialization and
-  legacy collection models, plus a smaller set of unrelated UI controls.
+  legacy report collections, plus a smaller set of unrelated UI controls.
 
 ## Immediate follow-up
 
 Continue reducing unchecked generic warnings in focused batches, starting with
-ticket and payment deserialization.
+payment and sales report collections.
 
 ## Deferred features
 

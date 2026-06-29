@@ -28,6 +28,7 @@ import uk.chromis.data.loader.SerializerReadString;
 import uk.chromis.data.loader.SerializerWriteBasicExt;
 import uk.chromis.data.loader.SerializerWriteString;
 import uk.chromis.data.loader.Session;
+import uk.chromis.data.loader.SentenceList;
 import uk.chromis.data.loader.StaticSentence;
 import uk.chromis.pos.forms.AppConfig;
 import uk.chromis.pos.forms.BeanFactoryDataSingle;
@@ -40,6 +41,11 @@ import uk.chromis.pos.ticket.TicketInfo;
 public class DataLogicReceipts extends BeanFactoryDataSingle {
 
     private Session s;
+
+    @SuppressWarnings("unchecked")
+    private static <T> List<T> typedList(SentenceList sentence) throws BasicException {
+        return (List<T>) sentence.list();
+    }
 
     /**
      * Creates a new instance of DataLogicReceipts
@@ -89,8 +95,8 @@ public class DataLogicReceipts extends BeanFactoryDataSingle {
      */
     public final List<SharedTicketInfo> getSharedTicketList() throws BasicException {
 
-        return (List<SharedTicketInfo>) new StaticSentence(s //                , "SELECT ID, NAME, CONTENT PICKUPID FROM SHAREDTICKETS ORDER BY ID"                
-                , "SELECT ID, NAME, CONTENT, PICKUPID FROM SHAREDTICKETS ORDER BY ID", null, new SerializerReadClass(SharedTicketInfo.class)).list();
+        return typedList(new StaticSentence(s //                , "SELECT ID, NAME, CONTENT PICKUPID FROM SHAREDTICKETS ORDER BY ID"
+                , "SELECT ID, NAME, CONTENT, PICKUPID FROM SHAREDTICKETS ORDER BY ID", null, new SerializerReadClass(SharedTicketInfo.class)));
     }
 
     /**
@@ -100,8 +106,8 @@ public class DataLogicReceipts extends BeanFactoryDataSingle {
      */
     public final List<SharedTicketInfo> getSharedTicketListByUser(String User) throws BasicException {
 
-        return (List<SharedTicketInfo>) new StaticSentence(s //                , "SELECT ID, NAME, CONTENT PICKUPID FROM SHAREDTICKETS ORDER BY ID"                
-                , "SELECT ID, NAME, CONTENT, PICKUPID FROM SHAREDTICKETS WHERE NAME LIKE '%" + User + " -%' ", null, new SerializerReadClass(SharedTicketInfo.class)).list();
+        return typedList(new StaticSentence(s //                , "SELECT ID, NAME, CONTENT PICKUPID FROM SHAREDTICKETS ORDER BY ID"
+                , "SELECT ID, NAME, CONTENT, PICKUPID FROM SHAREDTICKETS WHERE NAME LIKE '%" + User + " -%' ", null, new SerializerReadClass(SharedTicketInfo.class)));
     }
 
     /**

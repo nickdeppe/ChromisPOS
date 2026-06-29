@@ -18,7 +18,6 @@
 //    along with Chromis POS.  If not, see <http://www.gnu.org/licenses/>.
 package uk.chromis.pos.payment;
 
-import java.util.Iterator;
 import java.util.LinkedList;
 
 /**
@@ -44,9 +43,7 @@ public class PaymentInfoList {
     public double getTotal() {
 
         double dTotal = 0.0;
-        Iterator i = m_apayment.iterator();
-        while (i.hasNext()) {
-            PaymentInfo p = (PaymentInfo) i.next();
+        for (PaymentInfo p : m_apayment) {
             dTotal += p.getTotal();
         }
 
@@ -77,7 +74,7 @@ public class PaymentInfoList {
     }
 
     public void sortPayments(Double m_dTotal) {
-        tmp_apayment = (LinkedList<PaymentInfo>) m_apayment.clone();
+        tmp_apayment = new LinkedList<>(m_apayment);
         m_apayment.clear();
         double dPaidOther = 0.0;
         double dPaidCash = 0.0;

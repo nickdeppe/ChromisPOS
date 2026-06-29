@@ -21,6 +21,7 @@ package uk.chromis.pos.ticket;
 import java.io.ByteArrayInputStream;
 import java.io.Externalizable;
 import java.io.IOException;
+import java.io.InvalidObjectException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 import java.text.DateFormat;
@@ -138,7 +139,7 @@ public final class TicketInfo implements SerializableRead, Externalizable {
         m_dDate = (Date) in.readObject();
         m_User = (UserInfo) in.readObject();
         attributes = (Properties) in.readObject();
-        m_aLines = (List<TicketLineInfo>) in.readObject();
+        m_aLines = readTicketLines(in.readObject());
         m_CouponLines = (CouponSet) in.readObject();
         m_nosc = (String) in.readObject();
         m_sActiveCash = null;
@@ -146,6 +147,21 @@ public final class TicketInfo implements SerializableRead, Externalizable {
         taxes = null;
         m_sharedticketUser = m_User;
 
+    }
+
+    private static List<TicketLineInfo> readTicketLines(Object serializedLines) throws InvalidObjectException {
+        if (!(serializedLines instanceof List<?>)) {
+            throw new InvalidObjectException("Serialized ticket lines are not a list");
+        }
+
+        List<TicketLineInfo> ticketLines = new ArrayList<>();
+        for (Object line : (List<?>) serializedLines) {
+            if (!(line instanceof TicketLineInfo)) {
+                throw new InvalidObjectException("Serialized ticket contains an invalid line");
+            }
+            ticketLines.add((TicketLineInfo) line);
+        }
+        return ticketLines;
     }
 
     /**
