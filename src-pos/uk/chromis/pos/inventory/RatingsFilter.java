@@ -112,7 +112,7 @@ public class RatingsFilter extends javax.swing.JPanel implements ReportEditorCre
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        m_jCboName = new javax.swing.JComboBox();
+        m_jCboName = new javax.swing.JComboBox<>();
         m_jName = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         m_jActiveOnly = new eu.hansolo.custom.SteelCheckBox();
@@ -187,7 +187,7 @@ public class RatingsFilter extends javax.swing.JPanel implements ReportEditorCre
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private eu.hansolo.custom.SteelCheckBox m_jActiveOnly;
-    private javax.swing.JComboBox m_jCboName;
+    private javax.swing.JComboBox<QBFCompareEnum> m_jCboName;
     private javax.swing.JTextField m_jName;
     // End of variables declaration//GEN-END:variables
 

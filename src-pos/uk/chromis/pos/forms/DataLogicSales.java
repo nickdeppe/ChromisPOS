@@ -832,6 +832,10 @@ public class DataLogicSales extends BeanFactoryDataSingle {
             Datas.OBJECT, Datas.DOUBLE,}), ProductInfoExt.getSerializerRead());
     }
 
+    public final List<ProductInfoExt> getProducts() throws BasicException {
+        return typedList(getProductList());
+    }
+
     
     
     public SentenceList getProductListNormal() {

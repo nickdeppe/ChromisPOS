@@ -24,11 +24,11 @@ import uk.chromis.basic.BasicException;
 import uk.chromis.data.gui.ComboBoxValModel;
 import uk.chromis.data.gui.ListQBFModelNumber;
 import uk.chromis.data.loader.QBFCompareEnum;
-import uk.chromis.data.loader.SentenceList;
 import uk.chromis.data.user.EditorCreator;
 import uk.chromis.format.Formats;
 import uk.chromis.pos.forms.AppLocal;
 import uk.chromis.pos.forms.DataLogicSales;
+import uk.chromis.pos.ticket.ProductInfoExt;
 
 /**
  *
@@ -37,20 +37,19 @@ import uk.chromis.pos.forms.DataLogicSales;
  */
 public class MaterialFilter extends javax.swing.JPanel implements EditorCreator {
     
-    private SentenceList m_sentprods;
-    private ComboBoxValModel m_ProdsModel;
+    private final DataLogicSales dlSales;
+    private final ComboBoxValModel<ProductInfoExt> m_ProdsModel;
 
     /** Creates new form JQBFProduct
      * @param dlSales */
     public MaterialFilter(DataLogicSales dlSales) {
         initComponents();
         
-        //El modelo de productos
-        m_sentprods = dlSales.getProductList();
-        m_ProdsModel = new ComboBoxValModel();
+        this.dlSales = dlSales;
+        m_ProdsModel = new ComboBoxValModel<ProductInfoExt>();
          
-        m_jCboName.setModel(new ListQBFModelNumber());
-        m_jCboPriceBuy.setModel(new ListQBFModelNumber());
+        m_jCboName.setModel(ListQBFModelNumber.getMandatoryString());
+        m_jCboPriceBuy.setModel(ListQBFModelNumber.getMandatoryNumber());
     }
     
     /**
@@ -58,7 +57,7 @@ public class MaterialFilter extends javax.swing.JPanel implements EditorCreator 
      * @throws BasicException
      */
     public void activate() throws BasicException {
-        java.util.List prodlist = m_sentprods.list();
+        java.util.List<ProductInfoExt> prodlist = dlSales.getProducts();
         prodlist.add(0, null);
         m_ProdsModel.refresh(prodlist);
         m_jCboProduct.setModel(m_ProdsModel);
@@ -89,13 +88,13 @@ public class MaterialFilter extends javax.swing.JPanel implements EditorCreator 
 
         jPanel1 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
-        m_jCboName = new javax.swing.JComboBox();
+        m_jCboName = new javax.swing.JComboBox<>();
         m_jName = new javax.swing.JTextField();
         m_jPriceBuy = new javax.swing.JTextField();
-        m_jCboPriceBuy = new javax.swing.JComboBox();
+        m_jCboPriceBuy = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        m_jCboProduct = new javax.swing.JComboBox();
+        m_jCboProduct = new javax.swing.JComboBox<>();
 
         setMaximumSize(new java.awt.Dimension(32767, 160));
         setOpaque(false);
@@ -154,9 +153,9 @@ public class MaterialFilter extends javax.swing.JPanel implements EditorCreator 
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JComboBox m_jCboName;
-    private javax.swing.JComboBox m_jCboPriceBuy;
-    private javax.swing.JComboBox m_jCboProduct;
+    private javax.swing.JComboBox<QBFCompareEnum> m_jCboName;
+    private javax.swing.JComboBox<QBFCompareEnum> m_jCboPriceBuy;
+    private javax.swing.JComboBox<ProductInfoExt> m_jCboProduct;
     private javax.swing.JTextField m_jName;
     private javax.swing.JTextField m_jPriceBuy;
     // End of variables declaration//GEN-END:variables

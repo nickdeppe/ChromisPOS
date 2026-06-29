@@ -58,7 +58,7 @@ public abstract class QBFCompareEnum {
         //   public String getExpression(String sField, String sSQLValue) { return sField + " LIKE " + sSQLValue; }
         public String getExpression(String sField, String sSQLValue) {
             String search = sSQLValue.replaceAll("'", "");
-            return sField + " LIKE '%" + search + "%'";
+            return "LOWER(" + sField + ") LIKE LOWER('%" + search + "%')";
         }
 
     };

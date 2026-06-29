@@ -26,10 +26,10 @@ import uk.chromis.data.loader.QBFCompareEnum;
  *
  * @author adrian
  */
-public class ListQBFModelNumber extends AbstractListModel implements ComboBoxModel {
+public class ListQBFModelNumber extends AbstractListModel<QBFCompareEnum> implements ComboBoxModel<QBFCompareEnum> {
 
-    private Object[] m_items;
-    private Object m_sel;
+    private final QBFCompareEnum[] m_items;
+    private QBFCompareEnum m_sel;
 
     /**
      * Creates a new instance of ListQBFModelNumber
@@ -38,9 +38,9 @@ public class ListQBFModelNumber extends AbstractListModel implements ComboBoxMod
      */
 //    public ListQBFModelNumber() {
 //    private ListQBFModelNumber(Object... items) {
-    public ListQBFModelNumber(Object... items) {
+    public ListQBFModelNumber(QBFCompareEnum... items) {
         m_items = items;
-        m_sel = m_items[0];
+        m_sel = m_items.length == 0 ? null : m_items[0];
     }
 
 //    m_items = new Object[] {
@@ -162,7 +162,7 @@ public class ListQBFModelNumber extends AbstractListModel implements ComboBoxMod
     }
 
     @Override
-    public Object getElementAt(int index) {
+    public QBFCompareEnum getElementAt(int index) {
 
         return m_items[index];
     }
@@ -173,12 +173,12 @@ public class ListQBFModelNumber extends AbstractListModel implements ComboBoxMod
     }
 
     @Override
-    public Object getSelectedItem() {
+    public QBFCompareEnum getSelectedItem() {
         return m_sel;
     }
 
     @Override
     public void setSelectedItem(Object anItem) {
-        m_sel = anItem;
+        m_sel = (QBFCompareEnum) anItem;
     }
 }

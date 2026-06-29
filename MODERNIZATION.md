@@ -114,13 +114,16 @@ The scripts assume these local install paths:
 - The twenty-first unchecked cleanup batch types Close Cash payment, category,
   tax, removed-line, and product-sales query results through one local query
   boundary.
+- The twenty-second unchecked cleanup batch types the shared QBF comparison
+  model and the Box Office product-set, feature, rating, material, and product
+  filters. Material products now load through a typed sales-data accessor.
 - Remaining unchecked warnings are concentrated in deserialization and
   legacy UI controls, payment gateway maps, and utility collections.
 
 ## Immediate follow-up
 
 Continue reducing unchecked generic warnings in focused batches, starting with
-remaining inventory and ticket filter controls.
+remaining operational UI models.
 
 ## Deferred features
 
