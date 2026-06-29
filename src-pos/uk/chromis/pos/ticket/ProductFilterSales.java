@@ -23,7 +23,6 @@ import uk.chromis.basic.BasicException;
 import uk.chromis.data.gui.ComboBoxValModel;
 import uk.chromis.data.gui.ListQBFModelNumber;
 import uk.chromis.data.loader.QBFCompareEnum;
-import uk.chromis.data.loader.SentenceList;
 import uk.chromis.data.user.EditorCreator;
 import uk.chromis.editor.JEditorKeys;
 import uk.chromis.editor.JEditorString;
@@ -37,8 +36,8 @@ import uk.chromis.pos.forms.DataLogicSales;
  */
 public class ProductFilterSales extends javax.swing.JPanel implements EditorCreator {
 
-    private final SentenceList m_sentcat;
-    private ComboBoxValModel m_CategoryModel;
+    private final DataLogicSales m_dlSales;
+    private ComboBoxValModel<CategoryInfo> m_CategoryModel;
 
     /**
      * Creates new form ProductFilterSales
@@ -53,8 +52,8 @@ public class ProductFilterSales extends javax.swing.JPanel implements EditorCrea
         m_jtxtName.addEditorKeys(jKeys);
 
         // El modelo de categorias
-        m_sentcat = dlSales.getCategoriesList();
-        m_CategoryModel = new ComboBoxValModel();
+        m_dlSales = dlSales;
+        m_CategoryModel = new ComboBoxValModel<>();
 
         m_jCboPriceBuy.setModel(ListQBFModelNumber.getMandatoryNumber());
         m_jPriceBuy.addEditorKeys(jKeys);
@@ -81,9 +80,9 @@ public class ProductFilterSales extends javax.swing.JPanel implements EditorCrea
         m_jStockUnits.setDoubleValue(0.0);
 
         try {
-            List catlist = m_sentcat.list();
+            List<CategoryInfo> catlist = m_dlSales.getCategories();
             catlist.add(0, null);
-            m_CategoryModel = new ComboBoxValModel(catlist);
+            m_CategoryModel = new ComboBoxValModel<>(catlist);
             m_jCategory.setModel(m_CategoryModel);
         } catch (BasicException eD) {
             // no hay validacion
@@ -158,11 +157,11 @@ public class ProductFilterSales extends javax.swing.JPanel implements EditorCrea
 
         m_jtxtBarCode = new uk.chromis.editor.JEditorString();
         m_jtxtName = new uk.chromis.editor.JEditorString();
-        m_jCategory = new javax.swing.JComboBox();
-        m_jCboPriceBuy = new javax.swing.JComboBox();
+        m_jCategory = new javax.swing.JComboBox<>();
+        m_jCboPriceBuy = new javax.swing.JComboBox<>();
         m_jPriceBuy = new uk.chromis.editor.JEditorCurrency();
-        m_jCboPriceSell = new javax.swing.JComboBox();
-        m_jCboStockUnits = new javax.swing.JComboBox();
+        m_jCboPriceSell = new javax.swing.JComboBox<>();
+        m_jCboStockUnits = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -263,10 +262,10 @@ public class ProductFilterSales extends javax.swing.JPanel implements EditorCrea
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JComboBox m_jCategory;
-    private javax.swing.JComboBox m_jCboPriceBuy;
-    private javax.swing.JComboBox m_jCboPriceSell;
-    private javax.swing.JComboBox m_jCboStockUnits;
+    private javax.swing.JComboBox<CategoryInfo> m_jCategory;
+    private javax.swing.JComboBox<QBFCompareEnum> m_jCboPriceBuy;
+    private javax.swing.JComboBox<QBFCompareEnum> m_jCboPriceSell;
+    private javax.swing.JComboBox<QBFCompareEnum> m_jCboStockUnits;
     private uk.chromis.editor.JEditorCurrency m_jPriceBuy;
     private uk.chromis.editor.JEditorCurrency m_jPriceSell;
     private uk.chromis.editor.JEditorDouble m_jStockUnits;

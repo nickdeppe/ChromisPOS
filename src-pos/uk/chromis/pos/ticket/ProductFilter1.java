@@ -23,7 +23,6 @@ import uk.chromis.data.gui.ComboBoxValModel;
 import uk.chromis.data.gui.ListQBFModelNumber;
 import uk.chromis.data.loader.Datas;
 import uk.chromis.data.loader.QBFCompareEnum;
-import uk.chromis.data.loader.SentenceList;
 import uk.chromis.data.loader.SerializerWrite;
 import uk.chromis.data.loader.SerializerWriteBasic;
 import uk.chromis.pos.forms.AppLocal;
@@ -36,8 +35,8 @@ import uk.chromis.pos.forms.AppConfig;
 
 public class ProductFilter1 extends javax.swing.JPanel implements ReportEditorCreator {
 
-    private SentenceList m_sentcat;
-    private ComboBoxValModel m_CategoryModel;
+    private DataLogicSales m_dlSales;
+    private ComboBoxValModel<CategoryInfo> m_CategoryModel;
 
     /**
      * Creates new form JQBFProduct
@@ -53,10 +52,8 @@ public class ProductFilter1 extends javax.swing.JPanel implements ReportEditorCr
      */
     public void init(AppView app) {
 
-        DataLogicSales dlSales = (DataLogicSales) app.getBean("uk.chromis.pos.forms.DataLogicSales");
-
-        m_sentcat = dlSales.getCategoriesList();
-        m_CategoryModel = new ComboBoxValModel();
+        m_dlSales = (DataLogicSales) app.getBean("uk.chromis.pos.forms.DataLogicSales");
+        m_CategoryModel = new ComboBoxValModel<>();
         m_jCboName.setModel(ListQBFModelNumber.getMandatoryString());
 
     }
@@ -67,9 +64,9 @@ public class ProductFilter1 extends javax.swing.JPanel implements ReportEditorCr
      */
     public void activate() throws BasicException {
 
-        List catlist = m_sentcat.list();
+        List<CategoryInfo> catlist = m_dlSales.getCategories();
         catlist.add(0, null);
-        m_CategoryModel = new ComboBoxValModel(catlist);
+        m_CategoryModel = new ComboBoxValModel<>(catlist);
         m_jCategory.setModel(m_CategoryModel);
     }
 
@@ -127,8 +124,8 @@ public class ProductFilter1 extends javax.swing.JPanel implements ReportEditorCr
         jLabel5 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        m_jCategory = new javax.swing.JComboBox();
-        m_jCboName = new javax.swing.JComboBox();
+        m_jCategory = new javax.swing.JComboBox<>();
+        m_jCboName = new javax.swing.JComboBox<>();
         m_jName = new javax.swing.JTextField();
 
         m_jBarcode.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -201,8 +198,8 @@ public class ProductFilter1 extends javax.swing.JPanel implements ReportEditorCr
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JTextField m_jBarcode;
-    private javax.swing.JComboBox m_jCategory;
-    private javax.swing.JComboBox m_jCboName;
+    private javax.swing.JComboBox<CategoryInfo> m_jCategory;
+    private javax.swing.JComboBox<QBFCompareEnum> m_jCboName;
     private javax.swing.JTextField m_jName;
     // End of variables declaration//GEN-END:variables
 

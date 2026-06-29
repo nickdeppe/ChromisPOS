@@ -34,7 +34,6 @@ import uk.chromis.data.gui.ComboBoxValModel;
 import uk.chromis.data.gui.ListQBFModelNumber;
 import uk.chromis.data.loader.Datas;
 import uk.chromis.data.loader.QBFCompareEnum;
-import uk.chromis.data.loader.SentenceList;
 import uk.chromis.data.loader.SerializerWrite;
 import uk.chromis.data.loader.SerializerWriteBasic;
 import uk.chromis.format.Formats;
@@ -49,9 +48,8 @@ import uk.chromis.pos.reports.ReportEditorCreator;
  */
 public class ProductFilterReport extends javax.swing.JPanel implements ReportEditorCreator {
 
-    private SentenceList m_sentcat;
-    private ComboBoxValModel m_CategoryModel;
-    private ComboBoxValModel m_ProductNameModel;
+    private DataLogicSales m_dlSales;
+    private ComboBoxValModel<CategoryInfo> m_CategoryModel;
     private final JPanel panel;
     private final JLabel jLabel1;
     private final JLabel jLabel2;
@@ -59,11 +57,10 @@ public class ProductFilterReport extends javax.swing.JPanel implements ReportEdi
     private final JLabel jLabel4;
     private final JLabel jLabel5;    
     private final JTextField m_jBarcode = new JTextField();
-    private final JComboBox m_jCategory = new JComboBox();
-    private final JComboBox m_jCboName = new JComboBox();
-    private final JComboBox m_jCatalog = new JComboBox();
-    private final JComboBox m_jCboPriceBuy = new JComboBox();
-    private final JComboBox m_jCboPriceSell = new JComboBox();
+    private final JComboBox<CategoryInfo> m_jCategory = new JComboBox<>();
+    private final JComboBox<QBFCompareEnum> m_jCboName = new JComboBox<>();
+    private final JComboBox<QBFCompareEnum> m_jCboPriceBuy = new JComboBox<>();
+    private final JComboBox<QBFCompareEnum> m_jCboPriceSell = new JComboBox<>();
 
     private final JTextField m_jName = new JTextField();
     private final JTextField m_jPriceBuy = new JTextField();
@@ -156,10 +153,8 @@ public class ProductFilterReport extends javax.swing.JPanel implements ReportEdi
     @Override
     public void init(AppView app) {
 
-        DataLogicSales dlSales = (DataLogicSales) app.getBean("uk.chromis.pos.forms.DataLogicSales");
-
-        m_sentcat = dlSales.getCategoriesList();
-        m_CategoryModel = new ComboBoxValModel();
+        m_dlSales = (DataLogicSales) app.getBean("uk.chromis.pos.forms.DataLogicSales");
+        m_CategoryModel = new ComboBoxValModel<>();
 
         m_jCboName.setModel(ListQBFModelNumber.getNonMandatoryProduct());
         m_jCboPriceBuy.setModel(ListQBFModelNumber.getNonMandatoryPrice());
@@ -174,9 +169,9 @@ public class ProductFilterReport extends javax.swing.JPanel implements ReportEdi
     @Override
     public void activate() throws BasicException {
 
-        List catlist = m_sentcat.list();
+        List<CategoryInfo> catlist = m_dlSales.getCategories();
         catlist.add(0, null);
-        m_CategoryModel = new ComboBoxValModel(catlist);
+        m_CategoryModel = new ComboBoxValModel<>(catlist);
         m_jCategory.setModel(m_CategoryModel);
     }
 
