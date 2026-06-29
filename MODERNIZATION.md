@@ -134,6 +134,8 @@ The scripts assume these local install paths:
   response maps while preserving their provider-specific result handling.
 - The thirtieth unchecked cleanup batch types PGNET, PayPoint, and Planet
   Authorize URL-encoded response maps, including their nullable values.
+- The thirty-first unchecked cleanup batch types live sale ticket display rows
+  and XML-defined column metadata without changing rendering or selection.
 - Remaining unchecked warnings are concentrated in deserialization and
   legacy UI controls, payment gateway maps, and utility collections.
 

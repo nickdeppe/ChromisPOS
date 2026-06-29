@@ -303,7 +303,7 @@ public class JTicketLines extends javax.swing.JPanel {
         
 //        private AppView m_App;
         private final ColumnTicket[] m_acolumns;
-        private final ArrayList m_rows = new ArrayList();
+        private final ArrayList<String[]> m_rows = new ArrayList<>();
         
         public TicketTableModel(ColumnTicket[] acolumns) {
             m_acolumns = acolumns;
@@ -323,7 +323,7 @@ public class JTicketLines extends javax.swing.JPanel {
         }
         @Override
         public Object getValueAt(int row, int column) {
-            return ((String[]) m_rows.get(row))[column];
+            return m_rows.get(row)[column];
         }
   
         @Override
@@ -341,7 +341,7 @@ public class JTicketLines extends javax.swing.JPanel {
         
         public void setRow(int index, TicketLineInfo oLine){
             
-            String[] row = (String []) m_rows.get(index);
+            String[] row = m_rows.get(index);
             for (int i = 0; i < m_acolumns.length; i++) {
                 try {
                     ScriptEngine script = ScriptFactory.getScriptEngine(ScriptFactory.VELOCITY);
@@ -384,14 +384,14 @@ public class JTicketLines extends javax.swing.JPanel {
     
     private static class ColumnsHandler extends DefaultHandler {
         
-        private ArrayList m_columns = null;
+        private ArrayList<ColumnTicket> m_columns = null;
         
         public ColumnTicket[] getColumns() {
-            return (ColumnTicket[]) m_columns.toArray(new ColumnTicket[m_columns.size()]);
+            return m_columns.toArray(new ColumnTicket[m_columns.size()]);
         }
         @Override
         public void startDocument() throws SAXException { 
-            m_columns = new ArrayList();
+            m_columns = new ArrayList<>();
         }
         @Override
         public void endDocument() throws SAXException {}    
