@@ -21,6 +21,7 @@ package uk.chromis.pos.panels;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
 import javax.swing.tree.TreeNode;
 
 /**
@@ -32,7 +33,7 @@ public class SQLTable implements TreeNode {
     private SQLDatabase m_db;
     private String m_sName;
     
-    private ArrayList m_aColumns;
+    private final List<SQLColumn> m_aColumns;
     
     /** Creates a new instance of SQLTable
      * @param db
@@ -40,7 +41,7 @@ public class SQLTable implements TreeNode {
     public SQLTable(SQLDatabase db, String name) {
         m_db = db;
         m_sName = name;
-        m_aColumns = new ArrayList();
+        m_aColumns = new ArrayList<>();
     }
     
     /**
@@ -66,8 +67,8 @@ public class SQLTable implements TreeNode {
     }
     
     @Override
-    public Enumeration children(){
-        return new EnumerationIter(m_aColumns.iterator());
+    public Enumeration<? extends TreeNode> children(){
+        return new EnumerationIter<>(m_aColumns.iterator());
     }
     @Override
     public boolean getAllowsChildren() {
@@ -75,7 +76,7 @@ public class SQLTable implements TreeNode {
     }
     @Override
     public TreeNode getChildAt(int childIndex) {
-        return (TreeNode) m_aColumns.get(childIndex);
+        return m_aColumns.get(childIndex);
     }
     @Override
     public int getChildCount() {

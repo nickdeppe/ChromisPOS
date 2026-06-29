@@ -34,7 +34,7 @@ import uk.chromis.data.loader.Datas;
  */
 public class SQLTableModel extends AbstractTableModel {
     
-    private List m_aRows;
+    private final List<Object[]> m_aRows;
     
     private DataField[] m_df;
     private Datas[] m_classes;
@@ -42,7 +42,7 @@ public class SQLTableModel extends AbstractTableModel {
     /** Creates a new instance of SQLTableModel
      * @param df */
     public SQLTableModel(DataField[] df) {
-        m_aRows = new ArrayList();
+        m_aRows = new ArrayList<>();
 
         m_df = df;
         m_classes = new Datas[df.length];
@@ -117,7 +117,7 @@ public class SQLTableModel extends AbstractTableModel {
      * @return
      */
     public String getColumnString(int row) {
-        Object [] rowvalues = (Object[]) m_aRows.get(row);
+        Object[] rowvalues = m_aRows.get(row);
         StringBuilder s = new StringBuilder();
         for(int i = 0; i < rowvalues.length; i++) {
             if (i > 0) {
@@ -129,7 +129,7 @@ public class SQLTableModel extends AbstractTableModel {
     }
     
     @Override
-    public Class getColumnClass(int columnIndex) {
+    public Class<?> getColumnClass(int columnIndex) {
         return m_classes[columnIndex].getClassValue();
     }
     @Override
@@ -146,7 +146,7 @@ public class SQLTableModel extends AbstractTableModel {
     }
     @Override
     public Object getValueAt(int row, int column) {
-        Object [] rowvalues = (Object[]) m_aRows.get(row);
+        Object[] rowvalues = m_aRows.get(row);
         return rowvalues[column];
     }  
 }

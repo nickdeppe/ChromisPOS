@@ -21,6 +21,7 @@
 package uk.chromis.pos.panels;
 
 import java.util.Enumeration;
+import java.util.Collections;
 import javax.swing.tree.TreeNode;
 
 /**
@@ -45,8 +46,8 @@ public class SQLColumn implements TreeNode {
     }
     
     @Override
-    public Enumeration children(){
-        return null;
+    public Enumeration<? extends TreeNode> children(){
+        return Collections.enumeration(Collections.<TreeNode>emptyList());
     }
     @Override
     public boolean getAllowsChildren() {

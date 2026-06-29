@@ -27,23 +27,23 @@ import java.util.Iterator;
  *
  * @author adrianromero
  */
-public class EnumerationIter implements Enumeration {
-    
-    private Iterator i;
+public class EnumerationIter<E> implements Enumeration<E> {
+
+    private final Iterator<? extends E> iterator;
 
     /**
      *
      * @param i
      */
-    public EnumerationIter(Iterator i) {
-        this.i = i;
+    public EnumerationIter(Iterator<? extends E> iterator) {
+        this.iterator = iterator;
     }
     @Override
     public boolean hasMoreElements() {
-        return i.hasNext();
+        return iterator.hasNext();
     }
     @Override
-    public Object nextElement() {
-        return i.next();
+    public E nextElement() {
+        return iterator.next();
     } 
 }

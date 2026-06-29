@@ -124,6 +124,8 @@ The scripts assume these local install paths:
   selector and product finder result list, including its shared renderer.
 - The twenty-fifth unchecked cleanup batch types ticket finder results,
   sale/refund and comparison selectors, user choices, and ticket rendering.
+- The twenty-sixth unchecked cleanup batch types the legacy SQL browser tree,
+  enumeration adapter, table lookup, and result-row model.
 - Remaining unchecked warnings are concentrated in deserialization and
   legacy UI controls, payment gateway maps, and utility collections.
 

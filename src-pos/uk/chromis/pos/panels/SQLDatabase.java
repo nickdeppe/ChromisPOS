@@ -22,6 +22,8 @@ package uk.chromis.pos.panels;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import javax.swing.tree.TreeNode;
 
 /**
@@ -30,16 +32,16 @@ import javax.swing.tree.TreeNode;
  */
 public class SQLDatabase implements TreeNode {
     
-    private ArrayList m_aTables;
-    private HashMap m_mTables;
+    private final List<SQLTable> m_aTables;
+    private final Map<String, SQLTable> m_mTables;
     private String m_sName;
     
     /** Creates a new instance of SQLDatabase
      * @param name */
     public SQLDatabase(String name) {
         m_sName = name;
-        m_aTables = new ArrayList();
-        m_mTables = new HashMap();
+        m_aTables = new ArrayList<>();
+        m_mTables = new HashMap<>();
     }
     @Override
     public String toString() {
@@ -62,12 +64,12 @@ public class SQLDatabase implements TreeNode {
      * @return
      */
     public SQLTable getTable(String sTable) {
-        return (SQLTable) m_mTables.get(sTable);
+        return m_mTables.get(sTable);
     }
     
     @Override
-    public Enumeration children(){
-        return new EnumerationIter(m_aTables.iterator());
+    public Enumeration<? extends TreeNode> children(){
+        return new EnumerationIter<>(m_aTables.iterator());
     }
     @Override
     public boolean getAllowsChildren() {
@@ -75,7 +77,7 @@ public class SQLDatabase implements TreeNode {
     }
     @Override
     public TreeNode getChildAt(int childIndex) {
-        return (TreeNode) m_aTables.get(childIndex);
+        return m_aTables.get(childIndex);
     }
     @Override
     public int getChildCount() {
