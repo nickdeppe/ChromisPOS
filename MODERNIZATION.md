@@ -126,6 +126,8 @@ The scripts assume these local install paths:
   sale/refund and comparison selectors, user choices, and ticket rendering.
 - The twenty-sixth unchecked cleanup batch types the legacy SQL browser tree,
   enumeration adapter, table lookup, and result-row model.
+- The twenty-seventh unchecked cleanup batch types generic magnetic-card
+  track fields while preserving the existing swipe parser state machine.
 - Remaining unchecked warnings are concentrated in deserialization and
   legacy UI controls, payment gateway maps, and utility collections.
 

@@ -47,9 +47,9 @@ public final class MagCardReaderGeneric implements MagCardReader {
     private static final int READING_END = 7;
     private int m_iAutomState;
     
-    private List m_aTrack1;
-    private List m_aTrack2;
-    private List m_aTrack3;
+    private List<String> m_aTrack1;
+    private List<String> m_aTrack2;
+    private List<String> m_aTrack3;
     private StringBuilder m_sField;
     private char m_cCardType;
     
@@ -101,7 +101,7 @@ public final class MagCardReaderGeneric implements MagCardReader {
             track1 = new StringBuilder();
             track2 = new StringBuilder();
             track3 = new StringBuilder();
-            m_aTrack1 = new ArrayList();
+            m_aTrack1 = new ArrayList<>();
             m_aTrack2 = null;     
             m_aTrack3 = null;        
             m_sField = new StringBuilder();
@@ -114,11 +114,11 @@ public final class MagCardReaderGeneric implements MagCardReader {
             m_cCardType = c;
             m_iAutomState = READING_TRACK1;
         } else if (c == ';' && m_iAutomState == READING_STARTSENTINEL2) {
-            m_aTrack2 = new ArrayList();        
+            m_aTrack2 = new ArrayList<>();
             m_sField = new StringBuilder();
             m_iAutomState = READING_TRACK2;
         } else if (c == ';' && m_iAutomState == READING_STARTSENTINEL3) {
-            m_aTrack3 = new ArrayList();        
+            m_aTrack3 = new ArrayList<>();
             m_sField = new StringBuilder();
             m_iAutomState = READING_TRACK3;
             
@@ -168,11 +168,11 @@ public final class MagCardReaderGeneric implements MagCardReader {
         }
         
         // Lectura de los valores
-        String sCardNumber1 = (m_aTrack1 == null || m_aTrack1.size() < 1) ? null : (String) m_aTrack1.get(0);
-        String sCardNumber2 = (m_aTrack2 == null || m_aTrack2.size() < 1) ? null : (String) m_aTrack2.get(0);
-        String sHolderName = (m_aTrack1 == null || m_aTrack1.size() < 2) ? null : (String) m_aTrack1.get(1);
-        String sExpDate1 =  (m_aTrack1 == null || m_aTrack1.size() < 3) ? null : ((String) m_aTrack1.get(2)).substring(0, 4);
-        String sExpDate2 =  (m_aTrack2 == null || m_aTrack2.size() < 2) ? null : ((String) m_aTrack2.get(1)).substring(0, 4);
+        String sCardNumber1 = (m_aTrack1 == null || m_aTrack1.size() < 1) ? null : m_aTrack1.get(0);
+        String sCardNumber2 = (m_aTrack2 == null || m_aTrack2.size() < 1) ? null : m_aTrack2.get(0);
+        String sHolderName = (m_aTrack1 == null || m_aTrack1.size() < 2) ? null : m_aTrack1.get(1);
+        String sExpDate1 =  (m_aTrack1 == null || m_aTrack1.size() < 3) ? null : m_aTrack1.get(2).substring(0, 4);
+        String sExpDate2 =  (m_aTrack2 == null || m_aTrack2.size() < 2) ? null : m_aTrack2.get(1).substring(0, 4);
             
         // Test del numero de tarjeta
         if (!checkCardNumber(sCardNumber1) || (sCardNumber2 != null && !sCardNumber1.equals(sCardNumber2))) {
