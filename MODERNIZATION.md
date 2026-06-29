@@ -111,13 +111,16 @@ The scripts assume these local install paths:
 - The twentieth unchecked cleanup batch validates serialized ticket and coupon
   line collections, uses typed payment-list copies, and isolates shared-ticket
   query casts at the data-access boundary.
+- The twenty-first unchecked cleanup batch types Close Cash payment, category,
+  tax, removed-line, and product-sales query results through one local query
+  boundary.
 - Remaining unchecked warnings are concentrated in deserialization and
-  legacy report collections, plus a smaller set of unrelated UI controls.
+  legacy UI controls, payment gateway maps, and utility collections.
 
 ## Immediate follow-up
 
 Continue reducing unchecked generic warnings in focused batches, starting with
-payment and sales report collections.
+remaining inventory and ticket filter controls.
 
 ## Deferred features
 
