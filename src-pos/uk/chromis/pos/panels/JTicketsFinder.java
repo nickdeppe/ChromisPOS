@@ -34,7 +34,6 @@ import uk.chromis.data.gui.ComboBoxValModel;
 import uk.chromis.data.gui.ListQBFModelNumber;
 import uk.chromis.data.gui.MessageInf;
 import uk.chromis.data.loader.QBFCompareEnum;
-import uk.chromis.data.loader.SentenceList;
 import uk.chromis.data.user.EditorCreator;
 import uk.chromis.data.user.ListProvider;
 import uk.chromis.data.user.ListProviderCreator;
@@ -55,8 +54,7 @@ import uk.chromis.pos.ticket.TicketType;
 public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator {
 
     private ListProvider lpr;
-    private SentenceList m_sentcat;
-    private ComboBoxValModel m_CategoryModel;
+    private ComboBoxValModel<TaxCategoryInfo> m_CategoryModel;
     private DataLogicSales dlSales;
     private DataLogicCustomers dlCustomers;
     private FindTicketsInfo selectedTicket;
@@ -146,28 +144,25 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
     private void initCombos() {
         String[] values = new String[]{AppLocal.getIntString("label.sales"),
             AppLocal.getIntString("label.refunds"), AppLocal.getIntString("label.all")};
-        jComboBoxTicket.setModel(new DefaultComboBoxModel(values));
+        jComboBoxTicket.setModel(new DefaultComboBoxModel<>(values));
 
 //        jcboMoney.setModel(new ListQBFModelNumber());
         jcboMoney.setModel(ListQBFModelNumber.getMandatoryNumber());
 
-        m_sentcat = dlSales.getUserList();
-        m_CategoryModel = new ComboBoxValModel();
-
-        List catlist = null;
+        List<TaxCategoryInfo> catlist = new ArrayList<>();
         try {
-            catlist = m_sentcat.list();
+            catlist = dlSales.getUsers();
         } catch (BasicException ex) {
             ex.getMessage();
         }
         catlist.add(0, null);
-        m_CategoryModel = new ComboBoxValModel(catlist);
+        m_CategoryModel = new ComboBoxValModel<>(catlist);
         jcboUser.setModel(m_CategoryModel);
     }
 
     private void defaultValues() {
 
-        jListTickets.setModel(new MyListData(new ArrayList()));
+        jListTickets.setModel(new MyListData(new ArrayList<>()));
         jcboUser.setSelectedItem(null);
         jtxtTicketID.reset();
         jtxtTicketID.activate();
@@ -177,7 +172,7 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
         jComboBoxTicket.setSelectedIndex(0);
         jcboUser.setSelectedItem(null);
 
-        jcboMoney.setSelectedItem(((ListQBFModelNumber) jcboMoney.getModel()).getElementAt(0));
+        jcboMoney.setSelectedItem(jcboMoney.getModel().getElementAt(0));
         jcboMoney.revalidate();
         jcboMoney.repaint();
 
@@ -234,12 +229,12 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
         afilter[9] = enddate;
 
         //User
-        if (jcboUser.getSelectedItem() == null) {
+        if (m_CategoryModel.getSelectedItem() == null) {
             afilter[10] = QBFCompareEnum.COMP_NONE;
             afilter[11] = null;
         } else {
             afilter[10] = QBFCompareEnum.COMP_EQUALS;
-            afilter[11] = ((TaxCategoryInfo) jcboUser.getSelectedItem()).getName();
+            afilter[11] = m_CategoryModel.getSelectedItem().getName();
         }
 
         //Customer
@@ -265,17 +260,17 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
         }
     }
 
-    private static class MyListData extends javax.swing.AbstractListModel {
+    private static class MyListData extends javax.swing.AbstractListModel<FindTicketsInfo> {
 
-        private final java.util.List m_data;
+        private final List<Object> m_data;
 
-        public MyListData(java.util.List data) {
+        public MyListData(List<Object> data) {
             m_data = data;
         }
 
         @Override
-        public Object getElementAt(int index) {
-            return m_data.get(index);
+        public FindTicketsInfo getElementAt(int index) {
+            return (FindTicketsInfo) m_data.get(index);
         }
 
         @Override
@@ -299,8 +294,8 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jtxtMoney = new uk.chromis.editor.JEditorCurrency();
-        jcboUser = new javax.swing.JComboBox();
-        jcboMoney = new javax.swing.JComboBox();
+        jcboUser = new javax.swing.JComboBox<TaxCategoryInfo>();
+        jcboMoney = new javax.swing.JComboBox<QBFCompareEnum>();
         jtxtTicketID = new uk.chromis.editor.JEditorIntegerPositive();
         labelCustomer = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -311,13 +306,13 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
         btnDateEnd = new javax.swing.JButton();
         jtxtCustomer = new javax.swing.JTextField();
         btnCustomer = new javax.swing.JButton();
-        jComboBoxTicket = new javax.swing.JComboBox();
+        jComboBoxTicket = new javax.swing.JComboBox<String>();
         jPanel6 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jListTickets = new javax.swing.JList();
+        jListTickets = new javax.swing.JList<FindTicketsInfo>();
         jPanel8 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jcmdCancel = new javax.swing.JButton();
@@ -593,7 +588,7 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
     private void jcmdOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcmdOKActionPerformed
-        selectedTicket = (FindTicketsInfo) jListTickets.getSelectedValue();
+        selectedTicket = jListTickets.getSelectedValue();
         dispose();
     }//GEN-LAST:event_jcmdOKActionPerformed
 
@@ -613,7 +608,7 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
     private void jListTicketsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jListTicketsMouseClicked
 
         if (evt.getClickCount() == 2) {
-            selectedTicket = (FindTicketsInfo) jListTickets.getSelectedValue();
+            selectedTicket = jListTickets.getSelectedValue();
             dispose();
         }
 
@@ -679,13 +674,13 @@ private void btnCustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
     private javax.swing.JButton btnDateStart;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
-    private javax.swing.JComboBox jComboBoxTicket;
+    private javax.swing.JComboBox<String> jComboBoxTicket;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JList jListTickets;
+    private javax.swing.JList<FindTicketsInfo> jListTickets;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -697,8 +692,8 @@ private void btnCustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTxtEndDate;
     private javax.swing.JTextField jTxtStartDate;
-    private javax.swing.JComboBox jcboMoney;
-    private javax.swing.JComboBox jcboUser;
+    private javax.swing.JComboBox<QBFCompareEnum> jcboMoney;
+    private javax.swing.JComboBox<TaxCategoryInfo> jcboUser;
     private javax.swing.JButton jcmdCancel;
     private javax.swing.JButton jcmdOK;
     private javax.swing.JTextField jtxtCustomer;

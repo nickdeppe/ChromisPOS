@@ -930,6 +930,10 @@ public class DataLogicSales extends BeanFactoryDataSingle {
         });
     }
 
+    public final List<TaxCategoryInfo> getUsers() throws BasicException {
+        return typedList(getUserList());
+    }
+
     // Listados para combo
     /**
      *

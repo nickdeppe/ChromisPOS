@@ -122,6 +122,8 @@ The scripts assume these local install paths:
   typed sales-data accessor.
 - The twenty-fourth unchecked cleanup batch types the database migration
   selector and product finder result list, including its shared renderer.
+- The twenty-fifth unchecked cleanup batch types ticket finder results,
+  sale/refund and comparison selectors, user choices, and ticket rendering.
 - Remaining unchecked warnings are concentrated in deserialization and
   legacy UI controls, payment gateway maps, and utility collections.
 
