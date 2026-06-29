@@ -196,7 +196,7 @@ public class PaymentGatewayCaixa implements PaymentGateway {
             payinfo.paymentError(AppLocal.getIntString("message.paymenterror"), "Response empty.");
         } else {
             LaCaixaParser lpp = new LaCaixaParser(sReturned);
-            Map props = lpp.splitXML();
+            Map<String, String> props = lpp.splitXML();
 
             if (lpp.getResult().equals(LocalRes.getIntString("button.ok"))) {
                 //printResponse(props);
@@ -305,7 +305,7 @@ public class PaymentGatewayCaixa implements PaymentGateway {
     public class LaCaixaParser extends DefaultHandler {
     
     private SAXParser m_sp = null;
-    private Map props = new HashMap();
+    private Map<String, String> props = new HashMap<>();
     private String text;
     private InputStream is;
     private String result;
@@ -322,7 +322,7 @@ public class PaymentGatewayCaixa implements PaymentGateway {
          *
          * @return
          */
-        public Map splitXML(){
+        public Map<String, String> splitXML(){
         try {
             if (m_sp == null) {
                 SAXParserFactory spf = SAXParserFactory.newInstance();

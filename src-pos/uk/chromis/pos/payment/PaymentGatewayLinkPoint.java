@@ -133,7 +133,7 @@ public class PaymentGatewayLinkPoint implements PaymentGateway {
         }
 
         LinkPointParser lpp = new LinkPointParser(sReturned);
-        Map props = lpp.splitXML();
+        Map<String, String> props = lpp.splitXML();
         
         if (lpp.getResult().equals(LocalRes.getIntString("button.ok"))) {
             //printResponse(props);
@@ -216,7 +216,7 @@ public class PaymentGatewayLinkPoint implements PaymentGateway {
     private class LinkPointParser extends DefaultHandler {
     
     private SAXParser m_sp = null;
-    private final Map props = new HashMap();
+    private final Map<String, String> props = new HashMap<>();
     private String text;
     private final InputStream is;
     private String result;
@@ -226,7 +226,7 @@ public class PaymentGatewayLinkPoint implements PaymentGateway {
         is = new ByteArrayInputStream(input.getBytes());
     }
     
-    public Map splitXML(){
+    public Map<String, String> splitXML(){
         try {
             if (m_sp == null) {
                 SAXParserFactory spf = SAXParserFactory.newInstance();

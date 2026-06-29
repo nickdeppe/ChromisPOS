@@ -130,6 +130,8 @@ The scripts assume these local install paths:
   track fields while preserving the existing swipe parser state machine.
 - The twenty-eighth unchecked cleanup batch types Authorize.Net and BluePay
   emulator XML response maps without changing gateway decisions or requests.
+- The twenty-ninth unchecked cleanup batch types Caixa and LinkPoint XML
+  response maps while preserving their provider-specific result handling.
 - Remaining unchecked warnings are concentrated in deserialization and
   legacy UI controls, payment gateway maps, and utility collections.
 
