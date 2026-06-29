@@ -201,7 +201,7 @@ public class PaymentGatewayAuthorizeNet implements PaymentGateway {
             
             
             AuthorizeNetParser anp = new AuthorizeNetParser(returned);
-            Map props = anp.splitXML();
+            Map<String, String> props = anp.splitXML();
 
             if (anp.getResult().equals(LocalRes.getIntString("button.ok"))) {
                 if (APPROVED.equals(props.get("ResponseCode"))) { 
@@ -239,7 +239,7 @@ public class PaymentGatewayAuthorizeNet implements PaymentGateway {
     private class AuthorizeNetParser extends DefaultHandler {
     
     private SAXParser m_sp = null;
-    private final Map props = new HashMap();
+    private final Map<String, String> props = new HashMap<>();
     private String text;
     private final InputStream is;
     private String result;
@@ -250,7 +250,7 @@ public class PaymentGatewayAuthorizeNet implements PaymentGateway {
         is = new ByteArrayInputStream(input.getBytes());
     }
  
-    public Map splitXML(){
+    public Map<String, String> splitXML(){
         try {
             if (m_sp == null) {
                 SAXParserFactory spf = SAXParserFactory.newInstance();

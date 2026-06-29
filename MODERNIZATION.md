@@ -128,6 +128,8 @@ The scripts assume these local install paths:
   enumeration adapter, table lookup, and result-row model.
 - The twenty-seventh unchecked cleanup batch types generic magnetic-card
   track fields while preserving the existing swipe parser state machine.
+- The twenty-eighth unchecked cleanup batch types Authorize.Net and BluePay
+  emulator XML response maps without changing gateway decisions or requests.
 - Remaining unchecked warnings are concentrated in deserialization and
   legacy UI controls, payment gateway maps, and utility collections.
 
