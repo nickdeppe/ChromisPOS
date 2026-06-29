@@ -120,6 +120,8 @@ The scripts assume these local install paths:
 - The twenty-third unchecked cleanup batch types Restaurant floor/place and
   cash-in/cash-out payment-reason models. Floors now load through a shared
   typed sales-data accessor.
+- The twenty-fourth unchecked cleanup batch types the database migration
+  selector and product finder result list, including its shared renderer.
 - Remaining unchecked warnings are concentrated in deserialization and
   legacy UI controls, payment gateway maps, and utility collections.
 

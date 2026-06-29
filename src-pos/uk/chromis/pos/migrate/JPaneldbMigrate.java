@@ -200,7 +200,7 @@ public class JPaneldbMigrate extends JPanel implements JPanelView {
         jLabel4 = new javax.swing.JLabel();
         jtxtDbPassword = new javax.swing.JPasswordField();
         jLabel5 = new javax.swing.JLabel();
-        jNewdbType = new javax.swing.JComboBox();
+        jNewdbType = new javax.swing.JComboBox<String>();
         jButtonTest = new javax.swing.JButton();
         pb = new javax.swing.JProgressBar();
 
@@ -1004,7 +1004,7 @@ public class JPaneldbMigrate extends JPanel implements JPanelView {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JComboBox jNewdbType;
+    private javax.swing.JComboBox<String> jNewdbType;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JButton jbtnDbDriverLib;

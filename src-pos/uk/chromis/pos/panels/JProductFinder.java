@@ -134,17 +134,17 @@ public class JProductFinder extends javax.swing.JDialog {
         return myMsg.init(dlSales, productsType);
     }
     
-    private static class MyListData extends javax.swing.AbstractListModel {
-        
-        private final java.util.List m_data;
-        
-        public MyListData(java.util.List data) {
+    private static class MyListData extends javax.swing.AbstractListModel<ProductInfoExt> {
+
+        private final java.util.List<Object> m_data;
+
+        public MyListData(java.util.List<Object> data) {
             m_data = data;
         }
-        
+
         @Override
-        public Object getElementAt(int index) {
-            return m_data.get(index);
+        public ProductInfoExt getElementAt(int index) {
+            return (ProductInfoExt) m_data.get(index);
         }
         
         @Override
@@ -168,7 +168,7 @@ public class JProductFinder extends javax.swing.JDialog {
         jButton3 = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jListProducts = new javax.swing.JList();
+        jListProducts = new javax.swing.JList<ProductInfoExt>();
         jPanel1 = new javax.swing.JPanel();
         jcmdCancel = new javax.swing.JButton();
         jcmdOK = new javax.swing.JButton();
@@ -266,7 +266,7 @@ public class JProductFinder extends javax.swing.JDialog {
     private void jListProductsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jListProductsMouseClicked
 
         if (evt.getClickCount() == 2) {
-            m_ReturnProduct = (ProductInfoExt) jListProducts.getSelectedValue();
+            m_ReturnProduct = jListProducts.getSelectedValue();
             dispose();
         }
         
@@ -274,7 +274,7 @@ public class JProductFinder extends javax.swing.JDialog {
 
     private void jcmdOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcmdOKActionPerformed
         
-        m_ReturnProduct = (ProductInfoExt) jListProducts.getSelectedValue();
+        m_ReturnProduct = jListProducts.getSelectedValue();
         dispose();
         
     }//GEN-LAST:event_jcmdOKActionPerformed
@@ -306,7 +306,7 @@ public class JProductFinder extends javax.swing.JDialog {
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton3;
-    private javax.swing.JList jListProducts;
+    private javax.swing.JList<ProductInfoExt> jListProducts;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
