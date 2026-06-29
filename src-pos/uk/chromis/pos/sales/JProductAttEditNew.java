@@ -59,6 +59,16 @@ public class JProductAttEditNew extends javax.swing.JDialog {
 
     private boolean ok;
 
+    @SuppressWarnings("unchecked")
+    private static <T> List<T> typedList(SentenceList sentence, Object param) throws BasicException {
+        return (List<T>) sentence.list(param);
+    }
+
+    @SuppressWarnings("unchecked")
+    private static <T> List<T> typedList(SentenceList sentence, Object firstParam, Object secondParam) throws BasicException {
+        return (List<T>) sentence.list(firstParam, secondParam);
+    }
+
     private JProductAttEditNew(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
     }
@@ -155,8 +165,8 @@ public class JProductAttEditNew extends javax.swing.JDialog {
             setTitle(asi.getName());
 
             List<AttributeInstInfo> attinstinfo = attsetinstid == null
-                    ? attinstSent.list(attsetid)
-                    : attinstSent2.list(attsetid, attsetinstid);
+                    ? typedList(attinstSent, attsetid)
+                    : typedList(attinstSent2, attsetid, attsetinstid);
 
             itemslist = new ArrayList<>();
 
@@ -164,7 +174,7 @@ public class JProductAttEditNew extends javax.swing.JDialog {
 
                 JProductAttEditI item;
 
-                List<String> values = attvaluesSent.list(aii.getAttid());
+                List<String> values = typedList(attvaluesSent, aii.getAttid());
                 jPanel2 = new JFlowPanel();
                 JScrollPane scroll = new JScrollPane(jPanel2);
                 scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);

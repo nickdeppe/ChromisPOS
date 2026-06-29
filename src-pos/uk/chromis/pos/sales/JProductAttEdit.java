@@ -66,6 +66,16 @@ public class JProductAttEdit extends javax.swing.JDialog {
 
     private boolean ok;
 
+    @SuppressWarnings("unchecked")
+    private static <T> List<T> typedList(SentenceList sentence, Object param) throws BasicException {
+        return (List<T>) sentence.list(param);
+    }
+
+    @SuppressWarnings("unchecked")
+    private static <T> List<T> typedList(SentenceList sentence, Object firstParam, Object secondParam) throws BasicException {
+        return (List<T>) sentence.list(firstParam, secondParam);
+    }
+
     /**
      * Creates new form JProductAttEdit
      */
@@ -191,8 +201,8 @@ public class JProductAttEdit extends javax.swing.JDialog {
             setTitle(asi.getName());
 
             List<AttributeInstInfo> attinstinfo = attsetinstid == null
-                    ? attinstSent.list(attsetid)
-                    : attinstSent2.list(attsetid, attsetinstid);
+                    ? typedList(attinstSent, attsetid)
+                    : typedList(attinstSent2, attsetid, attsetinstid);
 
             itemslist = new ArrayList<>();
 
@@ -200,7 +210,7 @@ public class JProductAttEdit extends javax.swing.JDialog {
 
                 JProductAttEditI item;
 
-                List<String> values = attvaluesSent.list(aii.getAttid());
+                List<String> values = typedList(attvaluesSent, aii.getAttid());
                 if (values.isEmpty()) {
                     // Does not exist a list of values then a textfield
                     item = new JProductAttEditItem(aii.getAttid(), aii.getAttname(), aii.getValue(), m_jKeys);

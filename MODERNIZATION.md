@@ -153,6 +153,8 @@ The scripts assume these local install paths:
   the main sales panel's tax lists, tax selector, and receipt-report maps.
 - The thirty-eighth unchecked cleanup batch types refund ticket lines from
   receipt loading through the catalog switcher and refund controls.
+- The thirty-ninth unchecked cleanup batch types product attribute query
+  results and the attribute value selector.
 - Remaining unchecked warnings are concentrated in deserialization and
   legacy UI controls, payment gateway maps, and utility collections.
 

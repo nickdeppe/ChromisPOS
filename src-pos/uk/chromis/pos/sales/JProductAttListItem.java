@@ -21,7 +21,6 @@ package uk.chromis.pos.sales;
 
 import java.awt.Component;
 import java.util.List;
-import uk.chromis.data.gui.ComboBoxValModel;
 
 /**
  *
@@ -30,7 +29,6 @@ import uk.chromis.data.gui.ComboBoxValModel;
 public class JProductAttListItem extends javax.swing.JPanel implements JProductAttEditI {
 
     private String attid;
-    private ComboBoxValModel model;
 
     /** Creates new form JProductAttListItem
      * @param attid
@@ -96,7 +94,7 @@ public class JProductAttListItem extends javax.swing.JPanel implements JProductA
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jValues = new javax.swing.JComboBox();
+        jValues = new javax.swing.JComboBox<>();
 
         jLabel1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel1.setText("jLabel1");
@@ -128,7 +126,7 @@ public class JProductAttListItem extends javax.swing.JPanel implements JProductA
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JComboBox jValues;
+    private javax.swing.JComboBox<String> jValues;
     // End of variables declaration//GEN-END:variables
 
 }
