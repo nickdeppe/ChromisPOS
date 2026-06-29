@@ -144,6 +144,8 @@ The scripts assume these local install paths:
   per-transaction promotion execution map. All-products percentage promotions
   now count and discount every eligible sale line, and generated discount lines
   retain the promotion ID needed for recalculation and removal.
+- The thirty-fifth unchecked cleanup batch loads report tax logic through the
+  shared typed sales-data accessor instead of retaining a raw tax sentence.
 - Remaining unchecked warnings are concentrated in deserialization and
   legacy UI controls, payment gateway maps, and utility collections.
 

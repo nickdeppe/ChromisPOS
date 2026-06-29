@@ -41,7 +41,6 @@ import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import uk.chromis.basic.BasicException;
 import uk.chromis.data.gui.MessageInf;
 import uk.chromis.data.loader.BaseSentence;
-import uk.chromis.data.loader.SentenceList;
 import uk.chromis.data.loader.Session;
 import uk.chromis.data.user.EditorCreator;
 import uk.chromis.pos.forms.AppLocal;
@@ -75,11 +74,6 @@ public abstract class JPanelReport extends JPanel implements JPanelView, BeanFac
     /**
      *
      */
-    protected SentenceList taxsent;
-  
-    /**
-     *
-     */
     protected TaxesLogic taxeslogic;
     
     protected DataLogicSales dlSales;
@@ -104,8 +98,6 @@ public abstract class JPanelReport extends JPanel implements JPanelView, BeanFac
         dlSales = (DataLogicSales) app.getBean("uk.chromis.pos.forms.DataLogicSales");
         dlSystem = (DataLogicSystem) app.getBean("uk.chromis.pos.forms.DataLogicSystem");
         
-        
-        taxsent = dlSales.getTaxList();
         
         editor = getEditorCreator();
         if (editor instanceof ReportEditorCreator) {
@@ -201,7 +193,7 @@ public abstract class JPanelReport extends JPanel implements JPanelView, BeanFac
     public void activate() throws BasicException {
 
         setVisibleFilter(true);
-        taxeslogic = new TaxesLogic(taxsent.list()); 
+        taxeslogic = new TaxesLogic(dlSales.getTaxInfoList());
     }
 
     /**
