@@ -159,6 +159,9 @@ The scripts assume these local install paths:
   floor and place query results.
 - The forty-first unchecked cleanup batch types the remaining product report
   and sales filter category and comparison models.
+- The forty-second unchecked cleanup batch types sign correction sets,
+  database table vectors, and printer selection, clearing the remaining
+  unchecked compiler warnings.
 - Remaining unchecked warnings are concentrated in deserialization and
   legacy UI controls, payment gateway maps, and utility collections.
 

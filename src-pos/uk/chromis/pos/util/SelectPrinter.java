@@ -115,7 +115,7 @@ public class SelectPrinter extends javax.swing.JDialog {
         jcmdOK = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
-        jPrinters = new javax.swing.JComboBox();
+        jPrinters = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle(AppLocal.getIntString("form.selectprintertitle")); // NOI18N
@@ -200,7 +200,7 @@ public class SelectPrinter extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel8;
-    private javax.swing.JComboBox jPrinters;
+    private javax.swing.JComboBox<String> jPrinters;
     private javax.swing.JButton jcmdCancel;
     private javax.swing.JButton jcmdOK;
     // End of variables declaration//GEN-END:variables

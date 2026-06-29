@@ -28,8 +28,8 @@ import java.util.Set;
  */
 public class Signumprovider {
     
-    private Set m_positives = new HashSet();
-    private Set m_negatives = new HashSet();
+    private final Set<Object> m_positives = new HashSet<>();
+    private final Set<Object> m_negatives = new HashSet<>();
     
     /** Creates a new instance of Signumprovider */
     public Signumprovider() {

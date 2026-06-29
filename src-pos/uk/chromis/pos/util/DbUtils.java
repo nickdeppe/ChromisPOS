@@ -39,7 +39,7 @@ public class DbUtils {
          try {
              ResultSetMetaData metaData = rs.getMetaData();
              int numberOfColumns = metaData.getColumnCount();
-             Vector columnNames = new Vector();
+              Vector<String> columnNames = new Vector<>();
  
             // Get the column names
              for (int column = 0; column < numberOfColumns; column++) {
@@ -47,10 +47,10 @@ public class DbUtils {
              }
 
              // Get all rows.
-             Vector rows = new Vector();
+              Vector<Vector<Object>> rows = new Vector<>();
  
             while (rs.next()) {
-                 Vector newRow = new Vector();
+                  Vector<Object> newRow = new Vector<>();
  
                 for (int i = 1; i <= numberOfColumns; i++) {
                      newRow.addElement(rs.getObject(i));
