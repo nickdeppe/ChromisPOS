@@ -114,7 +114,7 @@ public class PaymentGatewayPayPoint implements PaymentGateway {
         if (returned == null) {
             payinfo.paymentError(AppLocal.getIntString("message.paymenterror"), "Response empty.");
         } else {
-            Map props = new HashMap();
+            Map<String, String> props = new HashMap<>();
             StringTokenizer tk = new java.util.StringTokenizer(returned, "?&");
             while(tk.hasMoreTokens()) {
                 String sToken = tk.nextToken();

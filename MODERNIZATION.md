@@ -132,6 +132,8 @@ The scripts assume these local install paths:
   emulator XML response maps without changing gateway decisions or requests.
 - The twenty-ninth unchecked cleanup batch types Caixa and LinkPoint XML
   response maps while preserving their provider-specific result handling.
+- The thirtieth unchecked cleanup batch types PGNET, PayPoint, and Planet
+  Authorize URL-encoded response maps, including their nullable values.
 - Remaining unchecked warnings are concentrated in deserialization and
   legacy UI controls, payment gateway maps, and utility collections.
 

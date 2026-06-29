@@ -171,7 +171,7 @@ public class PaymentGatewayPGNET implements PaymentGateway {
             payinfo.setReturnMessage(returned);
             in.close();	                     // fin
 
-            Map props = new HashMap();
+            Map<String, String> props = new HashMap<>();
             StringTokenizer tk = new java.util.StringTokenizer(returned, "&");
             while(tk.hasMoreTokens()) {
                 String sToken = tk.nextToken();
