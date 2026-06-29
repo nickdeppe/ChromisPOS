@@ -140,6 +140,10 @@ The scripts assume these local install paths:
   queue while preserving its existing FIFO behavior and print submission.
 - The thirty-third unchecked cleanup batch types promotion query boundaries,
   resource controls, product rows, selection lists, and product rendering.
+- The thirty-fourth unchecked cleanup batch types promotion caches and the
+  per-transaction promotion execution map. All-products percentage promotions
+  now count and discount every eligible sale line, and generated discount lines
+  retain the promotion ID needed for recalculation and removal.
 - Remaining unchecked warnings are concentrated in deserialization and
   legacy UI controls, payment gateway maps, and utility collections.
 

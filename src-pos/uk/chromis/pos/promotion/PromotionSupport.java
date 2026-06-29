@@ -56,7 +56,7 @@ public class PromotionSupport {
         m_Parent = parent;
         m_salesLogic = salesLogic;
         m_DataLogicPromotions = logicPromotions;
-        m_promotionCache = new HashMap();
+        m_promotionCache = new HashMap<>();
         m_AllProductPromotions = null;
     }
 
@@ -126,7 +126,7 @@ public class PromotionSupport {
         Logger.getLogger(PromotionSupport.class.getName()).log(Level.INFO,
                 "checkPromotions for event: {0}", event);
 
-        HashMap< String, PromotionInfo> promotions = new HashMap();
+        HashMap<String, PromotionInfo> promotions = new HashMap<>();
 
         // Get product specific promotions for this ticket
         for (TicketLineInfo line : ticket.getLines()) {
@@ -213,11 +213,9 @@ public class PromotionSupport {
         int count = 0;
 
         for (TicketLineInfo line : ticket.getLines()) {
-            if (bIncludePromotionAdded || line.isPromotionAdded() == false) {
-                String id = line.getPromotionId();
-                if (id != null && id.contentEquals(promotion.getID())) {
-                    ++count;
-                }
+            if ((bIncludePromotionAdded || !line.isPromotionAdded())
+                    && isLineInPromotion(promotion, line)) {
+                ++count;
             }
         }
         return count;
@@ -230,14 +228,23 @@ public class PromotionSupport {
         Double count = 0.0;
 
         for (TicketLineInfo line : ticket.getLines()) {
-            if (bIncludePromotionAdded || line.isPromotionAdded() == false) {
-                String id = line.getPromotionId();
-                if (id != null && id.contentEquals(promotion.getID())) {
-                    count += line.getMultiply();
-                }
+            if ((bIncludePromotionAdded || !line.isPromotionAdded())
+                    && isLineInPromotion(promotion, line)) {
+                count += line.getMultiply();
             }
         }
         return count;
+    }
+
+    private boolean isLineInPromotion(PromotionInfo promotion, TicketLineInfo line) {
+        if (promotion == null || line == null) {
+            return false;
+        }
+        if (Boolean.TRUE.equals(promotion.getAllProducts())) {
+            return true;
+        }
+        String id = line.getPromotionId();
+        return id != null && id.contentEquals(promotion.getID());
     }
 
     public class LineList implements Comparable<LineList> {
@@ -308,7 +315,7 @@ public class PromotionSupport {
         for (int i = 0; i < ticket.getLinesCount(); ++i) {
             TicketLineInfo line = ticket.getLines().get(i);
             if (bIncludePromotionAdded || line.isPromotionAdded() == false) {
-                if (promotion.getAllProducts()) {
+                if (Boolean.TRUE.equals(promotion.getAllProducts())) {
                     aIndexes.add(new LineList(i, line));
                 } else {
                     String id = line.getPromotionId();
@@ -351,34 +358,33 @@ public class PromotionSupport {
             String sDiscountMessage, Double minQuantity,
             Double discountrate, Boolean bWithReset) {
 
+        PromotionInfo promotion = getCachedPromotion(promotionid);
+
         if (bWithReset) {
-            for (int i = 0; i < ticket.getLines().size(); ++i) {
-                TicketLineInfo line = ticket.getLine(i);
-                String id = line.getPromotionId();
-                if (id != null) {
-                    if (id.contentEquals(promotionid)) {
-                        RemovePromotionAddedLine(ticket, i + 1);
-                        line.setDiscounted("no");
-                    }
-                }
-            }
+            RemoveDiscountPromotion(ticket, promotionid);
+            resetDiscountFlags(ticket, promotion);
         }
 
         // Check quantity to ensure enough products on the ticket to qualify
-        PromotionInfo p = getCachedPromotion(promotionid);
-        if (minQuantity > CountProductsInPromotionQty(p, ticket, false)) {
+        if (minQuantity > CountProductsInPromotionQty(promotion, ticket, false)) {
             // Insufficient products - remove any discounts
             RemoveDiscountPromotion(ticket, promotionid);
+            resetDiscountFlags(ticket, promotion);
         } else {
 
             for (int i = 0; i < ticket.getLines().size(); ++i) {
                 TicketLineInfo line = ticket.getLine(i);
-                String id = line.getPromotionId();
-                if (id != null) {
-                    if (id.contentEquals(promotionid)) {
-                        DiscountProductPercent(ticket, i, sDiscountMessage, discountrate);
-                    }
+                if (!line.isPromotionAdded() && isLineInPromotion(promotion, line)) {
+                    discountProductPercent(ticket, i, promotionid, sDiscountMessage, discountrate);
                 }
+            }
+        }
+    }
+
+    private void resetDiscountFlags(TicketInfo ticket, PromotionInfo promotion) {
+        for (TicketLineInfo line : ticket.getLines()) {
+            if (!line.isPromotionAdded() && isLineInPromotion(promotion, line)) {
+                line.setDiscounted("no");
             }
         }
     }
@@ -388,6 +394,13 @@ public class PromotionSupport {
     // Discount a product by adding a line below the product
     public void DiscountProductPercent(TicketInfo ticket, int lineIndex,
             String sDiscountMessage, Double discountrate) {
+
+        discountProductPercent(ticket, lineIndex,
+                ticket.getLine(lineIndex).getPromotionId(), sDiscountMessage, discountrate);
+    }
+
+    private void discountProductPercent(TicketInfo ticket, int lineIndex,
+            String promotionId, String sDiscountMessage, Double discountrate) {
 
         TicketLineInfo productline = ticket.getLine(lineIndex);
         if (productline.isPromotionAdded() == false
@@ -404,7 +417,7 @@ public class PromotionSupport {
                     discount,
                     productline.getTaxInfo());
             discountline.setPromotionAdded(true);
-            discountline.setProperty("product.promotionid", productline.getPromotionId());
+            discountline.setProperty("product.promotionid", promotionId);
 
             ticket.insertLine(lineIndex + 1, discountline);
             productline.setDiscounted("yes");
