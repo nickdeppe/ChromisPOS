@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.net.URI;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
@@ -107,7 +108,7 @@ public class PaymentGatewayLinkPoint implements PaymentGateway {
 
 
         try {
-            url = new URL("https://"+HOST+":"+PORT);
+            url = URI.create("https://" + HOST + ":" + PORT).toURL();
             HttpsURLConnection connection = (HttpsURLConnection)url.openConnection();
             connection.setHostnameVerifier(new NullHostNameVerifier());
             

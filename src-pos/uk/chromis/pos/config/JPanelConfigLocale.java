@@ -65,8 +65,8 @@ public class JPanelConfigLocale extends javax.swing.JPanel implements PanelConfi
 
         List<Locale> availablelocales = new ArrayList<Locale>();
         availablelocales.addAll(Arrays.asList(Locale.getAvailableLocales())); // Available java locales
-        addLocale(availablelocales, new Locale("eu", "ES", "")); // Basque
-        addLocale(availablelocales, new Locale("gl", "ES", "")); // Gallegan
+        addLocale(availablelocales, Locale.of("eu", "ES", "")); // Basque
+        addLocale(availablelocales, Locale.of("gl", "ES", "")); // Gallegan
 
         Collections.sort(availablelocales, new LocaleComparator());
 
@@ -176,7 +176,7 @@ public class JPanelConfigLocale extends javax.swing.JPanel implements PanelConfi
         String svariant = AppConfig.getInstance().getProperty("user.variant");
 
         if (slang != null && !slang.equals("") && scountry != null && svariant != null) {
-            Locale currentlocale = new Locale(slang, scountry, svariant);
+            Locale currentlocale = Locale.of(slang, scountry, svariant);
             for (int i = 0; i < jcboLocale.getItemCount(); i++) {
                 LocaleInfo l = jcboLocale.getItemAt(i);
                 if (currentlocale.equals(l.getLocale())) {

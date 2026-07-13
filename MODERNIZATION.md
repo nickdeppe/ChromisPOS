@@ -8,8 +8,9 @@ This branch starts the runtime and touch-UI modernization work from
 - Java: move in stages from the current Java 8 baseline toward a current LTS JDK.
 - Java 8 remains pinned for existing production-support copies through their
   startup scripts.
-- Java 17 currently builds and runs this modernization branch and is now the
-  primary bytecode target.
+- Java 17 builds and runs the production-candidate checkpoint tagged
+  `v0.59.0-java17-rc1`.
+- Java 21 is now the active modernization target.
 - Database: validate against MySQL 8.4 LTS before considering newer innovation
   releases.
 - Build: replace bundled, version-pinned jars with a dependency-managed build.
@@ -29,22 +30,30 @@ This branch starts the runtime and touch-UI modernization work from
 
 - `build-java8.bat` is retained for reference, but Java 8 builds are expected to
   fail after the project moved to Java 17 source/target.
-- `build-java17.bat` builds with the installed Temurin Java 17 JDK.
+- `build-java17.bat` remains available for the Java 17 production-candidate
+  checkpoint.
 - `run-java17.bat` launches `dist/ChromisPOS.jar` with Java 17.
+- `build-java21.bat` builds with an installed Java 21 JDK. It checks
+  `JAVA21_HOME`, then common Eclipse Adoptium and Oracle/OpenJDK install
+  folders.
+- `run-java21.bat` launches `dist/ChromisPOS.jar` with Java 21.
 
 The scripts assume these local install paths:
 
 - `C:\Program Files\Java\jdk1.8.0_202`
 - `C:\Program Files\Eclipse Adoptium\jdk-17.0.19.10-hotspot`
+- `JAVA21_HOME`, or a Java 21 JDK under `C:\Program Files\Eclipse Adoptium`
+  or `C:\Program Files\Java`
 - `C:\Program Files\NetBeans 8.2`
 
-## Known Java 17 warnings
+## Compiler warnings
 
 - The tracked `build.xml` overrides ignored NetBeans metadata so Ant compiles
-  with `source=17`/`target=17`.
+  with `source=21`/`target=21`.
 - The tracked `build.xml` now enables `-Xlint:deprecation -Xlint:unchecked` so
-  Java 17 warning details are visible during the normal Ant build.
-- Java 17 deprecation warnings have been cleared from the normal Ant build.
+  warning details are visible during the normal Ant build.
+- Java 21 deprecation and unchecked warnings have been cleared from the normal
+  Ant build.
 - Bundled JasperReports viewer/printer compatibility classes still use
   deprecated JasperReports APIs internally, but those warnings are scoped to the
   copied compatibility classes to avoid changing report rendering behavior.
@@ -162,13 +171,15 @@ The scripts assume these local install paths:
 - The forty-second unchecked cleanup batch types sign correction sets,
   database table vectors, and printer selection, clearing the remaining
   unchecked compiler warnings.
-- Remaining unchecked warnings are concentrated in deserialization and
-  legacy UI controls, payment gateway maps, and utility collections.
+- The Java 21 runtime update replaces deprecated URL and Locale constructors
+  with current Java APIs, clearing the new Java 21 deprecation warnings.
 
 ## Immediate follow-up
 
-Continue reducing unchecked generic warnings in focused batches, starting with
-remaining operational UI models.
+Move the primary runtime target from Java 17 to Java 21. Once that runtime
+upgrade is building and smoke-tested, continue touch UI modernization in
+focused slices, starting with shared terminal-wide sizing defaults and then
+moving into the highest-use sale, catalog, payment, and maintenance screens.
 
 ## Deferred features
 

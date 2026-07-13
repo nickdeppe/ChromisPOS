@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.security.MessageDigest;
@@ -184,7 +185,7 @@ public class PaymentGatewayBluePay20POST implements PaymentGateway {
             } // End Tamper Proof Seal
             
             // open secure connection
-            URL url = new URL(ENDPOINTADDRESS);
+            URL url = URI.create(ENDPOINTADDRESS).toURL();
 
             HttpsURLConnection connection = (HttpsURLConnection)url.openConnection();
             connection.setDoOutput(true);
@@ -242,7 +243,7 @@ public class PaymentGatewayBluePay20POST implements PaymentGateway {
                  */
             }
             
-        } catch (UnsupportedEncodingException | MalformedURLException eUE) {
+        } catch (UnsupportedEncodingException | IllegalArgumentException | MalformedURLException eUE) {
             payinfo.paymentError(AppLocal.getIntString("message.paymentexceptionservice"), eUE.getMessage());
         } catch(IOException e) // Throw but buffered reader when the server returns a 400 header
         {

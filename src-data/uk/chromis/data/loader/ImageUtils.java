@@ -27,6 +27,7 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Properties;
@@ -99,8 +100,8 @@ public class ImageUtils {
      */
     public static BufferedImage readImage(String url) {
         try {
-            return readImage(new URL(url));
-        } catch (MalformedURLException e) {
+            return readImage(URI.create(url).toURL());
+        } catch (IllegalArgumentException | MalformedURLException e) {
             return null;
         }
     }

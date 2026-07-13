@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLDecoder;
@@ -134,7 +135,7 @@ public class PaymentGatewayPlanetauthorize implements PaymentGateway {
             }
 
         // open secure connection
-        URL url = new URL(ENDPOINTADDRESS);
+        URL url = URI.create(ENDPOINTADDRESS).toURL();
         URLConnection connection = url.openConnection();
         connection.setDoOutput(true);
         connection.setUseCaches(false);
@@ -185,7 +186,7 @@ public class PaymentGatewayPlanetauthorize implements PaymentGateway {
     } catch (UnsupportedEncodingException eUE) {
         //no pasa nunca
         payinfo.paymentError(AppLocal.getIntString("message.paymentexceptionservice"), eUE.getMessage());
-    } catch (MalformedURLException eMURL) {
+    } catch (IllegalArgumentException | MalformedURLException eMURL) {
         // no pasa nunca    
         payinfo.paymentError(AppLocal.getIntString("message.paymentexceptionservice"), eMURL.getMessage());
     } catch(IOException e){

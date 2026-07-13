@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLDecoder;
@@ -146,7 +147,7 @@ public class PaymentGatewayPGNET implements PaymentGateway {
             sb.append("&endofdata");
 
             // open secure connection
-            URL url = new URL(ENDPOINTADDRESS);
+            URL url = URI.create(ENDPOINTADDRESS).toURL();
 
             URLConnection connection = url.openConnection();
             connection.setDoOutput(true);
@@ -197,7 +198,7 @@ public class PaymentGatewayPGNET implements PaymentGateway {
                 payinfo.paymentError(AppLocal.getIntString("message.paymenterror"), sCode);
             }
             
-        } catch (UnsupportedEncodingException | MalformedURLException eUE) {
+        } catch (UnsupportedEncodingException | IllegalArgumentException | MalformedURLException eUE) {
             payinfo.paymentError(AppLocal.getIntString("message.paymentexceptionservice"), eUE.getMessage());
         } catch(IOException e){
             payinfo.paymentError(AppLocal.getIntString("message.paymenterror"), e.getMessage());
