@@ -18,8 +18,18 @@
 //    along with Chromis POS.  If not, see <http://www.gnu.org/licenses/>.
 package uk.chromis.pos.util;
 
+import java.awt.Component;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Insets;
+import java.awt.Rectangle;
+import javax.swing.AbstractButton;
+import javax.swing.JComboBox;
+import javax.swing.JList;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.JTree;
 import javax.swing.UIManager;
 
 /**
@@ -37,6 +47,8 @@ public final class TouchUI {
     public static final int SALES_POPUP_FIELD_HEIGHT = 36;
     public static final int SALES_POPUP_LIST_ROW_HEIGHT = 44;
     public static final int CLOSE_CASH_TABLE_ROW_HEIGHT = 36;
+    public static final int REPORT_FILTER_FIELD_HEIGHT = 36;
+    public static final int REPORT_VIEWER_BUTTON_SIZE = 40;
 
     private static final int ROW_HEIGHT = 32;
     public static final int SCROLLBAR_WIDTH = 44;
@@ -147,5 +159,69 @@ public final class TouchUI {
 
     public static Dimension finderIconButtonSize() {
         return new Dimension(58, SALES_POPUP_FIELD_HEIGHT);
+    }
+
+    public static Dimension reportToolbarButtonSize() {
+        return new Dimension(REPORT_VIEWER_BUTTON_SIZE, REPORT_VIEWER_BUTTON_SIZE);
+    }
+
+    public static Dimension reportFilterButtonSize() {
+        return new Dimension(58, REPORT_FILTER_FIELD_HEIGHT);
+    }
+
+    public static Dimension reportFilterFieldSize() {
+        return new Dimension(220, REPORT_FILTER_FIELD_HEIGHT);
+    }
+
+    public static Dimension reportFilterShortFieldSize() {
+        return new Dimension(80, REPORT_FILTER_FIELD_HEIGHT);
+    }
+
+    public static void applyReportFilterDefaults(Component component) {
+        applyReportFilterDefaults(component, false);
+    }
+
+    private static void applyReportFilterDefaults(Component component, boolean parentUsesFixedLayout) {
+        if (component instanceof JScrollPane) {
+            JScrollPane scrollPane = (JScrollPane) component;
+            scrollPane.getHorizontalScrollBar().setUnitIncrement(SCROLLBAR_WIDTH);
+            scrollPane.getVerticalScrollBar().setUnitIncrement(SCROLLBAR_WIDTH);
+        } else if (component instanceof JTable) {
+            ((JTable) component).setRowHeight(ROW_HEIGHT);
+        } else if (component instanceof JList) {
+            ((JList<?>) component).setFixedCellHeight(ROW_HEIGHT);
+        } else if (component instanceof JTree) {
+            ((JTree) component).setRowHeight(ROW_HEIGHT);
+        } else if (component instanceof AbstractButton) {
+            sizeComponent(component, reportFilterButtonSize(), parentUsesFixedLayout);
+        } else if (component instanceof JComboBox) {
+            sizeComponent(component, reportFilterFieldSize(), parentUsesFixedLayout);
+        } else if (component instanceof JTextField) {
+            Dimension current = component.getPreferredSize();
+            int width = Math.max(current == null ? 0 : current.width, reportFilterFieldSize().width);
+            sizeComponent(component, new Dimension(width, REPORT_FILTER_FIELD_HEIGHT), parentUsesFixedLayout);
+        }
+
+        if (component instanceof Container) {
+            Container container = (Container) component;
+            boolean fixedLayout = container.getLayout() == null;
+            for (Component child : container.getComponents()) {
+                applyReportFilterDefaults(child, fixedLayout);
+            }
+        }
+    }
+
+    private static void sizeComponent(Component component, Dimension minimum, boolean parentUsesFixedLayout) {
+        Dimension preferred = component.getPreferredSize();
+        int width = Math.max(preferred == null ? 0 : preferred.width, minimum.width);
+        int height = Math.max(preferred == null ? 0 : preferred.height, minimum.height);
+        Dimension size = new Dimension(width, height);
+        component.setMinimumSize(size);
+        component.setPreferredSize(size);
+
+        if (parentUsesFixedLayout) {
+            Rectangle bounds = component.getBounds();
+            component.setBounds(bounds.x, bounds.y, Math.max(bounds.width, width), Math.max(bounds.height, height));
+        }
     }
 }

@@ -52,6 +52,7 @@ import uk.chromis.pos.forms.DataLogicSystem;
 import uk.chromis.pos.forms.JPanelView;
 import uk.chromis.pos.sales.TaxesLogic;
 import uk.chromis.pos.util.JRViewer300;
+import uk.chromis.pos.util.TouchUI;
 
 
 /**
@@ -102,6 +103,7 @@ public abstract class JPanelReport extends JPanel implements JPanelView, BeanFac
         editor = getEditorCreator();
         if (editor instanceof ReportEditorCreator) {
             jPanelFilter.add(((ReportEditorCreator) editor).getComponent(), BorderLayout.CENTER);
+            TouchUI.applyReportFilterDefaults(((ReportEditorCreator) editor).getComponent());
         }
                   
         reportviewer = new JRViewer300(null);                        
@@ -299,6 +301,8 @@ public abstract class JPanelReport extends JPanel implements JPanelView, BeanFac
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("pos_messages"); // NOI18N
         jToggleFilter.setToolTipText(bundle.getString("tiptext.hideshowfilter")); // NOI18N
         jToggleFilter.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/uk/chromis/images/1uparrow.png"))); // NOI18N
+        jToggleFilter.setMinimumSize(TouchUI.reportToolbarButtonSize());
+        jToggleFilter.setPreferredSize(TouchUI.reportToolbarButtonSize());
         jToggleFilter.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jToggleFilterActionPerformed(evt);
@@ -310,6 +314,8 @@ public abstract class JPanelReport extends JPanel implements JPanelView, BeanFac
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uk/chromis/images/ok.png"))); // NOI18N
         jButton1.setText(AppLocal.getIntString("Button.ExecuteReport")); // NOI18N
         jButton1.setToolTipText(bundle.getString("tiptext.executereport")); // NOI18N
+        jButton1.setMinimumSize(new java.awt.Dimension(180, 44));
+        jButton1.setPreferredSize(new java.awt.Dimension(180, 44));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
