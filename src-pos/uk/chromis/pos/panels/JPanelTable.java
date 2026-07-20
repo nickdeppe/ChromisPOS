@@ -44,6 +44,7 @@ import uk.chromis.pos.forms.AppView;
 import uk.chromis.pos.forms.BeanFactoryApp;
 import uk.chromis.pos.forms.BeanFactoryException;
 import uk.chromis.pos.forms.JPanelView;
+import uk.chromis.pos.util.TouchUI;
 
 public abstract class JPanelTable extends JPanel implements JPanelView, BeanFactoryApp {
     
@@ -51,7 +52,7 @@ public abstract class JPanelTable extends JPanel implements JPanelView, BeanFact
     protected DirtyManager dirty;    
     protected boolean LoadOnActivation = true;
     protected AppView app;
-    protected int m_ListWidth = 0;
+    protected int m_ListWidth = TouchUI.MAINTENANCE_LIST_WIDTH;
     
     /** Creates new form JPanelTableEditor */
     public JPanelTable() {
@@ -114,9 +115,7 @@ public abstract class JPanelTable extends JPanel implements JPanelView, BeanFact
             if (cr != null) {
                 JListNavigator nl = new JListNavigator(bd);
                 nl.applyComponentOrientation(getComponentOrientation());
-                if( m_ListWidth > 0 ) {
-                    nl.setPreferredSize(new java.awt.Dimension( m_ListWidth, 2));
-                }
+                nl.setPreferredSize(new java.awt.Dimension(m_ListWidth, 2));
     
                 if (cr != null) {
                     nl.setCellRenderer(cr);

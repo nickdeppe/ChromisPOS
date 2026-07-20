@@ -32,6 +32,7 @@ import org.pushingpixels.substance.api.SubstanceSkin;
 import uk.chromis.pos.forms.AppConfig;
 import uk.chromis.pos.forms.AppLocal;
 import uk.chromis.pos.forms.JRootFrame;
+import uk.chromis.pos.util.TouchUI;
 
 public class JFrmSync extends javax.swing.JFrame {
     
@@ -108,6 +109,7 @@ public class JFrmSync extends javax.swing.JFrame {
                     }
                 } catch (ReflectiveOperationException | UnsupportedLookAndFeelException e) {
                 }
+                TouchUI.installDefaults();
 
                 JFrmSync resetFrame = new JFrmSync();//
                 resetFrame.setSize(600, 350);

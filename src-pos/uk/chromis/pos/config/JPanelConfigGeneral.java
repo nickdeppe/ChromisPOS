@@ -34,6 +34,7 @@ import uk.chromis.data.user.DirtyManager;
 import uk.chromis.pos.forms.AppConfig;
 import uk.chromis.pos.forms.AppLocal;
 import uk.chromis.pos.util.DirectoryEvent;
+import uk.chromis.pos.util.TouchUI;
 
 /**
  *
@@ -223,6 +224,7 @@ public class JPanelConfigGeneral extends javax.swing.JPanel implements PanelConf
                             SubstanceLookAndFeel.setSkin((SubstanceSkin) laf);
                         }
 
+                        TouchUI.installDefaults();
                         SwingUtilities.updateComponentTreeUI(JPanelConfigGeneral.this.getTopLevelAncestor());
                     } catch (ReflectiveOperationException | UnsupportedLookAndFeelException e) {
                     }

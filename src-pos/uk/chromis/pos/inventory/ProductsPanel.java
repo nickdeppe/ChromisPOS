@@ -30,6 +30,7 @@ import uk.chromis.pos.forms.AppLocal;
 import uk.chromis.pos.forms.DataLogicSales;
 import uk.chromis.pos.panels.JPanelTable2;
 import uk.chromis.pos.ticket.ProductFilter;
+import uk.chromis.pos.util.TouchUI;
 
 /**
  *
@@ -78,7 +79,7 @@ public class ProductsPanel extends JPanelTable2 implements EditorListener {
         jeditor = new ProductsEditor(m_dlSales, dirty);
 
         if (AppConfig.getInstance().getBoolean("display.longnames")) {
-            setListWidth(300);
+            setListWidth(TouchUI.MAINTENANCE_LIST_LONG_WIDTH);
         }
     }
 

@@ -35,6 +35,7 @@ import uk.chromis.pos.forms.AppConfig;
 import uk.chromis.pos.forms.AppLocal;
 import uk.chromis.pos.forms.AppProperties;
 import uk.chromis.pos.forms.JRootFrame;
+import uk.chromis.pos.util.TouchUI;
 
 /**
  *
@@ -118,6 +119,7 @@ public class JFrmConfig extends javax.swing.JFrame {
                 } catch (ReflectiveOperationException | UnsupportedLookAndFeelException e) {
              //       logger.log(Level.WARNING, "Cannot set Look and Feel", e);
                 }
+                TouchUI.installDefaults();
                 
                 new JFrmConfig(null).setVisible(true);
             }

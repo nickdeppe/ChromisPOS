@@ -38,6 +38,7 @@ import uk.chromis.convert.Conversion;
 import uk.chromis.format.Formats;
 import uk.chromis.pos.instance.InstanceQuery;
 import uk.chromis.pos.ticket.TicketInfo;
+import uk.chromis.pos.util.TouchUI;
 
 public class StartPOS {
 
@@ -156,6 +157,7 @@ public class StartPOS {
                 } catch (ReflectiveOperationException | UnsupportedLookAndFeelException e) {
                     logger.log(Level.WARNING, "Cannot set Look and Feel", e);
                 }
+                TouchUI.installDefaults();
                 String hostname = AppConfig.getInstance().getProperty("machine.hostname");
                 TicketInfo.setHostname(hostname);
 

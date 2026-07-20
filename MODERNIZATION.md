@@ -176,10 +176,17 @@ The scripts assume these local install paths:
 
 ## Immediate follow-up
 
-Move the primary runtime target from Java 17 to Java 21. Once that runtime
-upgrade is building and smoke-tested, continue touch UI modernization in
-focused slices, starting with shared terminal-wide sizing defaults and then
-moving into the highest-use sale, catalog, payment, and maintenance screens.
+Continue touch UI modernization in focused slices. Start with shared
+terminal-wide sizing defaults, then move into the highest-use sale, catalog,
+payment, and maintenance screens.
+
+## Touch UI modernization
+
+- The first touch UI slice adds shared Swing defaults for wider scrollbars,
+  roomier button margins, larger table/tree/list rows, and more tappable tab
+  headers. These defaults are installed after the configured look and feel is
+  applied so they affect the main app, standalone configuration window, manual
+  sync window, and live look-and-feel changes from Configuration.
 
 ## Deferred features
 
@@ -193,9 +200,10 @@ moving into the highest-use sale, catalog, payment, and maintenance screens.
 Begin these projects after the runtime modernization and touch UI phase is
 complete:
 
-1. Shift4 Universal Transaction Gateway integration.
-2. New kitchen display integration.
-3. Online ticket sales integration.
-4. XML and Java syntax highlighting in the Resources editor.
-5. Evaluate rebranding the application now that the original Chromis POS
+1. Beautification and branding on dual screen customer display.
+2. Shift4 Universal Transaction Gateway integration.
+3. New kitchen display integration.
+4. Online ticket sales integration.
+5. XML and Java syntax highlighting in the Resources editor.
+6. Evaluate rebranding the application now that the original Chromis POS
    project is inactive and this modernization significantly changes the product.
