@@ -136,4 +136,16 @@ public final class TouchUI {
     public static Dimension closeCashTableSize() {
         return new Dimension(285, 300);
     }
+
+    public static Dimension finderDialogSize() {
+        return new Dimension(760, 580);
+    }
+
+    public static Dimension ticketFinderDialogSize() {
+        return new Dimension(780, 600);
+    }
+
+    public static Dimension finderIconButtonSize() {
+        return new Dimension(58, SALES_POPUP_FIELD_HEIGHT);
+    }
 }

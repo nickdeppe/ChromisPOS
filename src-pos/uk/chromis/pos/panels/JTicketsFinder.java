@@ -46,6 +46,7 @@ import uk.chromis.pos.inventory.TaxCategoryInfo;
 import uk.chromis.pos.ticket.FindTicketsInfo;
 import uk.chromis.pos.ticket.FindTicketsRenderer;
 import uk.chromis.pos.ticket.TicketType;
+import uk.chromis.pos.util.TouchUI;
 
 /**
  *
@@ -109,7 +110,7 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
 
         initComponents();
 
-        jScrollPane1.getVerticalScrollBar().setPreferredSize(new Dimension(35, 35));
+        jScrollPane1.getVerticalScrollBar().setPreferredSize(new Dimension(TouchUI.SCROLLBAR_WIDTH, TouchUI.SCROLLBAR_WIDTH));
 
         jtxtTicketID.addEditorKeys(m_jKeys);
         jtxtMoney.addEditorKeys(m_jKeys);
@@ -118,6 +119,7 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
         lpr = new ListProviderCreator(dlSales.getTicketsList(), this);
 
         jListTickets.setCellRenderer(new FindTicketsRenderer());
+        jListTickets.setFixedCellHeight(TouchUI.SALES_POPUP_LIST_ROW_HEIGHT);
 
         getRootPane().setDefaultButton(jcmdOK);
 
@@ -327,7 +329,7 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
 
         jPanel5.setLayout(new java.awt.BorderLayout());
 
-        jPanel7.setPreferredSize(new java.awt.Dimension(0, 210));
+        jPanel7.setPreferredSize(new java.awt.Dimension(0, 270));
 
         jLabel1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel1.setText(AppLocal.getIntString("label.ticketid")); // NOI18N
@@ -339,8 +341,10 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
         jLabel7.setText(AppLocal.getIntString("label.totalcash")); // NOI18N
 
         jtxtMoney.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jtxtMoney.setPreferredSize(TouchUI.salesPopupFieldSize());
 
         jcboUser.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jcboUser.setPreferredSize(TouchUI.salesPopupFieldSize());
         jcboUser.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jcboUserActionPerformed(evt);
@@ -348,8 +352,10 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
         });
 
         jcboMoney.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jcboMoney.setPreferredSize(new java.awt.Dimension(140, TouchUI.SALES_POPUP_FIELD_HEIGHT));
 
         jtxtTicketID.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jtxtTicketID.setPreferredSize(new java.awt.Dimension(140, TouchUI.SALES_POPUP_FIELD_HEIGHT));
 
         labelCustomer.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         labelCustomer.setText(AppLocal.getIntString("label.customer")); // NOI18N
@@ -361,15 +367,16 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
         jLabel4.setText(AppLocal.getIntString("Label.EndDate")); // NOI18N
 
         jTxtStartDate.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jTxtStartDate.setPreferredSize(new java.awt.Dimension(200, 25));
+        jTxtStartDate.setPreferredSize(TouchUI.salesPopupFieldSize());
 
         jTxtEndDate.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jTxtEndDate.setPreferredSize(new java.awt.Dimension(200, 25));
+        jTxtEndDate.setPreferredSize(TouchUI.salesPopupFieldSize());
 
         btnDateStart.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uk/chromis/images/date.png"))); // NOI18N
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("pos_messages"); // NOI18N
         btnDateStart.setToolTipText(bundle.getString("tiptext.opencalendar")); // NOI18N
-        btnDateStart.setPreferredSize(new java.awt.Dimension(50, 25));
+        btnDateStart.setMargin(TouchUI.buttonMargin());
+        btnDateStart.setPreferredSize(TouchUI.finderIconButtonSize());
         btnDateStart.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDateStartActionPerformed(evt);
@@ -378,7 +385,8 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
 
         btnDateEnd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uk/chromis/images/date.png"))); // NOI18N
         btnDateEnd.setToolTipText(bundle.getString("tiptext.opencalendar")); // NOI18N
-        btnDateEnd.setPreferredSize(new java.awt.Dimension(50, 25));
+        btnDateEnd.setMargin(TouchUI.buttonMargin());
+        btnDateEnd.setPreferredSize(TouchUI.finderIconButtonSize());
         btnDateEnd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDateEndActionPerformed(evt);
@@ -386,14 +394,14 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
         });
 
         jtxtCustomer.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jtxtCustomer.setPreferredSize(new java.awt.Dimension(200, 25));
+        jtxtCustomer.setPreferredSize(TouchUI.salesPopupFieldSize());
 
         btnCustomer.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uk/chromis/images/customer_sml.png"))); // NOI18N
         btnCustomer.setToolTipText(bundle.getString("tiptext.opencustomers")); // NOI18N
         btnCustomer.setFocusPainted(false);
         btnCustomer.setFocusable(false);
-        btnCustomer.setMargin(new java.awt.Insets(8, 14, 8, 14));
-        btnCustomer.setPreferredSize(new java.awt.Dimension(50, 25));
+        btnCustomer.setMargin(TouchUI.buttonMargin());
+        btnCustomer.setPreferredSize(TouchUI.finderIconButtonSize());
         btnCustomer.setRequestFocusEnabled(false);
         btnCustomer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -402,6 +410,7 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
         });
 
         jComboBoxTicket.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jComboBoxTicket.setPreferredSize(new java.awt.Dimension(140, TouchUI.SALES_POPUP_FIELD_HEIGHT));
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -485,6 +494,8 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uk/chromis/images/reload.png"))); // NOI18N
         jButton1.setText(AppLocal.getIntString("button.clean")); // NOI18N
         jButton1.setToolTipText(bundle.getString("tiptext.clearfilter")); // NOI18N
+        jButton1.setMargin(TouchUI.buttonMargin());
+        jButton1.setPreferredSize(TouchUI.salesPopupButtonSize());
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -498,6 +509,8 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
         jButton3.setToolTipText(bundle.getString("tiptext.executefilter")); // NOI18N
         jButton3.setFocusPainted(false);
         jButton3.setFocusable(false);
+        jButton3.setMargin(TouchUI.buttonMargin());
+        jButton3.setPreferredSize(TouchUI.salesPopupWideButtonSize());
         jButton3.setRequestFocusEnabled(false);
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -539,7 +552,10 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
         jcmdCancel.setText(AppLocal.getIntString("Button.Cancel")); // NOI18N
         jcmdCancel.setFocusPainted(false);
         jcmdCancel.setFocusable(false);
-        jcmdCancel.setMargin(new java.awt.Insets(8, 16, 8, 16));
+        jcmdCancel.setMargin(TouchUI.buttonMargin());
+        jcmdCancel.setMaximumSize(TouchUI.salesPopupButtonSize());
+        jcmdCancel.setMinimumSize(TouchUI.salesPopupButtonSize());
+        jcmdCancel.setPreferredSize(TouchUI.salesPopupButtonSize());
         jcmdCancel.setRequestFocusEnabled(false);
         jcmdCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -554,10 +570,10 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
         jcmdOK.setEnabled(false);
         jcmdOK.setFocusPainted(false);
         jcmdOK.setFocusable(false);
-        jcmdOK.setMargin(new java.awt.Insets(8, 16, 8, 16));
-        jcmdOK.setMaximumSize(new java.awt.Dimension(103, 44));
-        jcmdOK.setMinimumSize(new java.awt.Dimension(103, 44));
-        jcmdOK.setPreferredSize(new java.awt.Dimension(103, 44));
+        jcmdOK.setMargin(TouchUI.buttonMargin());
+        jcmdOK.setMaximumSize(TouchUI.salesPopupButtonSize());
+        jcmdOK.setMinimumSize(TouchUI.salesPopupButtonSize());
+        jcmdOK.setPreferredSize(TouchUI.salesPopupButtonSize());
         jcmdOK.setRequestFocusEnabled(false);
         jcmdOK.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -584,7 +600,8 @@ public class JTicketsFinder extends javax.swing.JDialog implements EditorCreator
 
         getContentPane().add(jPanel2, java.awt.BorderLayout.LINE_END);
 
-        setSize(new java.awt.Dimension(695, 522));
+        setMinimumSize(TouchUI.ticketFinderDialogSize());
+        setSize(TouchUI.ticketFinderDialogSize());
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
     private void jcmdOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcmdOKActionPerformed

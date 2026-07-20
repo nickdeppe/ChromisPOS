@@ -34,6 +34,7 @@ import uk.chromis.pos.forms.DataLogicSales;
 import uk.chromis.pos.ticket.ProductFilterSales;
 import uk.chromis.pos.ticket.ProductInfoExt;
 import uk.chromis.pos.ticket.ProductRenderer;
+import uk.chromis.pos.util.TouchUI;
 
 /**
  *
@@ -62,7 +63,7 @@ public class JProductFinder extends javax.swing.JDialog {
 
         initComponents();
         
-        jScrollPane1.getVerticalScrollBar().setPreferredSize(new Dimension(35, 35));
+        jScrollPane1.getVerticalScrollBar().setPreferredSize(new Dimension(TouchUI.SCROLLBAR_WIDTH, TouchUI.SCROLLBAR_WIDTH));
 
         //ProductFilter jproductfilter = new ProductFilter(app);
         ProductFilterSales jproductfilter = new ProductFilterSales(dlSales, m_jKeys);
@@ -82,6 +83,7 @@ public class JProductFinder extends javax.swing.JDialog {
         }
        
         jListProducts.setCellRenderer(new ProductRenderer());
+        jListProducts.setFixedCellHeight(TouchUI.SALES_POPUP_LIST_ROW_HEIGHT);
         
         getRootPane().setDefaultButton(jcmdOK);   
    
@@ -190,6 +192,8 @@ public class JProductFinder extends javax.swing.JDialog {
         jButton3.setText(AppLocal.getIntString("button.executefilter")); // NOI18N
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("pos_messages"); // NOI18N
         jButton3.setToolTipText(bundle.getString("tiptext.executefilter")); // NOI18N
+        jButton3.setMargin(TouchUI.buttonMargin());
+        jButton3.setPreferredSize(TouchUI.salesPopupWideButtonSize());
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
@@ -229,10 +233,10 @@ public class JProductFinder extends javax.swing.JDialog {
         jcmdCancel.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jcmdCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uk/chromis/images/cancel.png"))); // NOI18N
         jcmdCancel.setText(AppLocal.getIntString("Button.Cancel")); // NOI18N
-        jcmdCancel.setMargin(new java.awt.Insets(8, 16, 8, 16));
-        jcmdCancel.setMaximumSize(new java.awt.Dimension(103, 44));
-        jcmdCancel.setMinimumSize(new java.awt.Dimension(103, 44));
-        jcmdCancel.setPreferredSize(new java.awt.Dimension(103, 44));
+        jcmdCancel.setMargin(TouchUI.buttonMargin());
+        jcmdCancel.setMaximumSize(TouchUI.salesPopupButtonSize());
+        jcmdCancel.setMinimumSize(TouchUI.salesPopupButtonSize());
+        jcmdCancel.setPreferredSize(TouchUI.salesPopupButtonSize());
         jcmdCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jcmdCancelActionPerformed(evt);
@@ -244,10 +248,10 @@ public class JProductFinder extends javax.swing.JDialog {
         jcmdOK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uk/chromis/images/ok.png"))); // NOI18N
         jcmdOK.setText(AppLocal.getIntString("Button.OK")); // NOI18N
         jcmdOK.setEnabled(false);
-        jcmdOK.setMargin(new java.awt.Insets(8, 16, 8, 16));
-        jcmdOK.setMaximumSize(new java.awt.Dimension(103, 44));
-        jcmdOK.setMinimumSize(new java.awt.Dimension(103, 44));
-        jcmdOK.setPreferredSize(new java.awt.Dimension(103, 44));
+        jcmdOK.setMargin(TouchUI.buttonMargin());
+        jcmdOK.setMaximumSize(TouchUI.salesPopupButtonSize());
+        jcmdOK.setMinimumSize(TouchUI.salesPopupButtonSize());
+        jcmdOK.setPreferredSize(TouchUI.salesPopupButtonSize());
         jcmdOK.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jcmdOKActionPerformed(evt);
@@ -259,7 +263,8 @@ public class JProductFinder extends javax.swing.JDialog {
 
         getContentPane().add(jPanel2, java.awt.BorderLayout.CENTER);
 
-        setSize(new java.awt.Dimension(665, 565));
+        setMinimumSize(TouchUI.finderDialogSize());
+        setSize(TouchUI.finderDialogSize());
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 

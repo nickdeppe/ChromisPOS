@@ -819,7 +819,9 @@ public class DataLogicSales extends BeanFactoryDataSingle {
                 + "P.PACKQUANTITY, "
                 + "P.PACKPRODUCT, "
                 + "P.PROMOTIONID, "
-                + "P.MANAGESTOCK "
+                + "P.MANAGESTOCK, "
+                + "P.ISBOXOFFICE, "
+                + "P.ISBOXOFFICEREPORTED "
                 + "FROM STOCKCURRENT C RIGHT OUTER JOIN PRODUCTS P ON (C.PRODUCT = P.ID) "
                 + "WHERE ?(QBF_FILTER) "
                 + "ORDER BY P.REFERENCE, P.NAME",

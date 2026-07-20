@@ -61,7 +61,7 @@ public class ProductFilterSales extends javax.swing.JPanel implements EditorCrea
         m_jCboPriceSell.setModel(ListQBFModelNumber.getMandatoryNumber());
         m_jPriceSell.addEditorKeys(jKeys);
 
-        m_jCboStockUnits.setModel(ListQBFModelNumber.getOverrideMandatoryNumber());
+        m_jCboStockUnits.setModel(ListQBFModelNumber.getMandatoryNumber());
         m_jStockUnits.addEditorKeys(jKeys);
     }
 
@@ -76,8 +76,8 @@ public class ProductFilterSales extends javax.swing.JPanel implements EditorCrea
         m_jtxtName.reset();
         m_jPriceBuy.reset();
         m_jPriceSell.reset();
-        m_jCboStockUnits.setSelectedIndex(2);
-        m_jStockUnits.setDoubleValue(0.0);
+        m_jCboStockUnits.setSelectedIndex(0);
+        m_jStockUnits.reset();
 
         try {
             List<CategoryInfo> catlist = m_dlSales.getCategories();
@@ -134,11 +134,10 @@ public class ProductFilterSales extends javax.swing.JPanel implements EditorCrea
         }
 
         if (m_jStockUnits.getDoubleValue() == null) {
-            m_jCboStockUnits.setSelectedIndex(2);
-            m_jStockUnits.setDoubleValue(0.0);
+            m_jCboStockUnits.setSelectedIndex(0);
             repaint();
-            afilter[10] = QBFCompareEnum.COMP_GREATER;
-            afilter[11] = 0;
+            afilter[10] = QBFCompareEnum.COMP_NONE;
+            afilter[11] = null;
         } else {
             afilter[10] = m_jCboStockUnits.getSelectedItem();
             afilter[11] = m_jStockUnits.getDoubleValue();
