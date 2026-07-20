@@ -21,6 +21,7 @@ package uk.chromis.pos.sales;
 
 import java.awt.Component;
 import java.util.List;
+import uk.chromis.pos.util.TouchUI;
 
 /**
  *
@@ -98,8 +99,10 @@ public class JProductAttListItem extends javax.swing.JPanel implements JProductA
 
         jLabel1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel1.setText("jLabel1");
+        jLabel1.setPreferredSize(TouchUI.salesPopupLabelSize());
 
         jValues.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        jValues.setPreferredSize(TouchUI.salesPopupFieldSize());
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -107,9 +110,9 @@ public class JProductAttListItem extends javax.swing.JPanel implements JProductA
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jValues, javax.swing.GroupLayout.PREFERRED_SIZE, 329, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jValues, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -117,8 +120,8 @@ public class JProductAttListItem extends javax.swing.JPanel implements JProductA
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jValues, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jValues, javax.swing.GroupLayout.PREFERRED_SIZE, TouchUI.SALES_POPUP_FIELD_HEIGHT, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, TouchUI.SALES_POPUP_FIELD_HEIGHT, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(1, 1, 1))
         );
     }// </editor-fold>//GEN-END:initComponents

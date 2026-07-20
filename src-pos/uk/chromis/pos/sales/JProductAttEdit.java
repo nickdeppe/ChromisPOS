@@ -43,6 +43,7 @@ import uk.chromis.data.loader.Session;
 import uk.chromis.pos.forms.AppLocal;
 import uk.chromis.pos.inventory.AttributeSetInfo;
 import uk.chromis.pos.util.AutoLogoff;
+import uk.chromis.pos.util.TouchUI;
 
 /**
  *
@@ -344,7 +345,10 @@ public class JProductAttEdit extends javax.swing.JDialog {
         m_jButtonOK.setText(AppLocal.getIntString("Button.OK")); // NOI18N
         m_jButtonOK.setFocusPainted(false);
         m_jButtonOK.setFocusable(false);
-        m_jButtonOK.setMargin(new java.awt.Insets(8, 16, 8, 16));
+        m_jButtonOK.setMargin(TouchUI.buttonMargin());
+        m_jButtonOK.setMaximumSize(TouchUI.salesPopupButtonSize());
+        m_jButtonOK.setMinimumSize(TouchUI.salesPopupButtonSize());
+        m_jButtonOK.setPreferredSize(TouchUI.salesPopupButtonSize());
         m_jButtonOK.setRequestFocusEnabled(false);
         m_jButtonOK.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -358,7 +362,10 @@ public class JProductAttEdit extends javax.swing.JDialog {
         m_jButtonCancel.setText(AppLocal.getIntString("Button.Cancel")); // NOI18N
         m_jButtonCancel.setFocusPainted(false);
         m_jButtonCancel.setFocusable(false);
-        m_jButtonCancel.setMargin(new java.awt.Insets(8, 16, 8, 16));
+        m_jButtonCancel.setMargin(TouchUI.buttonMargin());
+        m_jButtonCancel.setMaximumSize(TouchUI.salesPopupButtonSize());
+        m_jButtonCancel.setMinimumSize(TouchUI.salesPopupButtonSize());
+        m_jButtonCancel.setPreferredSize(TouchUI.salesPopupButtonSize());
         m_jButtonCancel.setRequestFocusEnabled(false);
         m_jButtonCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -381,7 +388,8 @@ public class JProductAttEdit extends javax.swing.JDialog {
 
         getContentPane().add(jPanel3, java.awt.BorderLayout.EAST);
 
-        setSize(new java.awt.Dimension(718, 451));
+        setMinimumSize(TouchUI.attributeDialogSize());
+        setSize(TouchUI.attributeDialogSize());
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 

@@ -24,7 +24,6 @@ import java.awt.Component;
 import java.awt.Dialog;
 import java.awt.Dimension;
 import java.awt.Frame;
-import java.awt.Insets;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -34,6 +33,7 @@ import javax.swing.JFrame;
 import uk.chromis.pos.forms.AppLocal;
 import uk.chromis.pos.sales.SharedTicketInfo;
 import uk.chromis.pos.util.AutoLogoff;
+import uk.chromis.pos.util.TouchUI;
 
 /**
  *
@@ -94,8 +94,8 @@ public class JTicketsBagSharedList extends javax.swing.JDialog {
 
         mydialog.initComponents();
      
-        mydialog.jScrollPane1.getVerticalScrollBar().setPreferredSize(new Dimension(35, 35));
-        mydialog.jScrollPane1.getHorizontalScrollBar().setPreferredSize(new Dimension(25, 25));
+        mydialog.jScrollPane1.getVerticalScrollBar().setPreferredSize(new Dimension(TouchUI.SCROLLBAR_WIDTH, TouchUI.SCROLLBAR_WIDTH));
+        mydialog.jScrollPane1.getHorizontalScrollBar().setPreferredSize(new Dimension(TouchUI.SCROLLBAR_WIDTH, TouchUI.SCROLLBAR_WIDTH));
 
         AutoLogoff.getInstance().setActiveFrame(mydialog);
         return mydialog;
@@ -123,7 +123,10 @@ public class JTicketsBagSharedList extends javax.swing.JDialog {
             setFocusPainted(false);
             setFocusable(false);
             setRequestFocusEnabled(false);
-            setMargin(new Insets(8, 14, 8, 14));
+            setMargin(TouchUI.buttonMargin());
+            setMaximumSize(TouchUI.sharedTicketButtonSize());
+            setMinimumSize(TouchUI.sharedTicketButtonSize());
+            setPreferredSize(TouchUI.sharedTicketButtonSize());
             setFont(new java.awt.Font("Dialog", 0, 14));
             setBackground(new java.awt.Color(220, 220, 220));
             addActionListener(new ActionListenerImpl());
@@ -164,7 +167,7 @@ public class JTicketsBagSharedList extends javax.swing.JDialog {
         m_jButtonCancel = new javax.swing.JButton();
 
         setTitle(AppLocal.getIntString("caption.tickets")); // NOI18N
-        setPreferredSize(new java.awt.Dimension(500, 100));
+        setPreferredSize(TouchUI.sharedTicketDialogSize());
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
         jPanel1.setLayout(new java.awt.BorderLayout());
@@ -192,7 +195,10 @@ public class JTicketsBagSharedList extends javax.swing.JDialog {
         m_jButtonCancel.setText(AppLocal.getIntString("Button.Close")); // NOI18N
         m_jButtonCancel.setFocusPainted(false);
         m_jButtonCancel.setFocusable(false);
-        m_jButtonCancel.setMargin(new java.awt.Insets(8, 16, 8, 16));
+        m_jButtonCancel.setMargin(TouchUI.buttonMargin());
+        m_jButtonCancel.setMaximumSize(TouchUI.salesPopupButtonSize());
+        m_jButtonCancel.setMinimumSize(TouchUI.salesPopupButtonSize());
+        m_jButtonCancel.setPreferredSize(TouchUI.salesPopupButtonSize());
         m_jButtonCancel.setRequestFocusEnabled(false);
         m_jButtonCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -203,7 +209,8 @@ public class JTicketsBagSharedList extends javax.swing.JDialog {
 
         getContentPane().add(jPanel3, java.awt.BorderLayout.SOUTH);
 
-        setSize(new java.awt.Dimension(512, 335));
+        setMinimumSize(TouchUI.sharedTicketDialogSize());
+        setSize(TouchUI.sharedTicketDialogSize());
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 

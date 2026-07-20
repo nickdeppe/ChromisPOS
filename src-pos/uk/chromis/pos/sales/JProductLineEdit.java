@@ -38,6 +38,7 @@ import uk.chromis.pos.forms.AppView;
 import uk.chromis.pos.forms.AppViewConnection;
 import uk.chromis.pos.ticket.TicketLineInfo;
 import uk.chromis.pos.util.AltEncrypter;
+import uk.chromis.pos.util.TouchUI;
 
 /**
  *
@@ -360,7 +361,10 @@ public class JProductLineEdit extends javax.swing.JDialog {
         m_jButtonUpdate.setText(bundle.getString("Button.UpdateProduct")); // NOI18N
         m_jButtonUpdate.setFocusPainted(false);
         m_jButtonUpdate.setFocusable(false);
-        m_jButtonUpdate.setMargin(new java.awt.Insets(8, 16, 8, 16));
+        m_jButtonUpdate.setMargin(TouchUI.buttonMargin());
+        m_jButtonUpdate.setMaximumSize(TouchUI.salesPopupWideButtonSize());
+        m_jButtonUpdate.setMinimumSize(TouchUI.salesPopupWideButtonSize());
+        m_jButtonUpdate.setPreferredSize(TouchUI.salesPopupWideButtonSize());
         m_jButtonUpdate.setRequestFocusEnabled(false);
         m_jButtonUpdate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -374,7 +378,10 @@ public class JProductLineEdit extends javax.swing.JDialog {
         m_jButtonCancel.setText(AppLocal.getIntString("Button.Cancel")); // NOI18N
         m_jButtonCancel.setFocusPainted(false);
         m_jButtonCancel.setFocusable(false);
-        m_jButtonCancel.setMargin(new java.awt.Insets(8, 16, 8, 16));
+        m_jButtonCancel.setMargin(TouchUI.buttonMargin());
+        m_jButtonCancel.setMaximumSize(TouchUI.salesPopupButtonSize());
+        m_jButtonCancel.setMinimumSize(TouchUI.salesPopupButtonSize());
+        m_jButtonCancel.setPreferredSize(TouchUI.salesPopupButtonSize());
         m_jButtonCancel.setRequestFocusEnabled(false);
         m_jButtonCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -388,7 +395,10 @@ public class JProductLineEdit extends javax.swing.JDialog {
         m_jButtonOK.setText(AppLocal.getIntString("Button.OK")); // NOI18N
         m_jButtonOK.setFocusPainted(false);
         m_jButtonOK.setFocusable(false);
-        m_jButtonOK.setMargin(new java.awt.Insets(8, 16, 8, 16));
+        m_jButtonOK.setMargin(TouchUI.buttonMargin());
+        m_jButtonOK.setMaximumSize(TouchUI.salesPopupButtonSize());
+        m_jButtonOK.setMinimumSize(TouchUI.salesPopupButtonSize());
+        m_jButtonOK.setPreferredSize(TouchUI.salesPopupButtonSize());
         m_jButtonOK.setRequestFocusEnabled(false);
         m_jButtonOK.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -410,7 +420,8 @@ public class JProductLineEdit extends javax.swing.JDialog {
 
         getContentPane().add(jPanel3, java.awt.BorderLayout.EAST);
 
-        setSize(new java.awt.Dimension(580, 362));
+        setMinimumSize(TouchUI.editLineDialogSize());
+        setSize(TouchUI.editLineDialogSize());
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 

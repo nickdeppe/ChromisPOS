@@ -33,6 +33,7 @@ import uk.chromis.data.user.EditorCreator;
 import uk.chromis.data.user.ListProvider;
 import uk.chromis.data.user.ListProviderCreator;
 import uk.chromis.pos.forms.AppLocal;
+import uk.chromis.pos.util.TouchUI;
 
 /**
  *
@@ -88,7 +89,7 @@ public class JCustomerFinder extends javax.swing.JDialog implements EditorCreato
 
         initComponents();
 
-        jScrollPane1.getVerticalScrollBar().setPreferredSize(new Dimension(35, 35));
+        jScrollPane1.getVerticalScrollBar().setPreferredSize(new Dimension(TouchUI.SCROLLBAR_WIDTH, TouchUI.SCROLLBAR_WIDTH));
 
         m_jtxtTaxID.addEditorKeys(m_jKeys);
         m_jtxtSearchKey.addEditorKeys(m_jKeys);
@@ -109,6 +110,7 @@ public class JCustomerFinder extends javax.swing.JDialog implements EditorCreato
         lpr = new ListProviderCreator(dlCustomers.getCustomerList(), this);
 
         jListCustomers.setCellRenderer(new CustomerRenderer());
+        jListCustomers.setFixedCellHeight(TouchUI.SALES_POPUP_LIST_ROW_HEIGHT);
 
         getRootPane().setDefaultButton(jcmdOK);
 
@@ -318,57 +320,57 @@ public class JCustomerFinder extends javax.swing.JDialog implements EditorCreato
 
         jLblTaxID.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLblTaxID.setText(AppLocal.getIntString("label.taxid")); // NOI18N
-        jLblTaxID.setMaximumSize(new java.awt.Dimension(120, 25));
-        jLblTaxID.setMinimumSize(new java.awt.Dimension(120, 25));
-        jLblTaxID.setPreferredSize(new java.awt.Dimension(120, 25));
+        jLblTaxID.setMaximumSize(TouchUI.salesPopupLabelSize());
+        jLblTaxID.setMinimumSize(TouchUI.salesPopupLabelSize());
+        jLblTaxID.setPreferredSize(TouchUI.salesPopupLabelSize());
 
         m_jtxtTaxID.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        m_jtxtTaxID.setPreferredSize(new java.awt.Dimension(220, 25));
+        m_jtxtTaxID.setPreferredSize(TouchUI.salesPopupFieldSize());
 
         jLblSearchKey.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLblSearchKey.setText(AppLocal.getIntString("label.searchkey")); // NOI18N
-        jLblSearchKey.setMaximumSize(new java.awt.Dimension(120, 25));
-        jLblSearchKey.setMinimumSize(new java.awt.Dimension(120, 25));
-        jLblSearchKey.setPreferredSize(new java.awt.Dimension(120, 25));
+        jLblSearchKey.setMaximumSize(TouchUI.salesPopupLabelSize());
+        jLblSearchKey.setMinimumSize(TouchUI.salesPopupLabelSize());
+        jLblSearchKey.setPreferredSize(TouchUI.salesPopupLabelSize());
 
         m_jtxtSearchKey.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        m_jtxtSearchKey.setPreferredSize(new java.awt.Dimension(220, 25));
+        m_jtxtSearchKey.setPreferredSize(TouchUI.salesPopupFieldSize());
 
         jLblPostal.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLblPostal.setText("Postal");
-        jLblPostal.setMaximumSize(new java.awt.Dimension(120, 25));
-        jLblPostal.setMinimumSize(new java.awt.Dimension(120, 25));
-        jLblPostal.setPreferredSize(new java.awt.Dimension(120, 25));
+        jLblPostal.setMaximumSize(TouchUI.salesPopupLabelSize());
+        jLblPostal.setMinimumSize(TouchUI.salesPopupLabelSize());
+        jLblPostal.setPreferredSize(TouchUI.salesPopupLabelSize());
 
         m_jtxtPostal.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        m_jtxtPostal.setPreferredSize(new java.awt.Dimension(220, 25));
+        m_jtxtPostal.setPreferredSize(TouchUI.salesPopupFieldSize());
 
         jLblName.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLblName.setText(AppLocal.getIntString("label.prodname")); // NOI18N
-        jLblName.setMaximumSize(new java.awt.Dimension(120, 25));
-        jLblName.setMinimumSize(new java.awt.Dimension(120, 25));
-        jLblName.setPreferredSize(new java.awt.Dimension(120, 25));
+        jLblName.setMaximumSize(TouchUI.salesPopupLabelSize());
+        jLblName.setMinimumSize(TouchUI.salesPopupLabelSize());
+        jLblName.setPreferredSize(TouchUI.salesPopupLabelSize());
 
         m_jtxtName.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        m_jtxtName.setPreferredSize(new java.awt.Dimension(220, 25));
+        m_jtxtName.setPreferredSize(TouchUI.salesPopupFieldSize());
 
         jLblPhone.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("pos_messages"); // NOI18N
         jLblPhone.setText(bundle.getString("label.phone")); // NOI18N
-        jLblPhone.setMaximumSize(new java.awt.Dimension(120, 25));
-        jLblPhone.setPreferredSize(new java.awt.Dimension(120, 25));
+        jLblPhone.setMaximumSize(TouchUI.salesPopupLabelSize());
+        jLblPhone.setPreferredSize(TouchUI.salesPopupLabelSize());
 
         jLblEmail.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLblEmail.setText(bundle.getString("label.companyemail")); // NOI18N
-        jLblEmail.setMaximumSize(new java.awt.Dimension(120, 25));
-        jLblEmail.setMinimumSize(new java.awt.Dimension(120, 25));
-        jLblEmail.setPreferredSize(new java.awt.Dimension(120, 25));
+        jLblEmail.setMaximumSize(TouchUI.salesPopupLabelSize());
+        jLblEmail.setMinimumSize(TouchUI.salesPopupLabelSize());
+        jLblEmail.setPreferredSize(TouchUI.salesPopupLabelSize());
 
         m_jtxtEmail.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        m_jtxtEmail.setPreferredSize(new java.awt.Dimension(220, 25));
+        m_jtxtEmail.setPreferredSize(TouchUI.salesPopupFieldSize());
 
         m_jtxtPhone.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        m_jtxtPhone.setPreferredSize(new java.awt.Dimension(220, 25));
+        m_jtxtPhone.setPreferredSize(TouchUI.salesPopupFieldSize());
 
         jcmdReset.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jcmdReset.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uk/chromis/images/reload.png"))); // NOI18N
@@ -376,6 +378,8 @@ public class JCustomerFinder extends javax.swing.JDialog implements EditorCreato
         jcmdReset.setToolTipText(bundle.getString("tiptext.clearfilter")); // NOI18N
         jcmdReset.setActionCommand("Reset ");
         jcmdReset.setFocusable(false);
+        jcmdReset.setMargin(TouchUI.buttonMargin());
+        jcmdReset.setPreferredSize(TouchUI.salesPopupButtonSize());
         jcmdReset.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jcmdResetActionPerformed(evt);
@@ -389,6 +393,8 @@ public class JCustomerFinder extends javax.swing.JDialog implements EditorCreato
         jcmdExecute.setText(AppLocal.getIntString("button.executefilter")); // NOI18N
         jcmdExecute.setToolTipText(bundle.getString("tiptext.executefilter")); // NOI18N
         jcmdExecute.setFocusPainted(false);
+        jcmdExecute.setMargin(TouchUI.buttonMargin());
+        jcmdExecute.setPreferredSize(TouchUI.salesPopupWideButtonSize());
         jcmdExecute.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jcmdExecuteActionPerformed(evt);
@@ -495,7 +501,10 @@ public class JCustomerFinder extends javax.swing.JDialog implements EditorCreato
         jcmdCancel.setText(AppLocal.getIntString("Button.Cancel")); // NOI18N
         jcmdCancel.setFocusPainted(false);
         jcmdCancel.setFocusable(false);
-        jcmdCancel.setMargin(new java.awt.Insets(8, 16, 8, 16));
+        jcmdCancel.setMargin(TouchUI.buttonMargin());
+        jcmdCancel.setMaximumSize(TouchUI.salesPopupButtonSize());
+        jcmdCancel.setMinimumSize(TouchUI.salesPopupButtonSize());
+        jcmdCancel.setPreferredSize(TouchUI.salesPopupButtonSize());
         jcmdCancel.setRequestFocusEnabled(false);
         jcmdCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -509,10 +518,10 @@ public class JCustomerFinder extends javax.swing.JDialog implements EditorCreato
         jcmdOK.setEnabled(false);
         jcmdOK.setFocusPainted(false);
         jcmdOK.setFocusable(false);
-        jcmdOK.setMargin(new java.awt.Insets(8, 16, 8, 16));
-        jcmdOK.setMaximumSize(new java.awt.Dimension(103, 44));
-        jcmdOK.setMinimumSize(new java.awt.Dimension(103, 44));
-        jcmdOK.setPreferredSize(new java.awt.Dimension(103, 44));
+        jcmdOK.setMargin(TouchUI.buttonMargin());
+        jcmdOK.setMaximumSize(TouchUI.salesPopupButtonSize());
+        jcmdOK.setMinimumSize(TouchUI.salesPopupButtonSize());
+        jcmdOK.setPreferredSize(TouchUI.salesPopupButtonSize());
         jcmdOK.setRequestFocusEnabled(false);
         jcmdOK.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -527,7 +536,8 @@ public class JCustomerFinder extends javax.swing.JDialog implements EditorCreato
 
         getContentPane().add(jPanel3, java.awt.BorderLayout.CENTER);
 
-        setSize(new java.awt.Dimension(613, 497));
+        setMinimumSize(TouchUI.customerFinderDialogSize());
+        setSize(TouchUI.customerFinderDialogSize());
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
     private void jcmdOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcmdOKActionPerformed

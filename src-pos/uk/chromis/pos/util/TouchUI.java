@@ -34,6 +34,8 @@ public final class TouchUI {
     public static final int PAYMENT_HEADER_HEIGHT = 88;
     public static final int PAYMENT_DIALOG_WIDTH = 780;
     public static final int PAYMENT_DIALOG_HEIGHT = 600;
+    public static final int SALES_POPUP_FIELD_HEIGHT = 36;
+    public static final int SALES_POPUP_LIST_ROW_HEIGHT = 44;
 
     private static final int ROW_HEIGHT = 32;
     public static final int SCROLLBAR_WIDTH = 44;
@@ -88,5 +90,41 @@ public final class TouchUI {
 
     public static Dimension paymentDialogSize() {
         return new Dimension(PAYMENT_DIALOG_WIDTH, PAYMENT_DIALOG_HEIGHT);
+    }
+
+    public static Dimension salesPopupButtonSize() {
+        return new Dimension(130, 52);
+    }
+
+    public static Dimension salesPopupWideButtonSize() {
+        return new Dimension(170, 52);
+    }
+
+    public static Dimension salesPopupFieldSize() {
+        return new Dimension(240, SALES_POPUP_FIELD_HEIGHT);
+    }
+
+    public static Dimension salesPopupLabelSize() {
+        return new Dimension(130, SALES_POPUP_FIELD_HEIGHT);
+    }
+
+    public static Dimension customerFinderDialogSize() {
+        return new Dimension(720, 560);
+    }
+
+    public static Dimension editLineDialogSize() {
+        return new Dimension(640, 430);
+    }
+
+    public static Dimension attributeDialogSize() {
+        return new Dimension(760, 500);
+    }
+
+    public static Dimension sharedTicketDialogSize() {
+        return new Dimension(560, 420);
+    }
+
+    public static Dimension sharedTicketButtonSize() {
+        return new Dimension(500, 56);
     }
 }
