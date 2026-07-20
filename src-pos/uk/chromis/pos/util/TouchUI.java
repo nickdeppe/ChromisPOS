@@ -36,6 +36,7 @@ public final class TouchUI {
     public static final int PAYMENT_DIALOG_HEIGHT = 600;
     public static final int SALES_POPUP_FIELD_HEIGHT = 36;
     public static final int SALES_POPUP_LIST_ROW_HEIGHT = 44;
+    public static final int CLOSE_CASH_TABLE_ROW_HEIGHT = 36;
 
     private static final int ROW_HEIGHT = 32;
     public static final int SCROLLBAR_WIDTH = 44;
@@ -126,5 +127,13 @@ public final class TouchUI {
 
     public static Dimension sharedTicketButtonSize() {
         return new Dimension(500, 56);
+    }
+
+    public static Dimension closeCashButtonSize() {
+        return new Dimension(160, 52);
+    }
+
+    public static Dimension closeCashTableSize() {
+        return new Dimension(285, 300);
     }
 }

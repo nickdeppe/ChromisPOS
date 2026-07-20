@@ -56,6 +56,7 @@ import uk.chromis.pos.printer.TicketPrinterException;
 import uk.chromis.pos.scripting.ScriptEngine;
 import uk.chromis.pos.scripting.ScriptException;
 import uk.chromis.pos.scripting.ScriptFactory;
+import uk.chromis.pos.util.TouchUI;
 
 
 /**
@@ -99,17 +100,17 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
         m_jTicketTable.setDefaultRenderer(Object.class, new TableRendererBasic(
                 new Formats[] {new FormatsPayment(), Formats.CURRENCY}));
         m_jTicketTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-        m_jScrollTableTicket.getVerticalScrollBar().setPreferredSize(new Dimension(25,25));       
+        m_jScrollTableTicket.getVerticalScrollBar().setPreferredSize(new Dimension(TouchUI.SCROLLBAR_WIDTH, TouchUI.SCROLLBAR_WIDTH));
         m_jTicketTable.getTableHeader().setReorderingAllowed(false);         
-        m_jTicketTable.setRowHeight(25);
+        m_jTicketTable.setRowHeight(TouchUI.CLOSE_CASH_TABLE_ROW_HEIGHT);
         m_jTicketTable.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);         
         
         m_jsalestable.setDefaultRenderer(Object.class, new TableRendererBasic(
                 new Formats[] {Formats.STRING, Formats.CURRENCY, Formats.CURRENCY, Formats.CURRENCY}));
         m_jsalestable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-        m_jScrollSales.getVerticalScrollBar().setPreferredSize(new Dimension(25,25));       
+        m_jScrollSales.getVerticalScrollBar().setPreferredSize(new Dimension(TouchUI.SCROLLBAR_WIDTH, TouchUI.SCROLLBAR_WIDTH));
         m_jsalestable.getTableHeader().setReorderingAllowed(false);         
-        m_jsalestable.setRowHeight(25);
+        m_jsalestable.setRowHeight(TouchUI.CLOSE_CASH_TABLE_ROW_HEIGHT);
         m_jsalestable.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
         
@@ -417,8 +418,8 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 
         m_jScrollTableTicket.setBorder(null);
         m_jScrollTableTicket.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
-        m_jScrollTableTicket.setMinimumSize(new java.awt.Dimension(350, 140));
-        m_jScrollTableTicket.setPreferredSize(new java.awt.Dimension(350, 140));
+        m_jScrollTableTicket.setMinimumSize(TouchUI.closeCashTableSize());
+        m_jScrollTableTicket.setPreferredSize(TouchUI.closeCashTableSize());
 
         m_jTicketTable.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         m_jTicketTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -465,6 +466,8 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
 
         m_jScrollSales.setBorder(null);
         m_jScrollSales.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
+        m_jScrollSales.setMinimumSize(TouchUI.closeCashTableSize());
+        m_jScrollSales.setPreferredSize(TouchUI.closeCashTableSize());
 
         m_jsalestable.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         m_jsalestable.setFocusable(false);
@@ -503,9 +506,9 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(2, 2, 2)
-                .addComponent(m_jScrollTableTicket, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(m_jScrollTableTicket, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(m_jScrollSales, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(m_jScrollSales, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
@@ -582,9 +585,10 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
         m_jCloseCashTop.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         m_jCloseCashTop.setIconTextGap(2);
         m_jCloseCashTop.setInheritsPopupMenu(true);
-        m_jCloseCashTop.setMaximumSize(new java.awt.Dimension(85, 33));
-        m_jCloseCashTop.setMinimumSize(new java.awt.Dimension(85, 33));
-        m_jCloseCashTop.setPreferredSize(new java.awt.Dimension(85, 33));
+        m_jCloseCashTop.setMargin(TouchUI.buttonMargin());
+        m_jCloseCashTop.setMaximumSize(TouchUI.closeCashButtonSize());
+        m_jCloseCashTop.setMinimumSize(TouchUI.closeCashButtonSize());
+        m_jCloseCashTop.setPreferredSize(TouchUI.closeCashButtonSize());
         m_jCloseCashTop.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 m_jCloseCashTopActionPerformed(evt);
@@ -596,9 +600,10 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
         m_jPrintCashTop.setText(AppLocal.getIntString("Button.PrintCash")); // NOI18N
         m_jPrintCashTop.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         m_jPrintCashTop.setIconTextGap(2);
-        m_jPrintCashTop.setMaximumSize(new java.awt.Dimension(85, 33));
-        m_jPrintCashTop.setMinimumSize(new java.awt.Dimension(85, 33));
-        m_jPrintCashTop.setPreferredSize(new java.awt.Dimension(85, 33));
+        m_jPrintCashTop.setMargin(TouchUI.buttonMargin());
+        m_jPrintCashTop.setMaximumSize(TouchUI.closeCashButtonSize());
+        m_jPrintCashTop.setMinimumSize(TouchUI.closeCashButtonSize());
+        m_jPrintCashTop.setPreferredSize(TouchUI.closeCashButtonSize());
         m_jPrintCashTop.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 m_jPrintCashTopActionPerformed(evt);
@@ -610,17 +615,17 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
         jPanelTopLayout.setHorizontalGroup(
             jPanelTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelTopLayout.createSequentialGroup()
-                .addComponent(m_jPrintCashTop, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(m_jPrintCashTop, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(m_jCloseCashTop, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(m_jCloseCashTop, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanelTopLayout.setVerticalGroup(
             jPanelTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelTopLayout.createSequentialGroup()
                 .addGroup(jPanelTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(m_jPrintCashTop, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(m_jCloseCashTop, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(m_jPrintCashTop, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(m_jCloseCashTop, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -630,9 +635,10 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
         m_jCloseCash.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         m_jCloseCash.setIconTextGap(2);
         m_jCloseCash.setInheritsPopupMenu(true);
-        m_jCloseCash.setMaximumSize(new java.awt.Dimension(85, 33));
-        m_jCloseCash.setMinimumSize(new java.awt.Dimension(85, 33));
-        m_jCloseCash.setPreferredSize(new java.awt.Dimension(85, 33));
+        m_jCloseCash.setMargin(TouchUI.buttonMargin());
+        m_jCloseCash.setMaximumSize(TouchUI.closeCashButtonSize());
+        m_jCloseCash.setMinimumSize(TouchUI.closeCashButtonSize());
+        m_jCloseCash.setPreferredSize(TouchUI.closeCashButtonSize());
         m_jCloseCash.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 m_jCloseCashActionPerformed(evt);
@@ -644,9 +650,10 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
         m_jPrintCash.setText(AppLocal.getIntString("Button.PrintCash")); // NOI18N
         m_jPrintCash.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         m_jPrintCash.setIconTextGap(2);
-        m_jPrintCash.setMaximumSize(new java.awt.Dimension(85, 33));
-        m_jPrintCash.setMinimumSize(new java.awt.Dimension(85, 33));
-        m_jPrintCash.setPreferredSize(new java.awt.Dimension(85, 33));
+        m_jPrintCash.setMargin(TouchUI.buttonMargin());
+        m_jPrintCash.setMaximumSize(TouchUI.closeCashButtonSize());
+        m_jPrintCash.setMinimumSize(TouchUI.closeCashButtonSize());
+        m_jPrintCash.setPreferredSize(TouchUI.closeCashButtonSize());
         m_jPrintCash.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 m_jPrintCashActionPerformed(evt);
@@ -659,16 +666,16 @@ public class JPanelCloseMoney extends JPanel implements JPanelView, BeanFactoryA
             jPanelBottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelBottomLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(m_jPrintCash, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(m_jPrintCash, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(m_jCloseCash, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(m_jCloseCash, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(55, Short.MAX_VALUE))
         );
         jPanelBottomLayout.setVerticalGroup(
             jPanelBottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelBottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(m_jCloseCash, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(m_jPrintCash, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(m_jCloseCash, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(m_jPrintCash, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
