@@ -43,6 +43,7 @@ import uk.chromis.data.loader.LocalRes;
 import uk.chromis.pos.forms.AppLocal;
 import uk.chromis.pos.forms.AppUser;
 import uk.chromis.pos.util.ThumbNailBuilder;
+import uk.chromis.pos.util.TouchUI;
 
 /**
  *
@@ -230,7 +231,7 @@ public class JPanelButtons extends javax.swing.JPanel {
             setFocusPainted(false);
             setFocusable(false);
             setRequestFocusEnabled(false);
-            setMargin(new Insets(8, 14, 8, 14));
+            setMargin(TouchUI.buttonMargin());
         }
     }
 

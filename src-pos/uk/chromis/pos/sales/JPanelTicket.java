@@ -100,6 +100,7 @@ import uk.chromis.pos.promotion.PromotionSupport;
 import uk.chromis.pos.util.AutoLogoff;
 import uk.chromis.pos.ticket.PlayWave;
 import uk.chromis.pos.ticket.ShowSalesInfo;
+import uk.chromis.pos.util.TouchUI;
 
 public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFactoryApp, TicketsEditor {
 
@@ -2539,7 +2540,7 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         m_jPanTicket.setLayout(new java.awt.BorderLayout());
 
         jPanel5.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jPanel5.setPreferredSize(new java.awt.Dimension(60, 200));
+        jPanel5.setPreferredSize(new java.awt.Dimension(TouchUI.SALES_LINE_BUTTON_PANEL_WIDTH, 200));
         jPanel5.setLayout(new java.awt.BorderLayout());
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 5, 0, 5));
@@ -2550,9 +2551,9 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         m_jUp.setFocusPainted(false);
         m_jUp.setFocusable(false);
         m_jUp.setMargin(new java.awt.Insets(8, 14, 8, 14));
-        m_jUp.setMaximumSize(new java.awt.Dimension(42, 36));
-        m_jUp.setMinimumSize(new java.awt.Dimension(42, 36));
-        m_jUp.setPreferredSize(new java.awt.Dimension(52, 36));
+        m_jUp.setMaximumSize(TouchUI.salesLineButtonSize());
+        m_jUp.setMinimumSize(TouchUI.salesLineButtonSize());
+        m_jUp.setPreferredSize(TouchUI.salesLineButtonSize());
         m_jUp.setRequestFocusEnabled(false);
         m_jUp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2566,9 +2567,9 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         m_jDown.setFocusPainted(false);
         m_jDown.setFocusable(false);
         m_jDown.setMargin(new java.awt.Insets(8, 14, 8, 14));
-        m_jDown.setMaximumSize(new java.awt.Dimension(42, 36));
-        m_jDown.setMinimumSize(new java.awt.Dimension(42, 36));
-        m_jDown.setPreferredSize(new java.awt.Dimension(52, 36));
+        m_jDown.setMaximumSize(TouchUI.salesLineButtonSize());
+        m_jDown.setMinimumSize(TouchUI.salesLineButtonSize());
+        m_jDown.setPreferredSize(TouchUI.salesLineButtonSize());
         m_jDown.setRequestFocusEnabled(false);
         m_jDown.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2582,9 +2583,9 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         m_jDelete.setFocusPainted(false);
         m_jDelete.setFocusable(false);
         m_jDelete.setMargin(new java.awt.Insets(8, 14, 8, 14));
-        m_jDelete.setMaximumSize(new java.awt.Dimension(42, 36));
-        m_jDelete.setMinimumSize(new java.awt.Dimension(42, 36));
-        m_jDelete.setPreferredSize(new java.awt.Dimension(52, 36));
+        m_jDelete.setMaximumSize(TouchUI.salesLineButtonSize());
+        m_jDelete.setMinimumSize(TouchUI.salesLineButtonSize());
+        m_jDelete.setPreferredSize(TouchUI.salesLineButtonSize());
         m_jDelete.setRequestFocusEnabled(false);
         m_jDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2598,9 +2599,9 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         m_jList.setFocusPainted(false);
         m_jList.setFocusable(false);
         m_jList.setMargin(new java.awt.Insets(8, 14, 8, 14));
-        m_jList.setMaximumSize(new java.awt.Dimension(42, 36));
-        m_jList.setMinimumSize(new java.awt.Dimension(42, 36));
-        m_jList.setPreferredSize(new java.awt.Dimension(52, 36));
+        m_jList.setMaximumSize(TouchUI.salesLineButtonSize());
+        m_jList.setMinimumSize(TouchUI.salesLineButtonSize());
+        m_jList.setPreferredSize(TouchUI.salesLineButtonSize());
         m_jList.setRequestFocusEnabled(false);
         m_jList.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2614,9 +2615,9 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         m_jEditLine.setFocusPainted(false);
         m_jEditLine.setFocusable(false);
         m_jEditLine.setMargin(new java.awt.Insets(8, 14, 8, 14));
-        m_jEditLine.setMaximumSize(new java.awt.Dimension(42, 36));
-        m_jEditLine.setMinimumSize(new java.awt.Dimension(42, 36));
-        m_jEditLine.setPreferredSize(new java.awt.Dimension(52, 36));
+        m_jEditLine.setMaximumSize(TouchUI.salesLineButtonSize());
+        m_jEditLine.setMinimumSize(TouchUI.salesLineButtonSize());
+        m_jEditLine.setPreferredSize(TouchUI.salesLineButtonSize());
         m_jEditLine.setRequestFocusEnabled(false);
         m_jEditLine.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2630,9 +2631,9 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
         jEditAttributes.setFocusPainted(false);
         jEditAttributes.setFocusable(false);
         jEditAttributes.setMargin(new java.awt.Insets(8, 14, 8, 14));
-        jEditAttributes.setMaximumSize(new java.awt.Dimension(42, 36));
-        jEditAttributes.setMinimumSize(new java.awt.Dimension(42, 36));
-        jEditAttributes.setPreferredSize(new java.awt.Dimension(52, 36));
+        jEditAttributes.setMaximumSize(TouchUI.salesLineButtonSize());
+        jEditAttributes.setMinimumSize(TouchUI.salesLineButtonSize());
+        jEditAttributes.setPreferredSize(TouchUI.salesLineButtonSize());
         jEditAttributes.setRequestFocusEnabled(false);
         jEditAttributes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

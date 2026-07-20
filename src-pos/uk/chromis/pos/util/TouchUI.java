@@ -18,6 +18,7 @@
 //    along with Chromis POS.  If not, see <http://www.gnu.org/licenses/>.
 package uk.chromis.pos.util;
 
+import java.awt.Dimension;
 import java.awt.Insets;
 import javax.swing.UIManager;
 
@@ -28,9 +29,11 @@ public final class TouchUI {
 
     public static final int MAINTENANCE_LIST_WIDTH = 260;
     public static final int MAINTENANCE_LIST_LONG_WIDTH = 360;
+    public static final int SALES_LINE_BUTTON_PANEL_WIDTH = 72;
+    public static final int SALES_TICKET_LINE_ROW_HEIGHT = 44;
 
     private static final int ROW_HEIGHT = 32;
-    private static final int SCROLLBAR_WIDTH = 44;
+    public static final int SCROLLBAR_WIDTH = 44;
     private static final Insets BUTTON_MARGIN = new Insets(8, 12, 8, 12);
     private static final Insets TAB_INSETS = new Insets(8, 14, 8, 14);
 
@@ -46,5 +49,13 @@ public final class TouchUI {
         UIManager.put("Table.rowHeight", ROW_HEIGHT);
         UIManager.put("Tree.rowHeight", ROW_HEIGHT);
         UIManager.put("List.fixedCellHeight", ROW_HEIGHT);
+    }
+
+    public static Insets buttonMargin() {
+        return new Insets(BUTTON_MARGIN.top, BUTTON_MARGIN.left, BUTTON_MARGIN.bottom, BUTTON_MARGIN.right);
+    }
+
+    public static Dimension salesLineButtonSize() {
+        return new Dimension(58, 44);
     }
 }

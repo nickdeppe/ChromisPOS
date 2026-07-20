@@ -49,6 +49,7 @@ import uk.chromis.pos.scripting.ScriptEngine;
 import uk.chromis.pos.scripting.ScriptException;
 import uk.chromis.pos.scripting.ScriptFactory;
 import uk.chromis.pos.ticket.TicketLineInfo;
+import uk.chromis.pos.util.TouchUI;
 
 /**
  *
@@ -100,14 +101,14 @@ public class JTicketLines extends javax.swing.JPanel {
             jColumns.getColumn(i).setResizable(false);
         }       
         
-        m_jScrollTableTicket.getVerticalScrollBar().setPreferredSize(new Dimension(35, 35));
+        m_jScrollTableTicket.getVerticalScrollBar().setPreferredSize(new Dimension(TouchUI.SCROLLBAR_WIDTH, TouchUI.SCROLLBAR_WIDTH));
        
         m_jTicketTable.getTableHeader().setReorderingAllowed(false);         
         m_jTicketTable.setDefaultRenderer(Object.class, new TicketCellRenderer(acolumns));
  //       m_jTicketTable.setDefaultRenderer(Object.class, new TicketCellRendererSent(acolumns));        
         
         
-        m_jTicketTable.setRowHeight(40);
+        m_jTicketTable.setRowHeight(TouchUI.SALES_TICKET_LINE_ROW_HEIGHT);
         m_jTicketTable.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION); 
         
         // reseteo la tabla...
