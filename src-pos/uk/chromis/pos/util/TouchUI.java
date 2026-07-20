@@ -31,6 +31,9 @@ public final class TouchUI {
     public static final int MAINTENANCE_LIST_LONG_WIDTH = 360;
     public static final int SALES_LINE_BUTTON_PANEL_WIDTH = 72;
     public static final int SALES_TICKET_LINE_ROW_HEIGHT = 44;
+    public static final int PAYMENT_HEADER_HEIGHT = 88;
+    public static final int PAYMENT_DIALOG_WIDTH = 780;
+    public static final int PAYMENT_DIALOG_HEIGHT = 600;
 
     private static final int ROW_HEIGHT = 32;
     public static final int SCROLLBAR_WIDTH = 44;
@@ -57,5 +60,33 @@ public final class TouchUI {
 
     public static Dimension salesLineButtonSize() {
         return new Dimension(58, 44);
+    }
+
+    public static Dimension paymentAmountFieldSize() {
+        return new Dimension(190, 36);
+    }
+
+    public static Dimension paymentLargeAmountFieldSize() {
+        return new Dimension(210, 36);
+    }
+
+    public static Dimension paymentActionButtonSize() {
+        return new Dimension(64, 48);
+    }
+
+    public static Dimension paymentConfirmButtonSize() {
+        return new Dimension(150, 56);
+    }
+
+    public static Dimension paymentPrintButtonSize() {
+        return new Dimension(72, 52);
+    }
+
+    public static Dimension quickPaymentButtonSize() {
+        return new Dimension(88, 64);
+    }
+
+    public static Dimension paymentDialogSize() {
+        return new Dimension(PAYMENT_DIALOG_WIDTH, PAYMENT_DIALOG_HEIGHT);
     }
 }

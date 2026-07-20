@@ -36,6 +36,7 @@ import uk.chromis.pos.forms.AppConfig;
 import uk.chromis.pos.forms.AppLocal;
 import uk.chromis.pos.forms.AppView;
 import uk.chromis.pos.forms.DataLogicSystem;
+import uk.chromis.pos.util.TouchUI;
 
 public abstract class JPaymentSelect extends javax.swing.JDialog
         implements JPaymentNotifier {
@@ -532,7 +533,7 @@ public abstract class JPaymentSelect extends javax.swing.JDialog
         m_jTotalEuros.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         m_jTotalEuros.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(javax.swing.UIManager.getDefaults().getColor("Button.darkShadow")), javax.swing.BorderFactory.createEmptyBorder(1, 4, 1, 4)));
         m_jTotalEuros.setOpaque(true);
-        m_jTotalEuros.setPreferredSize(new java.awt.Dimension(125, 25));
+        m_jTotalEuros.setPreferredSize(TouchUI.paymentAmountFieldSize());
         m_jTotalEuros.setRequestFocusEnabled(false);
         jPanel4.add(m_jTotalEuros);
 
@@ -546,13 +547,16 @@ public abstract class JPaymentSelect extends javax.swing.JDialog
         m_jRemaininglEuros.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         m_jRemaininglEuros.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(javax.swing.UIManager.getDefaults().getColor("Button.darkShadow")), javax.swing.BorderFactory.createEmptyBorder(1, 4, 1, 4)));
         m_jRemaininglEuros.setOpaque(true);
-        m_jRemaininglEuros.setPreferredSize(new java.awt.Dimension(125, 25));
+        m_jRemaininglEuros.setPreferredSize(TouchUI.paymentAmountFieldSize());
         m_jRemaininglEuros.setRequestFocusEnabled(false);
         jPanel6.add(m_jRemaininglEuros);
 
         m_jButtonAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uk/chromis/images/btnplus.png"))); // NOI18N
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("pos_messages"); // NOI18N
         m_jButtonAdd.setToolTipText(bundle.getString("tiptext.addpartpayment")); // NOI18N
+        m_jButtonAdd.setMaximumSize(TouchUI.paymentActionButtonSize());
+        m_jButtonAdd.setMinimumSize(TouchUI.paymentActionButtonSize());
+        m_jButtonAdd.setPreferredSize(TouchUI.paymentActionButtonSize());
         m_jButtonAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 m_jButtonAddActionPerformed(evt);
@@ -562,6 +566,9 @@ public abstract class JPaymentSelect extends javax.swing.JDialog
 
         m_jButtonRemove.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uk/chromis/images/btnminus.png"))); // NOI18N
         m_jButtonRemove.setToolTipText(bundle.getString("tiptext.deletepartpayment")); // NOI18N
+        m_jButtonRemove.setMaximumSize(TouchUI.paymentActionButtonSize());
+        m_jButtonRemove.setMinimumSize(TouchUI.paymentActionButtonSize());
+        m_jButtonRemove.setPreferredSize(TouchUI.paymentActionButtonSize());
         m_jButtonRemove.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 m_jButtonRemoveActionPerformed(evt);
@@ -595,7 +602,10 @@ public abstract class JPaymentSelect extends javax.swing.JDialog
         m_jButtonCancel.setText(AppLocal.getIntString("Button.Cancel")); // NOI18N
         m_jButtonCancel.setFocusPainted(false);
         m_jButtonCancel.setFocusable(false);
-        m_jButtonCancel.setMargin(new java.awt.Insets(8, 16, 8, 16));
+        m_jButtonCancel.setMargin(TouchUI.buttonMargin());
+        m_jButtonCancel.setMaximumSize(TouchUI.paymentConfirmButtonSize());
+        m_jButtonCancel.setMinimumSize(TouchUI.paymentConfirmButtonSize());
+        m_jButtonCancel.setPreferredSize(TouchUI.paymentConfirmButtonSize());
         m_jButtonCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 m_jButtonCancelActionPerformed(evt);
@@ -609,9 +619,10 @@ public abstract class JPaymentSelect extends javax.swing.JDialog
         m_jButtonOK.setText(AppLocal.getIntString("Button.OK")); // NOI18N
         m_jButtonOK.setFocusPainted(false);
         m_jButtonOK.setFocusable(false);
-        m_jButtonOK.setMargin(new java.awt.Insets(8, 16, 8, 16));
-        m_jButtonOK.setMaximumSize(new java.awt.Dimension(100, 44));
-        m_jButtonOK.setPreferredSize(new java.awt.Dimension(150, 55));
+        m_jButtonOK.setMargin(TouchUI.buttonMargin());
+        m_jButtonOK.setMaximumSize(TouchUI.paymentConfirmButtonSize());
+        m_jButtonOK.setMinimumSize(TouchUI.paymentConfirmButtonSize());
+        m_jButtonOK.setPreferredSize(TouchUI.paymentConfirmButtonSize());
         m_jButtonOK.setRequestFocusEnabled(false);
         m_jButtonOK.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -627,14 +638,18 @@ public abstract class JPaymentSelect extends javax.swing.JDialog
         m_jButtonPrint.setToolTipText(bundle.getString("tiptext.printreceipt")); // NOI18N
         m_jButtonPrint.setFocusPainted(false);
         m_jButtonPrint.setFocusable(false);
-        m_jButtonPrint.setMargin(new java.awt.Insets(8, 16, 8, 16));
+        m_jButtonPrint.setMargin(TouchUI.buttonMargin());
+        m_jButtonPrint.setMaximumSize(TouchUI.paymentPrintButtonSize());
+        m_jButtonPrint.setMinimumSize(TouchUI.paymentPrintButtonSize());
+        m_jButtonPrint.setPreferredSize(TouchUI.paymentPrintButtonSize());
         m_jButtonPrint.setRequestFocusEnabled(false);
         m_jButtonPrint.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/uk/chromis/images/printer24.png"))); // NOI18N
         jPanel5.add(m_jButtonPrint, java.awt.BorderLayout.LINE_START);
 
         getContentPane().add(jPanel5, java.awt.BorderLayout.SOUTH);
 
-        setSize(new java.awt.Dimension(672, 497));
+        setMinimumSize(TouchUI.paymentDialogSize());
+        setSize(TouchUI.paymentDialogSize());
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 

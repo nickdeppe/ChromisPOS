@@ -25,6 +25,7 @@ import uk.chromis.format.Formats;
 import uk.chromis.pos.customers.CustomerInfoExt;
 import uk.chromis.pos.forms.AppLocal;
 import uk.chromis.pos.util.RoundUtils;
+import uk.chromis.pos.util.TouchUI;
 
 /**
  *
@@ -206,9 +207,9 @@ public class JPaymentDebt extends javax.swing.JPanel implements JPaymentInterfac
         m_jMoneyEuros.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         m_jMoneyEuros.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(javax.swing.UIManager.getDefaults().getColor("Button.darkShadow")), javax.swing.BorderFactory.createEmptyBorder(1, 4, 1, 4)));
         m_jMoneyEuros.setOpaque(true);
-        m_jMoneyEuros.setPreferredSize(new java.awt.Dimension(200, 30));
+        m_jMoneyEuros.setPreferredSize(TouchUI.paymentLargeAmountFieldSize());
         jPanel4.add(m_jMoneyEuros);
-        m_jMoneyEuros.setBounds(120, 20, 200, 30);
+        m_jMoneyEuros.setBounds(120, 20, 210, 36);
 
         jLabel3.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel3.setText(AppLocal.getIntString("label.name")); // NOI18N

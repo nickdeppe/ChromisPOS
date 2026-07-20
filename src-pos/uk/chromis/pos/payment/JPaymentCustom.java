@@ -38,6 +38,7 @@ import uk.chromis.pos.scripting.ScriptException;
 import uk.chromis.pos.scripting.ScriptFactory;
 import uk.chromis.pos.util.RoundUtils;
 import uk.chromis.pos.util.ThumbNailBuilder;
+import uk.chromis.pos.util.TouchUI;
 
 /**
  *
@@ -185,7 +186,10 @@ public class JPaymentCustom extends javax.swing.JPanel implements JPaymentInterf
             btn.setRequestFocusEnabled(false);
             btn.setHorizontalTextPosition(SwingConstants.CENTER);
             btn.setVerticalTextPosition(SwingConstants.BOTTOM);
-            btn.setMargin(new Insets(2, 2, 2, 2));
+            btn.setMargin(TouchUI.buttonMargin());
+            btn.setMaximumSize(TouchUI.quickPaymentButtonSize());
+            btn.setMinimumSize(TouchUI.quickPaymentButtonSize());
+            btn.setPreferredSize(TouchUI.quickPaymentButtonSize());
             btn.addActionListener(new AddAmount(amount));
             jPanel6.add(btn);
         }
@@ -238,23 +242,23 @@ public class JPaymentCustom extends javax.swing.JPanel implements JPaymentInterf
         jPanel5.setLayout(new java.awt.BorderLayout());
 
         jPanel4.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jPanel4.setPreferredSize(new java.awt.Dimension(0, 70));
+        jPanel4.setPreferredSize(new java.awt.Dimension(0, TouchUI.PAYMENT_HEADER_HEIGHT));
         jPanel4.setLayout(null);
 
         jLabel8.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jLabel8.setText(AppLocal.getIntString("Label.InputCash")); // NOI18N
-        jLabel8.setPreferredSize(new java.awt.Dimension(100, 30));
+        jLabel8.setPreferredSize(new java.awt.Dimension(100, 36));
         jPanel4.add(jLabel8);
-        jLabel8.setBounds(10, 4, 100, 30);
+        jLabel8.setBounds(10, 6, 100, 36);
 
         m_jMoneyEuros.setBackground(new java.awt.Color(204, 255, 51));
         m_jMoneyEuros.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         m_jMoneyEuros.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         m_jMoneyEuros.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(javax.swing.UIManager.getDefaults().getColor("Button.darkShadow")), javax.swing.BorderFactory.createEmptyBorder(1, 4, 1, 4)));
         m_jMoneyEuros.setOpaque(true);
-        m_jMoneyEuros.setPreferredSize(new java.awt.Dimension(180, 30));
+        m_jMoneyEuros.setPreferredSize(TouchUI.paymentAmountFieldSize());
         jPanel4.add(m_jMoneyEuros);
-        m_jMoneyEuros.setBounds(120, 4, 180, 30);
+        m_jMoneyEuros.setBounds(120, 6, 190, 36);
 
         jPanel5.add(jPanel4, java.awt.BorderLayout.NORTH);
 
