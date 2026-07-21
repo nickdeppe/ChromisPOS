@@ -33,6 +33,7 @@ import uk.chromis.data.user.EditorCreator;
 import uk.chromis.data.user.ListProvider;
 import uk.chromis.data.user.ListProviderCreator;
 import uk.chromis.pos.forms.AppLocal;
+import uk.chromis.pos.util.TouchUI;
 
 /**
  *
@@ -82,7 +83,8 @@ public class JEmployeeFinder extends javax.swing.JDialog implements EditorCreato
 
     private void init(DataLogicPresenceManagement dlPresenceManagement) {
         initComponents();
-        jScrollPane1.getVerticalScrollBar().setPreferredSize(new Dimension(35, 35));
+        jScrollPane1.getVerticalScrollBar().setPreferredSize(new Dimension(TouchUI.SCROLLBAR_WIDTH, TouchUI.SCROLLBAR_WIDTH));
+        jScrollPane1.getHorizontalScrollBar().setPreferredSize(new Dimension(TouchUI.SCROLLBAR_WIDTH, TouchUI.SCROLLBAR_WIDTH));
         m_jtxtName.addEditorKeys(m_jKeys);
         m_jtxtName.reset();
         lpr = new ListProviderCreator(dlPresenceManagement.getEmployeeList(), this);
@@ -224,16 +226,16 @@ public class JEmployeeFinder extends javax.swing.JDialog implements EditorCreato
                 .addContainerGap()
                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(m_jtxtName, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addComponent(m_jtxtName, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(75, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(m_jtxtName, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, TouchUI.REPORT_FILTER_FIELD_HEIGHT, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(m_jtxtName, javax.swing.GroupLayout.PREFERRED_SIZE, TouchUI.REPORT_FILTER_FIELD_HEIGHT, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -242,6 +244,7 @@ public class JEmployeeFinder extends javax.swing.JDialog implements EditorCreato
         jButton1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uk/chromis/images/reload.png"))); // NOI18N
         jButton1.setText(AppLocal.getIntString("button.clean")); // NOI18N
+        jButton1.setPreferredSize(TouchUI.salesPopupButtonSize());
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -254,6 +257,7 @@ public class JEmployeeFinder extends javax.swing.JDialog implements EditorCreato
         jButton3.setText(AppLocal.getIntString("button.executefilter")); // NOI18N
         jButton3.setFocusPainted(false);
         jButton3.setFocusable(false);
+        jButton3.setPreferredSize(TouchUI.salesPopupWideButtonSize());
         jButton3.setRequestFocusEnabled(false);
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -270,6 +274,7 @@ public class JEmployeeFinder extends javax.swing.JDialog implements EditorCreato
         jPanel4.setLayout(new java.awt.BorderLayout());
 
         jListEmployees.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jListEmployees.setFixedCellHeight(TouchUI.SALES_POPUP_LIST_ROW_HEIGHT);
         jListEmployees.setFocusable(false);
         jListEmployees.setRequestFocusEnabled(false);
         jListEmployees.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -297,6 +302,7 @@ public class JEmployeeFinder extends javax.swing.JDialog implements EditorCreato
         jcmdOK.setFocusPainted(false);
         jcmdOK.setFocusable(false);
         jcmdOK.setMargin(new java.awt.Insets(8, 16, 8, 16));
+        jcmdOK.setPreferredSize(TouchUI.dialogButtonSize());
         jcmdOK.setRequestFocusEnabled(false);
         jcmdOK.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -311,6 +317,7 @@ public class JEmployeeFinder extends javax.swing.JDialog implements EditorCreato
         jcmdCancel.setFocusPainted(false);
         jcmdCancel.setFocusable(false);
         jcmdCancel.setMargin(new java.awt.Insets(8, 16, 8, 16));
+        jcmdCancel.setPreferredSize(TouchUI.dialogButtonSize());
         jcmdCancel.setRequestFocusEnabled(false);
         jcmdCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -326,7 +333,7 @@ public class JEmployeeFinder extends javax.swing.JDialog implements EditorCreato
         getContentPane().add(jPanel3, java.awt.BorderLayout.CENTER);
 
         java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-        setBounds((screenSize.width-613)/2, (screenSize.height-495)/2, 613, 495);
+        setBounds((screenSize.width-720)/2, (screenSize.height-560)/2, 720, 560);
     }// </editor-fold>//GEN-END:initComponents
     private void jcmdOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcmdOKActionPerformed
 

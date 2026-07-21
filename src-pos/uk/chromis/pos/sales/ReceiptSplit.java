@@ -30,6 +30,7 @@ import uk.chromis.pos.forms.AppLocal;
 import uk.chromis.pos.forms.DataLogicSales;
 import uk.chromis.pos.ticket.TicketInfo;
 import uk.chromis.pos.ticket.TicketLineInfo;
+import uk.chromis.pos.util.TouchUI;
 
 /**
  *
@@ -156,6 +157,7 @@ public class ReceiptSplit extends javax.swing.JDialog {
         m_jButtonCancel.setFocusPainted(false);
         m_jButtonCancel.setFocusable(false);
         m_jButtonCancel.setMargin(new java.awt.Insets(8, 16, 8, 16));
+        m_jButtonCancel.setPreferredSize(TouchUI.dialogButtonSize());
         m_jButtonCancel.setRequestFocusEnabled(false);
         m_jButtonCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -170,6 +172,7 @@ public class ReceiptSplit extends javax.swing.JDialog {
         m_jButtonOK.setFocusPainted(false);
         m_jButtonOK.setFocusable(false);
         m_jButtonOK.setMargin(new java.awt.Insets(8, 16, 8, 16));
+        m_jButtonOK.setPreferredSize(TouchUI.dialogButtonSize());
         m_jButtonOK.setRequestFocusEnabled(false);
         m_jButtonOK.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -195,6 +198,7 @@ public class ReceiptSplit extends javax.swing.JDialog {
         jBtnToRightAll.setFocusPainted(false);
         jBtnToRightAll.setFocusable(false);
         jBtnToRightAll.setMargin(new java.awt.Insets(8, 14, 8, 14));
+        jBtnToRightAll.setPreferredSize(TouchUI.dialogIconButtonSize());
         jBtnToRightAll.setRequestFocusEnabled(false);
         jBtnToRightAll.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -210,6 +214,7 @@ public class ReceiptSplit extends javax.swing.JDialog {
         jBtnToRightOne.setFocusPainted(false);
         jBtnToRightOne.setFocusable(false);
         jBtnToRightOne.setMargin(new java.awt.Insets(8, 14, 8, 14));
+        jBtnToRightOne.setPreferredSize(TouchUI.dialogIconButtonSize());
         jBtnToRightOne.setRequestFocusEnabled(false);
         jBtnToRightOne.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -226,6 +231,7 @@ public class ReceiptSplit extends javax.swing.JDialog {
         jBtnToLeftOne.setFocusPainted(false);
         jBtnToLeftOne.setFocusable(false);
         jBtnToLeftOne.setMargin(new java.awt.Insets(8, 14, 8, 14));
+        jBtnToLeftOne.setPreferredSize(TouchUI.dialogIconButtonSize());
         jBtnToLeftOne.setRequestFocusEnabled(false);
         jBtnToLeftOne.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -242,6 +248,7 @@ public class ReceiptSplit extends javax.swing.JDialog {
         jBtnToLeftAll.setFocusPainted(false);
         jBtnToLeftAll.setFocusable(false);
         jBtnToLeftAll.setMargin(new java.awt.Insets(8, 14, 8, 14));
+        jBtnToLeftAll.setPreferredSize(TouchUI.dialogIconButtonSize());
         jBtnToLeftAll.setRequestFocusEnabled(false);
         jBtnToLeftAll.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -261,7 +268,7 @@ public class ReceiptSplit extends javax.swing.JDialog {
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
-        setSize(new java.awt.Dimension(730, 470));
+        setSize(TouchUI.operationDialogSize());
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 

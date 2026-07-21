@@ -27,6 +27,7 @@ import javax.swing.JFrame;
 import uk.chromis.data.gui.JMessageDialog;
 import uk.chromis.data.gui.MessageInf;
 import uk.chromis.pos.util.Hashcypher;
+import uk.chromis.pos.util.TouchUI;
 
 /**
  *
@@ -119,6 +120,7 @@ public class JDlgChangePassword extends javax.swing.JDialog {
         jcmdOK.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jcmdOK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uk/chromis/images/ok.png"))); // NOI18N
         jcmdOK.setText(AppLocal.getIntString("Button.OK")); // NOI18N
+        jcmdOK.setPreferredSize(TouchUI.dialogButtonSize());
         jcmdOK.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jcmdOKActionPerformed(evt);
@@ -129,6 +131,7 @@ public class JDlgChangePassword extends javax.swing.JDialog {
         jcmdCancel.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jcmdCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uk/chromis/images/cancel.png"))); // NOI18N
         jcmdCancel.setText(AppLocal.getIntString("Button.Cancel")); // NOI18N
+        jcmdCancel.setPreferredSize(TouchUI.dialogButtonSize());
         jcmdCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jcmdCancelActionPerformed(evt);
@@ -145,34 +148,34 @@ public class JDlgChangePassword extends javax.swing.JDialog {
         jLabel1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel1.setText(AppLocal.getIntString("label.passwordold")); // NOI18N
         jPanel1.add(jLabel1);
-        jLabel1.setBounds(20, 20, 120, 25);
+        jLabel1.setBounds(24, 24, 150, 36);
 
         jtxtPasswordOld.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jPanel1.add(jtxtPasswordOld);
-        jtxtPasswordOld.setBounds(140, 20, 180, 25);
+        jtxtPasswordOld.setBounds(180, 24, 250, 36);
 
         jLabel2.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel2.setText(AppLocal.getIntString("label.passwordnew")); // NOI18N
         jPanel1.add(jLabel2);
-        jLabel2.setBounds(20, 50, 120, 25);
+        jLabel2.setBounds(24, 68, 150, 36);
 
         jtxtPasswordNew.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jPanel1.add(jtxtPasswordNew);
-        jtxtPasswordNew.setBounds(140, 50, 180, 25);
+        jtxtPasswordNew.setBounds(180, 68, 250, 36);
 
         jtxtPasswordRepeat.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jPanel1.add(jtxtPasswordRepeat);
-        jtxtPasswordRepeat.setBounds(140, 80, 180, 25);
+        jtxtPasswordRepeat.setBounds(180, 112, 250, 36);
 
         jLabel3.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel3.setText(AppLocal.getIntString("label.passwordrepeat")); // NOI18N
         jPanel1.add(jLabel3);
-        jLabel3.setBounds(20, 80, 120, 25);
+        jLabel3.setBounds(24, 112, 150, 36);
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
         java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-        setBounds((screenSize.width-416)/2, (screenSize.height-205)/2, 416, 205);
+        setBounds((screenSize.width-520)/2, (screenSize.height-280)/2, 520, 280);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jcmdCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcmdCancelActionPerformed

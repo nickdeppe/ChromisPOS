@@ -65,6 +65,8 @@ public final class TouchUI {
     public static final int MESSAGE_DIALOG_DETAILS_HEIGHT = 420;
     public static final int CONFIRM_DIALOG_WIDTH = 620;
     public static final int CONFIRM_DIALOG_HEIGHT = 280;
+    public static final int OPERATION_DIALOG_WIDTH = 780;
+    public static final int OPERATION_DIALOG_HEIGHT = 560;
 
     private static final int ROW_HEIGHT = 32;
     public static final int SCROLLBAR_WIDTH = 44;
@@ -199,6 +201,18 @@ public final class TouchUI {
 
     public static Dimension dialogButtonSize() {
         return new Dimension(150, 56);
+    }
+
+    public static Dimension smallDialogButtonSize() {
+        return new Dimension(130, 52);
+    }
+
+    public static Dimension dialogIconButtonSize() {
+        return new Dimension(64, 52);
+    }
+
+    public static Dimension operationDialogSize() {
+        return new Dimension(OPERATION_DIALOG_WIDTH, OPERATION_DIALOG_HEIGHT);
     }
 
     public static Dimension messageDialogSize() {
