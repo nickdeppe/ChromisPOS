@@ -33,6 +33,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import net.miginfocom.swing.MigLayout;
 import uk.chromis.pos.forms.AppLocal;
+import uk.chromis.pos.util.TouchUI;
 
 /**
  *
@@ -45,6 +46,7 @@ public class JOpenWarningDlg extends JDialog {
     public static final int EXIT = 2;
     public static final int CONFIG = 1;
     public static int CHOICE = 0;
+    private static final int DIALOG_WIDTH = 560;
     private Font font;
     private int height;
 
@@ -74,10 +76,10 @@ public class JOpenWarningDlg extends JDialog {
             }
         });
 
-        int size = (eMessage.length() / 38) + 1;
-        height = 350;
+        int size = (eMessage.length() / 48) + 1;
+        height = 390;
         if (!bRetry && !bConfig) {
-            height = 350 + ((size - 5) * 10);
+            height = 390 + ((size - 5) * 12);
         }
 
         MigLayout layout = new MigLayout("", "[fill]");
@@ -95,14 +97,14 @@ public class JOpenWarningDlg extends JDialog {
 
         JTextArea eMessageArea = new JTextArea();
         eMessageArea.setEditable(false);
-        eMessageArea.setColumns(38);
+        eMessageArea.setColumns(48);
         eMessageArea.setRows(2);
         eMessageArea.setText(eMessage);
         eMessageArea.setLineWrap(true);
         eMessageArea.setWrapStyleWord(true);
 
 
-        font = new Font("Arial", Font.BOLD, 12);
+        font = new Font("Arial", Font.BOLD, 14);
         eMessageArea.setFont(font);
         eMessageArea.setDisabledTextColor(new java.awt.Color(255, 0, 0));
         eMessageArea.setEnabled(false);
@@ -115,13 +117,13 @@ public class JOpenWarningDlg extends JDialog {
 
         JTextArea messageArea = new JTextArea();
         messageArea.setEditable(false);
-        messageArea.setColumns(38);
+        messageArea.setColumns(48);
         messageArea.setRows(4);
         messageArea.setText(message);
         messageArea.setLineWrap(true);
         messageArea.setWrapStyleWord(true);
 
-        font = new Font("Arial", Font.BOLD, 12);
+        font = new Font("Arial", Font.BOLD, 14);
         messageArea.setFont(font);
         messageArea.setDisabledTextColor(new java.awt.Color(0, 0, 255));
         messageArea.setEnabled(false);
@@ -132,25 +134,28 @@ public class JOpenWarningDlg extends JDialog {
         dialogPanel.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.BLACK));
         mainPanel.add(dialogPanel, "wrap");
 
-        JButton btnImport = new JButton("Import");
         if (bRetry) {
-            btnPanel.add(btnRetry, "split,right, width 100!");
+            btnPanel.add(btnRetry, "split,right, width 130!, height 48!");
         }
         if (bConfig) {
-            btnPanel.add(btnConfig, " width 100!");
+            btnPanel.add(btnConfig, " width 130!, height 48!");
         }
-        btnPanel.add(btnExit, " width 100!");
+        btnPanel.add(btnExit, " width 130!, height 48!");
         mainPanel.add(btnPanel, "right, wrap");
         mainPanel.add(new JLabel(), "wrap");
         mainPanel.setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3, Color.BLACK));
         getContentPane().add(mainPanel);
 
-        int dialogWidth = SCREEN_DIMENSION.width / 4;
-        int dialogHeight = SCREEN_DIMENSION.height / 4;
+        int dialogWidth = DIALOG_WIDTH;
+        int dialogHeight = height;
         int dialogX = SCREEN_DIMENSION.width / 2 - dialogWidth / 2;
         int dialogY = SCREEN_DIMENSION.height / 2 - dialogHeight / 2;
 
-        setBounds(dialogX, dialogY, 450, height);
+        btnRetry.setPreferredSize(TouchUI.dialogButtonSize());
+        btnConfig.setPreferredSize(TouchUI.dialogButtonSize());
+        btnExit.setPreferredSize(TouchUI.dialogButtonSize());
+
+        setBounds(dialogX, dialogY, DIALOG_WIDTH, height);
         setUndecorated(true);
         CHOICE = 0;
     }

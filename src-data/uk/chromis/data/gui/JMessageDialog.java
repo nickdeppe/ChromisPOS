@@ -26,6 +26,7 @@ import java.awt.Window;
 import javax.swing.JFrame;
 import uk.chromis.data.loader.LocalRes;
 import uk.chromis.pos.forms.AppLocal;
+import uk.chromis.pos.util.TouchUI;
 /**
  *
  * @author  adrian
@@ -120,6 +121,7 @@ public class JMessageDialog extends javax.swing.JDialog {
         myMsg.jtxtException.setCaretPosition(0);            
         
         //myMsg.show();
+        myMsg.setLocationRelativeTo(window);
         myMsg.setVisible(true);
     }
     
@@ -157,16 +159,18 @@ public class JMessageDialog extends javax.swing.JDialog {
         jlblErrorCode.setText("jlblErrorCode");
         jPanel4.add(jlblErrorCode);
 
-        jlblMessage.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jlblMessage.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jlblMessage.setText("jlblMessage");
         jlblMessage.setVerticalAlignment(javax.swing.SwingConstants.TOP);
-        jlblMessage.setMinimumSize(new java.awt.Dimension(200, 100));
-        jlblMessage.setPreferredSize(new java.awt.Dimension(200, 100));
+        jlblMessage.setMinimumSize(new java.awt.Dimension(360, 110));
+        jlblMessage.setPreferredSize(new java.awt.Dimension(360, 110));
         jPanel4.add(jlblMessage);
 
         jscrException.setAlignmentX(0.0F);
 
         jtxtException.setEditable(false);
+        jscrException.getHorizontalScrollBar().setUnitIncrement(TouchUI.SCROLLBAR_WIDTH);
+        jscrException.getVerticalScrollBar().setUnitIncrement(TouchUI.SCROLLBAR_WIDTH);
         jscrException.setViewportView(jtxtException);
 
         jPanel4.add(jscrException);
@@ -180,9 +184,9 @@ public class JMessageDialog extends javax.swing.JDialog {
         jPanel3.setLayout(new java.awt.BorderLayout());
 
         jcmdOK.setText(LocalRes.getIntString("button.ok")); // NOI18N
-        jcmdOK.setMaximumSize(new java.awt.Dimension(65, 33));
-        jcmdOK.setMinimumSize(new java.awt.Dimension(65, 33));
-        jcmdOK.setPreferredSize(new java.awt.Dimension(65, 33));
+        jcmdOK.setMaximumSize(TouchUI.dialogButtonSize());
+        jcmdOK.setMinimumSize(TouchUI.dialogButtonSize());
+        jcmdOK.setPreferredSize(TouchUI.dialogButtonSize());
         jcmdOK.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jcmdOKActionPerformed(evt);
@@ -191,9 +195,9 @@ public class JMessageDialog extends javax.swing.JDialog {
         jPanel2.add(jcmdOK);
 
         jcmdMore.setText(LocalRes.getIntString("button.information")); // NOI18N
-        jcmdMore.setMaximumSize(new java.awt.Dimension(65, 33));
-        jcmdMore.setMinimumSize(new java.awt.Dimension(65, 33));
-        jcmdMore.setPreferredSize(new java.awt.Dimension(65, 33));
+        jcmdMore.setMaximumSize(TouchUI.dialogButtonSize());
+        jcmdMore.setMinimumSize(TouchUI.dialogButtonSize());
+        jcmdMore.setPreferredSize(TouchUI.dialogButtonSize());
         jcmdMore.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jcmdMoreActionPerformed(evt);
@@ -206,7 +210,7 @@ public class JMessageDialog extends javax.swing.JDialog {
         getContentPane().add(jPanel3, java.awt.BorderLayout.SOUTH);
 
         java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-        setBounds((screenSize.width-455)/2, (screenSize.height-171)/2, 455, 171);
+        setBounds((screenSize.width-TouchUI.MESSAGE_DIALOG_WIDTH)/2, (screenSize.height-TouchUI.MESSAGE_DIALOG_HEIGHT)/2, TouchUI.MESSAGE_DIALOG_WIDTH, TouchUI.MESSAGE_DIALOG_HEIGHT);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jcmdMoreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcmdMoreActionPerformed
@@ -214,7 +218,8 @@ public class JMessageDialog extends javax.swing.JDialog {
         // Add your handling code here:
         jcmdMore.setEnabled(false);
         jscrException.setVisible(true);
-        setSize(getWidth(), 310);
+        setSize(TouchUI.messageDialogDetailsSize());
+        setLocationRelativeTo(getOwner());
         validate();
 //        validateTree();
         

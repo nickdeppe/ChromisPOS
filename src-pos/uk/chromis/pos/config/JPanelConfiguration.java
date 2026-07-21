@@ -22,6 +22,7 @@ import uk.chromis.basic.BasicException;
 import uk.chromis.data.gui.JMessageDialog;
 import uk.chromis.data.gui.MessageInf;
 import uk.chromis.pos.forms.*;
+import uk.chromis.pos.util.TouchUI;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -167,7 +168,7 @@ public class JPanelConfiguration extends JPanel implements JPanelView {
         }
 
         if (haschanged) {
-            int res = JOptionPane.showConfirmDialog(this, AppLocal.getIntString("message.wannasave"), AppLocal.getIntString("title.editor"), JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+            int res = TouchUI.showConfirmDialog(this, AppLocal.getIntString("message.wannasave"), AppLocal.getIntString("title.editor"), JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
             if (res == JOptionPane.YES_OPTION) {
                 saveProperties();
                 return true;

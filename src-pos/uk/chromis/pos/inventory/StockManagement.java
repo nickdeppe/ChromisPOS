@@ -40,6 +40,7 @@ import uk.chromis.pos.scripting.ScriptEngine;
 import uk.chromis.pos.scripting.ScriptException;
 import uk.chromis.pos.scripting.ScriptFactory;
 import uk.chromis.pos.ticket.ProductInfoExt;
+import uk.chromis.pos.util.TouchUI;
 import java.awt.BorderLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -185,7 +186,7 @@ public class StockManagement extends JPanel implements JPanelView {
     public boolean deactivate() {
 
         if (m_invlines.getCount() > 0) {
-            int res = JOptionPane.showConfirmDialog(this, LocalRes.getIntString("message.wannasave"), LocalRes.getIntString("title.editor"), JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+            int res = TouchUI.showConfirmDialog(this, LocalRes.getIntString("message.wannasave"), LocalRes.getIntString("title.editor"), JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
             if (res == JOptionPane.YES_OPTION) {
                 saveData();
                 return true;

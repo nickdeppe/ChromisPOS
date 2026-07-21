@@ -59,6 +59,7 @@ import net.miginfocom.swing.MigLayout;
 import uk.chromis.pos.forms.AppConfig;
 import uk.chromis.pos.forms.DriverWrapper;
 import uk.chromis.pos.util.AltEncrypter;
+import uk.chromis.pos.util.TouchUI;
 
 /**
  *
@@ -73,6 +74,7 @@ public class JProcessingDlg extends JDialog {
     public static String ERRORMSG = "";
 
     public static Boolean DBFAILED = true;
+    private static final int DIALOG_WIDTH = 560;
     private Connection con;
     private JProgressBar pb;
     PreparedStatement stmt2;
@@ -125,13 +127,13 @@ public class JProcessingDlg extends JDialog {
 
         JTextArea messageArea = new JTextArea();
         messageArea.setEditable(false);
-        messageArea.setColumns(38);
+        messageArea.setColumns(48);
         messageArea.setRows(4);
         messageArea.setText(message);
         messageArea.setLineWrap(true);
         messageArea.setWrapStyleWord(true);
 
-        Font font = new Font("Arial", Font.BOLD, 12);
+        Font font = new Font("Arial", Font.BOLD, 14);
         messageArea.setFont(font);
         messageArea.setDisabledTextColor(new java.awt.Color(0, 0, 255));
         messageArea.setEnabled(false);
@@ -146,26 +148,27 @@ public class JProcessingDlg extends JDialog {
         pb.setIndeterminate(false);
         pb.setStringPainted(true);
         pb.setString(" ");
-        pb.setSize(480, 20);
+        pb.setPreferredSize(new Dimension(500, 28));
         mainPanel.add(pb, "cell 0 2, growy, wrap");
 
-        JButton btnImport = new JButton("Import");
-        btnPanel.add(btnYes, "split,right, width 100!");
-        btnPanel.add(btnNo, " width 100!");
+        btnYes.setPreferredSize(TouchUI.dialogButtonSize());
+        btnNo.setPreferredSize(TouchUI.dialogButtonSize());
+        btnPanel.add(btnYes, "split,right, width 130!, height 48!");
+        btnPanel.add(btnNo, " width 130!, height 48!");
         mainPanel.add(btnPanel, "right, wrap");
         mainPanel.add(new JLabel(), "wrap");
         mainPanel.setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3, Color.BLACK));
         getContentPane().add(mainPanel);
 
-        int dialogWidth = SCREEN_DIMENSION.width / 4;
-        int dialogHeight = SCREEN_DIMENSION.height / 4;
+        int dialogWidth = DIALOG_WIDTH;
+        int dialogHeight = create ? 290 : 340;
         int dialogX = SCREEN_DIMENSION.width / 2 - dialogWidth / 2;
         int dialogY = SCREEN_DIMENSION.height / 2 - dialogHeight / 2;
 
         if (create) {
-            setBounds(dialogX, dialogY, 450, 250);
+            setBounds(dialogX, dialogY, DIALOG_WIDTH, 290);
         } else {
-            setBounds(dialogX, dialogY, 450, 300);
+            setBounds(dialogX, dialogY, DIALOG_WIDTH, 340);
         }
         setUndecorated(true);
         CHOICE = YES;

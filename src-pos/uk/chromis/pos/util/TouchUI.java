@@ -18,15 +18,26 @@
 //    along with Chromis POS.  If not, see <http://www.gnu.org/licenses/>.
 package uk.chromis.pos.util;
 
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.Rectangle;
+import java.awt.Window;
+import java.awt.Font;
 import javax.swing.AbstractButton;
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.SwingUtilities;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JTree;
@@ -49,6 +60,11 @@ public final class TouchUI {
     public static final int CLOSE_CASH_TABLE_ROW_HEIGHT = 36;
     public static final int REPORT_FILTER_FIELD_HEIGHT = 36;
     public static final int REPORT_VIEWER_BUTTON_SIZE = 40;
+    public static final int MESSAGE_DIALOG_WIDTH = 560;
+    public static final int MESSAGE_DIALOG_HEIGHT = 230;
+    public static final int MESSAGE_DIALOG_DETAILS_HEIGHT = 420;
+    public static final int CONFIRM_DIALOG_WIDTH = 620;
+    public static final int CONFIRM_DIALOG_HEIGHT = 280;
 
     private static final int ROW_HEIGHT = 32;
     public static final int SCROLLBAR_WIDTH = 44;
@@ -67,6 +83,10 @@ public final class TouchUI {
         UIManager.put("Table.rowHeight", ROW_HEIGHT);
         UIManager.put("Tree.rowHeight", ROW_HEIGHT);
         UIManager.put("List.fixedCellHeight", ROW_HEIGHT);
+        UIManager.put("OptionPane.buttonMinimumWidth", 110);
+        UIManager.put("OptionPane.minimumSize", new Dimension(MESSAGE_DIALOG_WIDTH, MESSAGE_DIALOG_HEIGHT));
+        UIManager.put("OptionPane.buttonAreaBorder", javax.swing.BorderFactory.createEmptyBorder(12, 12, 12, 12));
+        UIManager.put("OptionPane.messageAreaBorder", javax.swing.BorderFactory.createEmptyBorder(12, 12, 8, 12));
     }
 
     public static Insets buttonMargin() {
@@ -175,6 +195,94 @@ public final class TouchUI {
 
     public static Dimension reportFilterShortFieldSize() {
         return new Dimension(80, REPORT_FILTER_FIELD_HEIGHT);
+    }
+
+    public static Dimension dialogButtonSize() {
+        return new Dimension(150, 56);
+    }
+
+    public static Dimension messageDialogSize() {
+        return new Dimension(MESSAGE_DIALOG_WIDTH, MESSAGE_DIALOG_HEIGHT);
+    }
+
+    public static Dimension messageDialogDetailsSize() {
+        return new Dimension(MESSAGE_DIALOG_WIDTH, MESSAGE_DIALOG_DETAILS_HEIGHT);
+    }
+
+    public static int showConfirmDialog(Component parent, Object message, String title, int optionType, int messageType) {
+        final int[] result = new int[]{JOptionPane.CLOSED_OPTION};
+        Window owner = parent == null ? null : SwingUtilities.getWindowAncestor(parent);
+        JDialog dialog = new JDialog(owner, title, java.awt.Dialog.ModalityType.APPLICATION_MODAL);
+        JPanel content = new JPanel(new BorderLayout(24, 16));
+        content.setBorder(BorderFactory.createEmptyBorder(28, 32, 26, 32));
+
+        JLabel icon = new JLabel(UIManager.getIcon(iconKeyForMessageType(messageType)));
+        icon.setVerticalAlignment(JLabel.TOP);
+        content.add(icon, BorderLayout.WEST);
+
+        JLabel label = new JLabel(String.valueOf(message));
+        label.setFont(label.getFont().deriveFont(Font.BOLD, 18f));
+        label.setVerticalAlignment(JLabel.CENTER);
+        content.add(label, BorderLayout.CENTER);
+
+        JPanel buttons = new JPanel(new FlowLayout(FlowLayout.RIGHT, 14, 0));
+        if (optionType == JOptionPane.OK_CANCEL_OPTION) {
+            addConfirmButton(buttons, "OK", JOptionPane.OK_OPTION, result, dialog);
+            addConfirmButton(buttons, "Cancel", JOptionPane.CANCEL_OPTION, result, dialog);
+        } else {
+            addConfirmButton(buttons, "Yes", JOptionPane.YES_OPTION, result, dialog);
+            addConfirmButton(buttons, "No", JOptionPane.NO_OPTION, result, dialog);
+            if (optionType == JOptionPane.YES_NO_CANCEL_OPTION) {
+                addConfirmButton(buttons, "Cancel", JOptionPane.CANCEL_OPTION, result, dialog);
+            }
+        }
+        content.add(buttons, BorderLayout.SOUTH);
+
+        dialog.setContentPane(content);
+        dialog.setMinimumSize(new Dimension(CONFIRM_DIALOG_WIDTH, CONFIRM_DIALOG_HEIGHT));
+        dialog.setSize(new Dimension(CONFIRM_DIALOG_WIDTH, CONFIRM_DIALOG_HEIGHT));
+        dialog.setLocationRelativeTo(parent);
+        dialog.setVisible(true);
+
+        return result[0];
+    }
+
+    private static void addConfirmButton(JPanel buttons, String text, int value, int[] result, JDialog dialog) {
+        JButton button = new JButton(text);
+        Dimension size = dialogButtonSize();
+        button.setMinimumSize(size);
+        button.setPreferredSize(size);
+        button.addActionListener(e -> {
+            result[0] = value;
+            dialog.dispose();
+        });
+        buttons.add(button);
+    }
+
+    private static String iconKeyForMessageType(int messageType) {
+        switch (messageType) {
+            case JOptionPane.ERROR_MESSAGE:
+                return "OptionPane.errorIcon";
+            case JOptionPane.WARNING_MESSAGE:
+                return "OptionPane.warningIcon";
+            case JOptionPane.QUESTION_MESSAGE:
+                return "OptionPane.questionIcon";
+            case JOptionPane.INFORMATION_MESSAGE:
+                return "OptionPane.informationIcon";
+            default:
+                return "OptionPane.informationIcon";
+        }
+    }
+
+    public static void applyDialogButtonDefaults(Container container) {
+        for (Component child : container.getComponents()) {
+            if (child instanceof AbstractButton) {
+                sizeComponent(child, dialogButtonSize(), false);
+            }
+            if (child instanceof Container) {
+                applyDialogButtonDefaults((Container) child);
+            }
+        }
     }
 
     public static void applyReportFilterDefaults(Component component) {

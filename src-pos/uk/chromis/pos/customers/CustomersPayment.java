@@ -33,6 +33,7 @@ import uk.chromis.pos.forms.BeanFactoryApp;
 import uk.chromis.pos.forms.BeanFactoryException;
 import uk.chromis.pos.forms.DataLogicSales;
 import uk.chromis.pos.forms.DataLogicSystem;
+import uk.chromis.pos.util.TouchUI;
 import uk.chromis.pos.forms.JPanelView;
 import uk.chromis.pos.payment.JPaymentSelect;
 import uk.chromis.pos.payment.JPaymentSelectCustomer;
@@ -130,7 +131,7 @@ public class CustomersPayment extends javax.swing.JPanel implements JPanelView, 
     @Override
     public boolean deactivate() {
         if (dirty.isDirty()) {
-            int res = JOptionPane.showConfirmDialog(this, AppLocal.getIntString("message.wannasave"), AppLocal.getIntString("title.editor"), JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+            int res = TouchUI.showConfirmDialog(this, AppLocal.getIntString("message.wannasave"), AppLocal.getIntString("title.editor"), JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
             if (res == JOptionPane.YES_OPTION) {
                 save();
                 return true;
