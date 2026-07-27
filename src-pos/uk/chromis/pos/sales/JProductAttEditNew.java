@@ -42,6 +42,7 @@ import uk.chromis.beans.JFlowPanel;
 import uk.chromis.data.loader.*;
 import uk.chromis.pos.forms.AppLocal;
 import uk.chromis.pos.inventory.AttributeSetInfo;
+import uk.chromis.pos.util.TouchUI;
 
 public class JProductAttEditNew extends javax.swing.JDialog {
 
@@ -179,7 +180,7 @@ public class JProductAttEditNew extends javax.swing.JDialog {
                 JScrollPane scroll = new JScrollPane(jPanel2);
                 scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
                 scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-                scroll.getVerticalScrollBar().setPreferredSize(new Dimension(35, 35));
+                scroll.getVerticalScrollBar().setPreferredSize(new Dimension(TouchUI.SCROLLBAR_WIDTH, TouchUI.SCROLLBAR_WIDTH));
                 add(scroll, BorderLayout.CENTER);
 
                 for (String btnText : values) {
@@ -191,10 +192,10 @@ public class JProductAttEditNew extends javax.swing.JDialog {
                     btn.setRequestFocusEnabled(false);
                     btn.setHorizontalTextPosition(SwingConstants.CENTER);
                     btn.setVerticalTextPosition(SwingConstants.BOTTOM);
-                    btn.setMargin(new Insets(2, 2, 2, 2));
-                    btn.setMaximumSize(new Dimension(120, 50));
-                    btn.setPreferredSize(new Dimension(120, 50));
-                    btn.setMinimumSize(new Dimension(120, 50));
+                    btn.setMargin(new Insets(8, 12, 8, 12));
+                    btn.setMaximumSize(TouchUI.quickPaymentButtonSize());
+                    btn.setPreferredSize(TouchUI.quickPaymentButtonSize());
+                    btn.setMinimumSize(TouchUI.quickPaymentButtonSize());
                     AL al = new AL();
                     btn.setActionCommand(btnText);
                     btn.addActionListener(al);
@@ -336,7 +337,7 @@ public class JProductAttEditNew extends javax.swing.JDialog {
 
         getContentPane().add(jPanel3, java.awt.BorderLayout.EAST);
 
-        setSize(new java.awt.Dimension(334, 209));
+        setSize(TouchUI.attributeDialogSize());
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 

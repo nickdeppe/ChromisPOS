@@ -30,6 +30,7 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import uk.chromis.data.loader.Session;
 import uk.chromis.pos.util.DbUtils;
+import uk.chromis.pos.util.TouchUI;
 
 /**
  *
@@ -76,6 +77,7 @@ public class JMooringDetails extends javax.swing.JDialog {
         jTableSelector.getColumnModel().getColumn(2).setPreferredWidth(40);
         jTableSelector.getColumnModel().getColumn(3).setPreferredWidth(40);
         jTableSelector.setRowSelectionAllowed(true);
+        jTableSelector.setRowHeight(TouchUI.CLOSE_CASH_TABLE_ROW_HEIGHT);
         jTableSelector.getTableHeader().setReorderingAllowed(true);
 
         
@@ -170,6 +172,7 @@ public class JMooringDetails extends javax.swing.JDialog {
         jbtnCreateTicket.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uk/chromis/images/ok.png"))); // NOI18N
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("pos_messages"); // NOI18N
         jbtnCreateTicket.setText(bundle.getString("label.mooringcreatebtn")); // NOI18N
+        jbtnCreateTicket.setPreferredSize(TouchUI.salesPopupWideButtonSize());
         jbtnCreateTicket.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbtnCreateTicketActionPerformed(evt);
@@ -198,13 +201,15 @@ public class JMooringDetails extends javax.swing.JDialog {
                 return canEdit [columnIndex];
             }
         });
-        jTableSelector.setRowHeight(25);
+        jTableSelector.setRowHeight(TouchUI.CLOSE_CASH_TABLE_ROW_HEIGHT);
         jTableSelector.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTableSelectorMouseClicked(evt);
             }
         });
         jScrollPane2.setViewportView(jTableSelector);
+        jScrollPane2.getHorizontalScrollBar().setPreferredSize(new java.awt.Dimension(TouchUI.SCROLLBAR_WIDTH, TouchUI.SCROLLBAR_WIDTH));
+        jScrollPane2.getVerticalScrollBar().setPreferredSize(new java.awt.Dimension(TouchUI.SCROLLBAR_WIDTH, TouchUI.SCROLLBAR_WIDTH));
         jTableSelector.getColumnModel().getColumn(1).setResizable(false);
         jTableSelector.getColumnModel().getColumn(1).setPreferredWidth(50);
         jTableSelector.getColumnModel().getColumn(2).setResizable(false);
@@ -236,9 +241,9 @@ public class JMooringDetails extends javax.swing.JDialog {
                         .addGap(10, 10, 10)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jText, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jText, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jbtnCreateTicket, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jbtnCreateTicket, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -246,17 +251,17 @@ public class JMooringDetails extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1)
-                    .addComponent(jbtnCreateTicket))
+                    .addComponent(jText, javax.swing.GroupLayout.PREFERRED_SIZE, TouchUI.REPORT_FILTER_FIELD_HEIGHT, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, TouchUI.REPORT_FILTER_FIELD_HEIGHT, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbtnCreateTicket, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-        setBounds((screenSize.width-536)/2, (screenSize.height-274)/2, 536, 274);
+        setBounds((screenSize.width-720)/2, (screenSize.height-440)/2, 720, 440);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbtnCreateTicketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCreateTicketActionPerformed

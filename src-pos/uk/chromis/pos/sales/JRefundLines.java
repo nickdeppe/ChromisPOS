@@ -28,6 +28,7 @@ import uk.chromis.pos.forms.DataLogicSales;
 import uk.chromis.pos.forms.DataLogicSystem;
 import uk.chromis.pos.ticket.TicketInfo;
 import uk.chromis.pos.ticket.TicketLineInfo;
+import uk.chromis.pos.util.TouchUI;
 
 /**
  *
@@ -109,7 +110,7 @@ public class JRefundLines extends javax.swing.JPanel {
         m_jbtnAddAll = new javax.swing.JButton();
 
         setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        setPreferredSize(new java.awt.Dimension(15, 200));
+        setPreferredSize(new java.awt.Dimension(220, 260));
         setLayout(new java.awt.BorderLayout());
 
         jPanel3.setLayout(new java.awt.BorderLayout());
@@ -126,6 +127,7 @@ public class JRefundLines extends javax.swing.JPanel {
         m_jbtnAddOne.setFocusPainted(false);
         m_jbtnAddOne.setFocusable(false);
         m_jbtnAddOne.setMargin(new java.awt.Insets(8, 14, 8, 14));
+        m_jbtnAddOne.setPreferredSize(TouchUI.salesPopupWideButtonSize());
         m_jbtnAddOne.setRequestFocusEnabled(false);
         m_jbtnAddOne.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -140,6 +142,7 @@ public class JRefundLines extends javax.swing.JPanel {
         m_jbtnAddLine.setFocusPainted(false);
         m_jbtnAddLine.setFocusable(false);
         m_jbtnAddLine.setMargin(new java.awt.Insets(8, 14, 8, 14));
+        m_jbtnAddLine.setPreferredSize(TouchUI.salesPopupWideButtonSize());
         m_jbtnAddLine.setRequestFocusEnabled(false);
         m_jbtnAddLine.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -154,6 +157,7 @@ public class JRefundLines extends javax.swing.JPanel {
         m_jbtnAddAll.setFocusPainted(false);
         m_jbtnAddAll.setFocusable(false);
         m_jbtnAddAll.setMargin(new java.awt.Insets(8, 14, 8, 14));
+        m_jbtnAddAll.setPreferredSize(TouchUI.salesPopupWideButtonSize());
         m_jbtnAddAll.setRequestFocusEnabled(false);
         m_jbtnAddAll.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
