@@ -30,6 +30,7 @@ import javax.swing.SwingUtilities;
 import uk.chromis.data.loader.Session;
 import uk.chromis.pos.forms.AppLocal;
 import uk.chromis.pos.util.DbUtils;
+import uk.chromis.pos.util.TouchUI;
 
 /**
  *
@@ -70,6 +71,7 @@ public class JPermissionsList extends javax.swing.JDialog {
             jTableSelector.setModel(DbUtils.resultSetToTableModel(rs));
             jTableSelector.getColumnModel().getColumn(0).setPreferredWidth(180);
             jTableSelector.setRowSelectionAllowed(true);
+            jTableSelector.setRowHeight(TouchUI.CLOSE_CASH_TABLE_ROW_HEIGHT);
             jTableSelector.getTableHeader().setReorderingAllowed(true);
         } catch (Exception e) {
         }
@@ -118,6 +120,7 @@ public class JPermissionsList extends javax.swing.JDialog {
         jbtnDeleteEntry.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("pos_messages"); // NOI18N
         jbtnDeleteEntry.setText(bundle.getString("Button.deleteclass")); // NOI18N
+        jbtnDeleteEntry.setPreferredSize(TouchUI.salesPopupWideButtonSize());
         jbtnDeleteEntry.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbtnDeleteEntryActionPerformed(evt);
@@ -146,13 +149,15 @@ public class JPermissionsList extends javax.swing.JDialog {
                 return canEdit [columnIndex];
             }
         });
-        jTableSelector.setRowHeight(25);
+        jTableSelector.setRowHeight(TouchUI.CLOSE_CASH_TABLE_ROW_HEIGHT);
         jTableSelector.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTableSelectorMouseClicked(evt);
             }
         });
         jScrollPane2.setViewportView(jTableSelector);
+        jScrollPane2.getHorizontalScrollBar().setPreferredSize(new java.awt.Dimension(TouchUI.SCROLLBAR_WIDTH, TouchUI.SCROLLBAR_WIDTH));
+        jScrollPane2.getVerticalScrollBar().setPreferredSize(new java.awt.Dimension(TouchUI.SCROLLBAR_WIDTH, TouchUI.SCROLLBAR_WIDTH));
         if (jTableSelector.getColumnModel().getColumnCount() > 0) {
             jTableSelector.getColumnModel().getColumn(1).setPreferredWidth(70);
         }
@@ -166,6 +171,7 @@ public class JPermissionsList extends javax.swing.JDialog {
 
         jbtnDeleteEntry1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jbtnDeleteEntry1.setText(bundle.getString("Button.Exit")); // NOI18N
+        jbtnDeleteEntry1.setPreferredSize(TouchUI.smallDialogButtonSize());
         jbtnDeleteEntry1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbtnDeleteEntry1ActionPerformed(evt);
@@ -185,28 +191,28 @@ public class JPermissionsList extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jText, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jbtnDeleteEntry, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jbtnDeleteEntry, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jbtnDeleteEntry1, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 19, Short.MAX_VALUE)))
+                        .addComponent(jbtnDeleteEntry1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 1, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel1))
+                        .addComponent(jText, javax.swing.GroupLayout.PREFERRED_SIZE, TouchUI.REPORT_FILTER_FIELD_HEIGHT, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, TouchUI.REPORT_FILTER_FIELD_HEIGHT, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jbtnDeleteEntry, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jbtnDeleteEntry1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        setSize(new java.awt.Dimension(675, 274));
+        setSize(new java.awt.Dimension(760, 430));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 

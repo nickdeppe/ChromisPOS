@@ -56,6 +56,7 @@ import uk.chromis.format.Formats;
 import uk.chromis.pos.forms.AppLocal;
 import uk.chromis.pos.forms.AppView;
 import uk.chromis.pos.forms.JRootApp;
+import uk.chromis.pos.util.TouchUI;
 
 /**
  *
@@ -111,6 +112,7 @@ public final class RolesViewTree extends javax.swing.JPanel implements EditorRec
         uTree = new CheckboxTree(root);
         root.setUserObject("All Permissions");
         uTree.getCheckingModel().setCheckingMode(TreeCheckingModel.CheckingMode.PROPAGATE_PRESERVING_CHECK);
+        uTree.setRowHeight(TouchUI.SALES_POPUP_LIST_ROW_HEIGHT);
         uTree.clearSelection();
 
         DefaultCheckboxTreeCellRenderer renderer = (DefaultCheckboxTreeCellRenderer) uTree.getCellRenderer();
@@ -187,6 +189,8 @@ public final class RolesViewTree extends javax.swing.JPanel implements EditorRec
         }
         root = sortTree(root);
         jScrollPane1.setViewportView(uTree);
+        jScrollPane1.getHorizontalScrollBar().setPreferredSize(new java.awt.Dimension(TouchUI.SCROLLBAR_WIDTH, TouchUI.SCROLLBAR_WIDTH));
+        jScrollPane1.getVerticalScrollBar().setPreferredSize(new java.awt.Dimension(TouchUI.SCROLLBAR_WIDTH, TouchUI.SCROLLBAR_WIDTH));
         uTree.expandAll();
     }
 
@@ -443,6 +447,7 @@ public final class RolesViewTree extends javax.swing.JPanel implements EditorRec
         jLabel2.setText(AppLocal.getIntString("Label.Name")); // NOI18N
 
         m_jName.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        m_jName.setPreferredSize(TouchUI.reportFilterFieldSize());
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -460,9 +465,12 @@ public final class RolesViewTree extends javax.swing.JPanel implements EditorRec
         jPermissionDesc.setLineWrap(true);
         jPermissionDesc.setRows(5);
         jScrollPane2.setViewportView(jPermissionDesc);
+        jScrollPane2.getHorizontalScrollBar().setPreferredSize(new java.awt.Dimension(TouchUI.SCROLLBAR_WIDTH, TouchUI.SCROLLBAR_WIDTH));
+        jScrollPane2.getVerticalScrollBar().setPreferredSize(new java.awt.Dimension(TouchUI.SCROLLBAR_WIDTH, TouchUI.SCROLLBAR_WIDTH));
 
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("pos_messages"); // NOI18N
         jAddEntry.setText(bundle.getString("Button.addclass")); // NOI18N
+        jAddEntry.setPreferredSize(TouchUI.salesPopupButtonSize());
         jAddEntry.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jAddEntryActionPerformed(evt);
@@ -470,6 +478,7 @@ public final class RolesViewTree extends javax.swing.JPanel implements EditorRec
         });
 
         jDeleteEntry.setText(bundle.getString("Button.deleteclass")); // NOI18N
+        jDeleteEntry.setPreferredSize(TouchUI.salesPopupWideButtonSize());
         jDeleteEntry.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jDeleteEntryActionPerformed(evt);
@@ -481,8 +490,8 @@ public final class RolesViewTree extends javax.swing.JPanel implements EditorRec
 
         jRightsLevel.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jRightsLevel.setModel(new javax.swing.SpinnerNumberModel(3, 0, 9, 1));
-        jRightsLevel.setMinimumSize(new java.awt.Dimension(35, 28));
-        jRightsLevel.setPreferredSize(new java.awt.Dimension(35, 28));
+        jRightsLevel.setMinimumSize(TouchUI.reportFilterShortFieldSize());
+        jRightsLevel.setPreferredSize(TouchUI.reportFilterShortFieldSize());
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -497,11 +506,11 @@ public final class RolesViewTree extends javax.swing.JPanel implements EditorRec
                         .addGap(22, 22, 22)
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(m_jName, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(m_jName, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jAddEntry)
+                        .addComponent(jAddEntry, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jDeleteEntry)
+                        .addComponent(jDeleteEntry, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -523,10 +532,10 @@ public final class RolesViewTree extends javax.swing.JPanel implements EditorRec
                         .addComponent(jLabel1)
                         .addComponent(jRightsLevel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(m_jName, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jAddEntry)
-                        .addComponent(jDeleteEntry)))
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, TouchUI.REPORT_FILTER_FIELD_HEIGHT, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(m_jName, javax.swing.GroupLayout.PREFERRED_SIZE, TouchUI.REPORT_FILTER_FIELD_HEIGHT, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jAddEntry, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jDeleteEntry, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 447, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)

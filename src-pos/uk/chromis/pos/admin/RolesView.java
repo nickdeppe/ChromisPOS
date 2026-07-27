@@ -27,6 +27,7 @@ import uk.chromis.data.user.DirtyManager;
 import uk.chromis.data.user.EditorRecord;
 import uk.chromis.format.Formats;
 import uk.chromis.pos.forms.AppLocal;
+import uk.chromis.pos.util.TouchUI;
 
 /**
  *
@@ -170,6 +171,8 @@ public final class RolesView extends javax.swing.JPanel implements EditorRecord 
 
         m_jText.setFont(new java.awt.Font("DialogInput", 0, 14)); // NOI18N
         jScrollPane1.setViewportView(m_jText);
+        jScrollPane1.getHorizontalScrollBar().setPreferredSize(new java.awt.Dimension(TouchUI.SCROLLBAR_WIDTH, TouchUI.SCROLLBAR_WIDTH));
+        jScrollPane1.getVerticalScrollBar().setPreferredSize(new java.awt.Dimension(TouchUI.SCROLLBAR_WIDTH, TouchUI.SCROLLBAR_WIDTH));
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel2.setText(AppLocal.getIntString("Label.Name")); // NOI18N
@@ -182,8 +185,8 @@ public final class RolesView extends javax.swing.JPanel implements EditorRecord 
 
         jRightsLevel.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jRightsLevel.setModel(new javax.swing.SpinnerNumberModel(3, 0, 9, 1));
-        jRightsLevel.setMinimumSize(new java.awt.Dimension(37, 28));
-        jRightsLevel.setPreferredSize(new java.awt.Dimension(37, 28));
+        jRightsLevel.setMinimumSize(TouchUI.reportFilterShortFieldSize());
+        jRightsLevel.setPreferredSize(TouchUI.reportFilterShortFieldSize());
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -209,8 +212,8 @@ public final class RolesView extends javax.swing.JPanel implements EditorRecord 
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(m_jName, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, TouchUI.REPORT_FILTER_FIELD_HEIGHT, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(m_jName, javax.swing.GroupLayout.PREFERRED_SIZE, TouchUI.REPORT_FILTER_FIELD_HEIGHT, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1)
                     .addComponent(jRightsLevel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
