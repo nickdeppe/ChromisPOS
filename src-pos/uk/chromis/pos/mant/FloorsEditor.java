@@ -28,6 +28,7 @@ import uk.chromis.data.user.DirtyManager;
 import uk.chromis.data.user.EditorRecord;
 import uk.chromis.format.Formats;
 import uk.chromis.pos.forms.AppLocal;
+import uk.chromis.pos.util.TouchUI;
 
 
 /**
@@ -43,11 +44,18 @@ public final class FloorsEditor extends JPanel implements EditorRecord {
      * @param dirty */
     public FloorsEditor(DirtyManager dirty) {
         initComponents();
+        configureTouchLayout();
          
         m_jName.getDocument().addDocumentListener(dirty);
         m_jImage.addPropertyChangeListener("image", dirty);
         
         writeValueEOF();
+    }
+
+    private void configureTouchLayout() {
+        jPanel1.setPreferredSize(new java.awt.Dimension(420, 72));
+        jLabel3.setBounds(20, 18, 100, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        m_jName.setBounds(130, 18, 260, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
     }
 
     /**

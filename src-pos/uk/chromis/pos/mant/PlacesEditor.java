@@ -29,6 +29,7 @@ import uk.chromis.data.user.EditorRecord;
 import uk.chromis.format.Formats;
 import uk.chromis.pos.forms.AppLocal;
 import uk.chromis.pos.forms.DataLogicSales;
+import uk.chromis.pos.util.TouchUI;
 
 /**
  *
@@ -47,6 +48,7 @@ public final class PlacesEditor extends JPanel implements EditorRecord {
     public PlacesEditor(DataLogicSales dlSales, DirtyManager dirty) {
         m_dlSales = dlSales;
         initComponents();
+        configureTouchLayout();
 
         m_FloorModel = new ComboBoxValModel<>();
         
@@ -56,6 +58,23 @@ public final class PlacesEditor extends JPanel implements EditorRecord {
         m_jY.getDocument().addDocumentListener(dirty);
         
         writeValueEOF();
+    }
+
+    private void configureTouchLayout() {
+        setPreferredSize(new java.awt.Dimension(520, 430));
+        jLabel2.setBounds(20, 20, 100, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        m_jName.setBounds(130, 20, 260, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        jLabel1.setBounds(20, 64, 100, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        m_jFloor.setBounds(130, 64, 260, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        jLabel6.setBounds(20, 108, 80, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        jLabel5.setBounds(130, 108, 60, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        m_jX.setBounds(190, 108, 70, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        jLabel3.setBounds(275, 108, 60, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        m_jY.setBounds(335, 108, 70, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        jLabel7.setBounds(10, 160, 430, 90);
+        jLabel9.setBounds(130, 254, 200, 24);
+        jLabel4.setBounds(130, 280, 200, 140);
+        jLabel8.setBounds(45, 330, 70, 30);
     }
     
     /**
