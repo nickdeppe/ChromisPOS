@@ -29,6 +29,7 @@ import uk.chromis.pos.config.PanelConfig;
 import uk.chromis.pos.forms.*;
 import uk.chromis.pos.util.AltEncrypter;
 import uk.chromis.pos.util.DirectoryEvent;
+import uk.chromis.pos.util.TouchUI;
 import java.awt.HeadlessException;
 import java.io.File;
 import java.io.IOException;
@@ -97,7 +98,7 @@ public class JPaneldbMigrate extends JPanel implements JPanelView {
     public JPaneldbMigrate(AppProperties props) {
 
         initComponents();
-        jPanel2.setPreferredSize(new java.awt.Dimension(645, 209));
+        configureTouchLayout();
         m_panelconfig = new ArrayList<>();
 
         jtxtDbDriverLib.getDocument().addDocumentListener(dirty);
@@ -112,6 +113,20 @@ public class JPaneldbMigrate extends JPanel implements JPanelView {
         jNewdbType.addItem("MySQL");
         jNewdbType.addItem("PostgreSQL");
 
+    }
+
+    private void configureTouchLayout() {
+        setPreferredSize(new java.awt.Dimension(760, 360));
+        jPanel2.setPreferredSize(new java.awt.Dimension(720, 245));
+        jbtnDbDriverLib.setMinimumSize(TouchUI.finderIconButtonSize());
+        jbtnDbDriverLib.setPreferredSize(TouchUI.finderIconButtonSize());
+        jButtonTest.setMinimumSize(TouchUI.salesPopupButtonSize());
+        jButtonTest.setPreferredSize(TouchUI.salesPopupButtonSize());
+        jbtnMigrate.setMinimumSize(TouchUI.salesPopupWideButtonSize());
+        jbtnMigrate.setPreferredSize(TouchUI.salesPopupWideButtonSize());
+        jbtnExit.setMinimumSize(TouchUI.salesPopupButtonSize());
+        jbtnExit.setPreferredSize(TouchUI.salesPopupButtonSize());
+        TouchUI.applyReportFilterDefaults(jPanel2);
     }
 
     @Override

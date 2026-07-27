@@ -29,6 +29,7 @@ import uk.chromis.pos.config.PanelConfig;
 import uk.chromis.pos.forms.*;
 import uk.chromis.pos.util.AltEncrypter;
 import uk.chromis.pos.util.DirectoryEvent;
+import uk.chromis.pos.util.TouchUI;
 import java.awt.HeadlessException;
 import java.io.File;
 import java.io.IOException;
@@ -89,7 +90,7 @@ public class JPanelCleandb extends JPanel implements JPanelView {
         tableList = new ArrayList<>();
 
         initComponents();
-        jPanel2.setPreferredSize(new java.awt.Dimension(645, 209));
+        configureTouchLayout();
         m_panelconfig = new ArrayList<>();
 
         jtxtDbDriverLib.getDocument().addDocumentListener(dirty);
@@ -104,6 +105,25 @@ public class JPanelCleandb extends JPanel implements JPanelView {
         jNewdbType.addItem("MySQL");
         jNewdbType.addItem("PostgreSQL");
 
+    }
+
+    private void configureTouchLayout() {
+        setPreferredSize(new java.awt.Dimension(760, 460));
+        jPanel2.setPreferredSize(new java.awt.Dimension(720, 245));
+        jPanel3.setPreferredSize(new java.awt.Dimension(720, 175));
+        jbtnDbDriverLib.setMinimumSize(TouchUI.finderIconButtonSize());
+        jbtnDbDriverLib.setPreferredSize(TouchUI.finderIconButtonSize());
+        jButtonTest.setMinimumSize(TouchUI.salesPopupButtonSize());
+        jButtonTest.setPreferredSize(TouchUI.salesPopupButtonSize());
+        jbtnMigrate.setMinimumSize(TouchUI.salesPopupWideButtonSize());
+        jbtnMigrate.setPreferredSize(TouchUI.salesPopupWideButtonSize());
+        jbtnExit.setMinimumSize(TouchUI.salesPopupButtonSize());
+        jbtnExit.setPreferredSize(TouchUI.salesPopupButtonSize());
+        jScrollPane1.getVerticalScrollBar().setUnitIncrement(TouchUI.SCROLLBAR_WIDTH);
+        jScrollPane1.getHorizontalScrollBar().setUnitIncrement(TouchUI.SCROLLBAR_WIDTH);
+        jTextArea1.setRows(6);
+        TouchUI.applyReportFilterDefaults(jPanel2);
+        TouchUI.applyReportFilterDefaults(jPanel3);
     }
 
     @Override

@@ -39,6 +39,7 @@ import javax.swing.JOptionPane;
 import uk.chromis.pos.forms.AppConfig;
 import uk.chromis.pos.forms.DriverWrapper;
 import uk.chromis.pos.util.AltEncrypter;
+import uk.chromis.pos.util.TouchUI;
 
 public class ResetDialog extends javax.swing.JPanel {
 
@@ -53,6 +54,7 @@ public class ResetDialog extends javax.swing.JPanel {
 
     public ResetDialog() {
         initComponents();
+        configureTouchLayout();
 
         connection = getConnection();
         if (connection == null) {
@@ -63,6 +65,25 @@ public class ResetDialog extends javax.swing.JPanel {
         jResource.addItem(null);
         populate();
 
+    }
+
+    private void configureTouchLayout() {
+        setPreferredSize(new java.awt.Dimension(620, 330));
+        jPanel2.setPreferredSize(new java.awt.Dimension(620, 250));
+        jPanel1.setPreferredSize(new java.awt.Dimension(330, 90));
+        jPanel4.setPreferredSize(new java.awt.Dimension(330, 150));
+        jResource.setMinimumSize(TouchUI.reportFilterFieldSize());
+        jResource.setPreferredSize(TouchUI.reportFilterFieldSize());
+        jButton1.setMinimumSize(TouchUI.salesPopupWideButtonSize());
+        jButton1.setPreferredSize(TouchUI.salesPopupWideButtonSize());
+        jAdminRole.setMinimumSize(new java.awt.Dimension(155, TouchUI.REPORT_FILTER_FIELD_HEIGHT));
+        jEmployeeRole.setMinimumSize(new java.awt.Dimension(155, TouchUI.REPORT_FILTER_FIELD_HEIGHT));
+        jManagerRole.setMinimumSize(new java.awt.Dimension(155, TouchUI.REPORT_FILTER_FIELD_HEIGHT));
+        jGuestRole.setMinimumSize(new java.awt.Dimension(155, TouchUI.REPORT_FILTER_FIELD_HEIGHT));
+        jAdminRole.setPreferredSize(new java.awt.Dimension(155, TouchUI.REPORT_FILTER_FIELD_HEIGHT));
+        jEmployeeRole.setPreferredSize(new java.awt.Dimension(155, TouchUI.REPORT_FILTER_FIELD_HEIGHT));
+        jManagerRole.setPreferredSize(new java.awt.Dimension(155, TouchUI.REPORT_FILTER_FIELD_HEIGHT));
+        jGuestRole.setPreferredSize(new java.awt.Dimension(155, TouchUI.REPORT_FILTER_FIELD_HEIGHT));
     }
 
     private void populate() {
