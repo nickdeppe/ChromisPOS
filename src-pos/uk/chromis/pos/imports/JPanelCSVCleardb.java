@@ -32,6 +32,7 @@ import uk.chromis.pos.forms.AppProperties;
 import uk.chromis.pos.forms.AppView;
 import uk.chromis.pos.forms.JPanelView;
 import uk.chromis.pos.util.AltEncrypter;
+import uk.chromis.pos.util.TouchUI;
 
 /**
  *
@@ -59,12 +60,25 @@ public class JPanelCSVCleardb extends JPanel implements JPanelView {
     public JPanelCSVCleardb(AppProperties props) {
 
         initComponents();
+        configureTouchLayout();
 
         jMessageBox.setText("Performing this action, will clear all "
                 + "data in the CSVImport table. \n\n"
                 + "It is recommended that this is performed before "
                 + "running a new import. \n");
 
+    }
+
+    private void configureTouchLayout() {
+        setPreferredSize(new java.awt.Dimension(560, 300));
+        jScrollPane1.setMinimumSize(new java.awt.Dimension(520, 150));
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(520, 150));
+        jScrollPane1.getVerticalScrollBar().setUnitIncrement(TouchUI.SCROLLBAR_WIDTH);
+        jScrollPane1.getHorizontalScrollBar().setUnitIncrement(TouchUI.SCROLLBAR_WIDTH);
+        jEnableButton.setMinimumSize(new java.awt.Dimension(250, TouchUI.REPORT_FILTER_FIELD_HEIGHT));
+        jEnableButton.setPreferredSize(new java.awt.Dimension(250, TouchUI.REPORT_FILTER_FIELD_HEIGHT));
+        jButtonCleardb.setMinimumSize(TouchUI.salesPopupWideButtonSize());
+        jButtonCleardb.setPreferredSize(TouchUI.salesPopupWideButtonSize());
     }
 
     /**

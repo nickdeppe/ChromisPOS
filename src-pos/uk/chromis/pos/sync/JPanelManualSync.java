@@ -33,6 +33,7 @@ import java.util.logging.Logger;
 import javax.swing.*;
 import uk.chromis.pos.util.AltEncrypter;
 import uk.chromis.pos.sync.Sync;
+import uk.chromis.pos.util.TouchUI;
 
 /**
  *
@@ -60,9 +61,33 @@ public class JPanelManualSync extends JPanel implements JPanelView {
 
     public JPanelManualSync(AppView oApp) {
         initComponents();
+        configureTouchLayout();
         if (oApp != null) {
             jbtnExit.setVisible(false);
         }
+    }
+
+    private void configureTouchLayout() {
+        setPreferredSize(new java.awt.Dimension(720, 360));
+        jPanel2.setPreferredSize(new java.awt.Dimension(680, 320));
+        jtxtSyncType.setMinimumSize(new java.awt.Dimension(420, TouchUI.REPORT_FILTER_FIELD_HEIGHT));
+        jtxtSyncType.setPreferredSize(new java.awt.Dimension(420, TouchUI.REPORT_FILTER_FIELD_HEIGHT));
+        jtxtConnectionStatus.setMinimumSize(new java.awt.Dimension(420, TouchUI.REPORT_FILTER_FIELD_HEIGHT));
+        jtxtConnectionStatus.setPreferredSize(new java.awt.Dimension(420, TouchUI.REPORT_FILTER_FIELD_HEIGHT));
+        jtxtFromLocal.setMinimumSize(new java.awt.Dimension(420, TouchUI.REPORT_FILTER_FIELD_HEIGHT));
+        jtxtFromLocal.setPreferredSize(new java.awt.Dimension(420, TouchUI.REPORT_FILTER_FIELD_HEIGHT));
+        jtxtChangedObjects.setMinimumSize(new java.awt.Dimension(420, TouchUI.REPORT_FILTER_FIELD_HEIGHT));
+        jtxtChangedObjects.setPreferredSize(new java.awt.Dimension(420, TouchUI.REPORT_FILTER_FIELD_HEIGHT));
+        jtxtFromRemote.setMinimumSize(new java.awt.Dimension(420, TouchUI.REPORT_FILTER_FIELD_HEIGHT));
+        jtxtFromRemote.setPreferredSize(new java.awt.Dimension(420, TouchUI.REPORT_FILTER_FIELD_HEIGHT));
+        jtxtToProcess.setMinimumSize(new java.awt.Dimension(420, TouchUI.REPORT_FILTER_FIELD_HEIGHT));
+        jtxtToProcess.setPreferredSize(new java.awt.Dimension(420, TouchUI.REPORT_FILTER_FIELD_HEIGHT));
+        jtxtSyncProcess.setMinimumSize(new java.awt.Dimension(420, TouchUI.REPORT_FILTER_FIELD_HEIGHT));
+        jtxtSyncProcess.setPreferredSize(new java.awt.Dimension(420, TouchUI.REPORT_FILTER_FIELD_HEIGHT));
+        jbtnSync.setMinimumSize(TouchUI.salesPopupWideButtonSize());
+        jbtnSync.setPreferredSize(TouchUI.salesPopupWideButtonSize());
+        jbtnExit.setMinimumSize(TouchUI.salesPopupButtonSize());
+        jbtnExit.setPreferredSize(TouchUI.salesPopupButtonSize());
     }
 
     @Override

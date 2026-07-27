@@ -112,7 +112,7 @@ public class JFrmSync extends javax.swing.JFrame {
                 TouchUI.installDefaults();
 
                 JFrmSync resetFrame = new JFrmSync();//
-                resetFrame.setSize(600, 350);
+                resetFrame.setSize(740, 400);
                 resetFrame.setVisible(true);
 
             }
