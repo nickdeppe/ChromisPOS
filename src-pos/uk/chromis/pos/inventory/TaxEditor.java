@@ -34,6 +34,7 @@ import uk.chromis.pos.forms.AppLocal;
 import uk.chromis.pos.forms.AppView;
 import uk.chromis.pos.forms.DataLogicSales;
 import uk.chromis.pos.ticket.TaxInfo;
+import uk.chromis.pos.util.TouchUI;
 
 /**
  *
@@ -56,6 +57,7 @@ public class TaxEditor extends JPanel implements EditorRecord {
         m_dlSales = (DataLogicSales) app.getBean("uk.chromis.pos.forms.DataLogicSales");
         
         initComponents();
+        configureTouchLayout();
         
         taxcatmodel = new ComboBoxValModel<TaxCategoryInfo>();
         taxcustcatmodel = new ComboBoxValModel<TaxCustCategoryInfo>();
@@ -70,6 +72,23 @@ public class TaxEditor extends JPanel implements EditorRecord {
         jOrder.getDocument().addDocumentListener(dirty);
         
         writeValueEOF();
+    }
+
+    private void configureTouchLayout() {
+        setPreferredSize(new java.awt.Dimension(560, 300));
+        jLabel2.setBounds(20, 20, 220, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        m_jName.setBounds(240, 20, 260, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        jLabel1.setBounds(20, 64, 220, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        m_jTaxCategory.setBounds(240, 64, 260, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        jLabel4.setBounds(20, 108, 220, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        m_jCustTaxCategory.setBounds(240, 108, 260, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        jLabel5.setBounds(20, 152, 220, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        m_jTaxParent.setBounds(240, 152, 260, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        jLabel3.setBounds(20, 196, 220, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        m_jRate.setBounds(240, 196, 80, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        jCascade.setBounds(334, 194, 160, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        jLabel6.setBounds(20, 240, 220, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        jOrder.setBounds(240, 240, 80, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
     }
     
     /**

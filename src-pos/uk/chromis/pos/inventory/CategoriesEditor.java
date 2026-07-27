@@ -42,6 +42,7 @@ import uk.chromis.pos.forms.AppLocal;
 import uk.chromis.pos.forms.AppView;
 import uk.chromis.pos.forms.DataLogicSales;
 import uk.chromis.pos.ticket.CategoryInfo;
+import uk.chromis.pos.util.TouchUI;
 
 /**
  *
@@ -68,6 +69,7 @@ public final class CategoriesEditor extends JPanel implements EditorRecord {
         m_dlSales = (DataLogicSales) app.getBean("uk.chromis.pos.forms.DataLogicSales");
 
         initComponents();
+        configureTouchLayout();
 
         // El modelo de categorias
         m_CategoryModel = new ComboBoxValModel<CategoryInfo>();
@@ -83,6 +85,29 @@ public final class CategoriesEditor extends JPanel implements EditorRecord {
         border = m_jbtnColour.getBorder();
 
         writeValueEOF();
+    }
+
+    private void configureTouchLayout() {
+        setPreferredSize(new java.awt.Dimension(700, 510));
+        jLabel2.setBounds(20, 24, 150, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        m_jName.setBounds(200, 24, 240, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        jLabel5.setBounds(20, 68, 150, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        m_jCategory.setBounds(200, 68, 240, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        jLabel6.setBounds(20, 112, 150, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        m_jTextTip.setBounds(200, 112, 240, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        jLabel7.setBounds(20, 156, 160, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        m_jCatNameShow.setBounds(200, 154, 58, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        jLabel9.setBounds(20, 200, 170, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        m_jCatalogOrder.setBounds(200, 200, 60, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        jLabel1.setBounds(20, 244, 170, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        m_jbtnColour.setBounds(200, 244, 120, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        jColorChooser.setBounds(334, 236, 58, 52);
+        jLabel3.setBounds(20, 308, 80, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        m_jImage.setBounds(200, 308, 250, 190);
+        jLabel4.setBounds(500, 34, 30, 82);
+        m_jCatalogAdd.setBounds(540, 36, 130, 52);
+        m_jCatalogDelete.setBounds(540, 98, 130, 52);
+        jLabel8.setBounds(390, 76, 110, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
     }
 
     /**

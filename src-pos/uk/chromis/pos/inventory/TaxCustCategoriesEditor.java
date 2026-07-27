@@ -28,6 +28,7 @@ import uk.chromis.data.user.DirtyManager;
 import uk.chromis.data.user.EditorRecord;
 import uk.chromis.format.Formats;
 import uk.chromis.pos.forms.AppLocal;
+import uk.chromis.pos.util.TouchUI;
 
 /**
  *
@@ -41,10 +42,17 @@ public final class TaxCustCategoriesEditor extends JPanel implements EditorRecor
      * @param dirty */
     public TaxCustCategoriesEditor(DirtyManager dirty) {
         initComponents();
+        configureTouchLayout();
 
         m_jName.getDocument().addDocumentListener(dirty);
         
         writeValueEOF();
+    }
+
+    private void configureTouchLayout() {
+        setPreferredSize(new java.awt.Dimension(420, 78));
+        jLabel2.setBounds(20, 20, 90, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        m_jName.setBounds(120, 20, 260, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
     }
 
     /**
