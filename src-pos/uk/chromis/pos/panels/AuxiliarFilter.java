@@ -34,6 +34,7 @@ import uk.chromis.pos.forms.AppView;
 import uk.chromis.pos.forms.DataLogicSales;
 import uk.chromis.pos.reports.ReportEditorCreator;
 import uk.chromis.pos.ticket.ProductInfoExt;
+import uk.chromis.pos.util.TouchUI;
 
 /**
  *
@@ -53,6 +54,22 @@ public class AuxiliarFilter extends javax.swing.JPanel implements ReportEditorCr
     /** Creates new form AuxiliarFilter */
     public AuxiliarFilter() {
         initComponents();
+        configureTouchLayout();
+    }
+
+    private void configureTouchLayout() {
+        m_jReference1.setMinimumSize(TouchUI.reportFilterFieldSize());
+        m_jReference1.setPreferredSize(TouchUI.reportFilterFieldSize());
+        m_jBarcode1.setMinimumSize(TouchUI.reportFilterFieldSize());
+        m_jBarcode1.setPreferredSize(TouchUI.reportFilterFieldSize());
+        m_jSearch.setMinimumSize(new java.awt.Dimension(420, TouchUI.REPORT_FILTER_FIELD_HEIGHT));
+        m_jSearch.setPreferredSize(new java.awt.Dimension(420, TouchUI.REPORT_FILTER_FIELD_HEIGHT));
+        Enter1.setMinimumSize(TouchUI.finderIconButtonSize());
+        Enter1.setPreferredSize(TouchUI.finderIconButtonSize());
+        Enter2.setMinimumSize(TouchUI.finderIconButtonSize());
+        Enter2.setPreferredSize(TouchUI.finderIconButtonSize());
+        search.setMinimumSize(TouchUI.finderIconButtonSize());
+        search.setPreferredSize(TouchUI.finderIconButtonSize());
     }
 
     /**

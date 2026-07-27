@@ -32,6 +32,7 @@ import uk.chromis.pos.forms.AppView;
 import uk.chromis.pos.forms.DataLogicSales;
 import uk.chromis.pos.panels.JProductFinder;
 import uk.chromis.pos.ticket.ProductInfoExt;
+import uk.chromis.pos.util.TouchUI;
 
 /**
  *
@@ -56,8 +57,21 @@ public class AuxiliarEditor extends javax.swing.JPanel implements EditorRecord {
         m_dlSales = (DataLogicSales) app.getBean("uk.chromis.pos.forms.DataLogicSales");
 
         initComponents();
+        configureTouchLayout();
      
         m_jProduct.getDocument().addDocumentListener(dirty);
+    }
+
+    private void configureTouchLayout() {
+        setPreferredSize(new java.awt.Dimension(760, 140));
+        jLabel3.setBounds(10, 14, 80, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        m_jReference.setBounds(100, 14, 170, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        m_jEnter1.setBounds(282, 6, 58, 52);
+        jLabel4.setBounds(354, 14, 86, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        m_jBarcode.setBounds(450, 14, 170, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        m_jEnter2.setBounds(632, 6, 58, 52);
+        m_jSearch.setBounds(10, 72, 58, 52);
+        m_jProduct.setBounds(100, 80, 520, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
     }
     
     /**
