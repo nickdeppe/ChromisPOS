@@ -34,6 +34,7 @@ import uk.chromis.pos.forms.DataLogicSales;
 import uk.chromis.pos.panels.JProductFinder;
 import uk.chromis.pos.sales.JProductAttEdit;
 import uk.chromis.pos.ticket.ProductInfoExt;
+import uk.chromis.pos.util.TouchUI;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Toolkit;
@@ -93,6 +94,7 @@ public final class StockDiaryEditor extends javax.swing.JPanel
         m_Dirty = dirty;
         
         initComponents();      
+        configureTouchLayout();
 
         m_LocationsModel = new ComboBoxValModel<LocationInfo>();
 
@@ -127,6 +129,52 @@ public final class StockDiaryEditor extends javax.swing.JPanel
         m_jmaximum.getDocument().addDocumentListener(dirty);
         
         writeValueEOF();
+    }
+
+    private void configureTouchLayout() {
+        setPreferredSize(new java.awt.Dimension(800, 600));
+        jPanel1.setMinimumSize(new java.awt.Dimension(780, 290));
+        jPanel1.setPreferredSize(new java.awt.Dimension(780, 290));
+        setAbsoluteBounds(jPanel1, jLabel1, 10, 10, 80, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        setAbsoluteBounds(jPanel1, m_jdate, 100, 10, 200, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        setAbsoluteBounds(jPanel1, m_jbtndate, 310, 2, 58, 52);
+        setAbsoluteBounds(jPanel1, jLabel2, 385, 10, 70, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        setAbsoluteBounds(jPanel1, m_jreason, 460, 10, 220, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        setAbsoluteBounds(jPanel1, jLabel8, 10, 54, 80, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        setAbsoluteBounds(jPanel1, jproduct, 100, 54, 200, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        setAbsoluteBounds(jPanel1, m_FindProduct, 310, 46, 58, 52);
+        setAbsoluteBounds(jPanel1, jLabel6, 385, 54, 70, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        setAbsoluteBounds(jPanel1, m_jLocation, 460, 54, 220, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        setAbsoluteBounds(jPanel1, jLabel7, 10, 98, 80, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        setAbsoluteBounds(jPanel1, m_jcodebar, 100, 98, 200, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        setAbsoluteBounds(jPanel1, m_jEnter, 310, 90, 58, 52);
+        setAbsoluteBounds(jPanel1, jLabel10, 10, 142, 80, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        setAbsoluteBounds(jPanel1, m_jreference, 100, 142, 200, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        setAbsoluteBounds(jPanel1, m_EditProduct, 310, 134, 58, 52);
+        setAbsoluteBounds(jPanel1, jLabel11, 385, 98, 80, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        setAbsoluteBounds(jPanel1, m_junitsinstock, 460, 98, 70, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        setAbsoluteBounds(jPanel1, jLabel13, 540, 98, 70, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        setAbsoluteBounds(jPanel1, m_jbuyprice, 610, 98, 70, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        setAbsoluteBounds(jPanel1, jLabel14, 540, 142, 70, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        setAbsoluteBounds(jPanel1, m_jsellprice, 610, 142, 70, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        setAbsoluteBounds(jPanel1, jLabel4, 10, 186, 80, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        setAbsoluteBounds(jPanel1, m_junits, 100, 186, 70, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        setAbsoluteBounds(jPanel1, jLabel5, 180, 186, 50, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        setAbsoluteBounds(jPanel1, m_jprice, 230, 186, 70, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        setAbsoluteBounds(jPanel1, jLabel12, 385, 186, 70, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        setAbsoluteBounds(jPanel1, m_jminimum, 460, 186, 70, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        setAbsoluteBounds(jPanel1, jLabel3, 540, 186, 70, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        setAbsoluteBounds(jPanel1, m_jmaximum, 610, 186, 70, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        setAbsoluteBounds(jPanel1, jLabel9, 385, 230, 70, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        setAbsoluteBounds(jPanel1, jattributes, 460, 230, 190, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        setAbsoluteBounds(jPanel1, jEditAttributes, 660, 222, 58, 52);
+        catcontainer.setPreferredSize(new java.awt.Dimension(0, 300));
+    }
+
+    private void setAbsoluteBounds(javax.swing.JPanel panel, Component component, int x, int y, int width, int height) {
+        panel.remove(component);
+        panel.add(component, new org.netbeans.lib.awtextra.AbsoluteConstraints(x, y, width, height));
+        component.setBounds(x, y, width, height);
     }
 
     /**

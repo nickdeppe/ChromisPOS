@@ -42,6 +42,7 @@ import uk.chromis.pos.scripting.ScriptFactory;
 import uk.chromis.pos.ticket.ProductInfoExt;
 import uk.chromis.pos.util.TouchUI;
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -88,6 +89,7 @@ public class StockManagement extends JPanel implements JPanelView {
         m_TTP = new TicketParser(m_App.getDeviceTicket(), m_dlSystem);
 
         initComponents();
+        configureTouchLayout();
         
         user = m_App.getAppUserView().getUser().getName();
         btnDownloadProducts.setEnabled(m_App.getDeviceScanner() != null);
@@ -121,6 +123,31 @@ public class StockManagement extends JPanel implements JPanelView {
         // Las lineas de inventario
         m_invlines = new JInventoryLines();
         jPanel5.add(m_invlines, BorderLayout.CENTER);
+    }
+
+    private void configureTouchLayout() {
+        setPreferredSize(new java.awt.Dimension(800, 600));
+        jPanel8.setPreferredSize(new java.awt.Dimension(780, 300));
+        setAbsoluteBounds(jPanel8, m_jdate, 100, 10, 200, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        setAbsoluteBounds(jPanel8, m_jbtndate, 310, 2, 58, 52);
+        setAbsoluteBounds(jPanel8, m_jreason, 100, 54, 220, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        setAbsoluteBounds(jPanel8, m_jLocation, 100, 98, 220, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        setAbsoluteBounds(jPanel8, m_jLocationDes, 330, 98, 220, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        setAbsoluteBounds(jPanel8, jPanel5, 5, 150, 400, 140);
+        setAbsoluteBounds(jPanel8, m_jUp, 420, 150, 58, 52);
+        setAbsoluteBounds(jPanel8, m_jDown, 488, 150, 58, 52);
+        setAbsoluteBounds(jPanel8, m_jDelete, 420, 212, 58, 52);
+        setAbsoluteBounds(jPanel8, jEditAttributes, 488, 212, 58, 52);
+        setAbsoluteBounds(jPanel8, btnDownloadProducts, 560, 212, 130, 52);
+        m_jcodebar.setPreferredSize(new java.awt.Dimension(135, TouchUI.REPORT_FILTER_FIELD_HEIGHT));
+        m_jEnter.setPreferredSize(TouchUI.finderIconButtonSize());
+        catcontainer.setPreferredSize(new java.awt.Dimension(0, 280));
+    }
+
+    private void setAbsoluteBounds(javax.swing.JPanel panel, Component component, int x, int y, int width, int height) {
+        panel.remove(component);
+        panel.add(component, new org.netbeans.lib.awtextra.AbsoluteConstraints(x, y, width, height));
+        component.setBounds(x, y, width, height);
     }
      
     /**
