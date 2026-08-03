@@ -29,6 +29,7 @@ import uk.chromis.pos.forms.AppLocal;
 import uk.chromis.pos.forms.AppView;
 import uk.chromis.pos.forms.DataLogicSales;
 import uk.chromis.pos.reports.ReportEditorCreator;
+import uk.chromis.pos.util.TouchUI;
 
 /**
  *
@@ -42,6 +43,13 @@ public class AttributeSetFilter extends javax.swing.JPanel implements ReportEdit
     /** Creates new form AttributeUseFilter */
     public AttributeSetFilter() {
         initComponents();
+        configureTouchLayout();
+    }
+
+    private void configureTouchLayout() {
+        setPreferredSize(new java.awt.Dimension(420, 70));
+        jAttrSet.setMinimumSize(new java.awt.Dimension(260, TouchUI.REPORT_FILTER_FIELD_HEIGHT));
+        jAttrSet.setPreferredSize(new java.awt.Dimension(260, TouchUI.REPORT_FILTER_FIELD_HEIGHT));
     }
 
     /**

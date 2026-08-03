@@ -26,6 +26,7 @@ import uk.chromis.data.user.DirtyManager;
 import uk.chromis.data.user.EditorRecord;
 import uk.chromis.format.Formats;
 import uk.chromis.pos.forms.AppLocal;
+import uk.chromis.pos.util.TouchUI;
 
 /**
  *
@@ -43,8 +44,15 @@ public class AttributeValuesEditor extends javax.swing.JPanel implements EditorR
     public AttributeValuesEditor(DirtyManager dirty) {
         
         initComponents();
+        configureTouchLayout();
 
         jValue.getDocument().addDocumentListener(dirty);
+    }
+
+    private void configureTouchLayout() {
+        setPreferredSize(new java.awt.Dimension(420, 70));
+        jValue.setMinimumSize(new java.awt.Dimension(260, TouchUI.REPORT_FILTER_FIELD_HEIGHT));
+        jValue.setPreferredSize(new java.awt.Dimension(260, TouchUI.REPORT_FILTER_FIELD_HEIGHT));
     }
 
     /**

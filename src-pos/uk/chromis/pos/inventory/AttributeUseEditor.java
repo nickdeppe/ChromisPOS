@@ -29,6 +29,7 @@ import uk.chromis.format.Formats;
 import uk.chromis.pos.forms.AppLocal;
 import uk.chromis.pos.forms.AppView;
 import uk.chromis.pos.forms.DataLogicSales;
+import uk.chromis.pos.util.TouchUI;
 
 /**
  *
@@ -53,9 +54,18 @@ public class AttributeUseEditor extends javax.swing.JPanel implements EditorReco
         attributemodel = new ComboBoxValModel<AttributeInfo>();
 
         initComponents();
+        configureTouchLayout();
 
         jLineno.getDocument().addDocumentListener(dirty);
         jAttribute.addActionListener(dirty);
+    }
+
+    private void configureTouchLayout() {
+        setPreferredSize(new java.awt.Dimension(460, 120));
+        jLineno.setMinimumSize(new java.awt.Dimension(90, TouchUI.REPORT_FILTER_FIELD_HEIGHT));
+        jLineno.setPreferredSize(new java.awt.Dimension(90, TouchUI.REPORT_FILTER_FIELD_HEIGHT));
+        jAttribute.setMinimumSize(new java.awt.Dimension(260, TouchUI.REPORT_FILTER_FIELD_HEIGHT));
+        jAttribute.setPreferredSize(new java.awt.Dimension(260, TouchUI.REPORT_FILTER_FIELD_HEIGHT));
     }
 
     /**
