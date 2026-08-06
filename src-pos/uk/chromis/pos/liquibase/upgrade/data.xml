@@ -34,11 +34,30 @@
             <column name="TITLE" value="Menu.Unlocktables" />   
         </insert>                                          
     </changeSet> 
+
+    <changeSet author="Chromis POS" id="Create supplier management menu entry v0.59.0-boxoffice"> 
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM MENUENTRIES WHERE ENTRY='uk.chromis.pos.thirdparties.ThirdPartiesPanel'</sqlCheck>
+        </preConditions>
+        <insert tableName="MENUENTRIES"> 
+            <column name="ENTRY" value="uk.chromis.pos.thirdparties.ThirdPartiesPanel"/>   
+            <column name="FOLLOWS" value="uk.chromis.pos.admin.ResourcesPanel"/>
+            <column name="GRAPHIC" value="/uk/chromis/images/customer.png" />
+            <column name="TITLE" value="Menu.ThirdPartiesManagement" />   
+        </insert>                                          
+    </changeSet> 
     
     <!-- ***************************************************************************************** -->
     <!--                Update Administrator permissions if required                               -->
     <!-- ***************************************************************************************** -->    
     <changeSet author="Chromis POS" id="Update admin permissiosn v0.58.1">   
+        <update tableName="ROLES">           
+            <column name="PERMISSIONS" valueBlobResource="/uk/chromis/pos/templates/Role.Administrator.xml"/>   
+            <where>ID='0'</where>         
+        </update> 
+    </changeSet>
+
+    <changeSet author="Chromis POS" id="Update admin permissions supplier management v0.59.0-boxoffice">   
         <update tableName="ROLES">           
             <column name="PERMISSIONS" valueBlobResource="/uk/chromis/pos/templates/Role.Administrator.xml"/>   
             <where>ID='0'</where>         

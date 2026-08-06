@@ -182,6 +182,14 @@ public class AppUser {
             }
         }
 
+        addBuiltInPermissionUpdates();
+
+    }
+
+    private void addBuiltInPermissionUpdates() {
+        if ("0".equals(m_sRole) || "1".equals(m_sRole)) {
+            m_apermissions.add("uk.chromis.pos.thirdparties.ThirdPartiesPanel");
+        }
     }
     
     /**

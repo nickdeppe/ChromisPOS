@@ -123,16 +123,29 @@ public class JPrincipalApp extends javax.swing.JPanel implements AppUserView {
 
         try {
 
-            m_jPanelLeft.setViewportView(getScriptMenu(m_dlSystem.getResourceAsText("Menu.Root")));
+            m_jPanelLeft.setViewportView(getScriptMenu(normalizeMenuText(m_dlSystem.getResourceAsText("Menu.Root"))));
         } catch (ScriptException e) {
             logger.log(Level.SEVERE, "Cannot read Menu.Root resource. Trying default menu.", e);
             try {
-                m_jPanelLeft.setViewportView(getScriptMenu(StringUtils.readResource("/uk/chromis/pos/templates/Menu.Root.txt")));
+                m_jPanelLeft.setViewportView(getScriptMenu(normalizeMenuText(StringUtils.readResource("/uk/chromis/pos/templates/Menu.Root.txt"))));
 
             } catch (IOException | ScriptException ex) {
                 logger.log(Level.SEVERE, "Cannot read default menu", ex);
             }
         }
+    }
+
+    private String normalizeMenuText(String menuText) {
+        if (menuText == null
+                || menuText.contains("uk.chromis.pos.thirdparties.ThirdPartiesPanel")
+                || !menuText.contains("uk.chromis.pos.admin.ResourcesPanel")) {
+            return menuText;
+        }
+
+        return menuText.replace(
+                "uk.chromis.pos.admin.ResourcesPanel\");",
+                "uk.chromis.pos.admin.ResourcesPanel\");\n"
+                + "        submenu.addPanel(\"/uk/chromis/images/customer.png\", \"Menu.ThirdPartiesManagement\", \"uk.chromis.pos.thirdparties.ThirdPartiesPanel\");");
     }
 
     private Component getScriptMenu(String menutext) throws ScriptException {

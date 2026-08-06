@@ -25,6 +25,7 @@ import uk.chromis.basic.BasicException;
 import uk.chromis.data.user.DirtyManager;
 import uk.chromis.data.user.EditorRecord;
 import uk.chromis.pos.forms.AppView;
+import uk.chromis.pos.util.TouchUI;
 
 /**
  *
@@ -39,6 +40,7 @@ public class ThirdPartiesView extends javax.swing.JPanel implements EditorRecord
      * @param dirty */
     public ThirdPartiesView(AppView app, DirtyManager dirty) {
         initComponents();
+        configureTouchLayout();
         
         m_jCIF.getDocument().addDocumentListener(dirty);
         m_jName.getDocument().addDocumentListener(dirty);
@@ -54,6 +56,42 @@ public class ThirdPartiesView extends javax.swing.JPanel implements EditorRecord
         m_jNotes.getDocument().addDocumentListener(dirty);
 
         writeValueEOF();        
+    }
+
+    private void configureTouchLayout() {
+        setPreferredSize(new java.awt.Dimension(800, 600));
+
+        jLabel2.setBounds(20, 20, 110, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        m_jCIF.setBounds(140, 20, 250, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        jLabel3.setBounds(410, 20, 110, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        m_jName.setBounds(530, 20, 250, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+
+        jLabel13.setBounds(20, 70, 110, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        jScrollPane2.setBounds(140, 70, 640, 92);
+
+        jLabel14.setBounds(20, 185, 760, 18);
+        jLabel4.setBounds(20, 215, 110, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        m_jContactComm.setBounds(140, 215, 250, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        jLabel5.setBounds(410, 215, 110, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        m_jContactFact.setBounds(530, 215, 250, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        jLabel8.setBounds(20, 260, 110, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        m_jPhoneNumber.setBounds(140, 260, 250, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        jLabel9.setBounds(410, 260, 110, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        m_jMobileNumber.setBounds(530, 260, 250, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        jLabel7.setBounds(20, 305, 110, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        m_jFaxNumber.setBounds(140, 305, 250, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        jLabel10.setBounds(410, 305, 110, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        m_jEMail.setBounds(530, 305, 250, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        jLabel11.setBounds(20, 350, 110, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        m_jWebPage.setBounds(140, 350, 640, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+
+        jLabel15.setBounds(20, 405, 760, 18);
+        jLabel6.setBounds(20, 435, 110, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        m_jPayRule.setBounds(140, 435, 250, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+
+        jLabel16.setBounds(410, 405, 370, 18);
+        jLabel12.setBounds(410, 435, 110, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        jScrollPane1.setBounds(530, 435, 250, 92);
     }
 
     /**

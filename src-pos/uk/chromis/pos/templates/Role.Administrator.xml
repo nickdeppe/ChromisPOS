@@ -79,6 +79,7 @@
 	<class name="/uk/chromis/reports/productlabels.bs"/>
 	<class name="kitchen.DeleteLine"/>
 	<class name="uk.chromis.pos.admin.ResourcesPanel"/>
+	<class name="uk.chromis.pos.thirdparties.ThirdPartiesPanel"/>
 	<class name="/uk/chromis/reports/badprice.bs"/>
 	<class name="Menu.ChangePassword"/>
 	<class name="/uk/chromis/reports/closedproducts.bs"/>
