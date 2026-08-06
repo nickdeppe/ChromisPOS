@@ -32,6 +32,7 @@ import uk.chromis.pos.ticket.ProductInfoExt;
 import java.awt.Component;
 import java.awt.Toolkit;
 import java.util.UUID;
+import uk.chromis.pos.util.TouchUI;
 
 /**
  *
@@ -55,9 +56,24 @@ public class RecipeEditor extends javax.swing.JPanel implements EditorRecord {
         m_dlSales = (DataLogicSales) app.getBean("uk.chromis.pos.forms.DataLogicSales");
 
         initComponents();
+        configureTouchLayout();
      
         m_jProduct.getDocument().addDocumentListener(dirty);
         m_jQuantity.getDocument().addDocumentListener(dirty);
+    }
+
+    private void configureTouchLayout() {
+        setPreferredSize(new java.awt.Dimension(760, 150));
+        jLabel3.setBounds(10, 14, 80, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        m_jReference.setBounds(100, 14, 170, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        m_jEnter1.setBounds(280, 6, 58, 52);
+        jLabel4.setBounds(360, 14, 80, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        m_jBarcode.setBounds(450, 14, 170, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        m_jEnter2.setBounds(630, 6, 58, 52);
+        m_jSearch.setBounds(10, 74, 58, 52);
+        m_jProduct.setBounds(100, 82, 360, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        jLabel1.setBounds(480, 82, 70, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        m_jQuantity.setBounds(560, 82, 90, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
     }
     
     public void setInsertProduct(ProductInfoExt prod) {

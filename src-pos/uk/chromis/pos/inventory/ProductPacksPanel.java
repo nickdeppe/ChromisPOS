@@ -35,6 +35,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Date;
 import java.util.UUID;
+import uk.chromis.pos.util.TouchUI;
 
 /**
  *
@@ -97,6 +98,7 @@ public class ProductPacksPanel extends JPanelTable2 implements ProductPacksEdito
          
         jeditor = new ProductPacksEditor(dirty);   
         jeditor.setSplitNotify( this );
+        setListWidth(TouchUI.MAINTENANCE_LIST_LONG_WIDTH);
     }
 
     /**

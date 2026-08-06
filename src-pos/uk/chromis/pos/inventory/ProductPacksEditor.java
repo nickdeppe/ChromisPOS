@@ -28,6 +28,7 @@ import uk.chromis.pos.forms.AppLocal;
 import java.awt.Component;
 import java.sql.Statement;
 import uk.chromis.data.gui.MessageInf;
+import uk.chromis.pos.util.TouchUI;
 
 /**
  *
@@ -71,6 +72,20 @@ public class ProductPacksEditor extends javax.swing.JPanel implements EditorReco
      * @param dirty */
     public ProductPacksEditor(DirtyManager dirty ) {
         initComponents();
+        configureTouchLayout();
+    }
+
+    private void configureTouchLayout() {
+        setPreferredSize(new java.awt.Dimension(640, 210));
+        m_jTitle.setBounds(10, 10, 600, 34);
+        jLabel3.setBounds(10, 58, 140, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        m_jInStock.setBounds(160, 58, 300, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        jLabel4.setBounds(10, 102, 140, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        m_jProduct.setBounds(160, 102, 440, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        jLabel5.setBounds(10, 146, 140, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        m_jToSplit.setBounds(160, 146, 90, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        m_jSplit.setBounds(270, 138, 130, 52);
+        m_jSplit.setMargin(TouchUI.buttonMargin());
     }
     
     /**

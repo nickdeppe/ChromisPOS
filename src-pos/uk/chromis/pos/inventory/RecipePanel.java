@@ -31,6 +31,7 @@ import uk.chromis.pos.ticket.ProductInfoExt;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import uk.chromis.pos.util.TouchUI;
 
 
 public class RecipePanel extends JPanelTable2 {
@@ -68,6 +69,7 @@ public class RecipePanel extends JPanelTable2 {
         spr = row.getSaveProvider(app.getSession(), table);              
         
         editor = new RecipeEditor(app, dirty);
+        setListWidth(TouchUI.MAINTENANCE_LIST_LONG_WIDTH);
     }
 
     @Override
