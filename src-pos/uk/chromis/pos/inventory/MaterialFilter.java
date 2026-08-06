@@ -29,6 +29,7 @@ import uk.chromis.format.Formats;
 import uk.chromis.pos.forms.AppLocal;
 import uk.chromis.pos.forms.DataLogicSales;
 import uk.chromis.pos.ticket.ProductInfoExt;
+import uk.chromis.pos.util.TouchUI;
 
 /**
  *
@@ -44,12 +45,27 @@ public class MaterialFilter extends javax.swing.JPanel implements EditorCreator 
      * @param dlSales */
     public MaterialFilter(DataLogicSales dlSales) {
         initComponents();
+        configureTouchLayout();
         
         this.dlSales = dlSales;
         m_ProdsModel = new ComboBoxValModel<ProductInfoExt>();
          
         m_jCboName.setModel(ListQBFModelNumber.getMandatoryString());
         m_jCboPriceBuy.setModel(ListQBFModelNumber.getMandatoryNumber());
+    }
+
+    private void configureTouchLayout() {
+        setPreferredSize(new java.awt.Dimension(700, 180));
+        jPanel1.setPreferredSize(new java.awt.Dimension(700, 160));
+        jPanel1.setMaximumSize(new java.awt.Dimension(32767, 160));
+        jLabel2.setBounds(20, 24, 130, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        m_jCboName.setBounds(150, 24, 170, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        m_jName.setBounds(330, 24, 250, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        jLabel4.setBounds(20, 68, 130, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        m_jCboPriceBuy.setBounds(150, 68, 170, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        m_jPriceBuy.setBounds(330, 68, 90, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        jLabel3.setBounds(20, 112, 130, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        m_jCboProduct.setBounds(150, 112, 430, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
     }
     
     /**

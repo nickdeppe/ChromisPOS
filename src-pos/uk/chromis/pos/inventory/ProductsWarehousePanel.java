@@ -40,6 +40,7 @@ import uk.chromis.format.Formats;
 import uk.chromis.pos.forms.AppLocal;
 import uk.chromis.pos.panels.JPanelTable2;
 import uk.chromis.pos.reports.JParamsLocation;
+import uk.chromis.pos.util.TouchUI;
 
 /**
  *
@@ -110,6 +111,7 @@ public class ProductsWarehousePanel extends JPanelTable2 {
         spr = new SaveProvider(updatesent, null, null);
          
         jeditor = new ProductsWarehouseEditor(dirty);   
+        setListWidth(TouchUI.MAINTENANCE_LIST_LONG_WIDTH);
     }
 
     /**

@@ -26,6 +26,7 @@ import uk.chromis.data.user.DirtyManager;
 import uk.chromis.data.user.EditorRecord;
 import uk.chromis.format.Formats;
 import uk.chromis.pos.forms.AppLocal;
+import uk.chromis.pos.util.TouchUI;
 
 /**
  *
@@ -62,9 +63,21 @@ public class ProductsWarehouseEditor extends javax.swing.JPanel implements Edito
      * @param dirty */
     public ProductsWarehouseEditor(DirtyManager dirty) {
         initComponents();
+        configureTouchLayout();
         
         m_jMinimum.getDocument().addDocumentListener(dirty);
         m_jMaximum.getDocument().addDocumentListener(dirty);
+    }
+
+    private void configureTouchLayout() {
+        setPreferredSize(new java.awt.Dimension(500, 220));
+        m_jTitle.setBounds(10, 10, 460, 34);
+        jLabel3.setBounds(10, 58, 140, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        m_jQuantity.setBounds(160, 58, 90, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        jLabel4.setBounds(10, 102, 140, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        m_jMinimum.setBounds(160, 102, 90, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        jLabel5.setBounds(10, 146, 140, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        m_jMaximum.setBounds(160, 146, 90, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
     }
     
     /**
