@@ -27,6 +27,7 @@ import uk.chromis.data.user.DirtyManager;
 import uk.chromis.data.user.EditorRecord;
 import uk.chromis.format.Formats;
 import uk.chromis.pos.forms.AppLocal;
+import uk.chromis.pos.util.TouchUI;
 
 /**
  *
@@ -44,11 +45,21 @@ public final class RatingsEditor extends JPanel implements EditorRecord {
     public RatingsEditor(DirtyManager dirty) {
         
         initComponents();
+        configureTouchLayout();
 
         m_jName.getDocument().addDocumentListener(dirty);
         m_jActive.addActionListener(dirty);
 		
         writeValueEOF();
+    }
+
+    private void configureTouchLayout() {
+        setPreferredSize(new java.awt.Dimension(520, 150));
+        m_jTitle.setBounds(170, 0, 330, 34);
+        jLabel4.setBounds(20, 24, 100, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        m_jName.setBounds(130, 24, 260, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        jLabel3.setBounds(20, 68, 100, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        m_jActive.setBounds(130, 62, 70, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
     }
 
     /**

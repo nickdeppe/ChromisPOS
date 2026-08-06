@@ -29,6 +29,7 @@ import uk.chromis.data.user.EditorRecord;
 import uk.chromis.format.Formats;
 import uk.chromis.pos.forms.AppLocal;
 import uk.chromis.pos.panels.JPanelTable2;
+import uk.chromis.pos.util.TouchUI;
 
 /**
  *
@@ -63,6 +64,7 @@ public class ExchangesPanel extends JPanelTable2 {
         spr = row.getSaveProvider(app.getSession(), table);        
         
         editor = new ExchangesEditor(dirty);    
+        setListWidth(TouchUI.MAINTENANCE_LIST_WIDTH);
     }
 
     /**

@@ -26,6 +26,7 @@ import uk.chromis.data.user.DirtyManager;
 import uk.chromis.data.user.EditorRecord;
 import uk.chromis.format.Formats;
 import uk.chromis.pos.forms.AppLocal;
+import uk.chromis.pos.util.TouchUI;
 
 /**
  *
@@ -39,10 +40,18 @@ public final class ExchangesEditor extends javax.swing.JPanel implements EditorR
      * @param dirty */
     public ExchangesEditor(DirtyManager dirty) {
         initComponents();
+        configureTouchLayout();
         
         m_jName.getDocument().addDocumentListener(dirty);
         
         writeValueEOF();
+    }
+
+    private void configureTouchLayout() {
+        setPreferredSize(new java.awt.Dimension(420, 80));
+        jLabel2.setPreferredSize(new java.awt.Dimension(80, TouchUI.REPORT_FILTER_FIELD_HEIGHT));
+        m_jName.setMinimumSize(new java.awt.Dimension(260, TouchUI.REPORT_FILTER_FIELD_HEIGHT));
+        m_jName.setPreferredSize(new java.awt.Dimension(260, TouchUI.REPORT_FILTER_FIELD_HEIGHT));
     }
 
     /**

@@ -29,6 +29,7 @@ import uk.chromis.data.user.EditorRecord;
 import uk.chromis.format.Formats;
 import uk.chromis.pos.forms.AppLocal;
 import uk.chromis.pos.panels.JPanelTable2;
+import uk.chromis.pos.util.TouchUI;
 
 /**
  *
@@ -73,6 +74,7 @@ public class TheatresPanel extends JPanelTable2 {
         spr = row.getSaveProvider(app.getSession(), table);        
         
         editor = new TheatresEditor(dirty);    
+        setListWidth(TouchUI.MAINTENANCE_LIST_WIDTH);
     }
 
     /**

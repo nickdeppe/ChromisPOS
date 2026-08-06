@@ -28,6 +28,7 @@ import uk.chromis.data.user.DirtyManager;
 import uk.chromis.data.user.EditorRecord;
 import uk.chromis.format.Formats;
 import uk.chromis.pos.forms.AppLocal;
+import uk.chromis.pos.util.TouchUI;
 
 /**
  *
@@ -43,6 +44,7 @@ public final class TheatresEditor extends javax.swing.JPanel implements EditorRe
      * @param dirty */
     public TheatresEditor(DirtyManager dirty) {
         initComponents();
+        configureTouchLayout();
         
         m_jName.getDocument().addDocumentListener(dirty);
         m_jCapacity.addChangeListener(dirty);
@@ -65,6 +67,22 @@ public final class TheatresEditor extends javax.swing.JPanel implements EditorRe
         m_jCapacityMode.setModel(capacityModeModel);
         
         writeValueEOF();
+    }
+
+    private void configureTouchLayout() {
+        setPreferredSize(new java.awt.Dimension(520, 260));
+        jLabel2.setPreferredSize(new java.awt.Dimension(130, TouchUI.REPORT_FILTER_FIELD_HEIGHT));
+        jLabel3.setPreferredSize(new java.awt.Dimension(130, TouchUI.REPORT_FILTER_FIELD_HEIGHT));
+        jLabel4.setPreferredSize(new java.awt.Dimension(130, TouchUI.REPORT_FILTER_FIELD_HEIGHT));
+        jLabel5.setPreferredSize(new java.awt.Dimension(130, TouchUI.REPORT_FILTER_FIELD_HEIGHT));
+        m_jName.setMinimumSize(new java.awt.Dimension(260, TouchUI.REPORT_FILTER_FIELD_HEIGHT));
+        m_jName.setPreferredSize(new java.awt.Dimension(260, TouchUI.REPORT_FILTER_FIELD_HEIGHT));
+        m_jExtraDescription.setMinimumSize(new java.awt.Dimension(260, TouchUI.REPORT_FILTER_FIELD_HEIGHT));
+        m_jExtraDescription.setPreferredSize(new java.awt.Dimension(260, TouchUI.REPORT_FILTER_FIELD_HEIGHT));
+        m_jCapacity.setMinimumSize(new java.awt.Dimension(90, TouchUI.REPORT_FILTER_FIELD_HEIGHT));
+        m_jCapacity.setPreferredSize(new java.awt.Dimension(90, TouchUI.REPORT_FILTER_FIELD_HEIGHT));
+        m_jCapacityMode.setMinimumSize(new java.awt.Dimension(260, TouchUI.REPORT_FILTER_FIELD_HEIGHT));
+        m_jCapacityMode.setPreferredSize(new java.awt.Dimension(260, TouchUI.REPORT_FILTER_FIELD_HEIGHT));
     }
 
     /**
