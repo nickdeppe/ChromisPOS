@@ -26,6 +26,7 @@ import uk.chromis.data.user.DirtyManager;
 import uk.chromis.data.user.EditorRecord;
 import uk.chromis.format.Formats;
 import uk.chromis.pos.forms.AppLocal;
+import uk.chromis.pos.util.TouchUI;
 
 /**
  *
@@ -40,11 +41,20 @@ public final class LocationsView extends javax.swing.JPanel implements EditorRec
      * @param dirty */
     public LocationsView(DirtyManager dirty) {
         initComponents();
+        configureTouchLayout();
         
         m_jName.getDocument().addDocumentListener(dirty);
         m_jAddress.getDocument().addDocumentListener(dirty);
         
         writeValueEOF();    
+    }
+
+    private void configureTouchLayout() {
+        setPreferredSize(new java.awt.Dimension(520, 160));
+        jLabel2.setBounds(20, 20, 130, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        m_jName.setBounds(160, 20, 320, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        jLabel3.setBounds(20, 64, 130, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        m_jAddress.setBounds(160, 64, 320, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
     }
 
     /**
