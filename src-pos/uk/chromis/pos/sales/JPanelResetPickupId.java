@@ -38,6 +38,7 @@ import uk.chromis.pos.forms.AppView;
 import uk.chromis.pos.forms.AppViewConnection;
 import uk.chromis.pos.forms.JPanelView;
 import uk.chromis.pos.util.AltEncrypter;
+import uk.chromis.pos.util.TouchUI;
 
 /**
  *
@@ -60,11 +61,23 @@ public class JPanelResetPickupId extends JPanel implements JPanelView {
     public JPanelResetPickupId(AppView oApp) {
         
         initComponents();
+        configureTouchLayout();
 
         if (oApp != null) {
             jbtnExit.setVisible(false);
         }
         
+    }
+
+    private void configureTouchLayout() {
+        setPreferredSize(new java.awt.Dimension(480, 180));
+        jPanel1.setPreferredSize(new java.awt.Dimension(480, 150));
+        jbtnUpdate.setMargin(TouchUI.buttonMargin());
+        jbtnUpdate.setMinimumSize(TouchUI.closeCashButtonSize());
+        jbtnUpdate.setPreferredSize(TouchUI.closeCashButtonSize());
+        jbtnExit.setMargin(TouchUI.buttonMargin());
+        jbtnExit.setMinimumSize(TouchUI.closeCashButtonSize());
+        jbtnExit.setPreferredSize(TouchUI.closeCashButtonSize());
     }
 
     /**
