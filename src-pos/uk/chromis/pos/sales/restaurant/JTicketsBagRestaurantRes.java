@@ -50,6 +50,7 @@ import uk.chromis.pos.customers.DataLogicCustomers;
 import uk.chromis.pos.customers.JCustomerFinder;
 import uk.chromis.pos.forms.AppLocal;
 import uk.chromis.pos.forms.AppView;
+import uk.chromis.pos.util.TouchUI;
 
 /**
  *
@@ -87,8 +88,9 @@ public class JTicketsBagRestaurantRes extends javax.swing.JPanel implements Edit
         dlCustomers = (DataLogicCustomers) oApp.getBean("uk.chromis.pos.customers.DataLogicCustomers");
 
         m_dcurrentday = null;
-        
+
         initComponents();
+        configureTouchLayout();
         
         m_datepanel = new JCalendarPanel();
         jPanelDate.add(m_datepanel, BorderLayout.CENTER);
@@ -137,6 +139,29 @@ public class JTicketsBagRestaurantRes extends javax.swing.JPanel implements Edit
         m_jToolbar.add(new JCounter(m_bd));
         m_jToolbar.add(new JNavigator(m_bd));
         m_jToolbar.add(new JSaver(m_bd));       
+    }
+
+    private void configureTouchLayout() {
+        sizeActionButton(m_jbtnTables, 150);
+        sizeActionButton(m_jbtnReceive, 160);
+        sizeActionButton(jButton1, TouchUI.dialogIconButtonSize().width);
+
+        jLabel2.setBounds(10, 164, 80, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        txtCustomer.setBounds(90, 160, 260, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        jButton1.setBounds(360, 152, 64, 52);
+        jLabel3.setBounds(10, 208, 80, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        m_jtxtChairs.setBounds(90, 208, 90, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        jLabel4.setBounds(10, 252, 80, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        m_jtxtDescription.setBounds(90, 252, 350, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        jPanel1.setPreferredSize(new java.awt.Dimension(470, 310));
+    }
+
+    private void sizeActionButton(javax.swing.JButton button, int width) {
+        java.awt.Dimension size = new java.awt.Dimension(width, 52);
+        button.setMinimumSize(size);
+        button.setPreferredSize(size);
+        button.setMaximumSize(size);
+        button.setMargin(TouchUI.buttonMargin());
     }
     
     private class MyDateFilter implements EditorCreator {
