@@ -49,9 +49,11 @@ public final class TaxCategoriesEditor extends JPanel implements EditorRecord {
     }
 
     private void configureTouchLayout() {
-        setPreferredSize(new java.awt.Dimension(420, 70));
-        m_jName.setMinimumSize(new java.awt.Dimension(260, TouchUI.REPORT_FILTER_FIELD_HEIGHT));
-        m_jName.setPreferredSize(new java.awt.Dimension(260, TouchUI.REPORT_FILTER_FIELD_HEIGHT));
+        setPreferredSize(new java.awt.Dimension(420, 78));
+        setLayout(null);
+
+        jLabel2.setBounds(20, 20, 90, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        m_jName.setBounds(120, 20, 260, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
     }
 
     /**
