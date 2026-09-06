@@ -32,6 +32,7 @@ import uk.chromis.data.user.ListProviderCreator;
 import uk.chromis.data.user.SaveProvider;
 import uk.chromis.pos.forms.AppLocal;
 import uk.chromis.pos.panels.JPanelTable;
+import uk.chromis.pos.util.TouchUI;
 
 /**
  *
@@ -74,6 +75,7 @@ public class PeoplePanel extends JPanelTable {
         }
 
         getListProvider();
+        setListWidth(TouchUI.MAINTENANCE_LIST_WIDTH);
 
     }
 

@@ -31,6 +31,7 @@ import uk.chromis.data.user.SaveProvider;
 import uk.chromis.pos.forms.AppLocal;
 import uk.chromis.pos.forms.DataLogicSystem;
 import uk.chromis.pos.panels.JPanelTable;
+import uk.chromis.pos.util.TouchUI;
 
 /**
  *
@@ -53,6 +54,7 @@ public class ResourcesPanel extends JPanelTable {
         tresources = dlAdmin.getTableResources();         
         jeditor = new ResourcesView(dirty);   
         AppLocal.LIST_BY_RIGHTS="";
+        setListWidth(TouchUI.MAINTENANCE_LIST_LONG_WIDTH);
     }
 
     /**
