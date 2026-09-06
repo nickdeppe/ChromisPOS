@@ -47,6 +47,7 @@ import uk.chromis.pos.scripting.ScriptFactory;
 import uk.chromis.pos.ticket.TicketInfo;
 import uk.chromis.pos.ticket.TicketLineInfo;
 import uk.chromis.pos.ticket.TicketType;
+import uk.chromis.pos.util.TouchUI;
 
 /**
  *
@@ -85,6 +86,7 @@ public class JTicketsBagRestaurant extends javax.swing.JPanel {
         m_App = app;
         m_restaurant = restaurant;
         initComponents();
+        configureTouchLayout();
         ticketExt = null;
 
         restDB = new RestaurantDBUtils(m_App);
@@ -96,6 +98,21 @@ public class JTicketsBagRestaurant extends javax.swing.JPanel {
         m_KitchenPrint.setVisible(m_App.getAppUserView().getUser().hasPermission("sales.PrintKitchen"));
         m_KitchenPrint.setVisible(false);
 
+    }
+
+    private void configureTouchLayout() {
+        setPreferredSize(new java.awt.Dimension(300, 60));
+        sizeToolbarButton(m_DelTicket);
+        sizeToolbarButton(m_MoveTable);
+        sizeToolbarButton(m_TablePlan);
+        sizeToolbarButton(m_KitchenPrint);
+    }
+
+    private void sizeToolbarButton(javax.swing.JButton button) {
+        button.setMinimumSize(TouchUI.dialogIconButtonSize());
+        button.setPreferredSize(TouchUI.dialogIconButtonSize());
+        button.setMaximumSize(TouchUI.dialogIconButtonSize());
+        button.setMargin(TouchUI.buttonMargin());
     }
 
     /**
@@ -221,7 +238,7 @@ public class JTicketsBagRestaurant extends javax.swing.JPanel {
 
     @SuppressWarnings("empty-statement")
     private void m_DelTicketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_DelTicketActionPerformed
-        int res = JOptionPane.showConfirmDialog(this, AppLocal.getIntString("message.wannadelete"), AppLocal.getIntString("title.editor"), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        int res = TouchUI.showConfirmDialog(this, AppLocal.getIntString("message.wannadelete"), AppLocal.getIntString("title.editor"), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         if (res == JOptionPane.YES_OPTION) {
             restDB.clearCustomerNameInTableById(m_restaurant.getTable());
             restDB.clearWaiterNameInTableById(m_restaurant.getTable());

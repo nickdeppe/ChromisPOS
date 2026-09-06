@@ -60,6 +60,7 @@ import uk.chromis.pos.ticket.TicketInfo;
 import uk.chromis.pos.ticket.TicketLineInfo;
 import uk.chromis.pos.util.AutoLogoff;
 import uk.chromis.pos.util.AutoRefresh;
+import uk.chromis.pos.util.TouchUI;
 
 /**
  *
@@ -161,6 +162,7 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
         }
 
         initComponents();
+        configureTouchLayout();
 
         // add the Floors containers
         if (m_afloors.size() > 1) {
@@ -583,6 +585,21 @@ public class JTicketsBagRestaurantMap extends JTicketsBag {
             m_jbtnReservations.setEnabled(false);
         }
 
+    }
+
+    private void configureTouchLayout() {
+        sizeMapButton(m_jbtnReservations, 170);
+        sizeMapButton(m_jbtnRefresh, 170);
+        sizeMapButton(m_btnSetupMode, 170);
+        sizeMapButton(m_btnSavePlaces, 140);
+    }
+
+    private void sizeMapButton(javax.swing.JButton button, int width) {
+        java.awt.Dimension size = new java.awt.Dimension(width, 52);
+        button.setMinimumSize(size);
+        button.setPreferredSize(size);
+        button.setMaximumSize(size);
+        button.setMargin(TouchUI.buttonMargin());
     }
 
     private TicketInfo getTicketInfo(Place place) {
