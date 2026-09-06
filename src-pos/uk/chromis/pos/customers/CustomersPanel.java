@@ -32,6 +32,7 @@ import uk.chromis.data.user.SaveProvider;
 import uk.chromis.pos.forms.AppConfig;
 import uk.chromis.pos.forms.AppLocal;
 import uk.chromis.pos.panels.JPanelTable;
+import uk.chromis.pos.util.TouchUI;
 
 /**
  *
@@ -59,9 +60,9 @@ public class CustomersPanel extends JPanelTable {
         jeditor = new CustomersView(app, dirty);
         AppLocal.LIST_BY_RIGHTS = "";
 
-        if (AppConfig.getInstance().getBoolean("display.longnames")) {
-            setListWidth(300);
-        }
+        setListWidth(AppConfig.getInstance().getBoolean("display.longnames")
+                ? TouchUI.MAINTENANCE_LIST_LONG_WIDTH
+                : TouchUI.MAINTENANCE_LIST_WIDTH);
     }
 
     /**

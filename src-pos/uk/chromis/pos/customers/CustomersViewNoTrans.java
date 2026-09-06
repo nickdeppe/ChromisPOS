@@ -48,6 +48,7 @@ import uk.chromis.pos.forms.AppLocal;
 import uk.chromis.pos.forms.AppView;
 import uk.chromis.pos.forms.DataLogicSales;
 import uk.chromis.pos.util.StringUtils;
+import uk.chromis.pos.util.TouchUI;
 
 public final class CustomersViewNoTrans extends javax.swing.JPanel implements EditorRecord {
 
@@ -73,6 +74,7 @@ public final class CustomersViewNoTrans extends javax.swing.JPanel implements Ed
             dlSales = (DataLogicSales) app.getBean("uk.chromis.pos.forms.DataLogicSales");
 
             initComponents();
+            TouchUI.applyReportFilterDefaults(this);
 
             m_sentcat = dlSales.getTaxCustCategoriesList();
             m_CategoryModel = new ComboBoxValModel();

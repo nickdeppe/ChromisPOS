@@ -31,6 +31,7 @@ import uk.chromis.data.user.ListProviderCreator;
 import uk.chromis.data.user.SaveProvider;
 import uk.chromis.pos.forms.AppLocal;
 import uk.chromis.pos.panels.JPanelTable;
+import uk.chromis.pos.util.TouchUI;
 
 /**
  *
@@ -54,7 +55,8 @@ public class CustomersPanelNoTrans extends JPanelTable {
         DataLogicCustomers dlCustomers  = (DataLogicCustomers) app.getBean("uk.chromis.pos.customers.DataLogicCustomers");
         tcustomers = dlCustomers.getTableCustomers();
         jeditor = new CustomersViewNoTrans(app, dirty);    
-        AppLocal.LIST_BY_RIGHTS="";                
+        AppLocal.LIST_BY_RIGHTS="";
+        setListWidth(TouchUI.MAINTENANCE_LIST_WIDTH);
     }
     
     /**
