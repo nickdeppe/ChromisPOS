@@ -67,12 +67,25 @@ public class CustomersPayment extends javax.swing.JPanel implements JPanelView, 
     public CustomersPayment() {
 
         initComponents();
+        configureTouchLayout();
         
         editorcard.addEditorKeys(m_jKeys);
         txtNotes.addEditorKeys(m_jKeys);
 
         dirty = new DirtyManager();
         txtNotes.addPropertyChangeListener("Text", dirty);
+    }
+
+    private void configureTouchLayout() {
+        btnCustomer.setPreferredSize(TouchUI.dialogIconButtonSize());
+        btnSave.setPreferredSize(TouchUI.dialogIconButtonSize());
+        btnPay.setPreferredSize(TouchUI.salesPopupButtonSize());
+        jButton1.setPreferredSize(TouchUI.dialogIconButtonSize());
+
+        btnCustomer.setMargin(TouchUI.buttonMargin());
+        btnSave.setMargin(TouchUI.buttonMargin());
+        btnPay.setMargin(TouchUI.buttonMargin());
+        jButton1.setMargin(TouchUI.buttonMargin());
     }
 
     /**
