@@ -31,6 +31,7 @@ import uk.chromis.pos.forms.AppLocal;
 import uk.chromis.pos.forms.DataLogicSales;
 import uk.chromis.pos.panels.JPanelTable2;
 import uk.chromis.pos.ticket.ProductFilter;
+import uk.chromis.pos.util.TouchUI;
 
 /**
  *
@@ -70,7 +71,8 @@ public class PriceImportPanel extends JPanelTable2 implements EditorListener {
             m_dlSales.getProductCatDelete());
         
         // el panel del editor
-        jeditor = new ProductsEditor(m_dlSales, dirty);       
+        jeditor = new ProductsEditor(m_dlSales, dirty);
+        setListWidth(TouchUI.MAINTENANCE_LIST_LONG_WIDTH);
     }
     
     /**
@@ -100,6 +102,8 @@ public class PriceImportPanel extends JPanelTable2 implements EditorListener {
         
         JButton btnScanPal = new JButton();
         btnScanPal.setText("ScanPal");
+        btnScanPal.setPreferredSize(TouchUI.smallDialogButtonSize());
+        btnScanPal.setMargin(TouchUI.buttonMargin());
         btnScanPal.setVisible(app.getDeviceScanner() != null);
         btnScanPal.addActionListener(new java.awt.event.ActionListener() {
             @Override

@@ -31,6 +31,7 @@ import uk.chromis.pos.forms.AppLocal;
 import uk.chromis.pos.forms.DataLogicSales;
 import uk.chromis.pos.scanpal2.DeviceScanner;
 import uk.chromis.pos.scanpal2.DeviceScannerException;
+import uk.chromis.pos.util.TouchUI;
 
 /**
  *
@@ -54,6 +55,7 @@ public class JDlgUploadProducts extends javax.swing.JDialog {
     private void init(DeviceScanner scanner, BrowsableEditableData bd) {
         
         initComponents();
+        configureTouchLayout();
 
         getRootPane().setDefaultButton(jcmdOK);   
    
@@ -64,6 +66,18 @@ public class JDlgUploadProducts extends javax.swing.JDialog {
         setVisible(true);
         
         // return;
+    }
+
+    private void configureTouchLayout() {
+        jPanel1.setPreferredSize(new java.awt.Dimension(560, 120));
+        jPanel2.setPreferredSize(new java.awt.Dimension(560, 76));
+        jcmdOK.setPreferredSize(TouchUI.dialogButtonSize());
+        jcmdCancel.setPreferredSize(TouchUI.dialogButtonSize());
+        jcmdOK.setMargin(TouchUI.buttonMargin());
+        jcmdCancel.setMargin(TouchUI.buttonMargin());
+        jLabel1.setBounds(24, 34, 510, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        setSize(new java.awt.Dimension(580, 230));
+        setLocationRelativeTo(getOwner());
     }
     
     private static Window getWindow(Component parent) {
