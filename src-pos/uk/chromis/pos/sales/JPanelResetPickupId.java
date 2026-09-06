@@ -121,7 +121,7 @@ public class JPanelResetPickupId extends JPanel implements JPanelView {
                     stmt.executeUpdate(SQL);
                 } catch (SQLException e){System.out.println(e.getMessage());}
         }
-                                JOptionPane.showMessageDialog(this,"Reset complete.");
+                                JMessageDialog.showMessage(this, new MessageInf(MessageInf.SGN_SUCCESS, "Reset complete."));
                  
    }
 

@@ -91,7 +91,7 @@ public class JPanelUnlockTables extends JPanel implements JPanelView {
             stmt.close();
             stmt = (Statement) con.createStatement();
             stmt.executeUpdate("UPDATE PLACES SET OPENEDBY = null  WHERE OPENEDBY IS NOT null ");
-            JOptionPane.showMessageDialog(this, "Unlock complete.");
+            JMessageDialog.showMessage(this, new MessageInf(MessageInf.SGN_SUCCESS, "Unlock complete."));
         } catch (SQLException ex) {
             Logger.getLogger(JPanelUnlockTables.class.getName()).log(Level.SEVERE, null, ex);
         }
