@@ -30,6 +30,7 @@ import uk.chromis.pos.forms.AppView;
 import uk.chromis.pos.forms.DataLogicSales;
 import uk.chromis.pos.reports.ReportEditorCreator;
 import uk.chromis.pos.ticket.BoxOfficeProductSetInfo;
+import uk.chromis.pos.util.TouchUI;
 
 /**
  *
@@ -43,7 +44,14 @@ public class BoxOfficeProductSetProductsFilter extends javax.swing.JPanel implem
     /** Creates new form AttributeUseFilter */
     public BoxOfficeProductSetProductsFilter(DataLogicSales dlSales) {
         initComponents();
+        configureTouchLayout();
         m_dlSales = dlSales;
+    }
+
+    private void configureTouchLayout() {
+        setPreferredSize(new java.awt.Dimension(700, 70));
+        jLabel8.setPreferredSize(new java.awt.Dimension(170, TouchUI.REPORT_FILTER_FIELD_HEIGHT));
+        m_jBoxOfficeProductSet.setPreferredSize(new java.awt.Dimension(480, TouchUI.REPORT_FILTER_FIELD_HEIGHT));
     }
 
     /**

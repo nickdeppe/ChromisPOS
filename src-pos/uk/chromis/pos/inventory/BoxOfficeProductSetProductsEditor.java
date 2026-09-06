@@ -34,6 +34,7 @@ import uk.chromis.pos.forms.AppConfig;
 import uk.chromis.pos.forms.AppLocal;
 import uk.chromis.pos.forms.DataLogicSales;
 import uk.chromis.pos.ticket.ProductInfoExt;
+import uk.chromis.pos.util.TouchUI;
 
 /**
  *
@@ -56,6 +57,7 @@ public class BoxOfficeProductSetProductsEditor extends javax.swing.JPanel implem
     public BoxOfficeProductSetProductsEditor(DataLogicSales dlSales, DirtyManager dirty, BoxOfficeProductSetProductsFilter filter) throws BasicException {
         
         initComponents();
+        configureTouchLayout();
         
         m_dlSales = dlSales;
 
@@ -64,6 +66,16 @@ public class BoxOfficeProductSetProductsEditor extends javax.swing.JPanel implem
         
         this.boxOfficeProductSetProductsFilter = filter;
         
+    }
+
+    private void configureTouchLayout() {
+        setPreferredSize(new java.awt.Dimension(620, 150));
+        setLayout(null);
+
+        jLabel13.setBounds(20, 20, 150, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        m_jProduct.setBounds(180, 20, 380, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        jLabel9.setBounds(20, 72, 150, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        m_jSequence.setBounds(180, 72, 110, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
     }
 
     /**

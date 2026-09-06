@@ -29,6 +29,7 @@ import uk.chromis.pos.forms.AppLocal;
 import uk.chromis.pos.forms.AppView;
 import uk.chromis.pos.forms.DataLogicSales;
 import uk.chromis.pos.reports.ReportEditorCreator;
+import uk.chromis.pos.util.TouchUI;
 
 /**
  *
@@ -42,6 +43,16 @@ public class BoxOfficeProductSetsFilter extends javax.swing.JPanel implements Re
     public BoxOfficeProductSetsFilter() {
 
         initComponents();
+        configureTouchLayout();
+    }
+
+    private void configureTouchLayout() {
+        setPreferredSize(new java.awt.Dimension(720, 115));
+        jPanel1.setPreferredSize(new java.awt.Dimension(700, 100));
+        jLabel2.setPreferredSize(new java.awt.Dimension(90, TouchUI.REPORT_FILTER_FIELD_HEIGHT));
+        m_jCboName.setPreferredSize(new java.awt.Dimension(240, TouchUI.REPORT_FILTER_FIELD_HEIGHT));
+        m_jName.setPreferredSize(new java.awt.Dimension(240, TouchUI.REPORT_FILTER_FIELD_HEIGHT));
+        m_jActiveOnly.setPreferredSize(new java.awt.Dimension(140, TouchUI.REPORT_FILTER_FIELD_HEIGHT));
     }
 
     /**

@@ -36,6 +36,7 @@ import uk.chromis.format.Formats;
 import uk.chromis.pos.forms.AppLocal;
 import uk.chromis.pos.panels.JPanelTable2;
 import uk.chromis.pos.forms.DataLogicSales;
+import uk.chromis.pos.util.TouchUI;
 
 /**
  *
@@ -98,6 +99,8 @@ public class BoxOfficeProductSetProductsPanel extends JPanelTable2 {
         } catch (BasicException ex) {
             Logger.getLogger(BoxOfficeProductSetProductsPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+        setListWidth(TouchUI.MAINTENANCE_LIST_WIDTH);
     }
 
     /**

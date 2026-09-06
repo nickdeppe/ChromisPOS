@@ -31,6 +31,7 @@ import uk.chromis.data.user.EditorRecord;
 import uk.chromis.format.Formats;
 import uk.chromis.pos.forms.AppLocal;
 import uk.chromis.pos.forms.DataLogicSales;
+import uk.chromis.pos.util.TouchUI;
 
 /**
  *
@@ -60,12 +61,23 @@ public class BoxOfficeProductSetsEditor extends javax.swing.JPanel implements Ed
     public BoxOfficeProductSetsEditor(DataLogicSales dlSales, DirtyManager dirty, BoxOfficeProductSetsFilter filter) throws BasicException {
         
         initComponents();
+        configureTouchLayout();
 
         this.boxOfficeProductSetFilter = filter;
         
         m_jName.getDocument().addDocumentListener(dirty);
         m_jActive.addActionListener(dirty);
 
+    }
+
+    private void configureTouchLayout() {
+        setPreferredSize(new java.awt.Dimension(560, 130));
+        setLayout(null);
+
+        jLabel13.setBounds(20, 20, 190, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        m_jName.setBounds(220, 20, 300, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        jLabel15.setBounds(20, 72, 190, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        m_jActive.setBounds(220, 66, 70, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
     }
     
     
