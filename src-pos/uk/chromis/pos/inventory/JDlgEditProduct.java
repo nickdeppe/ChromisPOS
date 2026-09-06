@@ -32,6 +32,7 @@ import uk.chromis.data.user.DirtyManager;
 import uk.chromis.data.user.SaveProvider;
 import uk.chromis.pos.forms.AppLocal;
 import uk.chromis.pos.forms.DataLogicSales;
+import uk.chromis.pos.util.TouchUI;
 
 /**
  *
@@ -70,6 +71,7 @@ public class JDlgEditProduct extends javax.swing.JDialog {
         m_dlSales = dlSales;
         m_dirty = dirty;
         initComponents();
+        configureTouchLayout();
 
         m_SaveProvider = new SaveProvider(
             m_dlSales.getProductCatUpdate(),
@@ -93,8 +95,21 @@ public class JDlgEditProduct extends javax.swing.JDialog {
         } catch (BasicException ex) {
             Logger.getLogger(JDlgEditProduct.class.getName()).log(Level.SEVERE, null, ex);
         }
-        jPanelEditor.add( producteditor );
+        jPanelEditor.add(producteditor);
         
+    }
+
+    private void configureTouchLayout() {
+        jPanel1.setPreferredSize(new java.awt.Dimension(760, 500));
+        jPanelEditor.setLayout(new java.awt.BorderLayout());
+        jPanelEditor.setBounds(0, 0, 760, 500);
+        jPanel2.setPreferredSize(new java.awt.Dimension(760, 76));
+        jcmdOK.setPreferredSize(TouchUI.dialogButtonSize());
+        jcmdCancel.setPreferredSize(TouchUI.dialogButtonSize());
+        jcmdOK.setMargin(TouchUI.buttonMargin());
+        jcmdCancel.setMargin(TouchUI.buttonMargin());
+        setSize(new java.awt.Dimension(780, 600));
+        setLocationRelativeTo(getOwner());
     }
     
     private static Window getWindow(Component parent) {

@@ -205,5 +205,9 @@ complete:
 3. New kitchen display integration.
 4. Online ticket sales integration.
 5. XML and Java syntax highlighting in the Resources editor.
-6. Evaluate rebranding the application now that the original Chromis POS
+6. Add Cancel buttons to maintenance screens so edits can be abandoned without
+   leaving or refreshing the screen.
+7. Add Copy buttons to maintenance screens so existing records can be used as
+   starting points for new records.
+8. Evaluate rebranding the application now that the original Chromis POS
    project is inactive and this modernization significantly changes the product.
