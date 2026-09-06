@@ -72,6 +72,7 @@ public class JProductLineEdit extends javax.swing.JDialog {
     private TicketLineInfo init(AppView app, TicketLineInfo oLine) throws BasicException {
         // Inicializo los componentes
         initComponents();
+        configureTouchLayout();
 
         productID = oLine.getProductID();
         if (oLine.getTaxInfo() == null) {
@@ -123,6 +124,21 @@ public class JProductLineEdit extends javax.swing.JDialog {
         setVisible(true);
 
         return returnLine;
+    }
+
+    private void configureTouchLayout() {
+        setLineBounds(jLabel4, m_jName, 20);
+        setLineBounds(jLabel2, m_jUnits, 64);
+        setLineBounds(jLabel1, m_jPrice, 108);
+        setLineBounds(jLabel3, m_jPriceTax, 152);
+        setLineBounds(jLabel5, m_jTaxrate, 196);
+        setLineBounds(jLabel7, m_jSubtotal, 240);
+        setLineBounds(jLabel6, m_jTotal, 284);
+    }
+
+    private void setLineBounds(javax.swing.JLabel label, Component field, int y) {
+        label.setBounds(10, y, 90, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        field.setBounds(100, y, 240, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
     }
 
     private void printTotals() {
