@@ -33,6 +33,7 @@ import uk.chromis.pos.forms.AppLocal;
 import uk.chromis.pos.forms.DataLogicSales;
 import uk.chromis.pos.ticket.BoxOfficeProductSetInfo;
 import uk.chromis.pos.ticket.TheatreInfo;
+import uk.chromis.pos.util.TouchUI;
 
 /**
  *
@@ -65,6 +66,7 @@ public class ShowsEditor extends javax.swing.JPanel implements EditorRecord {
     public ShowsEditor(DataLogicSales dlSales, DirtyManager dirty, ShowsFilter filter) throws BasicException {
         
         initComponents();
+        configureTouchLayout();
         m_dlSales = dlSales;
 
         this.showsFilter = filter;
@@ -76,6 +78,27 @@ public class ShowsEditor extends javax.swing.JPanel implements EditorRecord {
         m_jReportEndDate.getDocument().addDocumentListener(dirty);
         m_jBoxOfficeProductSet.addActionListener(dirty);
         
+    }
+
+    private void configureTouchLayout() {
+        setPreferredSize(new java.awt.Dimension(700, 320));
+        setLayout(null);
+
+        setRowBounds(jLabel13, m_jTheatre, null, 10, 420);
+        setRowBounds(jLabel9, m_jStartDate, m_jbtnStartDate, 58, 160);
+        setRowBounds(jLabel10, m_jEndDate, m_jbtnEndDate, 110, 160);
+        setRowBounds(jLabel12, m_jReportStartDate, m_jbtnReportStartDate, 162, 160);
+        setRowBounds(jLabel11, m_jReportEndDate, m_jbtn_ReportEndDate, 214, 160);
+        setRowBounds(jLabel14, m_jBoxOfficeProductSet, null, 266, 420);
+    }
+
+    private void setRowBounds(javax.swing.JLabel label, java.awt.Component field, javax.swing.JButton button, int y, int fieldWidth) {
+        label.setBounds(20, y, 180, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        field.setBounds(210, y, fieldWidth, TouchUI.REPORT_FILTER_FIELD_HEIGHT);
+        if (button != null) {
+            button.setBounds(380, y - 8, 58, 52);
+            button.setMargin(TouchUI.buttonMargin());
+        }
     }
     
     

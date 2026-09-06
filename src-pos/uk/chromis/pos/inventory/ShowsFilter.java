@@ -32,6 +32,7 @@ import uk.chromis.pos.forms.AppView;
 import uk.chromis.pos.forms.DataLogicSales;
 import uk.chromis.pos.reports.ReportEditorCreator;
 import uk.chromis.pos.ticket.TheatreInfo;
+import uk.chromis.pos.util.TouchUI;
 
 /**
  *
@@ -45,6 +46,15 @@ public class ShowsFilter extends javax.swing.JPanel implements ReportEditorCreat
     /** Creates new form AttributeUseFilter */
     public ShowsFilter() {
         initComponents();
+        configureTouchLayout();
+    }
+
+    private void configureTouchLayout() {
+        setPreferredSize(new java.awt.Dimension(520, 110));
+        jLabel8.setPreferredSize(new java.awt.Dimension(90, TouchUI.REPORT_FILTER_FIELD_HEIGHT));
+        m_jTheatre.setMinimumSize(new java.awt.Dimension(320, TouchUI.REPORT_FILTER_FIELD_HEIGHT));
+        m_jTheatre.setPreferredSize(new java.awt.Dimension(320, TouchUI.REPORT_FILTER_FIELD_HEIGHT));
+        m_jShowDates.setPreferredSize(new java.awt.Dimension(330, TouchUI.REPORT_FILTER_FIELD_HEIGHT));
     }
 
     /**

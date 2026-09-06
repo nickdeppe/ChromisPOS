@@ -34,6 +34,7 @@ import uk.chromis.format.Formats;
 import uk.chromis.pos.forms.AppLocal;
 import uk.chromis.pos.panels.JPanelTable2;
 import uk.chromis.pos.forms.DataLogicSales;
+import uk.chromis.pos.util.TouchUI;
 
 /**
  *
@@ -101,6 +102,7 @@ public class ShowFeaturePanel extends JPanelTable2 {
         spr = row.getSaveProvider(app.getSession(), table);
 
         editor = new ShowFeatureEditor(dlSales, dirty, filter);
+        setListWidth(TouchUI.MAINTENANCE_LIST_LONG_WIDTH);
     }
 
     /**

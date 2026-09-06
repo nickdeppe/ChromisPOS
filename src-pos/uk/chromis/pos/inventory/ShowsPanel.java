@@ -42,6 +42,7 @@ import uk.chromis.pos.forms.AppConfig;
 import uk.chromis.pos.forms.AppLocal;
 import uk.chromis.pos.forms.DataLogicSales;
 import uk.chromis.pos.panels.JPanelTable2;
+import uk.chromis.pos.util.TouchUI;
 
 /**
  *
@@ -150,9 +151,9 @@ public class ShowsPanel extends JPanelTable2 {
         
         
         if (AppConfig.getInstance().getBoolean("display.longnames")) { 
-            setListWidth(350);
+            setListWidth(TouchUI.MAINTENANCE_LIST_LONG_WIDTH);
         } else {
-            setListWidth(300);
+            setListWidth(TouchUI.MAINTENANCE_LIST_WIDTH);
         }
 
 

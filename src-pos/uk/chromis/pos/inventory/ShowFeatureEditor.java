@@ -32,6 +32,7 @@ import uk.chromis.pos.forms.AppConfig;
 import uk.chromis.pos.forms.AppLocal;
 import uk.chromis.pos.forms.DataLogicSales;
 import uk.chromis.pos.ticket.FeatureNameInfo;
+import uk.chromis.pos.util.TouchUI;
 
 /**
  *
@@ -53,6 +54,7 @@ public class ShowFeatureEditor extends javax.swing.JPanel implements EditorRecor
     public ShowFeatureEditor(DataLogicSales dlSales, DirtyManager dirty, ShowFeatureFilter filter) {
         
         initComponents();
+        configureTouchLayout();
         
         m_dlSales = dlSales;
 
@@ -83,6 +85,21 @@ public class ShowFeatureEditor extends javax.swing.JPanel implements EditorRecor
         
         this.showFeatureFilter = filter;
         
+    }
+
+    private void configureTouchLayout() {
+        setPreferredSize(new java.awt.Dimension(620, 260));
+        jLabel13.setPreferredSize(new java.awt.Dimension(150, TouchUI.REPORT_FILTER_FIELD_HEIGHT));
+        jLabel9.setPreferredSize(new java.awt.Dimension(150, TouchUI.REPORT_FILTER_FIELD_HEIGHT));
+        jLabel10.setPreferredSize(new java.awt.Dimension(150, TouchUI.REPORT_FILTER_FIELD_HEIGHT));
+        m_jFeature.setMinimumSize(new java.awt.Dimension(360, TouchUI.REPORT_FILTER_FIELD_HEIGHT));
+        m_jFeature.setPreferredSize(new java.awt.Dimension(360, TouchUI.REPORT_FILTER_FIELD_HEIGHT));
+        m_jSequence.setMinimumSize(new java.awt.Dimension(110, TouchUI.REPORT_FILTER_FIELD_HEIGHT));
+        m_jSequence.setPreferredSize(new java.awt.Dimension(110, TouchUI.REPORT_FILTER_FIELD_HEIGHT));
+        m_jStartTime.setMinimumSize(new java.awt.Dimension(180, TouchUI.REPORT_FILTER_FIELD_HEIGHT));
+        m_jStartTime.setPreferredSize(new java.awt.Dimension(180, TouchUI.REPORT_FILTER_FIELD_HEIGHT));
+        m_jchkPrintTicket.setPreferredSize(new java.awt.Dimension(220, TouchUI.REPORT_FILTER_FIELD_HEIGHT));
+        m_jchkPrintReport.setPreferredSize(new java.awt.Dimension(220, TouchUI.REPORT_FILTER_FIELD_HEIGHT));
     }
 
     /**
