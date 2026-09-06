@@ -33,6 +33,7 @@ import uk.chromis.format.Formats;
 import uk.chromis.pos.forms.AppLocal;
 import uk.chromis.pos.forms.DataLogicSales;
 import uk.chromis.pos.panels.JPanelTable;
+import uk.chromis.pos.util.TouchUI;
 
 /**
  *
@@ -79,6 +80,7 @@ public class JPanelPlaces extends JPanelTable {
         */
         jeditor = new PlacesEditor(dlSales, dirty);
         AppLocal.LIST_BY_RIGHTS = "";
+        setListWidth(TouchUI.MAINTENANCE_LIST_WIDTH);
     }
 
     /**

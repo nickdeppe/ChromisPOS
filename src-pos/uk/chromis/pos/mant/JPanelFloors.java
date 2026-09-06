@@ -31,6 +31,7 @@ import uk.chromis.data.user.SaveProvider;
 import uk.chromis.format.Formats;
 import uk.chromis.pos.forms.AppLocal;
 import uk.chromis.pos.panels.JPanelTable;
+import uk.chromis.pos.util.TouchUI;
 
 /**
  *
@@ -59,7 +60,8 @@ public class JPanelFloors extends JPanelTable {
             , new int[] {0}
         );  
         jeditor = new FloorsEditor(dirty); 
-        AppLocal.LIST_BY_RIGHTS="";        
+        AppLocal.LIST_BY_RIGHTS="";
+        setListWidth(TouchUI.MAINTENANCE_LIST_WIDTH);
     }
     
     /**
