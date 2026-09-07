@@ -74,6 +74,7 @@ public final class CustomersView extends javax.swing.JPanel implements EditorRec
 
             initComponents();
             TouchUI.applyReportFilterDefaults(this);
+            configureTouchLayout();
 
             m_sentcat = dlSales.getTaxCustCategoriesList();
             m_CategoryModel = new ComboBoxValModel();
@@ -128,6 +129,18 @@ public final class CustomersView extends javax.swing.JPanel implements EditorRec
 
     private void init() {
         writeValueEOF();
+    }
+
+    private void configureTouchLayout() {
+        sizeTouchButton(jButton2);
+        sizeTouchButton(jButton3);
+    }
+
+    private void sizeTouchButton(javax.swing.JButton button) {
+        button.setMinimumSize(TouchUI.dialogIconButtonSize());
+        button.setPreferredSize(TouchUI.dialogIconButtonSize());
+        button.setMaximumSize(TouchUI.dialogIconButtonSize());
+        button.setMargin(TouchUI.buttonMargin());
     }
 
     /**
