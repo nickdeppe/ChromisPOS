@@ -59,6 +59,8 @@ public class PaymentGatewayFac {
                 return new PaymentGatewayLinkPoint();
             case "PaymentsGateway.net":
                 return new PaymentGatewayPGNET();
+            case "Shift4 Universal Transaction Gateway":
+                return new PaymentGatewayShift4();
             default:
                 return null;
         }

@@ -30,6 +30,7 @@ import uk.chromis.pos.payment.ConfigPaymentPanelCaixa;
 import uk.chromis.pos.payment.ConfigPaymentPanelEmpty;
 import uk.chromis.pos.payment.ConfigPaymentPanelGeneric;
 import uk.chromis.pos.payment.ConfigPaymentPanelLinkPoint;
+import uk.chromis.pos.payment.ConfigPaymentPanelShift4;
 import uk.chromis.pos.payment.PaymentConfiguration;
 import uk.chromis.pos.util.TouchUI;
 
@@ -66,6 +67,7 @@ public class JPanelConfigPayment extends javax.swing.JPanel implements PanelConf
         initPayments("First Data / LinkPoint / YourPay", new ConfigPaymentPanelLinkPoint());
         initPayments("PaymentsGateway.net", new ConfigPaymentPanelGeneric());
         initPayments("La Caixa (Spain)", new ConfigPaymentPanelCaixa());
+        initPayments("Shift4 Universal Transaction Gateway", new ConfigPaymentPanelShift4());
         
         // Lector de tarjetas.
         jcboCardReader.addItem("Not defined");
@@ -82,6 +84,8 @@ public class JPanelConfigPayment extends javax.swing.JPanel implements PanelConf
         jcboCardReader.setPreferredSize(TouchUI.reportFilterFieldSize());
         jcboPaymentGateway.setMinimumSize(TouchUI.reportFilterFieldSize());
         jcboPaymentGateway.setPreferredSize(TouchUI.reportFilterFieldSize());
+        jPanel2.setMinimumSize(new java.awt.Dimension(520, 260));
+        jPanel2.setPreferredSize(new java.awt.Dimension(520, 260));
     }
     
     /**
@@ -159,7 +163,7 @@ public class JPanelConfigPayment extends javax.swing.JPanel implements PanelConf
         setPreferredSize(new java.awt.Dimension(600, 450));
 
         jPanel2.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jPanel2.setPreferredSize(new java.awt.Dimension(500, 200));
+        jPanel2.setPreferredSize(new java.awt.Dimension(520, 260));
         jPanel2.setLayout(new java.awt.GridLayout(1, 1));
 
         jLabel13.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
@@ -245,11 +249,27 @@ private void jcboPaymentGatewayActionPerformed(java.awt.event.ActionEvent evt) {
 
     if (pc != null) {
         jPanel2.removeAll();
-        jPanel2.add(pc.getComponent());
+        jPanel2.add(paymentComponent(pc));
         jPanel2.revalidate();
         jPanel2.repaint(); 
     }
 }//GEN-LAST:event_jcboPaymentGatewayActionPerformed
+
+private java.awt.Component paymentComponent(PaymentConfiguration paymentConfiguration) {
+    java.awt.Component component = paymentConfiguration.getComponent();
+    java.awt.Dimension panelSize = jPanel2.getPreferredSize();
+    java.awt.Dimension componentSize = component.getPreferredSize();
+
+    if (componentSize != null && componentSize.height > panelSize.height) {
+        javax.swing.JScrollPane scrollPane = new javax.swing.JScrollPane(component);
+        scrollPane.setBorder(null);
+        scrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(32);
+        return scrollPane;
+    }
+
+    return component;
+}
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
