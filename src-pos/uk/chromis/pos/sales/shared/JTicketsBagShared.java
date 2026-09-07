@@ -40,6 +40,7 @@ import uk.chromis.pos.sales.TicketsEditor;
 import uk.chromis.pos.ticket.TicketInfo;
 import uk.chromis.pos.ticket.UserInfo;
 import uk.chromis.pos.util.AutoLogoff;
+import uk.chromis.pos.util.TouchUI;
 
 /**
  *
@@ -67,7 +68,21 @@ public class JTicketsBagShared extends JTicketsBag {
         dlSales = (DataLogicSales) app.getBean("uk.chromis.pos.forms.DataLogicSales");
 
         initComponents();
+        configureTouchLayout();
         checkLayaways();
+    }
+
+    private void configureTouchLayout() {
+        sizeTicketButton(m_jNewTicket);
+        sizeTicketButton(m_jDelTicket);
+        sizeTicketButton(m_jListTickets);
+    }
+
+    private void sizeTicketButton(javax.swing.JButton button) {
+        button.setMinimumSize(TouchUI.dialogIconButtonSize());
+        button.setPreferredSize(TouchUI.dialogIconButtonSize());
+        button.setMaximumSize(TouchUI.dialogIconButtonSize());
+        button.setMargin(TouchUI.buttonMargin());
     }
 
     /**

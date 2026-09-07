@@ -22,6 +22,7 @@ package uk.chromis.pos.sales;
 import java.awt.CardLayout;
 import javax.swing.JOptionPane;
 import uk.chromis.pos.forms.AppLocal;
+import uk.chromis.pos.util.TouchUI;
 
 /**
  *
@@ -36,6 +37,20 @@ public class JTicketsBagTicketBag extends javax.swing.JPanel {
     public JTicketsBagTicketBag(JTicketsBagTicket ticketsbagticket) {
         m_ticketsbagticket = ticketsbagticket;
         initComponents();
+        configureTouchLayout();
+    }
+
+    private void configureTouchLayout() {
+        sizeTicketButton(m_jBtnDelete);
+        sizeTicketButton(m_jBtnCancel);
+        sizeTicketButton(m_jBtnCancel1);
+    }
+
+    private void sizeTicketButton(javax.swing.JButton button) {
+        button.setMinimumSize(TouchUI.dialogIconButtonSize());
+        button.setPreferredSize(TouchUI.dialogIconButtonSize());
+        button.setMaximumSize(TouchUI.dialogIconButtonSize());
+        button.setMargin(TouchUI.buttonMargin());
     }
     
     /**

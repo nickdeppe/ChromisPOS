@@ -24,6 +24,10 @@
 
 <configuration>
     <!-- Sales Ticket Button Bar - Show icons **************************************** -->
+    <!-- Touch button dimensions for resource-driven sale buttons -->
+    <button-width value="64"/>
+    <button-height value="52"/>
+
     <!-- SET Sales Ticket Refund Item (Default=DISABLED) -->
     <!-- button key="button.refundit" image="/uk/chromis/images/refundit.png" code="script.Refundit"/> -->
 

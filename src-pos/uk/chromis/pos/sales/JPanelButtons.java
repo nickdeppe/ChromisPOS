@@ -19,6 +19,7 @@
 package uk.chromis.pos.sales;
 
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
@@ -168,7 +169,9 @@ public class JPanelButtons extends javax.swing.JPanel {
                     // adding the button to the panel                  
                     JButton btn = new JButtonFunc(attributes.getValue("key"),
                             attributes.getValue("image"),
-                            title);
+                            title,
+                            attributes.getValue("width"),
+                            attributes.getValue("height"));
                     // The template resource or the code resource
                     final String template = attributes.getValue("template");
                     if (template == null) {
@@ -214,7 +217,7 @@ public class JPanelButtons extends javax.swing.JPanel {
     //ImageIcon image = new ImageIcon(imgURL);
     private class JButtonFunc extends JButton {
 
-        public JButtonFunc(String sKey, String sImage, String title) {
+        public JButtonFunc(String sKey, String sImage, String title, String width, String height) {
             setName(sKey);
             setText(title);
             java.net.URL imgURL=null;
@@ -232,6 +235,29 @@ public class JPanelButtons extends javax.swing.JPanel {
             setFocusable(false);
             setRequestFocusEnabled(false);
             setMargin(TouchUI.buttonMargin());
+            Dimension buttonSize = getButtonSize(width, height);
+            setMinimumSize(buttonSize);
+            setPreferredSize(buttonSize);
+            setMaximumSize(buttonSize);
+        }
+    }
+
+    private Dimension getButtonSize(String width, String height) {
+        Dimension defaultSize = TouchUI.dialogIconButtonSize();
+        return new Dimension(
+                parsePositiveInt(width, parsePositiveInt(props.getProperty("button-width"), defaultSize.width)),
+                parsePositiveInt(height, parsePositiveInt(props.getProperty("button-height"), defaultSize.height)));
+    }
+
+    private int parsePositiveInt(String value, int defaultValue) {
+        if (value == null) {
+            return defaultValue;
+        }
+        try {
+            int parsed = Integer.parseInt(value);
+            return parsed > 0 ? parsed : defaultValue;
+        } catch (NumberFormatException ex) {
+            return defaultValue;
         }
     }
 

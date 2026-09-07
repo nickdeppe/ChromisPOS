@@ -23,6 +23,7 @@ import bsh.Interpreter;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
@@ -167,6 +168,25 @@ public abstract class JPanelTicket extends JPanel implements JPanelView, BeanFac
 
     public JPanelTicket() {
         initComponents();
+        configureTouchLayout();
+    }
+
+    private void configureTouchLayout() {
+        sizeTopToolbarButton(jButton1, TouchUI.dialogIconButtonSize());
+        sizeTopToolbarButton(btnCustomer, TouchUI.dialogIconButtonSize());
+        sizeTopToolbarButton(btnSplit, TouchUI.dialogIconButtonSize());
+        sizeTopToolbarButton(jbtnLogout, TouchUI.dialogIconButtonSize());
+        sizeTopToolbarButton(btnReprint1, TouchUI.dialogIconButtonSize());
+        sizeTopToolbarButton(m_jbtnScale, new Dimension(100, 52));
+        sizeTopToolbarButton(jbtnMooring, new Dimension(120, 52));
+        sizeTopToolbarButton(j_btnKitchenPrt, new Dimension(150, 52));
+    }
+
+    private void sizeTopToolbarButton(javax.swing.AbstractButton button, Dimension size) {
+        button.setMinimumSize(size);
+        button.setPreferredSize(size);
+        button.setMaximumSize(size);
+        button.setMargin(TouchUI.buttonMargin());
     }
 
     @Override

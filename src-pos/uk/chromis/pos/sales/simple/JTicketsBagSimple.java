@@ -27,6 +27,7 @@ import uk.chromis.pos.forms.AppView;
 import uk.chromis.pos.sales.JTicketsBag;
 import uk.chromis.pos.sales.TicketsEditor;
 import uk.chromis.pos.ticket.TicketInfo;
+import uk.chromis.pos.util.TouchUI;
 
 /**
  *
@@ -42,6 +43,14 @@ public class JTicketsBagSimple extends JTicketsBag {
         super(app, panelticket);
         
         initComponents();
+        configureTouchLayout();
+    }
+
+    private void configureTouchLayout() {
+        m_jDelTicket.setMinimumSize(TouchUI.dialogIconButtonSize());
+        m_jDelTicket.setPreferredSize(TouchUI.dialogIconButtonSize());
+        m_jDelTicket.setMaximumSize(TouchUI.dialogIconButtonSize());
+        m_jDelTicket.setMargin(TouchUI.buttonMargin());
     }
     
     /**
