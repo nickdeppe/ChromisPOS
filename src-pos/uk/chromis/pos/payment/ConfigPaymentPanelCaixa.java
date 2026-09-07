@@ -23,6 +23,7 @@ import javax.swing.JPanel;
 import uk.chromis.pos.forms.AppConfig;
 import uk.chromis.pos.forms.AppLocal;
 import uk.chromis.pos.util.AltEncrypter;
+import uk.chromis.pos.util.TouchUI;
 
 /**
  *
@@ -33,6 +34,7 @@ public class ConfigPaymentPanelCaixa extends javax.swing.JPanel implements Payme
     /** Creates new form ConfigPaymentPanelCaixa */
     public ConfigPaymentPanelCaixa() {
         initComponents();
+        TouchUI.applyReportFilterDefaults(this);
     }
     
     @Override

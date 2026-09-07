@@ -31,6 +31,7 @@ import uk.chromis.pos.payment.ConfigPaymentPanelEmpty;
 import uk.chromis.pos.payment.ConfigPaymentPanelGeneric;
 import uk.chromis.pos.payment.ConfigPaymentPanelLinkPoint;
 import uk.chromis.pos.payment.PaymentConfiguration;
+import uk.chromis.pos.util.TouchUI;
 
 /**
  *
@@ -47,6 +48,7 @@ public class JPanelConfigPayment extends javax.swing.JPanel implements PanelConf
     public JPanelConfigPayment() {
         
         initComponents();
+        configureTouchLayout();
                 
         // dirty manager
         jcboCardReader.addActionListener(dirty);
@@ -72,6 +74,14 @@ public class JPanelConfigPayment extends javax.swing.JPanel implements PanelConf
         jcboCardReader.addItem("Keyboard");
         
         
+    }
+
+    private void configureTouchLayout() {
+        TouchUI.applyReportFilterDefaults(this);
+        jcboCardReader.setMinimumSize(TouchUI.reportFilterFieldSize());
+        jcboCardReader.setPreferredSize(TouchUI.reportFilterFieldSize());
+        jcboPaymentGateway.setMinimumSize(TouchUI.reportFilterFieldSize());
+        jcboPaymentGateway.setPreferredSize(TouchUI.reportFilterFieldSize());
     }
     
     /**

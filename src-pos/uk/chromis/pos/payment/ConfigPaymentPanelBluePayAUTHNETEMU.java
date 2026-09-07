@@ -23,6 +23,7 @@ package uk.chromis.pos.payment;
 import javax.swing.JPanel;
 import uk.chromis.pos.forms.AppConfig;
 import uk.chromis.pos.forms.AppLocal;
+import uk.chromis.pos.util.TouchUI;
 
 
 /**
@@ -34,6 +35,7 @@ public class ConfigPaymentPanelBluePayAUTHNETEMU extends javax.swing.JPanel impl
     /** Creates new form ConfigPaymentPanelBluePayAUTHNETEMU */
     public ConfigPaymentPanelBluePayAUTHNETEMU() {
         initComponents();
+        TouchUI.applyReportFilterDefaults(this);
     }
     
     /**

@@ -26,6 +26,7 @@ import javax.swing.filechooser.FileFilter;
 import uk.chromis.pos.forms.AppConfig;
 import uk.chromis.pos.forms.AppLocal;
 import uk.chromis.pos.util.AltEncrypter;
+import uk.chromis.pos.util.TouchUI;
 
 /**
  *
@@ -38,6 +39,15 @@ public class ConfigPaymentPanelLinkPoint extends javax.swing.JPanel implements P
     /** Creates new form ConfigPaymentPanelLinkPoint */
     public ConfigPaymentPanelLinkPoint() {
         initComponents();
+        configureTouchLayout();
+    }
+
+    private void configureTouchLayout() {
+        TouchUI.applyReportFilterDefaults(this);
+        jButton1.setMinimumSize(TouchUI.finderIconButtonSize());
+        jButton1.setPreferredSize(TouchUI.finderIconButtonSize());
+        jButton1.setMaximumSize(TouchUI.finderIconButtonSize());
+        jButton1.setMargin(TouchUI.buttonMargin());
     }
     
     /**
