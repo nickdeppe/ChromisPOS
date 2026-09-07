@@ -39,6 +39,7 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import java.io.IOException;
 import uk.chromis.pos.forms.AppConfig;
+import uk.chromis.pos.util.TouchUI;
 
 /**
  *
@@ -52,6 +53,7 @@ public class JPanelConfigDatabase extends javax.swing.JPanel implements PanelCon
     public JPanelConfigDatabase() {
         
         initComponents();
+        configureTouchLayout();
         
         jbtnDbDriverLib.addActionListener(new DirectoryEvent(jtxtDbDriverLib));
         jtxtDbDriverLib.getDocument().addDocumentListener(dirty);
@@ -66,6 +68,16 @@ public class JPanelConfigDatabase extends javax.swing.JPanel implements PanelCon
         jcboDBDriver.addItem("MySQL");
         jcboDBDriver.addItem("PostgreSQL");
 
+    }
+
+    private void configureTouchLayout() {
+        jbtnDbDriverLib.setMinimumSize(TouchUI.finderIconButtonSize());
+        jbtnDbDriverLib.setPreferredSize(TouchUI.finderIconButtonSize());
+        jbtnDbDriverLib.setMaximumSize(TouchUI.finderIconButtonSize());
+        jButtonTest.setMinimumSize(TouchUI.salesPopupButtonSize());
+        jButtonTest.setPreferredSize(TouchUI.salesPopupButtonSize());
+        jButtonTest.setMargin(TouchUI.buttonMargin());
+        TouchUI.applyReportFilterDefaults(this);
     }
 
     /**
