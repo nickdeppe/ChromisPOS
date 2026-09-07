@@ -30,6 +30,7 @@ import uk.chromis.pos.forms.AppLocal;
 import uk.chromis.pos.forms.DataLogicSales;
 import uk.chromis.pos.ticket.TicketInfo;
 import uk.chromis.pos.ticket.TicketLineInfo;
+import uk.chromis.pos.util.TouchUI;
 
 /**
  *
@@ -64,6 +65,7 @@ public class SimpleReceipt extends javax.swing.JPanel {
     public SimpleReceipt(String ticketline, DataLogicSales dlSales, DataLogicCustomers dlCustomers, TaxesLogic taxeslogic) {        
         
         initComponents();
+        configureTouchLayout();
         
         // dlSystem.getResourceAsXML("Ticket.Line")
         ticketlines = new JTicketLines(ticketline);
@@ -72,6 +74,15 @@ public class SimpleReceipt extends javax.swing.JPanel {
         this.taxeslogic = taxeslogic;
         
         jPanel2.add(ticketlines, BorderLayout.CENTER);
+    }
+
+    private void configureTouchLayout() {
+        m_jTicketId.setMinimumSize(TouchUI.reportFilterFieldSize());
+        m_jTicketId.setPreferredSize(TouchUI.reportFilterFieldSize());
+        btnCustomer.setMinimumSize(TouchUI.dialogIconButtonSize());
+        btnCustomer.setPreferredSize(TouchUI.dialogIconButtonSize());
+        btnCustomer.setMaximumSize(TouchUI.dialogIconButtonSize());
+        btnCustomer.setMargin(TouchUI.buttonMargin());
     }
     
     /**
