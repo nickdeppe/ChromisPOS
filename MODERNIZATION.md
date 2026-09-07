@@ -211,3 +211,5 @@ complete:
    starting points for new records.
 8. Evaluate rebranding the application now that the original Chromis POS
    project is inactive and this modernization significantly changes the product.
+9. Add configurable maximum record limits for ticket searches so large
+   databases stay responsive during lookup workflows.

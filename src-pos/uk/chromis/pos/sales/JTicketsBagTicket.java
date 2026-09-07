@@ -45,6 +45,7 @@ import uk.chromis.pos.ticket.TicketInfo;
 import uk.chromis.pos.ticket.TicketLineInfo;
 import uk.chromis.pos.ticket.TicketTaxInfo;
 import uk.chromis.pos.ticket.TicketType;
+import uk.chromis.pos.util.TouchUI;
 
 public class JTicketsBagTicket extends JTicketsBag {
 
@@ -74,6 +75,7 @@ public class JTicketsBagTicket extends JTicketsBag {
         m_TTP2 = new TicketParser(m_App.getDeviceTicket(), m_dlSystem);
 
         initComponents();
+        configureTouchLayout();
 
         m_TicketsBagTicketBag = new JTicketsBagTicketBag(this);
         m_jTicketEditor.addEditorKeys(m_jKeys);
@@ -83,6 +85,22 @@ public class JTicketsBagTicket extends JTicketsBag {
             taxeslogic = new TaxesLogic(m_dlSales.getTaxInfoList());
         } catch (BasicException ex) {
         }
+    }
+
+    private void configureTouchLayout() {
+        m_jTicketId.setMinimumSize(TouchUI.reportFilterFieldSize());
+        m_jTicketId.setPreferredSize(TouchUI.reportFilterFieldSize());
+        sizeToolbarButton(jButton2);
+        sizeToolbarButton(m_jEdit);
+        sizeToolbarButton(m_jRefund);
+        sizeToolbarButton(m_jPrint);
+    }
+
+    private void sizeToolbarButton(javax.swing.JButton button) {
+        button.setMinimumSize(TouchUI.dialogIconButtonSize());
+        button.setPreferredSize(TouchUI.dialogIconButtonSize());
+        button.setMaximumSize(TouchUI.dialogIconButtonSize());
+        button.setMargin(TouchUI.buttonMargin());
     }
 
     @Override
