@@ -37,7 +37,7 @@ public class InstanceQuery {
      * @throws java.rmi.NotBoundException */
     public InstanceQuery() throws RemoteException, NotBoundException {
         
-        Registry registry = LocateRegistry.getRegistry();           
+        Registry registry = LocateRegistry.getRegistry("127.0.0.1");
         m_appstub = (AppMessage) registry.lookup("AppMessage");
     }
     

@@ -57,6 +57,10 @@ public class StartPOS {
      * @return
      */
     public static boolean registerApp() {
+        if (!"true".equals(AppConfig.getInstance().getProperty("machine.uniqueinstance"))) {
+            return true;
+        }
+
         InstanceQuery i = null;
         try {
             i = new InstanceQuery();
